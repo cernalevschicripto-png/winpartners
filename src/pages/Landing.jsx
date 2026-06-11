@@ -3,200 +3,250 @@ import { useNavigate } from 'react-router-dom'
 
 const T = {
   ro: {
-    nav_login: 'Autentificare', nav_register: 'Înregistrare',
-    hero_title: 'CÂȘTIGĂ PENTRU', hero_title2: 'FIECARE CLIENT', hero_title3: 'RECOMANDAT',
-    hero_sub: 'Program unic care îți permite să obții câștiguri de până la 20% de la clienți, alături de o cotă de venit pe viață.',
-    hero_cta: 'ÎNCEPEȚI', hero_cta2: 'Cum funcționează',
-    s1: '500K+', s1l: 'Jucători', s2: '100K+', s2l: 'Parteneri', s3: '$2,000+', s3l: 'Câștig mediu/lună',
-    how_title: 'CUM FUNCȚIONEAZĂ',
-    h1t: 'Înregistrare gratuită', h1d: 'Creați contul în 2 minute. Fără costuri, fără contracte complicate.',
-    h2t: 'Primiți codul unic', h2d: 'Generăm un cod promoțional personalizat pentru audiența dvs.',
-    h3t: 'Promovați', h3d: 'Postați pe TikTok, Instagram, YouTube sau Telegram cu codul dvs.',
-    h4t: 'Primiți bani', h4d: '20% din tot ce generează urmăritorii dvs. Plăți săptămânale garantate.',
-    why_title: 'DE CE WIN PARTNERS',
-    w1t: '20% Comision fix', w1d: 'Cel mai mare comision din piață.',
-    w2t: 'Statistici zilnice', w2d: 'Dashboard complet cu toate datele.',
-    w3t: 'Cod personalizat', w3d: 'Codul tău cu numele tău.',
-    w4t: 'Referrali', w4d: 'Câștigă 3% din bloggerii invitați.',
-    w5t: 'Suport 24/7', w5d: 'Manager personal pe WhatsApp.',
-    w6t: 'Plăți rapide', w6d: 'Bitcoin, Skrill, Neteller.',
-    cta_title: 'GATA SĂ ÎNCEPEȚI?',
-    cta_sub: 'Alăturați-vă sute de bloggeri care câștigă lunar.',
-    cta_btn: 'CREAȚI CONT GRATUIT',
-    footer: '© 2026 WinPartners. Toate drepturile rezervate.',
-    terms: 'Termeni și Condiții', privacy: 'Confidențialitate', contact: 'Contact',
+    nav_login:'Conectați-vă', nav_reg:'Înregistrare',
+    h1:'CONECTAȚI-VĂ ȘI', h2:'CÂȘTIGAȚI PENTRU', h3:'FIECARE CLIENT RECOMANDAT',
+    hsub:'Acest program unic vă permite să obțineți câștiguri de până la 20% de la clienți, alături de o cotă de venit pe viață.',
+    hbtn:'ÎNCEPEȚI',
+    s1v:'1M+', s1l:'Jucători înregistrați',
+    s2v:'100K+', s2l:'Parteneri activi',
+    s3v:'$2,000+', s3l:'Câștig mediu/lună',
+    ben_title:'BENEFICIILE PROGRAMULUI',
+    b1t:'Comision RevShare 20%', b1d:'Primiți 20% din veniturile nete generate de jucătorii recomandați pe toată durata activității lor.',
+    b2t:'Statistici în timp real', b2d:'Acces la rapoarte detaliate: vizualizări, clickuri, înregistrări, depuneri și comisioane.',
+    b3t:'Cod promoțional unic', b3d:'Fiecare partener primește un cod personalizat pentru promovare pe rețelele sociale.',
+    b4t:'Plăți săptămânale', b4d:'Plăți garantate în fiecare săptămână prin Bitcoin, Skrill, Neteller sau transfer bancar.',
+    b5t:'Program de referrali', b5d:'Câștigați 3% din comisioanele partenerilor pe care îi invitați în program.',
+    b6t:'Manager personal', b6d:'Fiecare partener are un manager dedicat disponibil 24/7 pe WhatsApp și Telegram.',
+    how_title:'CUM FUNCȚIONEAZĂ',
+    hw1t:'Înregistrare', hw1d:'Completați formularul de înregistrare în 2 minute. Procesul este gratuit.',
+    hw2t:'Obțineți instrumentele', hw2d:'Primiți codul promoțional, linkuri de afiliat și materiale de marketing.',
+    hw3t:'Promovați', hw3d:'Distribuiți codul pe TikTok, Instagram, YouTube, Telegram sau alte platforme.',
+    hw4t:'Câștigați', hw4d:'Primiți 20% din veniturile generate. Plăți automate săptămânal.',
+    mod_title:'MODELE DE COMISION',
+    m1t:'Revenue Share', m1d:'20% din veniturile nete pe viață', m1b:'Popular',
+    m2t:'CPA', m2d:'Plată fixă per jucător activ', m2b:'',
+    m3t:'Hybrid', m3d:'Combinație RevShare + CPA', m3b:'',
+    cta_title:'DEVENIȚI PARTENER ACUM',
+    cta_sub:'Alăturați-vă mii de parteneri care câștigă zilnic cu WinPartners.',
+    cta_btn:'ÎNREGISTRARE GRATUITĂ',
+    f_about:'Despre noi', f_terms:'Termeni și Condiții', f_privacy:'Politica de Confidențialitate',
+    f_cookie:'Politica Cookie', f_contact:'Contacte', f_news:'Știri',
+    f_copy:'© 2012-2026 "WinPartners". Toate drepturile rezervate.',
   },
   ru: {
-    nav_login: 'Войти', nav_register: 'Регистрация',
-    hero_title: 'ЗАРАБАТЫВАЙ НА', hero_title2: 'КАЖДОМ КЛИЕНТЕ', hero_title3: 'КОТОРОГО ПРИВЕЛ',
-    hero_sub: 'Уникальная программа позволяет получать до 20% от клиентов с пожизненной долей дохода.',
-    hero_cta: 'НАЧАТЬ', hero_cta2: 'Как это работает',
-    s1: '500К+', s1l: 'Игроков', s2: '100К+', s2l: 'Партнеров', s3: '$2,000+', s3l: 'Средний доход/мес',
-    how_title: 'КАК ЭТО РАБОТАЕТ',
-    h1t: 'Бесплатная регистрация', h1d: 'Создайте аккаунт за 2 минуты.',
-    h2t: 'Получите уникальный код', h2d: 'Персональный промокод для вашей аудитории.',
-    h3t: 'Продвигайте', h3d: 'Публикуйте в TikTok, Instagram, YouTube, Telegram.',
-    h4t: 'Получайте деньги', h4d: '20% от всего что зарабатывают ваши подписчики.',
-    why_title: 'ПОЧЕМУ WIN PARTNERS',
-    w1t: '20% Фиксированная комиссия', w1d: 'Самая высокая в рынке.',
-    w2t: 'Ежедневная статистика', w2d: 'Полный дашборд со всеми данными.',
-    w3t: 'Персональный код', w3d: 'Ваш код с вашим именем.',
-    w4t: 'Рефералы', w4d: 'Зарабатывай 3% от приглашенных.',
-    w5t: 'Поддержка 24/7', w5d: 'Личный менеджер в WhatsApp.',
-    w6t: 'Быстрые выплаты', w6d: 'Bitcoin, Skrill, Neteller.',
-    cta_title: 'ГОТОВЫ НАЧАТЬ?',
-    cta_sub: 'Присоединяйтесь к сотням блогеров, которые зарабатывают ежемесячно.',
-    cta_btn: 'СОЗДАТЬ БЕСПЛАТНЫЙ АККАУНТ',
-    footer: '© 2026 WinPartners. Все права защищены.',
-    terms: 'Условия использования', privacy: 'Конфиденциальность', contact: 'Контакты',
+    nav_login:'Войти', nav_reg:'Регистрация',
+    h1:'ПОДКЛЮЧАЙТЕСЬ И', h2:'ЗАРАБАТЫВАЙТЕ НА', h3:'КАЖДОМ ПРИВЛЕЧЕННОМ КЛИЕНТЕ',
+    hsub:'Эта уникальная программа позволяет получать до 20% от клиентов с пожизненной долей дохода.',
+    hbtn:'НАЧАТЬ',
+    s1v:'1M+', s1l:'Зарегистрированных игроков',
+    s2v:'100К+', s2l:'Активных партнеров',
+    s3v:'$2,000+', s3l:'Средний доход/мес',
+    ben_title:'ПРЕИМУЩЕСТВА ПРОГРАММЫ',
+    b1t:'Комиссия RevShare 20%', b1d:'Получайте 20% от чистого дохода привлеченных игроков на протяжении всей их активности.',
+    b2t:'Статистика в реальном времени', b2d:'Доступ к подробным отчетам: просмотры, клики, регистрации, депозиты и комиссии.',
+    b3t:'Уникальный промокод', b3d:'Каждый партнер получает персонализированный код для продвижения в социальных сетях.',
+    b4t:'Еженедельные выплаты', b4d:'Гарантированные выплаты каждую неделю через Bitcoin, Skrill, Neteller или банковский перевод.',
+    b5t:'Реферальная программа', b5d:'Зарабатывайте 3% от комиссий партнеров, которых вы пригласили в программу.',
+    b6t:'Личный менеджер', b6d:'Каждый партнер имеет выделенного менеджера, доступного 24/7 в WhatsApp и Telegram.',
+    how_title:'КАК ЭТО РАБОТАЕТ',
+    hw1t:'Регистрация', hw1d:'Заполните форму регистрации за 2 минуты. Процесс бесплатный.',
+    hw2t:'Получите инструменты', hw2d:'Получите промокод, партнерские ссылки и маркетинговые материалы.',
+    hw3t:'Продвигайте', hw3d:'Делитесь кодом в TikTok, Instagram, YouTube, Telegram или других платформах.',
+    hw4t:'Зарабатывайте', hw4d:'Получайте 20% от полученных доходов. Автоматические выплаты каждую неделю.',
+    mod_title:'МОДЕЛИ КОМИССИЙ',
+    m1t:'Revenue Share', m1d:'20% от чистого дохода пожизненно', m1b:'Популярно',
+    m2t:'CPA', m2d:'Фиксированная оплата за активного игрока', m2b:'',
+    m3t:'Hybrid', m3d:'Комбинация RevShare + CPA', m3b:'',
+    cta_title:'СТАНЬ ПАРТНЕРОМ СЕЙЧАС',
+    cta_sub:'Присоединяйтесь к тысячам партнеров, которые зарабатывают ежедневно с WinPartners.',
+    cta_btn:'БЕСПЛАТНАЯ РЕГИСТРАЦИЯ',
+    f_about:'О нас', f_terms:'Условия использования', f_privacy:'Политика конфиденциальности',
+    f_cookie:'Политика Cookie', f_contact:'Контакты', f_news:'Новости',
+    f_copy:'© 2012-2026 "WinPartners". Все права защищены.',
   },
   en: {
-    nav_login: 'Login', nav_register: 'Register',
-    hero_title: 'EARN FOR EVERY', hero_title2: 'CLIENT YOU', hero_title3: 'RECOMMEND',
-    hero_sub: 'Unique program allowing you to earn up to 20% from clients with a lifetime revenue share.',
-    hero_cta: 'GET STARTED', hero_cta2: 'How it works',
-    s1: '500K+', s1l: 'Players', s2: '100K+', s2l: 'Partners', s3: '$2,000+', s3l: 'Avg earnings/month',
-    how_title: 'HOW IT WORKS',
-    h1t: 'Free registration', h1d: 'Create your account in 2 minutes.',
-    h2t: 'Get your unique code', h2d: 'Personalized promo code for your audience.',
-    h3t: 'Promote', h3d: 'Post on TikTok, Instagram, YouTube or Telegram.',
-    h4t: 'Get paid', h4d: '20% of everything your followers generate.',
-    why_title: 'WHY WIN PARTNERS',
-    w1t: '20% Fixed commission', w1d: 'Highest commission in the market.',
-    w2t: 'Daily statistics', w2d: 'Full dashboard with all data.',
-    w3t: 'Personalized code', w3d: 'Your code with your name.',
-    w4t: 'Referrals', w4d: 'Earn 3% from bloggers you invite.',
-    w5t: 'Support 24/7', w5d: 'Personal manager on WhatsApp.',
-    w6t: 'Fast payments', w6d: 'Bitcoin, Skrill, Neteller.',
-    cta_title: 'READY TO START?',
-    cta_sub: 'Join hundreds of bloggers earning monthly.',
-    cta_btn: 'CREATE FREE ACCOUNT',
-    footer: '© 2026 WinPartners. All rights reserved.',
-    terms: 'Terms & Conditions', privacy: 'Privacy Policy', contact: 'Contact',
+    nav_login:'Login', nav_reg:'Register',
+    h1:'CONNECT AND', h2:'EARN FOR EVERY', h3:'CLIENT YOU RECOMMEND',
+    hsub:'This unique program allows you to earn up to 20% from clients with a lifetime revenue share.',
+    hbtn:'GET STARTED',
+    s1v:'1M+', s1l:'Registered players',
+    s2v:'100K+', s2l:'Active partners',
+    s3v:'$2,000+', s3l:'Average earnings/month',
+    ben_title:'PROGRAM BENEFITS',
+    b1t:'RevShare Commission 20%', b1d:'Receive 20% of net revenue from referred players for the duration of their activity.',
+    b2t:'Real-time statistics', b2d:'Access to detailed reports: views, clicks, registrations, deposits and commissions.',
+    b3t:'Unique promo code', b3d:'Each partner receives a personalized code for promotion on social networks.',
+    b4t:'Weekly payments', b4d:'Guaranteed payments every week via Bitcoin, Skrill, Neteller or bank transfer.',
+    b5t:'Referral program', b5d:'Earn 3% from commissions of partners you invite to the program.',
+    b6t:'Personal manager', b6d:'Each partner has a dedicated manager available 24/7 on WhatsApp and Telegram.',
+    how_title:'HOW IT WORKS',
+    hw1t:'Registration', hw1d:'Complete the registration form in 2 minutes. The process is free.',
+    hw2t:'Get your tools', hw2d:'Receive your promo code, affiliate links and marketing materials.',
+    hw3t:'Promote', hw3d:'Share the code on TikTok, Instagram, YouTube, Telegram or other platforms.',
+    hw4t:'Earn', hw4d:'Receive 20% of generated revenue. Automatic weekly payments.',
+    mod_title:'COMMISSION MODELS',
+    m1t:'Revenue Share', m1d:'20% of net revenue for life', m1b:'Popular',
+    m2t:'CPA', m2d:'Fixed payment per active player', m2b:'',
+    m3t:'Hybrid', m3d:'Combination RevShare + CPA', m3b:'',
+    cta_title:'BECOME A PARTNER NOW',
+    cta_sub:'Join thousands of partners earning daily with WinPartners.',
+    cta_btn:'FREE REGISTRATION',
+    f_about:'About us', f_terms:'Terms & Conditions', f_privacy:'Privacy Policy',
+    f_cookie:'Cookie Policy', f_contact:'Contacts', f_news:'News',
+    f_copy:'© 2012-2026 "WinPartners". All rights reserved.',
   }
 }
 
-const HEX = ({x,y,size=80,opacity=0.15,color='#f5a623'}) => {
-  const h = size * Math.sqrt(3) / 2
-  const pts = [
-    [x, y-size], [x+h, y-size/2], [x+h, y+size/2],
-    [x, y+size], [x-h, y+size/2], [x-h, y-size/2]
-  ].map(p=>p.join(',')).join(' ')
-  return <polygon points={pts} fill="none" stroke={color} strokeWidth="1" opacity={opacity}/>
-}
+// SVG Hexagon shape for stats
+const HexStat = ({value, label}) => (
+  <div style={{display:'flex',flexDirection:'column',alignItems:'center',position:'relative'}}>
+    <svg width="180" height="200" viewBox="0 0 180 200">
+      <polygon points="90,5 170,47 170,153 90,195 10,153 10,47" fill="none" stroke="#f5a623" strokeWidth="1.5" opacity="0.6"/>
+      <polygon points="90,15 160,53 160,147 90,185 20,147 20,53" fill="rgba(245,166,35,0.06)" stroke="#f5a623" strokeWidth="0.5" opacity="0.3"/>
+    </svg>
+    <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',textAlign:'center'}}>
+      <div style={{fontSize:36,fontWeight:900,color:'#f5a623',lineHeight:1}}>{value}</div>
+      <div style={{fontSize:11,color:'rgba(255,255,255,0.5)',textTransform:'uppercase',letterSpacing:'.08em',marginTop:4,maxWidth:100,lineHeight:1.3}}>{label}</div>
+    </div>
+  </div>
+)
 
 export default function Landing() {
   const [lang, setLang] = useState('ro')
   const navigate = useNavigate()
   const t = T[lang]
 
+  const gold = '#f5a623'
+  const dark = '#0a0a0f'
+  const card = {background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.12)',borderRadius:12,padding:'1.5rem'}
+
   return (
-    <div style={{background:'#0a0a0f',minHeight:'100vh',color:'#fff',fontFamily:"'Inter',sans-serif"}}>
+    <div style={{background:dark,minHeight:'100vh',color:'#fff',fontFamily:"'Inter',sans-serif"}}>
+
       {/* NAV */}
-      <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:100,background:'rgba(10,10,15,0.95)',borderBottom:'1px solid rgba(245,166,35,0.15)',padding:'0 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:64}}>
-        <div style={{fontSize:22,fontWeight:900,letterSpacing:'-0.02em'}}>
-          <span style={{color:'#fff'}}>WIN</span><span style={{color:'#f5a623'}}>PARTNERS</span>
+      <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:100,background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 3rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:64}}>
+        <div style={{fontSize:20,fontWeight:900,letterSpacing:'0.05em'}}>
+          <span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span>
         </div>
-        <div style={{display:'flex',alignItems:'center',gap:10}}>
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
           {['ro','ru','en'].map(l=>(
-            <button key={l} onClick={()=>setLang(l)} style={{padding:'3px 9px',fontSize:11,fontWeight:700,cursor:'pointer',border:'1px solid rgba(245,166,35,0.3)',borderRadius:4,background:lang===l?'rgba(245,166,35,0.2)':'none',color:lang===l?'#f5a623':'rgba(255,255,255,0.4)',letterSpacing:'.05em'}}>{l.toUpperCase()}</button>
+            <button key={l} onClick={()=>setLang(l)} style={{padding:'3px 8px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>{l.toUpperCase()}</button>
           ))}
-          <button onClick={()=>navigate('/dashboard')} style={{padding:'7px 18px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.2)',borderRadius:6,background:'none',color:'#e2e8f0'}}>{t.nav_login}</button>
-          <button onClick={()=>navigate('/register')} style={{padding:'7px 18px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:6,background:'#f5a623',color:'#000'}}>{t.nav_register}</button>
+          <button onClick={()=>navigate('/dashboard')} style={{marginLeft:8,padding:'8px 20px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:4,background:'none',color:'#e2e8f0'}}>{t.nav_login}</button>
+          <button onClick={()=>navigate('/register')} style={{padding:'8px 20px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.03em'}}>{t.nav_reg}</button>
         </div>
       </nav>
 
       {/* HERO */}
-      <div style={{minHeight:'100vh',display:'flex',alignItems:'center',position:'relative',overflow:'hidden',padding:'80px 4rem 2rem'}}>
-        <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none'}} preserveAspectRatio="xMidYMid slice">
-          <HEX x={900} y={300} size={180} opacity={0.12} color="#f5a623"/>
-          <HEX x={1050} y={180} size={120} opacity={0.08} color="#f5a623"/>
-          <HEX x={800} y={480} size={100} opacity={0.06} color="#f5a623"/>
-          <HEX x={150} y={600} size={140} opacity={0.05} color="#f5a623"/>
-          <HEX x={1150} y={500} size={90} opacity={0.1} color="#f5a623"/>
+      <div style={{minHeight:'100vh',display:'flex',alignItems:'center',position:'relative',overflow:'hidden',background:`linear-gradient(135deg, ${dark} 0%, #0f0a00 100%)`}}>
+        {/* Hex pattern bg */}
+        <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none',opacity:0.15}} preserveAspectRatio="xMidYMid slice">
+          {[...Array(8)].map((_,i)=>[...Array(6)].map((_,j)=>{
+            const x = i*160 + (j%2)*80
+            const y = j*140
+            return <polygon key={`${i}-${j}`} points={`${x+80},${y} ${x+155},${y+42} ${x+155},${y+126} ${x+80},${y+168} ${x+5},${y+126} ${x+5},${y+42}`} fill="none" stroke={gold} strokeWidth="0.5"/>
+          }))}
         </svg>
-        <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse 70% 80% at 70% 50%,rgba(245,166,35,0.08) 0%,transparent 70%)',pointerEvents:'none'}}/>
-        <div style={{position:'relative',zIndex:1,maxWidth:620}}>
-          <div style={{fontSize:'clamp(2.8rem,5vw,5rem)',fontWeight:900,lineHeight:1,letterSpacing:'-0.02em',textTransform:'uppercase',marginBottom:20}}>
-            <div style={{color:'#fff'}}>{t.hero_title}</div>
-            <div style={{color:'#f5a623'}}>{t.hero_title2}</div>
-            <div style={{color:'#fff'}}>{t.hero_title3}</div>
+        <div style={{position:'absolute',right:0,top:0,bottom:0,width:'55%',background:`radial-gradient(ellipse at 70% 50%, rgba(245,166,35,0.12) 0%, transparent 60%)`,pointerEvents:'none'}}/>
+        
+        <div style={{position:'relative',zIndex:1,padding:'100px 4rem 4rem',maxWidth:700}}>
+          <div style={{fontSize:'clamp(2.5rem,4.5vw,4.2rem)',fontWeight:900,lineHeight:1.05,letterSpacing:'-0.01em',textTransform:'uppercase',marginBottom:24}}>
+            <div style={{color:'#fff'}}>{t.h1}</div>
+            <div style={{color:'#fff'}}>{t.h2}</div>
+            <div style={{color:gold}}>{t.h3}</div>
           </div>
-          <p style={{fontSize:16,color:'rgba(255,255,255,0.6)',lineHeight:1.7,maxWidth:480,marginBottom:36}}>{t.hero_sub}</p>
-          <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
-            <button onClick={()=>navigate('/register')} style={{padding:'14px 36px',fontSize:15,fontWeight:800,cursor:'pointer',border:'none',borderRadius:6,background:'#f5a623',color:'#000',textTransform:'uppercase',letterSpacing:'.05em'}}>{t.hero_cta}</button>
-            <button style={{padding:'14px 28px',fontSize:14,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.2)',borderRadius:6,background:'none',color:'rgba(255,255,255,0.7)'}}>{t.hero_cta2}</button>
-          </div>
+          <p style={{fontSize:16,color:'rgba(255,255,255,0.6)',lineHeight:1.7,maxWidth:500,marginBottom:40}}>{t.hsub}</p>
+          <button onClick={()=>navigate('/register')} style={{padding:'16px 48px',fontSize:16,fontWeight:800,cursor:'pointer',border:`2px solid ${gold}`,borderRadius:4,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.05em',display:'inline-block'}}>
+            {t.hbtn}
+          </button>
         </div>
       </div>
 
-      {/* STATS */}
-      <div style={{background:'rgba(245,166,35,0.05)',borderTop:'1px solid rgba(245,166,35,0.15)',borderBottom:'1px solid rgba(245,166,35,0.15)',padding:'2rem 4rem'}}>
-        <div style={{maxWidth:900,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:24,textAlign:'center'}}>
-          {[[t.s1,t.s1l],[t.s2,t.s2l],[t.s3,t.s3l]].map(([v,l])=>(
-            <div key={l}>
-              <div style={{fontSize:42,fontWeight:900,color:'#f5a623',lineHeight:1}}>{v}</div>
-              <div style={{fontSize:13,color:'rgba(255,255,255,0.45)',textTransform:'uppercase',letterSpacing:'.1em',marginTop:4}}>{l}</div>
-            </div>
-          ))}
+      {/* STATS HEXAGONS */}
+      <div style={{background:'#080808',padding:'4rem 2rem',borderTop:'1px solid rgba(245,166,35,0.1)',borderBottom:'1px solid rgba(245,166,35,0.1)'}}>
+        <div style={{maxWidth:900,margin:'0 auto',display:'flex',justifyContent:'center',gap:40,flexWrap:'wrap'}}>
+          <HexStat value={t.s1v} label={t.s1l}/>
+          <HexStat value={t.s2v} label={t.s2l}/>
+          <HexStat value={t.s3v} label={t.s3l}/>
         </div>
       </div>
 
-      {/* HOW */}
-      <div style={{maxWidth:1100,margin:'0 auto',padding:'5rem 2rem'}}>
-        <h2 style={{fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,textAlign:'center',marginBottom:'3rem',textTransform:'uppercase',letterSpacing:'.05em',color:'#fff'}}>
-          {t.how_title}
+      {/* BENEFITS */}
+      <div style={{maxWidth:1200,margin:'0 auto',padding:'5rem 2rem'}}>
+        <h2 style={{fontSize:'clamp(1.4rem,2.5vw,2rem)',fontWeight:900,textAlign:'center',marginBottom:'3rem',textTransform:'uppercase',letterSpacing:'.1em',color:'#fff',borderBottom:'2px solid rgba(245,166,35,0.2)',paddingBottom:'1rem'}}>
+          {t.ben_title}
         </h2>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:24}}>
-          {[[t.h1t,t.h1d,'01'],[t.h2t,t.h2d,'02'],[t.h3t,t.h3d,'03'],[t.h4t,t.h4d,'04']].map(([title,desc,num])=>(
-            <div key={num} style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:12,padding:'1.5rem',position:'relative',overflow:'hidden'}}>
-              <div style={{fontSize:56,fontWeight:900,color:'rgba(245,166,35,0.1)',position:'absolute',top:8,right:12,lineHeight:1}}>{num}</div>
-              <div style={{width:36,height:36,borderRadius:8,background:'rgba(245,166,35,0.15)',border:'1px solid rgba(245,166,35,0.3)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:12,fontSize:16,color:'#f5a623',fontWeight:900}}>{num}</div>
-              <div style={{fontSize:15,fontWeight:700,color:'#fff',marginBottom:8}}>{title}</div>
-              <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.6}}>{desc}</div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:20}}>
+          {[
+            ['💰',t.b1t,t.b1d],['📊',t.b2t,t.b2d],['🎯',t.b3t,t.b3d],
+            ['⚡',t.b4t,t.b4d],['👥',t.b5t,t.b5d],['💬',t.b6t,t.b6d]
+          ].map(([icon,title,desc])=>(
+            <div key={title} style={{...card,display:'flex',gap:16,alignItems:'flex-start'}}>
+              <div style={{width:48,height:48,background:'rgba(245,166,35,0.1)',border:`1px solid rgba(245,166,35,0.25)`,borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>{icon}</div>
+              <div>
+                <div style={{fontSize:15,fontWeight:700,color:'#fff',marginBottom:6}}>{title}</div>
+                <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.6}}>{desc}</div>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* WHY */}
-      <div style={{background:'rgba(0,0,0,0.3)',padding:'5rem 2rem'}}>
+      {/* HOW IT WORKS */}
+      <div style={{background:'rgba(0,0,0,0.4)',padding:'5rem 2rem',borderTop:'1px solid rgba(245,166,35,0.08)'}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
-          <h2 style={{fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,textAlign:'center',marginBottom:'3rem',textTransform:'uppercase',letterSpacing:'.05em',color:'#fff'}}>{t.why_title}</h2>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
-            {[
-              ['💰',t.w1t,t.w1d],['📊',t.w2t,t.w2d],['🎯',t.w3t,t.w3d],
-              ['👥',t.w4t,t.w4d],['💬',t.w5t,t.w5d],['⚡',t.w6t,t.w6d]
-            ].map(([icon,title,desc])=>(
-              <div key={title} style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(245,166,35,0.12)',borderRadius:12,padding:'1.25rem',display:'flex',gap:14,alignItems:'flex-start'}}>
-                <div style={{width:44,height:44,borderRadius:10,background:'rgba(245,166,35,0.12)',border:'1px solid rgba(245,166,35,0.25)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:20}}>{icon}</div>
-                <div>
-                  <div style={{fontSize:14,fontWeight:700,color:'#fff',marginBottom:4}}>{title}</div>
-                  <div style={{fontSize:12,color:'rgba(255,255,255,0.45)',lineHeight:1.5}}>{desc}</div>
-                </div>
+          <h2 style={{fontSize:'clamp(1.4rem,2.5vw,2rem)',fontWeight:900,textAlign:'center',marginBottom:'3rem',textTransform:'uppercase',letterSpacing:'.1em'}}>{t.how_title}</h2>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:0,position:'relative'}}>
+            {[[t.hw1t,t.hw1d,'1'],[t.hw2t,t.hw2d,'2'],[t.hw3t,t.hw3d,'3'],[t.hw4t,t.hw4d,'4']].map(([title,desc,num],i)=>(
+              <div key={num} style={{padding:'2rem',borderLeft:i>0?'1px solid rgba(245,166,35,0.1)':'none',position:'relative'}}>
+                <div style={{width:52,height:52,borderRadius:'50%',background:'rgba(245,166,35,0.12)',border:`2px solid ${gold}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,fontWeight:900,color:gold,marginBottom:16}}>{num}</div>
+                <div style={{fontSize:16,fontWeight:700,color:'#fff',marginBottom:8}}>{title}</div>
+                <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.6}}>{desc}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* CTA */}
-      <div style={{padding:'5rem 2rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
-        <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse 60% 80% at 50% 50%,rgba(245,166,35,0.08) 0%,transparent 70%)',pointerEvents:'none'}}/>
-        <div style={{position:'relative',zIndex:1}}>
-          <h2 style={{fontSize:'clamp(2rem,4vw,3rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.03em',marginBottom:12}}>{t.cta_title}</h2>
-          <p style={{fontSize:16,color:'rgba(255,255,255,0.5)',marginBottom:32}}>{t.cta_sub}</p>
-          <button onClick={()=>navigate('/register')} style={{padding:'16px 48px',fontSize:15,fontWeight:800,cursor:'pointer',border:'none',borderRadius:6,background:'#f5a623',color:'#000',textTransform:'uppercase',letterSpacing:'.05em'}}>{t.cta_btn}</button>
+      {/* COMMISSION MODELS */}
+      <div style={{maxWidth:1000,margin:'0 auto',padding:'5rem 2rem'}}>
+        <h2 style={{fontSize:'clamp(1.4rem,2.5vw,2rem)',fontWeight:900,textAlign:'center',marginBottom:'3rem',textTransform:'uppercase',letterSpacing:'.1em'}}>{t.mod_title}</h2>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:20}}>
+          {[[t.m1t,t.m1d,t.m1b,true],[t.m2t,t.m2d,t.m2b,false],[t.m3t,t.m3d,t.m3b,false]].map(([title,desc,badge,featured])=>(
+            <div key={title} style={{...card,border:`1px solid ${featured?gold:'rgba(245,166,35,0.12)'}`,background:featured?'rgba(245,166,35,0.06)':card.background,textAlign:'center',padding:'2rem',position:'relative'}}>
+              {badge && <div style={{position:'absolute',top:-12,left:'50%',transform:'translateX(-50%)',background:gold,color:'#000',fontSize:11,fontWeight:800,padding:'3px 14px',borderRadius:20,textTransform:'uppercase',letterSpacing:'.05em'}}>{badge}</div>}
+              <div style={{fontSize:22,fontWeight:900,color:featured?gold:'#fff',marginBottom:8}}>{title}</div>
+              <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.5}}>{desc}</div>
+            </div>
+          ))}
         </div>
       </div>
 
+      {/* CTA */}
+      <div style={{background:`linear-gradient(135deg, #0f0800 0%, #1a0f00 100%)`,padding:'5rem 2rem',textAlign:'center',borderTop:'1px solid rgba(245,166,35,0.15)',borderBottom:'1px solid rgba(245,166,35,0.15)'}}>
+        <h2 style={{fontSize:'clamp(1.8rem,3.5vw,3rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.03em',marginBottom:12}}>{t.cta_title}</h2>
+        <p style={{fontSize:16,color:'rgba(255,255,255,0.5)',marginBottom:36}}>{t.cta_sub}</p>
+        <button onClick={()=>navigate('/register')} style={{padding:'18px 56px',fontSize:16,fontWeight:800,cursor:'pointer',border:`2px solid ${gold}`,borderRadius:4,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.05em'}}>{t.cta_btn}</button>
+      </div>
+
       {/* FOOTER */}
-      <footer style={{background:'rgba(0,0,0,0.5)',borderTop:'1px solid rgba(245,166,35,0.1)',padding:'2rem',textAlign:'center'}}>
-        <div style={{fontSize:18,fontWeight:900,marginBottom:12}}><span style={{color:'#fff'}}>WIN</span><span style={{color:'#f5a623'}}>PARTNERS</span></div>
-        <div style={{display:'flex',gap:20,justifyContent:'center',marginBottom:12}}>
-          {[t.terms,t.privacy,t.contact].map(l=><span key={l} style={{fontSize:12,color:'rgba(255,255,255,0.35)',cursor:'pointer'}}>{l}</span>)}
+      <footer style={{background:'#050505',padding:'3rem 3rem 2rem',borderTop:'1px solid rgba(245,166,35,0.08)'}}>
+        <div style={{maxWidth:1200,margin:'0 auto'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexWrap:'wrap',gap:24,marginBottom:32}}>
+            <div>
+              <div style={{fontSize:22,fontWeight:900,letterSpacing:'.05em',marginBottom:8}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div>
+              <div style={{fontSize:12,color:'rgba(255,255,255,0.3)',maxWidth:280,lineHeight:1.6}}>Platformă profesională de afiliere pentru bloggeri și influenceri din toată lumea.</div>
+            </div>
+            <div style={{display:'flex',gap:40,flexWrap:'wrap'}}>
+              {[[t.f_about,t.f_news,t.f_contact],[t.f_terms,t.f_privacy,t.f_cookie]].map((col,i)=>(
+                <div key={i} style={{display:'flex',flexDirection:'column',gap:10}}>
+                  {col.map(l=><span key={l} style={{fontSize:13,color:'rgba(255,255,255,0.4)',cursor:'pointer',transition:'color .15s'}} onMouseOver={e=>e.target.style.color=gold} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.4)'}>{l}</span>)}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{borderTop:'1px solid rgba(255,255,255,0.06)',paddingTop:20,textAlign:'center',fontSize:12,color:'rgba(255,255,255,0.2)'}}>{t.f_copy}</div>
         </div>
-        <div style={{fontSize:12,color:'rgba(255,255,255,0.2)'}}>{t.footer}</div>
       </footer>
     </div>
   )
