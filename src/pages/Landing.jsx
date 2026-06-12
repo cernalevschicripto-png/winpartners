@@ -128,12 +128,19 @@ export default function Landing() {
         <div style={{fontSize:20,fontWeight:900,letterSpacing:'0.05em'}}>
           <span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span>
         </div>
-        <div style={{display:'flex',alignItems:'center',gap:8}}>
-          {['ro','ru','en'].map(l=>(
-            <button key={l} onClick={()=>setLang(l)} style={{padding:'3px 8px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>{l.toUpperCase()}</button>
-          ))}
-          <button onClick={()=>navigate('/dashboard')} style={{marginLeft:8,padding:'8px 20px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:4,background:'none',color:'#e2e8f0'}}>{t.nav_login}</button>
-          <button onClick={()=>navigate('/register')} style={{padding:'8px 20px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.03em'}}>{t.nav_reg}</button>
+        <div style={{display:'flex',alignItems:'center',gap:16}}>
+          <div style={{display:'flex',gap:20}}>
+            {[['about','Despre noi'],['benefits','Beneficii'],['instructions','Instrucțiuni'],['faq','FAQ'],['contact','Contact']].map(([path,label])=>(
+              <span key={path} onClick={()=>navigate('/'+path)} style={{fontSize:13,color:'rgba(255,255,255,0.6)',cursor:'pointer',fontWeight:500}} onMouseOver={e=>e.target.style.color=gold} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.6)'}>{label}</span>
+            ))}
+          </div>
+          <div style={{display:'flex',alignItems:'center',gap:6,borderLeft:'1px solid rgba(255,255,255,0.1)',paddingLeft:16}}>
+            {['ro','ru','en'].map(l=>(
+              <button key={l} onClick={()=>setLang(l)} style={{padding:'3px 8px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>{l.toUpperCase()}</button>
+            ))}
+            <button onClick={()=>navigate('/dashboard')} style={{marginLeft:4,padding:'7px 16px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:4,background:'none',color:'#e2e8f0'}}>{t.nav_login}</button>
+            <button onClick={()=>navigate('/register')} style={{padding:'7px 16px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',textTransform:'uppercase'}}>{t.nav_reg}</button>
+          </div>
         </div>
       </nav>
 
@@ -238,11 +245,11 @@ export default function Landing() {
               <div style={{fontSize:12,color:'rgba(255,255,255,0.3)',maxWidth:280,lineHeight:1.6}}>Platformă profesională de afiliere pentru bloggeri și influenceri din toată lumea.</div>
             </div>
             <div style={{display:'flex',gap:40,flexWrap:'wrap'}}>
-              {[[t.f_about,t.f_news,t.f_contact],[t.f_terms,t.f_privacy,t.f_cookie]].map((col,i)=>(
-                <div key={i} style={{display:'flex',flexDirection:'column',gap:10}}>
-                  {col.map(l=><span key={l} style={{fontSize:13,color:'rgba(255,255,255,0.4)',cursor:'pointer',transition:'color .15s'}} onMouseOver={e=>e.target.style.color=gold} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.4)'}>{l}</span>)}
-                </div>
-              ))}
+              <div style={{display:'flex',gap:40,flexWrap:'wrap'}}>
+                {[['about',t.f_about],['contact',t.f_contact],['benefits','Beneficii'],['instructions','Instrucțiuni'],['faq','FAQ'],['terms',t.f_terms],['terms',t.f_privacy],['terms',t.f_cookie]].map(([path,label])=>(
+                  <span key={label} onClick={()=>navigate('/'+path)} style={{fontSize:13,color:'rgba(255,255,255,0.4)',cursor:'pointer'}} onMouseOver={e=>e.target.style.color=gold} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.4)'}>{label}</span>
+                ))}
+              </div>
             </div>
           </div>
           <div style={{borderTop:'1px solid rgba(255,255,255,0.06)',paddingTop:20,textAlign:'center',fontSize:12,color:'rgba(255,255,255,0.2)'}}>{t.f_copy}</div>
