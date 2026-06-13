@@ -63,7 +63,7 @@ export default function Contact() {
 
         {/* Stânga — info */}
         <div>
-          <h1 style={{ fontSize:36, fontWeight:900, textTransform:'uppercase', marginBottom:12 }}>Contacte</h1>
+          <h1 style={{ fontSize:isMobile?22:36, fontWeight:900, textTransform:'uppercase', marginBottom:12 }}>Contacte</h1>
           <p style={{ color:'rgba(255,255,255,0.45)', fontSize:14, lineHeight:1.7, marginBottom:32 }}>
             Suntem disponibili 24/7 pentru partenerii noștri. Scrie-ne pe Telegram pentru răspuns instant.
           </p>

@@ -1021,7 +1021,7 @@ function DashboardContent({ blogger, onLogout }) {
 
                       {/* Statistici per casino */}
                       <div style={{padding:'12px 16px'}}>
-                        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,marginBottom:12}}>
+                        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr 1fr',gap:8,marginBottom:12}}>
                           {[
                             ['Înreg.', casino.stats.regs, txt],
                             ['Depun.', casino.stats.deposits, '#3b82f6'],

@@ -80,7 +80,7 @@ export default function Register() {
     <div style={{minHeight:'100vh',background:'#0a0a0f',display:'flex',alignItems:'center',justifyContent:'center',padding:'2rem',fontFamily:'Inter,sans-serif'}}>
       <div style={{textAlign:'center',maxWidth:520,width:'100%'}}>
         {/* Icon */}
-        <div style={{width:88,height:88,borderRadius:'50%',background:'rgba(245,166,35,0.1)',border:`2px solid ${gold}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:40,margin:'0 auto 28px'}}>
+        <div style={{width:88,height:88,borderRadius:'50%',background:'rgba(245,166,35,0.1)',border:`2px solid ${gold}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:isMobile?28:40,margin:'0 auto 28px'}}>
           📬
         </div>
 
@@ -124,7 +124,7 @@ export default function Register() {
 
   // PASUL 1 — Formular
   return (
-    <div style={{minHeight:'100vh',background:'#0a0a0f',fontFamily:'Inter,sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#0a0a0f',fontFamily:'Inter,sans-serif',overflowX:'hidden'}}>
       {/* Nav */}
       <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:56,position:'sticky',top:0,zIndex:50}}>
         <div onClick={() => navigate('/')} style={{fontSize:18,fontWeight:900,cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
@@ -167,7 +167,7 @@ export default function Register() {
             1. Date personale
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
             <div>
               <label style={lbl}>Nume complet *</label>
               <input style={errors.name?inpErr:inp} value={form.name} onChange={set('name')} placeholder="Ion Popescu"/>
@@ -183,7 +183,7 @@ export default function Register() {
             <input style={errors.email?inpErr:inp} type="email" value={form.email} onChange={set('email')} placeholder="ion@gmail.com"/>
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
             <div>
               <label style={lbl}>WhatsApp / Telegram *</label>
               <input style={errors.phone?inpErr:inp} value={form.phone} onChange={set('phone')} placeholder="+373 60 000 000"/>
@@ -201,7 +201,7 @@ export default function Register() {
             2. Profilul tău social
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
             <div>
               <label style={lbl}>Platforma principală</label>
               <select style={inp} value={form.platform} onChange={set('platform')}>
@@ -234,7 +234,7 @@ export default function Register() {
             <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',marginBottom:14,lineHeight:1.6}}>
               Comisioanele tale vor fi plătite săptămânal, minim $30. Poți modifica metoda de plată oricând din contul tău.
             </div>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+            <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
               <div>
                 <label style={lbl}>Metoda preferată</label>
                 <select style={inp} value={form.payMethod} onChange={set('payMethod')}>
