@@ -84,6 +84,33 @@ export default function Admin() {
     {id:1,name:'Ion Popescu',type:'Cod personalizat',detail:'IONEL',date:'10.06.2026',status:'pending'},
     {id:2,name:'Alex Marin',type:'Plată',detail:'$560',date:'09.06.2026',status:'pending'},
   ])
+  // Cereri coduri speciale din localStorage (trimise de bloggeri)
+  const [customRequests, setCustomRequests] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('wp_custom_requests') || '[]') } catch(e) { return [] }
+  })
+  // Coduri atribuite din localStorage
+  const [assignedCodes, setAssignedCodes] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('wp_assigned_codes') || '{}') } catch(e) { return {} }
+  })
+
+  const approveCustomRequest = (reqId, approve) => {
+    setCustomRequests(prev => {
+      const updated = prev.map(r => r.id === reqId ? {...r, status: approve ? 'approved' : 'rejected'} : r)
+      try { localStorage.setItem('wp_custom_requests', JSON.stringify(updated)) } catch(e) {}
+      return updated
+    })
+    if (approve) {
+      const req = customRequests.find(r => r.id === reqId)
+      if (req) {
+        // Adaugă notificare
+        setNotifications(prev => [{
+          id: Date.now(), type:'code_generated',
+          blogger: req.blogger, casino: req.casinoName,
+          code: req.requestedCode, timestamp: new Date().toLocaleString('ro-RO'), read:false
+        }, ...prev])
+      }
+    }
+  }
 
   const inp = {width:'100%',padding:'8px 12px',fontSize:13,border:'1px solid rgba(255,255,255,0.1)',borderRadius:6,background:'rgba(255,255,255,0.05)',color:'#e2e8f0',outline:'none',boxSizing:'border-box'}
 
@@ -266,7 +293,7 @@ export default function Admin() {
         </div>
 
         <div style={{display:'flex',gap:4,borderBottom:'1px solid rgba(255,255,255,0.07)',marginBottom:'1.5rem'}}>
-          {[['bloggers','Bloggeri'],['promo','Promcoduri'],['update','Actualizare'],['requests','Cereri'],['payments','Plăți'],['notif','Notificări']].map(([id,lbl]) => (
+          {[['bloggers','Bloggeri'],['promo','Promcoduri'],['special','Coduri speciale'],['update','Actualizare'],['requests','Cereri'],['payments','Plăți'],['notif','Notificări']].map(([id,lbl]) => (
             <button key={id} style={{padding:'8px 18px',fontSize:13,cursor:'pointer',border:'none',background:'none',color:tab===id?gold:'rgba(255,255,255,0.4)',borderBottom:tab===id?`2px solid ${gold}`:'2px solid transparent',marginBottom:-1,fontWeight:tab===id?700:400,display:'flex',alignItems:'center',gap:6}} onClick={() => setTab(id)}>
               {lbl}
               {id==='notif' && unreadCount>0 && <span style={{background:'#ef4444',color:'#fff',borderRadius:10,fontSize:10,fontWeight:700,padding:'1px 6px'}}>{unreadCount}</span>}
@@ -611,6 +638,96 @@ export default function Admin() {
                   })}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {tab==='special' && (
+          <div>
+            <div style={{marginBottom:16,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <h3 style={{fontSize:16,fontWeight:700,color:'#e2e8f0',margin:0}}>Cereri coduri personalizate</h3>
+              <span style={{fontSize:12,color:'rgba(255,255,255,0.4)'}}>{customRequests.length} total</span>
+            </div>
+
+            {/* Coduri atribuite automat */}
+            <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:12,overflow:'hidden',marginBottom:20}}>
+              <div style={{padding:'12px 16px',borderBottom:'1px solid rgba(255,255,255,0.05)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                <span style={{fontWeight:700,fontSize:14,color:'#e2e8f0'}}>Coduri atribuite automat</span>
+                <span style={{fontSize:12,color:'rgba(255,255,255,0.4)'}}>{Object.keys(assignedCodes).length} coduri</span>
+              </div>
+              <div style={{overflowX:'auto'}}>
+                <table style={{width:'100%',borderCollapse:'collapse',fontSize:13}}>
+                  <thead><tr style={{background:'rgba(0,0,0,0.2)'}}>
+                    {['Cod','Blogger','Casino'].map(h=><th key={h} style={{padding:'8px 12px',textAlign:'left',color:'rgba(255,255,255,0.5)',fontWeight:600,fontSize:11,textTransform:'uppercase',letterSpacing:'.05em'}}>{h}</th>)}
+                  </tr></thead>
+                  <tbody>
+                    {Object.entries(assignedCodes).length === 0 ? (
+                      <tr><td colSpan={3} style={{padding:'20px',textAlign:'center',color:'rgba(255,255,255,0.3)',fontStyle:'italic'}}>Niciun cod atribuit încă</td></tr>
+                    ) : Object.entries(assignedCodes).map(([code, username], i) => (
+                      <tr key={code} style={{borderTop:'1px solid rgba(255,255,255,0.04)',background:i%2===0?'transparent':'rgba(255,255,255,0.01)'}}>
+                        <td style={{padding:'10px 12px',fontFamily:'monospace',fontWeight:700,color:gold}}>{code}</td>
+                        <td style={{padding:'10px 12px',color:'#e2e8f0'}}>@{username}</td>
+                        <td style={{padding:'10px 12px',color:'rgba(255,255,255,0.5)',fontSize:12}}>
+                          {code.startsWith('WIN')?'WinBet Casino':code.startsWith('SPX')?'SpinMax Casino':'LuckyDeal Casino'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Cereri coduri speciale */}
+            <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:12,overflow:'hidden'}}>
+              <div style={{padding:'12px 16px',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
+                <span style={{fontWeight:700,fontSize:14,color:'#e2e8f0'}}>Cereri coduri speciale (de la bloggeri)</span>
+              </div>
+              {customRequests.length === 0 ? (
+                <div style={{padding:'32px',textAlign:'center',color:'rgba(255,255,255,0.3)',fontStyle:'italic'}}>
+                  Niciun blogger nu a solicitat cod special încă
+                </div>
+              ) : (
+                <div style={{overflowX:'auto'}}>
+                  <table style={{width:'100%',borderCollapse:'collapse',fontSize:13}}>
+                    <thead><tr style={{background:'rgba(0,0,0,0.2)'}}>
+                      {['Blogger','Cod solicitat','Casino','Data','Status','Acțiuni'].map(h=>(
+                        <th key={h} style={{padding:'8px 12px',textAlign:'left',color:'rgba(255,255,255,0.5)',fontWeight:600,fontSize:11,textTransform:'uppercase',letterSpacing:'.05em'}}>{h}</th>
+                      ))}
+                    </tr></thead>
+                    <tbody>
+                      {customRequests.map((r,i) => (
+                        <tr key={r.id} style={{borderTop:'1px solid rgba(255,255,255,0.04)',background:i%2===0?'transparent':'rgba(255,255,255,0.01)'}}>
+                          <td style={{padding:'10px 12px',color:'#e2e8f0',fontWeight:600}}>@{r.blogger}</td>
+                          <td style={{padding:'10px 12px',fontFamily:'monospace',fontWeight:700,color:gold,fontSize:14}}>{r.requestedCode}</td>
+                          <td style={{padding:'10px 12px',color:'rgba(255,255,255,0.7)'}}>{r.casinoName}</td>
+                          <td style={{padding:'10px 12px',color:'rgba(255,255,255,0.4)',fontSize:12}}>{r.date}</td>
+                          <td style={{padding:'10px 12px'}}>
+                            <span style={{padding:'3px 10px',borderRadius:12,fontSize:11,fontWeight:600,
+                              background: r.status==='approved'?'rgba(16,185,129,0.15)': r.status==='rejected'?'rgba(239,68,68,0.15)':'rgba(245,166,35,0.15)',
+                              color: r.status==='approved'?'#10b981': r.status==='rejected'?'#ef4444':gold}}>
+                              {r.status==='approved'?'✓ Aprobat': r.status==='rejected'?'✗ Respins':'⏳ În așteptare'}
+                            </span>
+                          </td>
+                          <td style={{padding:'10px 12px'}}>
+                            {r.status==='pending' && (
+                              <div style={{display:'flex',gap:6}}>
+                                <button onClick={()=>approveCustomRequest(r.id,true)}
+                                  style={{padding:'4px 12px',fontSize:12,fontWeight:700,cursor:'pointer',border:'none',borderRadius:6,background:'#10b981',color:'#fff'}}>
+                                  ✓ Aprobă
+                                </button>
+                                <button onClick={()=>approveCustomRequest(r.id,false)}
+                                  style={{padding:'4px 12px',fontSize:12,fontWeight:700,cursor:'pointer',border:'none',borderRadius:6,background:'#ef4444',color:'#fff'}}>
+                                  ✗ Respinge
+                                </button>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
         )}

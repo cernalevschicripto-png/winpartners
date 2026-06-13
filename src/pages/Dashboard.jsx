@@ -10,6 +10,46 @@ const bdr = 'rgba(0,0,0,0.1)'
 const txt = '#1a1a2e'
 const txtSub = '#6b7280'
 
+// ============================================================
+// STORAGE — simulează baza de date în localStorage
+// ============================================================
+const ASSIGNED_CODES_KEY = 'wp_assigned_codes'
+function loadAssigned() {
+  try { return JSON.parse(localStorage.getItem(ASSIGNED_CODES_KEY) || '{}') } catch(e) { return {} }
+}
+function saveAssigned(obj) {
+  try { localStorage.setItem(ASSIGNED_CODES_KEY, JSON.stringify(obj)) } catch(e) {}
+}
+
+const CUSTOM_REQUESTS_KEY = 'wp_custom_requests'
+function loadCustomRequests() {
+  try { return JSON.parse(localStorage.getItem(CUSTOM_REQUESTS_KEY) || '[]') } catch(e) { return [] }
+}
+function saveCustomRequests(arr) {
+  try { localStorage.setItem(CUSTOM_REQUESTS_KEY, JSON.stringify(arr)) } catch(e) {}
+}
+
+// Coada de coduri disponibile per casino
+const CODE_QUEUE = {
+  winbet:    ['WIN001','WIN002','WIN003','WIN004','WIN005','WIN006','WIN007','WIN008','WIN009','WIN010','WIN011','WIN012','WIN013'],
+  spinmax:   ['SPX001','SPX002','SPX003','SPX004','SPX005','SPX006','SPX007','SPX008','SPX009','SPX010'],
+  luckydeal: ['LKD001','LKD002','LKD003','LKD004','LKD005','LKD006','LKD007','LKD008','LKD009','LKD010'],
+}
+
+// Găsește primul cod disponibil și îl atribuie bloggerului
+function getNextCode(casinoId, username) {
+  const prefix = casinoId === 'winbet' ? 'WIN' : casinoId === 'spinmax' ? 'SPX' : 'LKD'
+  const queue = CODE_QUEUE[casinoId] || []
+  const assigned = loadAssigned()
+  // Dacă are deja cod pentru acest casino, returnează-l
+  const existing = Object.entries(assigned).find(([c, u]) => u === username && c.startsWith(prefix))
+  if (existing) return existing[0]
+  // Primul cod neatribuit
+  const next = queue.find(c => !assigned[c])
+  if (next) { assigned[next] = username; saveAssigned(assigned) }
+  return next || null
+}
+
 const D = {
   name:'Ion Popescu', username:'ionpopescu', platform:'TikTok',
   promoCode:'IONPOPESCU_WIN', refCode:'REF_ION2026', affId:'WP-4438301',
@@ -129,6 +169,20 @@ export default function Dashboard() {
   const [selectedCasino, setSelectedCasino] = useState(null)
   const [generatedCode, setGeneratedCode] = useState(null)
   const [codeGenerating, setCodeGenerating] = useState(false)
+  // Codurile mele atribuite
+  const [myCodes, setMyCodes] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('wp_my_codes_' + D.username) || '[]') } catch(e) { return [] }
+  })
+  // Cerere cod personalizat
+  const [showCustomCode, setShowCustomCode] = useState(false)
+  const [customCodeText, setCustomCodeText] = useState('')
+  const [customCasinoId, setCustomCasinoId] = useState('winbet')
+  const [customCodeSent, setCustomCodeSent] = useState(false)
+  const [customRequests, setCustomRequests] = useState(() => loadCustomRequests().filter(r => r.blogger === D.username))
+  // Referrals
+  const [myReferrals, setMyReferrals] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('wp_referrals_' + D.username) || '[]') } catch(e) { return D.refs }
+  })
 
   useEffect(() => {
     const handleResize = () => {
@@ -139,16 +193,50 @@ export default function Dashboard() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // Salvează myCodes în localStorage
+  useEffect(() => {
+    try { localStorage.setItem('wp_my_codes_' + D.username, JSON.stringify(myCodes)) } catch(e) {}
+  }, [myCodes])
+
   const generatePromoCode = (casinoId) => {
     setCodeGenerating(true)
     setGeneratedCode(null)
     setTimeout(() => {
-      const codes = DEMO_CODES[casinoId] || []
-      const idx = Math.floor(Math.random() * codes.length)
-      const code = codes[idx] || 'NODISPONIBIL'
-      setGeneratedCode({ code, casinoId, bloggerUsername: D.username, timestamp: new Date().toISOString() })
+      // Ia primul cod disponibil din coadă — atribuire secvențială
+      const code = getNextCode(casinoId, D.username)
+      if (code) {
+        setGeneratedCode({ code, casinoId, bloggerUsername: D.username, timestamp: new Date().toISOString() })
+        // Salvează în lista codurilor mele
+        setMyCodes(prev => {
+          const exists = prev.find(c => c.code === code && c.casinoId === casinoId)
+          if (exists) return prev
+          const casino = CASINOS.find(c => c.id === casinoId)
+          return [...prev, { code, casinoId, casinoName: casino?.name, color: casino?.color, regs: 0, deposits: 0, commission: 0, date: new Date().toLocaleDateString('ro-RO') }]
+        })
+      } else {
+        setGeneratedCode({ code: 'INDISPONIBIL', casinoId, bloggerUsername: D.username, timestamp: new Date().toISOString(), error: true })
+      }
       setCodeGenerating(false)
     }, 1200)
+  }
+
+  const submitCustomRequest = () => {
+    if (!customCodeText.trim() || !customCasinoId) return
+    const requests = loadCustomRequests()
+    const newReq = {
+      id: Date.now(),
+      blogger: D.username,
+      bloggerName: D.name,
+      casinoId: customCasinoId,
+      casinoName: CASINOS.find(c => c.id === customCasinoId)?.name,
+      requestedCode: customCodeText.toUpperCase(),
+      date: new Date().toLocaleDateString('ro-RO'),
+      status: 'pending'
+    }
+    saveCustomRequests([...requests, newReq])
+    setCustomRequests(prev => [...prev, newReq])
+    setCustomCodeSent(true)
+    setCustomCodeText('')
   }
   const [period,setPeriod]=useState('1 lună')
   const [currency,setCurrency]=useState('USD')
@@ -663,8 +751,8 @@ export default function Dashboard() {
                 <div style={{fontFamily:'monospace',fontSize:12,color:'#047857',background:'rgba(0,0,0,0.04)',padding:'6px 10px',borderRadius:4,marginBottom:8,wordBreak:'break-all'}}>{refLink}</div>
                 <button style={btnPrimary} onClick={()=>copy(refLink,'ref')}>{copied==='ref'?'✓ Copiat!':'Copiează linkul de referral'}</button>
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12,marginBottom:'1.25rem'}}>
-                {[['Bloggeri invitați',D.refs.length,'#3b82f6'],['Total câștigat','$'+D.refs.reduce((s,r)=>s+r.cm,0).toFixed(2),'#10b981'],['Comision referral','3%',gold]].map(([l,v,c])=>(
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:12,marginBottom:'1.25rem'}}>
+                {[['Bloggeri invitați',myReferrals.length,'#3b82f6'],['Total câștigat','$'+myReferrals.reduce((s,r)=>s+(r.cm||0),0).toFixed(2),'#10b981'],['Comision referral','3%',gold]].map(([l,v,c])=>(
                   <div key={l} style={{...card,textAlign:'center'}}>
                     <div style={{fontSize:11,color:txtSub,textTransform:'uppercase',letterSpacing:'.07em',marginBottom:5}}>{l}</div>
                     <div style={{fontSize:24,fontWeight:800,color:c}}>{v}</div>
@@ -679,14 +767,18 @@ export default function Dashboard() {
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <table style={{width:'100%',borderCollapse:'collapse'}}>
                   <thead><tr>{['Blogger','Platformă','Data înregistrării','Înregistrări aduse','Câștigurile lui','Comisionul meu (3%)'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
-                  <tbody>{D.refs.map((r,i)=>(
+                  <tbody>{myReferrals.length===0?(
+                    <tr><td colSpan={6} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>
+                      Niciun blogger invitat încă. Copiază linkul de referral și trimite-l colegilor tăi bloggeri!
+                    </td></tr>
+                  ):myReferrals.map((r,i)=>(
                     <tr key={r.name} style={{background:i%2===0?'#fff':'#fafafa'}}>
                       <td style={{...TD,fontWeight:600}}>{r.name}</td>
-                      <td style={TD}>{r.pl}</td>
+                      <td style={TD}>{r.pl||'-'}</td>
                       <td style={{...TD,color:txtSub}}>{r.dt}</td>
-                      <td style={TD}>{r.rg}</td>
-                      <td style={TD}>${r.rv}</td>
-                      <td style={{...TD,color:'#10b981',fontWeight:600}}>${r.cm.toFixed(2)}</td>
+                      <td style={TD}>{r.rg||0}</td>
+                      <td style={TD}>${r.rv||0}</td>
+                      <td style={{...TD,color:'#10b981',fontWeight:600}}>${(r.cm||0).toFixed(2)}</td>
                     </tr>
                   ))}</tbody>
                 </table>
@@ -781,36 +873,65 @@ export default function Dashboard() {
                 </div>
               )}
 
-              {/* Tabel coduri generate anterior */}
-              <div style={card}>
-                <div style={{fontSize:15,fontWeight:700,marginBottom:12,color:txt}}>Codurile mele active</div>
-                <div style={{overflowX:'auto'}}>
+              {/* Buton cod personalizat */}
+              <div style={{...card,marginBottom:'1rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:12}}>
+                <div>
+                  <div style={{fontWeight:700,fontSize:14,color:txt,marginBottom:3}}>Vrei un cod personalizat? (ex: IONEL23)</div>
+                  <div style={{fontSize:12,color:txtSub}}>Trimite o cerere — managerul tău îl activează în 24-48h</div>
+                </div>
+                <button onClick={()=>setShowCustomCode(true)} style={{...btnPrimary,padding:'9px 20px',fontSize:13,flexShrink:0}}>
+                  ✨ Solicită cod special
+                </button>
+              </div>
+
+              {/* Cereri trimise */}
+              {customRequests.length > 0 && (
+                <div style={{...card,marginBottom:'1rem',padding:0,overflow:'hidden'}}>
+                  <div style={{padding:'10px 16px',borderBottom:`1px solid ${bdr}`,fontSize:13,fontWeight:700,color:txt}}>Cererile mele de cod special</div>
                   <table style={{width:'100%',borderCollapse:'collapse'}}>
-                    <thead>
-                      <tr>
-                        {['Casino','Cod promoțional','BTAG','Înregistrări','Depunători','Comision'].map(h=>(
-                          <th key={h} style={TH}>{h} ↕</th>
-                        ))}
+                    <thead><tr>{['Cod solicitat','Casino','Data','Status'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                    <tbody>{customRequests.map((r,i)=>(
+                      <tr key={r.id} style={{background:i%2===0?'#fff':'#fafafa'}}>
+                        <td style={{...TD,fontFamily:'monospace',fontWeight:700,color:gold}}>{r.requestedCode}</td>
+                        <td style={TD}>{r.casinoName}</td>
+                        <td style={{...TD,color:txtSub}}>{r.date}</td>
+                        <td style={TD}>
+                          <span style={{padding:'2px 10px',borderRadius:12,fontSize:11,fontWeight:600,
+                            background: r.status==='approved'?'#d1fae5': r.status==='rejected'?'#fee2e2':'#fef9c3',
+                            color: r.status==='approved'?'#065f46': r.status==='rejected'?'#991b1b':'#92400e'}}>
+                            {r.status==='approved'?'✓ Aprobat': r.status==='rejected'?'✗ Respins':'⏳ În așteptare'}
+                          </span>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td style={TD}>WinBet Casino</td>
-                        <td style={{...TD,fontFamily:'monospace',fontWeight:700,color:gold}}>WIN004</td>
-                        <td style={{...TD,fontSize:11,color:txtSub}}>d_wp_{D.username}_win_004</td>
-                        <td style={TD}>23</td><td style={TD}>8</td>
-                        <td style={{...TD,color:'#10b981',fontWeight:600}}>$45.60</td>
-                      </tr>
-                      <tr style={{background:'#fafafa'}}>
-                        <td style={TD}>SpinMax Casino</td>
-                        <td style={{...TD,fontFamily:'monospace',fontWeight:700,color:'#3b82f6'}}>SPX007</td>
-                        <td style={{...TD,fontSize:11,color:txtSub}}>d_wp_{D.username}_spx_007</td>
-                        <td style={TD}>11</td><td style={TD}>4</td>
-                        <td style={{...TD,color:'#10b981',fontWeight:600}}>$22.10</td>
-                      </tr>
-                    </tbody>
+                    ))}</tbody>
                   </table>
                 </div>
+              )}
+
+              {/* Tabel coduri generate */}
+              <div style={card}>
+                <div style={{fontSize:15,fontWeight:700,marginBottom:12,color:txt}}>Codurile mele active</div>
+                {myCodes.length === 0 ? (
+                  <div style={{textAlign:'center',padding:'24px',color:txtSub,fontSize:13,fontStyle:'italic'}}>
+                    Nu ai generat încă niciun cod. Selectează un cazinou și apasă Generează.
+                  </div>
+                ) : (
+                  <div style={{overflowX:'auto'}}>
+                    <table style={{width:'100%',borderCollapse:'collapse'}}>
+                      <thead><tr>{['Casino','Cod promoțional','BTAG','Data','Înregistrări','Comision'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                      <tbody>{myCodes.map((c,i)=>(
+                        <tr key={c.code} style={{background:i%2===0?'#fff':'#fafafa'}}>
+                          <td style={TD}>{c.casinoName}</td>
+                          <td style={{...TD,fontFamily:'monospace',fontWeight:700,color:c.color||gold}}>{c.code}</td>
+                          <td style={{...TD,fontSize:11,color:txtSub}}>d_wp_{D.username}_{c.code.toLowerCase()}</td>
+                          <td style={{...TD,color:txtSub}}>{c.date}</td>
+                          <td style={TD}>{c.regs}</td>
+                          <td style={{...TD,color:'#10b981',fontWeight:600}}>${c.commission.toFixed(2)}</td>
+                        </tr>
+                      ))}</tbody>
+                    </table>
+                  </div>
+                )}
               </div>
 
               {/* PWA Install Card */}
@@ -896,6 +1017,51 @@ export default function Dashboard() {
                 <input style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:14}} placeholder={payMethod==='Bitcoin'?'bc1q...':'Cont/email'} value={payAddr} onChange={e=>setPayAddr(e.target.value)}/>
                 <button style={{...btnPrimary,width:'100%',padding:'10px',fontSize:14,borderRadius:6}} onClick={()=>payAddr&&setPaySent(true)}>Trimite cererea</button>
                 <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowPay(false)}>Anulează</button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* MODAL COD PERSONALIZAT */}
+      {showCustomCode&&(
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.5)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:200,padding:'1rem'}} onClick={()=>{setShowCustomCode(false);setCustomCodeSent(false)}}>
+          <div style={{...card,width:'100%',maxWidth:400,boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}} onClick={e=>e.stopPropagation()}>
+            {customCodeSent?(
+              <div style={{textAlign:'center',padding:'1rem'}}>
+                <div style={{fontSize:40,marginBottom:10}}>✅</div>
+                <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>Cerere trimisă!</h3>
+                <p style={{color:txtSub,fontSize:13,marginBottom:4}}>Managerul tău va procesa cererea pentru <strong style={{color:gold,fontFamily:'monospace'}}>{customCodeText||'codul tău'}</strong> în 24-48 ore.</p>
+                <p style={{color:txtSub,fontSize:12,marginBottom:16}}>Vei fi notificat când codul este activat.</p>
+                <button style={btnPrimary} onClick={()=>{setShowCustomCode(false);setCustomCodeSent(false)}}>Închide</button>
+              </div>
+            ):(
+              <>
+                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>Solicită cod personalizat</div>
+                <p style={{color:txtSub,fontSize:13,marginBottom:16,lineHeight:1.5}}>
+                  Vrei un cod cu numele tău? (ex: <span style={{fontFamily:'monospace',color:gold,fontWeight:700}}>IONEL23</span>, <span style={{fontFamily:'monospace',color:gold,fontWeight:700}}>VLAD_WIN</span>)<br/>
+                  Managerul va face cererea la cazinou și îl activează în 24-48h.
+                </p>
+                <label style={label}>Cazinou</label>
+                <select style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:12}} value={customCasinoId} onChange={e=>setCustomCasinoId(e.target.value)}>
+                  {CASINOS.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+                <label style={label}>Codul dorit (fără spații, litere și cifre)</label>
+                <input
+                  style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:6,textTransform:'uppercase',fontFamily:'monospace',fontSize:16,fontWeight:700,letterSpacing:2}}
+                  placeholder="IONEL23"
+                  value={customCodeText}
+                  onChange={e=>setCustomCodeText(e.target.value.toUpperCase().replace(/[^A-Z0-9_]/g,''))}
+                  maxLength={20}
+                />
+                <div style={{fontSize:11,color:txtSub,marginBottom:16}}>Caractere permise: A-Z, 0-9, underscore (_)</div>
+                <button
+                  style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6,opacity:customCodeText.length<3?0.5:1}}
+                  disabled={customCodeText.length<3}
+                  onClick={submitCustomRequest}>
+                  Trimite cererea
+                </button>
+                <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCustomCode(false)}>Anulează</button>
               </>
             )}
           </div>
