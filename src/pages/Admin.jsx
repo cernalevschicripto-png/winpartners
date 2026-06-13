@@ -70,6 +70,14 @@ export default function Admin() {
   const [selectedCasino, setSelectedCasino] = useState('winbet')
   const [newCodeInput, setNewCodeInput] = useState('')
   const [addCodeMode, setAddCodeMode] = useState(false)
+  const [notifications, setNotifications] = useState([
+    {id:1, type:'code_generated', blogger:'ionpopescu', casino:'WinBet Casino', code:'WIN004', timestamp:'02.06.2026 14:32', read:true},
+    {id:2, type:'code_generated', blogger:'alexmarin', casino:'WinBet Casino', code:'WIN010', timestamp:'05.06.2026 09:15', read:true},
+    {id:3, type:'code_generated', blogger:'ionpopescu', casino:'SpinMax Casino', code:'SPX007', timestamp:'03.06.2026 11:48', read:true},
+    {id:4, type:'payment_request', blogger:'Alex Marin', detail:'Solicită plată $560', timestamp:'09.06.2026 16:22', read:false},
+    {id:5, type:'new_blogger', blogger:'Vlad Gaming', detail:'Înregistrare nouă pe platformă', timestamp:'01.06.2026 08:05', read:false},
+  ])
+  const [showNotifPanel, setShowNotifPanel] = useState(false)
   const [payments, setPayments] = useState([])
   const [requests, setRequests] = useState([
     {id:1,name:'Ion Popescu',type:'Cod personalizat',detail:'IONEL',date:'10.06.2026',status:'pending'},
@@ -133,6 +141,38 @@ export default function Admin() {
     setPayAmount('')
   }
 
+  const unreadCount = notifications.filter(n => !n.read).length
+
+  const markAllRead = () => setNotifications(prev => prev.map(n => ({...n, read:true})))
+  const markRead = (id) => setNotifications(prev => prev.map(n => n.id===id ? {...n, read:true} : n))
+
+  const exportCSV = (casinoId) => {
+    const casino = CASINOS_LIST.find(c => c.id===casinoId)
+    const codes = promoCodes[casinoId] || []
+    const header = 'Cod,Status,Blogger,Data generarii'
+    const rows = codes.map(e => `${e.code},${e.status},${e.bloggerUsername||''},${e.generatedAt||''}`)
+    const csv = [header, ...rows].join('\n')
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'})
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `promcoduri_${casino?.name?.replace(/ /g,'_')}_${new Date().toISOString().slice(0,10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const addNotificationEntry = (blogger, casino, code) => {
+    const now = new Date()
+    const ts = now.toLocaleDateString('ro-RO') + ' ' + now.toLocaleTimeString('ro-RO', {hour:'2-digit',minute:'2-digit'})
+    setNotifications(prev => [{
+      id: Date.now(),
+      type: 'code_generated',
+      blogger, casino, code,
+      timestamp: ts,
+      read: false
+    }, ...prev])
+  }
+
   const th = {textAlign:'left',padding:'9px 12px',color:'rgba(255,255,255,0.35)',fontWeight:400,borderBottom:'1px solid rgba(255,255,255,0.07)',fontSize:11,textTransform:'uppercase',letterSpacing:'.05em'}
   const td = {padding:'9px 12px',borderBottom:'1px solid rgba(255,255,255,0.04)',color:'#e2e8f0',fontSize:13}
 
@@ -143,7 +183,68 @@ export default function Admin() {
           <span style={{fontSize:18,fontWeight:900}}>WIN<span style={{color:gold}}>PARTNERS</span></span>
           <span style={{fontSize:11,background:'rgba(245,166,35,0.15)',color:gold,padding:'2px 8px',borderRadius:4,fontWeight:700}}>ADMIN</span>
         </div>
-        <button style={{padding:'6px 14px',fontSize:13,cursor:'pointer',border:'1px solid rgba(255,255,255,0.1)',borderRadius:6,background:'none',color:'#94a3b8'}} onClick={() => setAuth(false)}>Logout</button>
+        <div style={{display:'flex',alignItems:'center',gap:12}}>
+          {/* Notification Bell */}
+          <div style={{position:'relative'}}>
+            <button
+              onClick={() => {setShowNotifPanel(p => !p); if(!showNotifPanel) markAllRead()}}
+              style={{position:'relative',padding:'6px 10px',fontSize:13,cursor:'pointer',border:'1px solid rgba(255,255,255,0.1)',borderRadius:6,background:'none',color:'#94a3b8',display:'flex',alignItems:'center',gap:6}}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+              {unreadCount > 0 && (
+                <span style={{position:'absolute',top:-4,right:-4,background:'#ef4444',color:'#fff',borderRadius:10,fontSize:10,fontWeight:700,minWidth:16,height:16,display:'flex',alignItems:'center',justifyContent:'center',padding:'0 4px'}}>
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            {/* Notification Panel */}
+            {showNotifPanel && (
+              <div style={{position:'absolute',right:0,top:40,width:380,background:'#1a1a2e',border:'1px solid rgba(245,166,35,0.2)',borderRadius:12,boxShadow:'0 20px 60px rgba(0,0,0,0.5)',zIndex:100,overflow:'hidden'}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 16px',borderBottom:'1px solid rgba(255,255,255,0.07)'}}>
+                  <span style={{fontWeight:700,fontSize:14}}>Notificări</span>
+                  <button onClick={markAllRead} style={{fontSize:11,color:'rgba(255,255,255,0.4)',cursor:'pointer',border:'none',background:'none'}}>Marchează toate citite</button>
+                </div>
+                <div style={{maxHeight:380,overflowY:'auto'}}>
+                  {notifications.length === 0 ? (
+                    <div style={{padding:'2rem',textAlign:'center',color:'rgba(255,255,255,0.3)',fontSize:13}}>Nu există notificări</div>
+                  ) : notifications.map(n => (
+                    <div key={n.id} onClick={() => markRead(n.id)}
+                      style={{padding:'12px 16px',borderBottom:'1px solid rgba(255,255,255,0.04)',background:n.read?'transparent':'rgba(245,166,35,0.04)',cursor:'pointer',transition:'background .15s'}}>
+                      <div style={{display:'flex',alignItems:'flex-start',gap:10}}>
+                        <div style={{width:32,height:32,borderRadius:'50%',flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,
+                          background:n.type==='code_generated'?'rgba(16,185,129,0.15)':n.type==='payment_request'?'rgba(245,166,35,0.15)':'rgba(59,130,246,0.15)'}}>
+                          {n.type==='code_generated'?'🎟':n.type==='payment_request'?'💸':'👤'}
+                        </div>
+                        <div style={{flex:1,minWidth:0}}>
+                          {n.type==='code_generated' && (
+                            <>
+                              <div style={{fontSize:13,color:'#e2e8f0',lineHeight:1.4}}>
+                                <strong style={{color:'#93c5fd'}}>@{n.blogger}</strong> a generat codul <strong style={{color:'#10b981',fontFamily:'monospace'}}>{n.code}</strong> pentru {n.casino}
+                              </div>
+                            </>
+                          )}
+                          {n.type==='payment_request' && (
+                            <div style={{fontSize:13,color:'#e2e8f0',lineHeight:1.4}}>
+                              <strong style={{color:'#fbbf24'}}>{n.blogger}</strong>: {n.detail}
+                            </div>
+                          )}
+                          {n.type==='new_blogger' && (
+                            <div style={{fontSize:13,color:'#e2e8f0',lineHeight:1.4}}>
+                              <strong style={{color:'#60a5fa'}}>{n.blogger}</strong>: {n.detail}
+                            </div>
+                          )}
+                          <div style={{fontSize:11,color:'rgba(255,255,255,0.3)',marginTop:3}}>{n.timestamp}</div>
+                        </div>
+                        {!n.read && <div style={{width:7,height:7,borderRadius:'50%',background:'#ef4444',flexShrink:0,marginTop:4}}/>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          <button style={{padding:'6px 14px',fontSize:13,cursor:'pointer',border:'1px solid rgba(255,255,255,0.1)',borderRadius:6,background:'none',color:'#94a3b8'}} onClick={() => setAuth(false)}>Logout</button>
+        </div>
       </nav>
 
       <div style={{maxWidth:1200,margin:'0 auto',padding:'2rem 1.5rem'}}>
@@ -164,8 +265,11 @@ export default function Admin() {
         </div>
 
         <div style={{display:'flex',gap:4,borderBottom:'1px solid rgba(255,255,255,0.07)',marginBottom:'1.5rem'}}>
-          {[['bloggers','Bloggeri'],['promo','Promcoduri'],['update','Actualizare'],['requests','Cereri'],['payments','Plăți']].map(([id,lbl]) => (
-            <button key={id} style={{padding:'8px 18px',fontSize:13,cursor:'pointer',border:'none',background:'none',color:tab===id?gold:'rgba(255,255,255,0.4)',borderBottom:tab===id?`2px solid ${gold}`:'2px solid transparent',marginBottom:-1,fontWeight:tab===id?700:400}} onClick={() => setTab(id)}>{lbl}</button>
+          {[['bloggers','Bloggeri'],['promo','Promcoduri'],['update','Actualizare'],['requests','Cereri'],['payments','Plăți'],['notif','Notificări']].map(([id,lbl]) => (
+            <button key={id} style={{padding:'8px 18px',fontSize:13,cursor:'pointer',border:'none',background:'none',color:tab===id?gold:'rgba(255,255,255,0.4)',borderBottom:tab===id?`2px solid ${gold}`:'2px solid transparent',marginBottom:-1,fontWeight:tab===id?700:400,display:'flex',alignItems:'center',gap:6}} onClick={() => setTab(id)}>
+              {lbl}
+              {id==='notif' && unreadCount>0 && <span style={{background:'#ef4444',color:'#fff',borderRadius:10,fontSize:10,fontWeight:700,padding:'1px 6px'}}>{unreadCount}</span>}
+            </button>
           ))}
         </div>
 
@@ -225,11 +329,19 @@ export default function Admin() {
                       <span style={{fontWeight:700,fontSize:15,color:casino.color}}>{casino.name}</span>
                       <span style={{marginLeft:12,fontSize:12,color:'rgba(255,255,255,0.35)'}}>{codes.filter(c=>c.status==='disponibil').length} disponibile din {codes.length}</span>
                     </div>
+                    <div style={{display:'flex',gap:8}}>
+                    <button
+                      onClick={() => exportCSV(selectedCasino)}
+                      style={{padding:'6px 14px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:6,background:'none',color:'#94a3b8',display:'flex',alignItems:'center',gap:6}}>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      Export CSV
+                    </button>
                     <button
                       onClick={() => setAddCodeMode(m => !m)}
                       style={{padding:'6px 16px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:6,background:gold,color:'#000'}}>
                       + Adaugă coduri
                     </button>
+                  </div>
                   </div>
 
                   {addCodeMode && (
@@ -304,6 +416,91 @@ export default function Admin() {
                 </div>
               )
             })()}
+          </div>
+        )}
+
+        {tab==='notif' && (
+          <div>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1.25rem'}}>
+              <div>
+                <span style={{fontSize:16,fontWeight:700,color:'#e2e8f0'}}>Jurnal activitate</span>
+                <span style={{marginLeft:10,fontSize:12,color:'rgba(255,255,255,0.35)'}}>{notifications.length} evenimente</span>
+              </div>
+              <div style={{display:'flex',gap:8}}>
+                <button onClick={markAllRead} style={{padding:'6px 14px',fontSize:12,cursor:'pointer',border:'1px solid rgba(255,255,255,0.1)',borderRadius:6,background:'none',color:'#94a3b8'}}>
+                  ✓ Marchează toate citite
+                </button>
+                <button
+                  onClick={() => {
+                    const header = 'Tip,Blogger,Casino,Cod,Data'
+                    const rows = notifications.map(n => `${n.type},${n.blogger||''},${n.casino||''},${n.code||n.detail||''},${n.timestamp}`)
+                    const csv = [header,...rows].join('\n')
+                    const blob = new Blob([csv],{type:'text/csv'})
+                    const url = URL.createObjectURL(blob)
+                    const a = document.createElement('a'); a.href=url; a.download='activitate_admin.csv'; a.click()
+                    URL.revokeObjectURL(url)
+                  }}
+                  style={{padding:'6px 14px',fontSize:12,cursor:'pointer',border:'1px solid rgba(255,255,255,0.1)',borderRadius:6,background:'none',color:'#94a3b8',display:'flex',alignItems:'center',gap:5}}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export CSV
+                </button>
+              </div>
+            </div>
+
+            {/* Summary cards */}
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:'1.5rem'}}>
+              {[
+                ['Coduri generate', notifications.filter(n=>n.type==='code_generated').length, '#10b981'],
+                ['Cereri plată', notifications.filter(n=>n.type==='payment_request').length, '#f5a623'],
+                ['Bloggeri noi', notifications.filter(n=>n.type==='new_blogger').length, '#3b82f6'],
+                ['Necitite', unreadCount, '#ef4444'],
+              ].map(([lbl,val,col]) => (
+                <div key={lbl} style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,padding:'1rem'}}>
+                  <div style={{fontSize:11,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:4}}>{lbl}</div>
+                  <div style={{fontSize:28,fontWeight:800,color:col}}>{val}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Activity log table */}
+            <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:12,overflow:'hidden'}}>
+              <table style={{width:'100%',borderCollapse:'collapse',fontSize:13}}>
+                <thead>
+                  <tr>
+                    {['Tip','Blogger','Detalii','Data','Status'].map(h => <th key={h} style={th}>{h}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {notifications.length===0 ? (
+                    <tr><td colSpan={5} style={{...td,textAlign:'center',padding:'2rem',color:'rgba(255,255,255,0.25)'}}>Nu există activitate înregistrată</td></tr>
+                  ) : notifications.map((n,i) => (
+                    <tr key={n.id} onClick={() => markRead(n.id)} style={{background:n.read?i%2===0?'transparent':'rgba(255,255,255,0.01)':'rgba(245,166,35,0.03)',cursor:'pointer'}}>
+                      <td style={td}>
+                        <span style={{
+                          padding:'2px 10px',borderRadius:20,fontSize:11,fontWeight:600,
+                          background:n.type==='code_generated'?'rgba(16,185,129,0.15)':n.type==='payment_request'?'rgba(245,166,35,0.15)':'rgba(59,130,246,0.15)',
+                          color:n.type==='code_generated'?'#10b981':n.type==='payment_request'?'#f5a623':'#60a5fa'
+                        }}>
+                          {n.type==='code_generated'?'🎟 Cod generat':n.type==='payment_request'?'💸 Cerere plată':'👤 Blogger nou'}
+                        </span>
+                      </td>
+                      <td style={td}><span style={{color:'#93c5fd'}}>@{n.blogger}</span></td>
+                      <td style={td}>
+                        {n.type==='code_generated'
+                          ? <span>Cod <strong style={{fontFamily:'monospace',color:'#10b981'}}>{n.code}</strong> — {n.casino}</span>
+                          : <span style={{color:'rgba(255,255,255,0.6)'}}>{n.detail}</span>}
+                      </td>
+                      <td style={{...td,color:'rgba(255,255,255,0.4)',fontSize:12}}>{n.timestamp}</td>
+                      <td style={td}>
+                        {n.read
+                          ? <span style={{fontSize:11,color:'rgba(255,255,255,0.25)'}}>Citit</span>
+                          : <span style={{fontSize:11,color:'#ef4444',fontWeight:600}}>● Nou</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
