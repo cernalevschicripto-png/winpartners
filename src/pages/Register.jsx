@@ -1,26 +1,22 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { addApplication } from '../db.js'
 
 const gold = '#f5a623'
 const PLATFORMS = ['TikTok','Instagram','YouTube','Telegram','Facebook','Twitter/X','Altele']
 const COUNTRIES = ['Moldova','România','Ucraina','Rusia','Kazakhstan','Belarus','Georgia','Armenia','Azerbaijan','Altă țară']
 
-// Salvează cererea în localStorage ȘI trimite email la support.winpartners@gmail.com
+// Salvează cererea în Firebase Realtime Database + email notificare
 async function saveApplication(data) {
-  const appData = { ...data, id: Date.now(), status: 'pending', date: new Date().toLocaleDateString('ro-RO') }
-  // Salvare locală
-  try {
-    const apps = JSON.parse(localStorage.getItem('wp_applications') || '[]')
-    apps.push(appData)
-    localStorage.setItem('wp_applications', JSON.stringify(apps))
-  } catch(e) {}
-  // Trimite email notificare
+  // Firebase — sincronizare în timp real cu Admin
+  await addApplication(data)
+  // Email notificare (opțional, nu blochează)
   try {
     await fetch('https://formspree.io/f/mnjyoylo', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
       body: JSON.stringify({
-        _subject: '🆕 Cerere nouă afiliere — ' + data.name + ' (' + data.platform + ' · ' + Number(data.followers).toLocaleString() + ' urmăritori)',
+        _subject: '🆕 Cerere nouă afiliere — ' + data.name + ' (' + data.platform + ' · ' + Number(data.followers||0).toLocaleString() + ' urmăritori)',
         nume: data.name,
         username: '@' + data.username,
         email: data.email,
@@ -36,16 +32,10 @@ async function saveApplication(data) {
         data: new Date().toLocaleString('ro-RO'),
       })
     })
-  } catch(e) { /* email fail silentios — datele sunt salvate local */ }
+  } catch(e) { /* email opțional */ }
 }
 
 export default function Register() {
-  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 600)
-  React.useEffect(() => {
-    const fn = () => setIsMobile(window.innerWidth < 600)
-    window.addEventListener('resize', fn)
-    return () => window.removeEventListener('resize', fn)
-  }, [])
   const [searchParams] = useSearchParams()
   const refCode = searchParams.get('ref') || ''
   const inviteCode = searchParams.get('invite') || ''
@@ -174,7 +164,7 @@ export default function Register() {
             1. Date personale
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
             <div>
               <label style={lbl}>Nume complet *</label>
               <input style={errors.name?inpErr:inp} value={form.name} onChange={set('name')} placeholder="Ion Popescu"/>
@@ -190,7 +180,7 @@ export default function Register() {
             <input style={errors.email?inpErr:inp} type="email" value={form.email} onChange={set('email')} placeholder="ion@gmail.com"/>
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
             <div>
               <label style={lbl}>WhatsApp / Telegram *</label>
               <input style={errors.phone?inpErr:inp} value={form.phone} onChange={set('phone')} placeholder="+373 60 000 000"/>
@@ -208,7 +198,7 @@ export default function Register() {
             2. Profilul tău social
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
             <div>
               <label style={lbl}>Platforma principală</label>
               <select style={inp} value={form.platform} onChange={set('platform')}>
@@ -241,7 +231,7 @@ export default function Register() {
             <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',marginBottom:14,lineHeight:1.6}}>
               Comisioanele tale vor fi plătite săptămânal, minim $30. Poți modifica metoda de plată oricând din contul tău.
             </div>
-            <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
               <div>
                 <label style={lbl}>Metoda preferată</label>
                 <select style={inp} value={form.payMethod} onChange={set('payMethod')}>
