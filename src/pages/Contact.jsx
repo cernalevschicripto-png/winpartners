@@ -39,7 +39,7 @@ export default function Contact() {
 
   const contacts = [
     { icon:'✈️', label:'TELEGRAM', val:'@winpartners_support', href:'https://t.me/winpartners_support' },
-    { icon:'✉️', label:'EMAIL', val:'support.winpartners@gmail.com', href:'mailto:support.winpartners@gmail.com' },
+    { icon:'✉️', label:'EMAIL', val:'support@winpartners.partners', href:'mailto:support@winpartners.partners' },
     { icon:'🕐', label:'PROGRAM', val:'24/7, 365 zile/an', href: null },
     { icon:'⚡', label:'RĂSPUNS', val:'Maxim 2 ore', href: null },
   ]
