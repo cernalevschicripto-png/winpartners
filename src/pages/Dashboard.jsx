@@ -825,21 +825,21 @@ export default function Dashboard() {
                   <div style={{fontWeight:600,fontSize:13,marginBottom:8,color:txt}}>🤖 Android — Chrome</div>
                   <ol style={{margin:0,paddingLeft:16,fontSize:12,color:txtSub,lineHeight:2.2}}>
                     <li>Apasă <strong style={{color:gold}}>⋮</strong> meniu (sus-dreapta)</li>
-                    <li>Selectează <strong>„Adaugă pe ecranul principal"</strong></li>
-                    <li>Confirmă cu <strong>„Adaugă"</strong></li>
+                    <li>Selectează <strong>Adaugă pe ecranul principal</strong></li>
+                    <li>Confirmă cu <strong>Adaugă</strong></li>
                   </ol>
                 </div>
                 <div style={{background:'rgba(255,255,255,0.03)',borderRadius:10,padding:'12px 14px',border:'1px solid rgba(255,255,255,0.07)'}}>
                   <div style={{fontWeight:600,fontSize:13,marginBottom:8,color:txt}}>🍎 iPhone — Safari</div>
                   <ol style={{margin:0,paddingLeft:16,fontSize:12,color:txtSub,lineHeight:2.2}}>
                     <li>Apasă <strong style={{color:gold}}>□↑</strong> Share (jos)</li>
-                    <li>Selectează <strong>„Adaugă pe ecran principal"</strong></li>
-                    <li>Apasă <strong>„Adaugă"</strong> sus-dreapta</li>
+                    <li>Selectează <strong>Adaugă pe ecran principal</strong></li>
+                    <li>Apasă <strong>Adaugă</strong> sus-dreapta</li>
                   </ol>
                 </div>
               </div>
               <div style={{padding:'10px 14px',background:'rgba(245,166,35,0.06)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:8,fontSize:12,color:txtSub}}>
-                💡 Dacă apare un banner „Instalează WinPartners" jos pe ecran — apasă direct pe el!
+                💡 Dacă apare un banner Instalează WinPartners jos pe ecran — apasă direct pe el!
               </div>
             </div>
           )}
