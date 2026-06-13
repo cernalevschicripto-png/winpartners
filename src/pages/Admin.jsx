@@ -8,7 +8,7 @@ import {
   getApplications, updateApplication, subscribeApplications,
   getNotifications, markRead, addNotification, subscribeNotifications,
   getCustomRequests, updateCustomRequest, subscribeCustomRequests,
-  seedDatabase,
+  seedDatabase, isFirebaseEnabled,
 } from '../db.js'
 
 const gold = '#f5a623'
