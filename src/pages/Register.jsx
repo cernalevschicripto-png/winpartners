@@ -5,13 +5,38 @@ const gold = '#f5a623'
 const PLATFORMS = ['TikTok','Instagram','YouTube','Telegram','Facebook','Twitter/X','Altele']
 const COUNTRIES = ['Moldova','România','Ucraina','Rusia','Kazakhstan','Belarus','Georgia','Armenia','Azerbaijan','Altă țară']
 
-// Salvează cererea în localStorage (în producție → trimite la server/email)
-function saveApplication(data) {
+// Salvează cererea în localStorage ȘI trimite email la support.winpartners@gmail.com
+async function saveApplication(data) {
+  const appData = { ...data, id: Date.now(), status: 'pending', date: new Date().toLocaleDateString('ro-RO') }
+  // Salvare locală
   try {
     const apps = JSON.parse(localStorage.getItem('wp_applications') || '[]')
-    apps.push({ ...data, id: Date.now(), status: 'pending', date: new Date().toLocaleDateString('ro-RO') })
+    apps.push(appData)
     localStorage.setItem('wp_applications', JSON.stringify(apps))
   } catch(e) {}
+  // Trimite email notificare
+  try {
+    await fetch('https://formspree.io/f/mnjyoylo', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({
+        _subject: '🆕 Cerere nouă afiliere — ' + data.name + ' (' + data.platform + ' · ' + Number(data.followers).toLocaleString() + ' urmăritori)',
+        nume: data.name,
+        username: '@' + data.username,
+        email: data.email,
+        telefon: data.phone,
+        tara: data.country,
+        platforma: data.platform,
+        urmaritori: data.followers,
+        profil: data.profileLink,
+        despre: data.aboutYou || '—',
+        metoda_plata: data.payMethod,
+        adresa_plata: data.payAddress || 'necompletată',
+        cod_invitatie: data.refCode || '—',
+        data: new Date().toLocaleString('ro-RO'),
+      })
+    })
+  } catch(e) { /* email fail silentios — datele sunt salvate local */ }
 }
 
 export default function Register() {
@@ -44,9 +69,9 @@ export default function Register() {
     return Object.keys(e).length === 0
   }
 
-  const submit = () => {
+  const submit = async () => {
     if (!validate()) return
-    saveApplication(form)
+    await saveApplication(form)
     setStep(2)
   }
 

@@ -30,11 +30,27 @@ export default function Contact() {
         <div>
           <h2 style={{fontSize:20,fontWeight:700,marginBottom:24}}>Trimiteți un mesaj</h2>
           <div style={{display:'flex',flexDirection:'column',gap:12}}>
-            <input style={inp} placeholder="Numele dvs."/>
-            <input style={inp} placeholder="Email"/>
-            <input style={inp} placeholder="Subiect"/>
-            <textarea style={{...inp,height:120,resize:'vertical'}} placeholder="Mesajul dvs."/>
-            <button style={{padding:'12px',fontSize:14,fontWeight:700,cursor:'pointer',border:'none',borderRadius:8,background:gold,color:'#000',textTransform:'uppercase'}}>TRIMITE MESAJ</button>
+            {status==='sent' ? (
+              <div style={{textAlign:'center',padding:'2rem'}}>
+                <div style={{fontSize:40,marginBottom:12}}>✅</div>
+                <div style={{fontSize:16,fontWeight:700,color:'#fff',marginBottom:8}}>Mesaj trimis!</div>
+                <div style={{fontSize:13,color:'rgba(255,255,255,0.5)'}}>Te vom contacta în maxim 24 ore.</div>
+              </div>
+            ) : (
+              <>
+                <input style={inp} placeholder="Numele dvs." value={form.name} onChange={set('name')}/>
+                <input style={inp} type="email" placeholder="Email" value={form.email} onChange={set('email')}/>
+                <input style={inp} placeholder="Subiect" value={form.subject} onChange={set('subject')}/>
+                <textarea style={{...inp,height:120,resize:'vertical'}} placeholder="Mesajul dvs." value={form.message} onChange={set('message')}/>
+                {status==='error' && <div style={{fontSize:12,color:'#ef4444'}}>Eroare la trimitere. Contactează-ne direct pe Telegram.</div>}
+                <button
+                  onClick={sendMessage}
+                  disabled={status==='sending'}
+                  style={{padding:'12px',fontSize:14,fontWeight:700,cursor:status==='sending'?'wait':'pointer',border:'none',borderRadius:8,background:gold,color:'#000',textTransform:'uppercase',opacity:status==='sending'?0.7:1}}>
+                  {status==='sending'?'SE TRIMITE...':'TRIMITE MESAJ'}
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
