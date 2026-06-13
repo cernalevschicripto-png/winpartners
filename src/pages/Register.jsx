@@ -126,20 +126,23 @@ export default function Register() {
   return (
     <div style={{minHeight:'100vh',background:'#0a0a0f',fontFamily:'Inter,sans-serif'}}>
       {/* Nav */}
-      <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:64,position:'sticky',top:0,zIndex:50}}>
-        <div onClick={() => navigate('/')} style={{fontSize:20,fontWeight:900,cursor:'pointer'}}>
+      <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:56,position:'sticky',top:0,zIndex:50}}>
+        <div onClick={() => navigate('/')} style={{fontSize:18,fontWeight:900,cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
+          <img src="/icons/logo.png" width="24" height="24" alt="W" style={{borderRadius:3}}/>
           <span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span>
         </div>
-        <div style={{display:'flex',gap:6}}>
-          {['ro','ru','en'].map(l => (
-            <button key={l} onClick={() => setLang(l)} style={{padding:'3px 8px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>
-              {l.toUpperCase()}
-            </button>
-          ))}
-        </div>
+        {!isMobile && (
+          <div style={{display:'flex',gap:5}}>
+            {['ro','ru','en'].map(l => (
+              <button key={l} onClick={() => setLang(l)} style={{padding:'3px 7px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        )}
       </nav>
 
-      <div style={{maxWidth:600,margin:'0 auto',padding:'3rem 1.5rem'}}>
+      <div style={{maxWidth:600,margin:'0 auto',padding:isMobile?'1.5rem 1rem':'3rem 1.5rem'}}>
 
         {/* Header */}
         <div style={{marginBottom:32}}>
@@ -148,7 +151,7 @@ export default function Register() {
               ✓ Ai fost invitat cu codul <strong style={{fontFamily:'monospace'}}>{refCode || inviteCode}</strong>. Cererea ta va fi procesată prioritar.
             </div>
           )}
-          <h1 style={{fontSize:28,fontWeight:900,color:'#fff',marginBottom:8,textTransform:'uppercase'}}>
+          <h1 style={{fontSize:isMobile?22:28,fontWeight:900,color:'#fff',marginBottom:8,textTransform:'uppercase'}}>
             Aplică pentru parteneriat
           </h1>
           <p style={{color:'rgba(255,255,255,0.4)',fontSize:14,lineHeight:1.6}}>

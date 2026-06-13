@@ -48,14 +48,14 @@ export default function Contact() {
     <div style={{ background:'#0a0a0f', minHeight:'100vh', color:'#fff', fontFamily:"'Inter',sans-serif" }}>
 
       {/* Nav */}
-      <nav style={{ background:'rgba(10,10,15,0.97)', borderBottom:'1px solid rgba(245,166,35,0.12)', padding:'0 2rem', display:'flex', alignItems:'center', justifyContent:'space-between', height:64 }}>
-        <div onClick={() => nav('/')} style={{ fontSize:20, fontWeight:900, cursor:'pointer', display:'flex', alignItems:'center', gap:10 }}>
-          <img src="/icons/logo.png" width="28" height="28" alt="W" style={{ borderRadius:4 }}/>
+      <nav style={{ background:'rgba(10,10,15,0.97)', borderBottom:'1px solid rgba(245,166,35,0.12)', padding:'0 1rem', display:'flex', alignItems:'center', justifyContent:'space-between', height:56 }}>
+        <div onClick={() => nav('/')} style={{ fontSize:18, fontWeight:900, cursor:'pointer', display:'flex', alignItems:'center', gap:8 }}>
+          <img src="/icons/logo.png" width="24" height="24" alt="W" style={{ borderRadius:3 }}/>
           <span><span style={{ color:'#fff' }}>WIN</span><span style={{ color:gold }}>PARTNERS</span></span>
         </div>
-        <div style={{ display:'flex', gap:8 }}>
-          <button onClick={() => nav('/dashboard')} style={{ padding:'7px 18px', fontSize:13, cursor:'pointer', border:'1px solid rgba(255,255,255,0.15)', borderRadius:4, background:'none', color:'#e2e8f0', fontFamily:'inherit' }}>Login</button>
-          <button onClick={() => nav('/register')} style={{ padding:'7px 18px', fontSize:13, fontWeight:700, cursor:'pointer', border:'none', borderRadius:4, background:gold, color:'#000', fontFamily:'inherit' }}>Înregistrare</button>
+        <div style={{ display:'flex', gap:6 }}>
+          {!isMobile && <button onClick={() => nav('/dashboard')} style={{ padding:'6px 14px', fontSize:12, cursor:'pointer', border:'1px solid rgba(255,255,255,0.15)', borderRadius:4, background:'none', color:'#e2e8f0', fontFamily:'inherit' }}>Login</button>}
+          <button onClick={() => nav('/register')} style={{ padding:'6px 14px', fontSize:12, fontWeight:700, cursor:'pointer', border:'none', borderRadius:4, background:gold, color:'#000', fontFamily:'inherit' }}>{isMobile?'Aplică':'Înregistrare'}</button>
         </div>
       </nav>
 
