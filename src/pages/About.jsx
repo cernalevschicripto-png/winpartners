@@ -1,12 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 
 const awards = [
-  {year:'2024', title:'Best Affiliate Program', org:'SiGMA Awards'},
-  {year:'2024', title:'Casino Live of the Year', org:'AFFPAPA Media'},
-  {year:'2025', title:'Best Affiliate Program 2025', org:'SiGMA Europe'},
-  {year:'2025', title:'Best Casino Operator', org:'Industry Awards'},
-  {year:'2026', title:'Affiliate Company of the Year', org:'European iGaming Awards'},
-  {year:'2026', title:'Best Affiliate Program 2026', org:'SiGMA South America'},
+  {year:'2025', title:'Program oficial Melbet Partners', org:'Melbet Affiliates'},
+  {year:'2025', title:'Revenue Share 25% garantat', org:'Program afiliere'},
+  {year:'2026', title:'Plăți săptămânale verificate', org:'WinPartners'},
+  {year:'2026', title:'Suport dedicat 24/7', org:'Manager personal'},
 ]
 
 export default function About() {
@@ -39,7 +37,7 @@ export default function About() {
           ))}
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:20}}>
-          {[['500K+','Parteneri activi'],['1M+','Jucători înregistrați'],['$10M+','Plătit partenerilor'],['40+','GEO-uri active']].map(([v,l])=>(
+          {[['150+','Parteneri activi'],['12K+','Jucători înregistrați'],['$280K+','Plătit partenerilor'],['8','GEO-uri active']].map(([v,l])=>(
             <div key={l} style={{textAlign:'center',background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:10,padding:'1.5rem'}}>
               <div style={{fontSize:36,fontWeight:900,color:gold}}>{v}</div>
               <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.08em',marginTop:4}}>{l}</div>
