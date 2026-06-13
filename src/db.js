@@ -1,204 +1,289 @@
 // ============================================================
-// WinPartners — Firebase Realtime Database
-// Folosește REST API (nu SDK) — zero dependențe npm
-// CONFIG: pune valorile Firebase în .env sau direct jos
+// WinPartners — Storage cu fallback inteligent
+// Încearcă Firebase, cade pe localStorage dacă nu e configurat
 // ============================================================
 
-const FB_URL  = import.meta.env.VITE_FB_URL  || 'PLACEHOLDER_DB_URL'
-const FB_KEY  = import.meta.env.VITE_FB_KEY  || 'PLACEHOLDER_API_KEY'
+const FB_URL = import.meta.env.VITE_FB_URL || ''
+const FB_KEY = import.meta.env.VITE_FB_KEY || ''
+const USE_FIREBASE = FB_URL && FB_URL !== 'PLACEHOLDER_DB_URL' && FB_URL.includes('firebasedatabase')
 
-// Helper: GET din Firebase
+// ─── FIREBASE REST HELPERS ───────────────────────────────────
 async function fbGet(path) {
-  const res = await fetch(`${FB_URL}/${path}.json?auth=${FB_KEY}`)
-  if (!res.ok) return null
-  return res.json()
+  try {
+    const url = FB_KEY ? `${FB_URL}/${path}.json?auth=${FB_KEY}` : `${FB_URL}/${path}.json`
+    const res = await fetch(url, { signal: AbortSignal.timeout(5000) })
+    if (!res.ok) return null
+    return res.json()
+  } catch { return null }
 }
 
-// Helper: SET (suprascrie)
 async function fbSet(path, data) {
-  const res = await fetch(`${FB_URL}/${path}.json?auth=${FB_KEY}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-  return res.json()
+  try {
+    const url = FB_KEY ? `${FB_URL}/${path}.json?auth=${FB_KEY}` : `${FB_URL}/${path}.json`
+    const res = await fetch(url, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data), signal: AbortSignal.timeout(5000) })
+    return res.ok ? res.json() : null
+  } catch { return null }
 }
 
-// Helper: UPDATE (merge)
 async function fbPatch(path, data) {
-  const res = await fetch(`${FB_URL}/${path}.json?auth=${FB_KEY}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-  return res.json()
+  try {
+    const url = FB_KEY ? `${FB_URL}/${path}.json?auth=${FB_KEY}` : `${FB_URL}/${path}.json`
+    const res = await fetch(url, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data), signal: AbortSignal.timeout(5000) })
+    return res.ok ? res.json() : null
+  } catch { return null }
 }
 
-// Helper: PUSH (adaugă cu cheie automată)
 async function fbPush(path, data) {
-  const res = await fetch(`${FB_URL}/${path}.json?auth=${FB_KEY}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-  return res.json()
+  try {
+    const url = FB_KEY ? `${FB_URL}/${path}.json?auth=${FB_KEY}` : `${FB_URL}/${path}.json`
+    const res = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data), signal: AbortSignal.timeout(5000) })
+    return res.ok ? res.json() : null
+  } catch { return null }
 }
 
-// Helper: DELETE
-async function fbDelete(path) {
-  await fetch(`${FB_URL}/${path}.json?auth=${FB_KEY}`, { method: 'DELETE' })
-}
-
-// Helper: obj→array cu chei
 function toArr(obj) {
-  if (!obj) return []
+  if (!obj || typeof obj !== 'object') return []
   return Object.entries(obj).map(([k, v]) => ({ ...v, _key: k }))
 }
 
-// ─── DATE INIȚIALE ───────────────────────────────────────────
-export const SEED = {
-  bloggers: {
-    ionpopescu: { id:'ionpopescu', name:'Ion Popescu',  username:'ionpopescu',  platform:'TikTok',    country:'Moldova', phone:'+373601234', status:'active', commission:20, clicks:1247, regs:89, deposits:34, revenue:1840, paid:920,  email:'ion@gmail.com',  pass:'ion2026',  payMethod:'Bitcoin', payAddress:'bc1qxxx' },
-    alexmarin:  { id:'alexmarin',  name:'Alex Marin',   username:'alexmarin',   platform:'Instagram', country:'România', phone:'+40721234',  status:'active', commission:20, clicks:856,  regs:52, deposits:18, revenue:1120, paid:560,  email:'alex@gmail.com', pass:'alex2026', payMethod:'Bitcoin', payAddress:'bc1qyyy' },
-    vladgaming:  { id:'vladgaming',  name:'Vlad Gaming',  username:'vladgaming',  platform:'YouTube',   country:'Ucraina', phone:'+380671234', status:'pending',commission:20, clicks:234,  regs:12, deposits:3,  revenue:180,  paid:0,   email:'vlad@gmail.com', pass:'vlad2026', payMethod:'Skrill',  payAddress:'' },
-  },
-  casinoStats: {
-    ionpopescu: { melbet:{ clicks:1247, regs:89, deposits:34, revenue:1840, commission:920 }, winbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinmax:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, luckydeal:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
-    alexmarin:  { melbet:{ clicks:856,  regs:52, deposits:18, revenue:1120, commission:560 }, winbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinmax:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, luckydeal:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
-    vladgaming:  { melbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, winbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinmax:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, luckydeal:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
-  },
-  promoCodes: {
-    melbet: {
-      c0:{ code:'ml_2738117', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11035387' },
-      c1:{ code:'ml_2796938', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180407' },
-      c2:{ code:'ml_2796939', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180417' },
-      c3:{ code:'ml_2796940', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180418' },
-      c4:{ code:'ml_2796941', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180419' },
-      c5:{ code:'ml_2796942', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180420' },
-      c6:{ code:'ml_2796943', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180421' },
-      c7:{ code:'ml_2796944', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180422' },
-      c8:{ code:'ml_2796945', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180423' },
-      c9:{ code:'ml_2796946', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180424' },
-    },
-    winbet:{}, spinmax:{}, luckydeal:{},
-  },
+// ─── LOCALSTORAGE HELPERS (fallback) ─────────────────────────
+function lsGet(key, def = null) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def } catch { return def }
+}
+function lsSet(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)) } catch {}
 }
 
-// ─── BLOGGERS ─────────────────────────────────────────────────
+// ─── DATE INIȚIALE ───────────────────────────────────────────
+const INIT_BLOGGERS = {
+  ionpopescu: { id:'ionpopescu', name:'Ion Popescu', username:'ionpopescu', platform:'TikTok', country:'Moldova', phone:'+373601234', status:'active', commission:25, clicks:1247, regs:89, deposits:34, revenue:1840, paid:920, email:'ion@gmail.com', pass:'ion2026', payMethod:'Bitcoin', payAddress:'bc1qxxx' },
+  alexmarin:  { id:'alexmarin',  name:'Alex Marin',  username:'alexmarin',  platform:'Instagram', country:'România', phone:'+40721234', status:'active', commission:25, clicks:856, regs:52, deposits:18, revenue:1120, paid:560, email:'alex@gmail.com', pass:'alex2026', payMethod:'Bitcoin', payAddress:'bc1qyyy' },
+  vladgaming:  { id:'vladgaming',  name:'Vlad Gaming',  username:'vladgaming',  platform:'YouTube', country:'Ucraina', phone:'+380671234', status:'pending', commission:25, clicks:234, regs:12, deposits:3, revenue:180, paid:0, email:'vlad@gmail.com', pass:'vlad2026', payMethod:'Skrill', payAddress:'' },
+}
+
+const INIT_PROMO = {
+  melbet: {
+    c0:{code:'ml_2738117',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11035387'},
+    c1:{code:'ml_2796938',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180407'},
+    c2:{code:'ml_2796939',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180417'},
+    c3:{code:'ml_2796940',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180418'},
+    c4:{code:'ml_2796941',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180419'},
+    c5:{code:'ml_2796942',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180420'},
+    c6:{code:'ml_2796943',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180421'},
+    c7:{code:'ml_2796944',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180422'},
+    c8:{code:'ml_2796945',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180423'},
+    c9:{code:'ml_2796946',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180424'},
+  },
+  winbet:{}, spinmax:{}, luckydeal:{},
+}
+
+const INIT_CASINO_STATS = {
+  ionpopescu: { melbet:{clicks:1247,regs:89,deposits:34,revenue:1840,commission:460}, winbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinmax:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, luckydeal:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
+  alexmarin:  { melbet:{clicks:856,regs:52,deposits:18,revenue:1120,commission:280}, winbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinmax:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, luckydeal:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
+  vladgaming:  { melbet:{clicks:234,regs:12,deposits:3,revenue:180,commission:45}, winbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinmax:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, luckydeal:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
+}
+
+// ─── SEED automat la prima rulare ────────────────────────────
+async function autoSeed() {
+  if (USE_FIREBASE) {
+    const seeded = await fbGet('seeded')
+    if (seeded) return
+    await fbSet('bloggers', INIT_BLOGGERS)
+    await fbSet('casinoStats', INIT_CASINO_STATS)
+    await fbSet('promoCodes', INIT_PROMO)
+    await fbSet('seeded', true)
+  } else {
+    if (lsGet('wp_seeded')) return
+    lsSet('wp_bloggers', INIT_BLOGGERS)
+    lsSet('wp_casino_stats', INIT_CASINO_STATS)
+    lsSet('wp_promo', INIT_PROMO)
+    lsSet('wp_seeded', true)
+  }
+}
+// Rulează automat la import
+autoSeed()
+
+// ─── LOGIN ────────────────────────────────────────────────────
+export async function loginBlogger(username, pass) {
+  if (USE_FIREBASE) {
+    const blogger = await fbGet(`bloggers/${username}`)
+    if (!blogger || blogger.pass !== pass) return null
+    return blogger
+  } else {
+    const bloggers = lsGet('wp_bloggers', INIT_BLOGGERS)
+    const blogger = bloggers[username]
+    if (!blogger || blogger.pass !== pass) return null
+    return blogger
+  }
+}
+
+// ─── BLOGGERS ────────────────────────────────────────────────
 export async function getBloggers() {
-  const data = await fbGet('bloggers')
-  return data ? Object.values(data) : []
+  if (USE_FIREBASE) {
+    const data = await fbGet('bloggers')
+    return data ? Object.values(data) : Object.values(INIT_BLOGGERS)
+  }
+  const data = lsGet('wp_bloggers', INIT_BLOGGERS)
+  return Object.values(data)
 }
 
 export async function setBlogger(blogger) {
-  return fbSet(`bloggers/${blogger.username}`, blogger)
+  if (USE_FIREBASE) return fbSet(`bloggers/${blogger.username}`, blogger)
+  const all = lsGet('wp_bloggers', INIT_BLOGGERS)
+  all[blogger.username] = blogger
+  lsSet('wp_bloggers', all)
 }
 
 export async function updateBloggerFields(username, fields) {
-  return fbPatch(`bloggers/${username}`, fields)
+  if (USE_FIREBASE) return fbPatch(`bloggers/${username}`, fields)
+  const all = lsGet('wp_bloggers', INIT_BLOGGERS)
+  if (all[username]) all[username] = { ...all[username], ...fields }
+  lsSet('wp_bloggers', all)
 }
 
-// Polling-based subscribe (Firebase REST nu are WebSockets)
 export function subscribeBloggers(callback, interval = 5000) {
   getBloggers().then(callback)
+  if (!USE_FIREBASE) return () => {}
   const id = setInterval(() => getBloggers().then(callback), interval)
   return () => clearInterval(id)
 }
 
-// ─── LOGIN ────────────────────────────────────────────────────
-export async function loginBlogger(username, pass) {
-  const blogger = await fbGet(`bloggers/${username}`)
-  if (!blogger) return null
-  if (blogger.pass !== pass) return null
-  return blogger
-}
-
 // ─── CASINO STATS ─────────────────────────────────────────────
 export async function getCasinoStats(username) {
-  const data = await fbGet(`casinoStats/${username}`)
-  return data || {}
+  if (USE_FIREBASE) {
+    const data = await fbGet(`casinoStats/${username}`)
+    return data || INIT_CASINO_STATS[username] || {}
+  }
+  const all = lsGet('wp_casino_stats', INIT_CASINO_STATS)
+  return all[username] || {}
 }
 
 export async function setCasinoStats(username, casinoId, stats) {
-  return fbPatch(`casinoStats/${username}/${casinoId}`, stats)
+  if (USE_FIREBASE) return fbPatch(`casinoStats/${username}/${casinoId}`, stats)
+  const all = lsGet('wp_casino_stats', INIT_CASINO_STATS)
+  if (!all[username]) all[username] = {}
+  all[username][casinoId] = { ...(all[username][casinoId] || {}), ...stats }
+  lsSet('wp_casino_stats', all)
 }
 
 export function subscribeCasinoStats(username, callback, interval = 5000) {
   getCasinoStats(username).then(callback)
+  if (!USE_FIREBASE) return () => {}
   const id = setInterval(() => getCasinoStats(username).then(callback), interval)
   return () => clearInterval(id)
 }
 
 // ─── PROMO CODES ──────────────────────────────────────────────
+async function getRawPromoCodes() {
+  if (USE_FIREBASE) {
+    const data = await fbGet('promoCodes')
+    return data || INIT_PROMO
+  }
+  return lsGet('wp_promo', INIT_PROMO)
+}
+
+async function saveRawPromoCodes(data) {
+  if (USE_FIREBASE) return fbSet('promoCodes', data)
+  lsSet('wp_promo', data)
+}
+
 export async function getPromoCodes() {
-  const data = await fbGet('promoCodes')
-  if (!data) return { melbet:[], winbet:[], spinmax:[], luckydeal:[] }
+  const raw = await getRawPromoCodes()
   const result = {}
-  for (const [casinoId, raw] of Object.entries(data)) {
-    result[casinoId] = raw ? Object.values(raw) : []
+  for (const [casinoId, obj] of Object.entries(raw)) {
+    result[casinoId] = obj ? Object.values(obj) : []
   }
   return result
 }
 
 export async function addPromoCode(casinoId, codeObj) {
-  return fbPush(`promoCodes/${casinoId}`, codeObj)
+  const raw = await getRawPromoCodes()
+  if (!raw[casinoId]) raw[casinoId] = {}
+  const key = 'c' + Date.now()
+  raw[casinoId][key] = codeObj
+  await saveRawPromoCodes(raw)
 }
 
 export async function getNextAvailableCode(casinoId, username) {
-  const data = await fbGet(`promoCodes/${casinoId}`)
-  if (!data) return null
-  const entries = Object.entries(data)
-  // Dacă are deja cod atribuit
+  const raw = await getRawPromoCodes()
+  const casino = raw[casinoId] || {}
+  const entries = Object.entries(casino)
+  // Dacă are deja cod atribuit — îl returnăm
   const existing = entries.find(([, v]) => v.bloggerUsername === username && v.status === 'atribuit')
   if (existing) return existing[1]
   // Primul disponibil
   const next = entries.find(([, v]) => v.status === 'disponibil')
   if (!next) return null
   const [key, codeObj] = next
-  const updated = { ...codeObj, status:'atribuit', bloggerUsername: username, generatedAt: new Date().toLocaleString('ro-RO') }
-  await fbPatch(`promoCodes/${casinoId}/${key}`, updated)
+  const updated = { ...codeObj, status:'atribuit', bloggerUsername:username, generatedAt:new Date().toLocaleString('ro-RO') }
+  raw[casinoId][key] = updated
+  await saveRawPromoCodes(raw)
   return updated
 }
 
 export function subscribePromoCodes(callback, interval = 5000) {
   getPromoCodes().then(callback)
+  if (!USE_FIREBASE) return () => {}
   const id = setInterval(() => getPromoCodes().then(callback), interval)
   return () => clearInterval(id)
 }
 
 // ─── APPLICATIONS ─────────────────────────────────────────────
 export async function addApplication(appData) {
-  return fbPush('applications', { ...appData, id: Date.now(), status:'pending', date: new Date().toLocaleDateString('ro-RO') })
+  const data = { ...appData, id:Date.now(), status:'pending', date:new Date().toLocaleDateString('ro-RO') }
+  if (USE_FIREBASE) return fbPush('applications', data)
+  const all = lsGet('wp_applications', [])
+  all.push(data)
+  lsSet('wp_applications', all)
 }
 
 export async function getApplications() {
-  const data = await fbGet('applications')
-  return data ? toArr(data) : []
+  if (USE_FIREBASE) {
+    const data = await fbGet('applications')
+    return data ? toArr(data) : []
+  }
+  return lsGet('wp_applications', [])
 }
 
 export async function updateApplication(key, status) {
-  return fbPatch(`applications/${key}`, { status })
+  if (USE_FIREBASE) return fbPatch(`applications/${key}`, { status })
+  const all = lsGet('wp_applications', [])
+  const updated = all.map(a => (String(a.id) === String(key) ? { ...a, status } : a))
+  lsSet('wp_applications', updated)
 }
 
 export function subscribeApplications(callback, interval = 5000) {
   getApplications().then(callback)
+  if (!USE_FIREBASE) {
+    const id = setInterval(() => getApplications().then(callback), interval)
+    return () => clearInterval(id)
+  }
   const id = setInterval(() => getApplications().then(callback), interval)
   return () => clearInterval(id)
 }
 
 // ─── NOTIFICATIONS ────────────────────────────────────────────
 export async function addNotification(notif) {
-  return fbPush('notifications', { ...notif, id: Date.now(), read:false, timestamp: new Date().toLocaleString('ro-RO') })
+  const data = { ...notif, id:Date.now(), read:false, timestamp:new Date().toLocaleString('ro-RO') }
+  if (USE_FIREBASE) return fbPush('notifications', data)
+  const all = lsGet('wp_notifications', [])
+  all.unshift(data)
+  lsSet('wp_notifications', all.slice(0, 100))
 }
 
 export async function getNotifications() {
-  const data = await fbGet('notifications')
-  if (!data) return []
-  return toArr(data).sort((a,b) => b.id - a.id)
+  if (USE_FIREBASE) {
+    const data = await fbGet('notifications')
+    return data ? toArr(data).sort((a,b) => b.id-a.id) : []
+  }
+  return lsGet('wp_notifications', [])
 }
 
 export async function markRead(key) {
-  return fbPatch(`notifications/${key}`, { read: true })
+  if (USE_FIREBASE) return fbPatch(`notifications/${key}`, { read:true })
+  const all = lsGet('wp_notifications', [])
+  const updated = all.map(n => (String(n.id) === String(key) ? { ...n, read:true } : n))
+  lsSet('wp_notifications', updated)
 }
 
 export function subscribeNotifications(callback, interval = 8000) {
@@ -209,16 +294,26 @@ export function subscribeNotifications(callback, interval = 8000) {
 
 // ─── CUSTOM REQUESTS ──────────────────────────────────────────
 export async function addCustomRequest(reqData) {
-  return fbPush('customRequests', { ...reqData, id: Date.now(), status:'pending', timestamp: new Date().toLocaleString('ro-RO') })
+  const data = { ...reqData, id:Date.now(), status:'pending', timestamp:new Date().toLocaleString('ro-RO') }
+  if (USE_FIREBASE) return fbPush('customRequests', data)
+  const all = lsGet('wp_custom_requests', [])
+  all.push(data)
+  lsSet('wp_custom_requests', all)
 }
 
 export async function getCustomRequests() {
-  const data = await fbGet('customRequests')
-  return data ? toArr(data) : []
+  if (USE_FIREBASE) {
+    const data = await fbGet('customRequests')
+    return data ? toArr(data) : []
+  }
+  return lsGet('wp_custom_requests', [])
 }
 
 export async function updateCustomRequest(key, status) {
-  return fbPatch(`customRequests/${key}`, { status })
+  if (USE_FIREBASE) return fbPatch(`customRequests/${key}`, { status })
+  const all = lsGet('wp_custom_requests', [])
+  const updated = all.map(r => (String(r.id) === String(key) ? { ...r, status } : r))
+  lsSet('wp_custom_requests', updated)
 }
 
 export function subscribeCustomRequests(callback, interval = 5000) {
@@ -227,16 +322,29 @@ export function subscribeCustomRequests(callback, interval = 5000) {
   return () => clearInterval(id)
 }
 
-// ─── SEED (rulează o singură dată din Admin) ──────────────────
+// ─── SEED MANUAL (din Admin) ──────────────────────────────────
 export async function seedDatabase() {
-  const seeded = await fbGet('seeded')
-  if (seeded) return 'already_seeded'
-  await fbSet('bloggers',     SEED.bloggers)
-  await fbSet('casinoStats',  SEED.casinoStats)
-  await fbSet('promoCodes',   SEED.promoCodes)
-  await fbSet('applications', {})
-  await fbSet('notifications',{})
-  await fbSet('customRequests',{})
-  await fbSet('seeded', true)
-  return 'seeded_ok'
+  if (USE_FIREBASE) {
+    const seeded = await fbGet('seeded')
+    if (seeded) return 'already_seeded'
+    await fbSet('bloggers', INIT_BLOGGERS)
+    await fbSet('casinoStats', INIT_CASINO_STATS)
+    await fbSet('promoCodes', INIT_PROMO)
+    await fbSet('applications', {})
+    await fbSet('notifications', {})
+    await fbSet('customRequests', {})
+    await fbSet('seeded', true)
+    return 'seeded_ok'
+  } else {
+    lsSet('wp_bloggers', INIT_BLOGGERS)
+    lsSet('wp_casino_stats', INIT_CASINO_STATS)
+    lsSet('wp_promo', INIT_PROMO)
+    lsSet('wp_applications', [])
+    lsSet('wp_notifications', [])
+    lsSet('wp_custom_requests', [])
+    lsSet('wp_seeded', true)
+    return 'seeded_ls'
+  }
 }
+
+export const isFirebaseEnabled = USE_FIREBASE
