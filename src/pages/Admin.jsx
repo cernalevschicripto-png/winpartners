@@ -10,6 +10,51 @@ const initBloggers = [
   {id:3,name:'Vlad Gaming',username:'vladgaming',platform:'YouTube',promoCode:'VLADGAMING_WIN',country:'Ucraina',phone:'+380671234',status:'pending',clicks:234,regs:12,deposits:3,revenue:180,commission:20,paid:0},
 ]
 
+const CASINOS_LIST = [
+  { id: 'winbet',    name: 'WinBet Casino',    color: '#f5a623' },
+  { id: 'spinmax',   name: 'SpinMax Casino',   color: '#3b82f6' },
+  { id: 'luckydeal', name: 'LuckyDeal Casino', color: '#10b981' },
+]
+
+const initPromoCodes = {
+  winbet: [
+    {code:'WIN001',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'WIN002',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'WIN003',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'WIN004',status:'folosit',bloggerUsername:'ionpopescu',generatedAt:'02.06.2026'},
+    {code:'WIN005',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'WIN006',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'WIN007',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'WIN008',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'WIN009',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'WIN010',status:'folosit',bloggerUsername:'alexmarin',generatedAt:'05.06.2026'},
+  ],
+  spinmax: [
+    {code:'SPX001',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'SPX002',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'SPX003',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'SPX004',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'SPX005',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'SPX006',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'SPX007',status:'folosit',bloggerUsername:'ionpopescu',generatedAt:'03.06.2026'},
+    {code:'SPX008',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'SPX009',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'SPX010',status:'disponibil',bloggerUsername:null,generatedAt:null},
+  ],
+  luckydeal: [
+    {code:'LKD001',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'LKD002',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'LKD003',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'LKD004',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'LKD005',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'LKD006',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'LKD007',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'LKD008',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'LKD009',status:'disponibil',bloggerUsername:null,generatedAt:null},
+    {code:'LKD010',status:'disponibil',bloggerUsername:null,generatedAt:null},
+  ],
+}
+
 export default function Admin() {
   const [pass, setPass] = useState('')
   const [auth, setAuth] = useState(false)
@@ -21,6 +66,10 @@ export default function Admin() {
   const [newB, setNewB] = useState({name:'',username:'',platform:'TikTok',promoCode:'',country:'Moldova',phone:'',commission:20})
   const [payModal, setPayModal] = useState(null)
   const [payAmount, setPayAmount] = useState('')
+  const [promoCodes, setPromoCodes] = useState(initPromoCodes)
+  const [selectedCasino, setSelectedCasino] = useState('winbet')
+  const [newCodeInput, setNewCodeInput] = useState('')
+  const [addCodeMode, setAddCodeMode] = useState(false)
   const [payments, setPayments] = useState([])
   const [requests, setRequests] = useState([
     {id:1,name:'Ion Popescu',type:'Cod personalizat',detail:'IONEL',date:'10.06.2026',status:'pending'},
@@ -98,13 +147,14 @@ export default function Admin() {
       </nav>
 
       <div style={{maxWidth:1200,margin:'0 auto',padding:'2rem 1.5rem'}}>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:12,marginBottom:'1.5rem'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:12,marginBottom:'1.5rem'}}>
           {[
             ['Bloggeri activi', activeBloggers, '#10b981'],
             ['Venit total', '$'+totalRevenue.toLocaleString(), gold],
             ['Plătit', '$'+totalPaid.toLocaleString(), '#f59e0b'],
             ['De plătit', '$'+Math.round(totalPending).toLocaleString(), '#ef4444'],
             ['Profit tău', '$'+Math.round(totalRevenue*0.05).toLocaleString(), gold],
+            ['Coduri folosite', Object.values(promoCodes).flat().filter(c=>c.status==='folosit').length+' / '+Object.values(promoCodes).flat().length, '#a78bfa'],
           ].map(([l,v,c]) => (
             <div key={l} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:12,padding:'1.25rem'}}>
               <div style={{fontSize:11,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:6}}>{l}</div>
@@ -114,10 +164,148 @@ export default function Admin() {
         </div>
 
         <div style={{display:'flex',gap:4,borderBottom:'1px solid rgba(255,255,255,0.07)',marginBottom:'1.5rem'}}>
-          {[['bloggers','Bloggeri'],['update','Actualizare'],['requests','Cereri'],['payments','Plăți']].map(([id,lbl]) => (
+          {[['bloggers','Bloggeri'],['promo','Promcoduri'],['update','Actualizare'],['requests','Cereri'],['payments','Plăți']].map(([id,lbl]) => (
             <button key={id} style={{padding:'8px 18px',fontSize:13,cursor:'pointer',border:'none',background:'none',color:tab===id?gold:'rgba(255,255,255,0.4)',borderBottom:tab===id?`2px solid ${gold}`:'2px solid transparent',marginBottom:-1,fontWeight:tab===id?700:400}} onClick={() => setTab(id)}>{lbl}</button>
           ))}
         </div>
+
+        {tab==='promo' && (
+          <div>
+            {/* Casino selector */}
+            <div style={{display:'flex',gap:8,marginBottom:'1.5rem',flexWrap:'wrap'}}>
+              {CASINOS_LIST.map(casino => {
+                const codes = promoCodes[casino.id] || []
+                const disponibile = codes.filter(c => c.status==='disponibil').length
+                const folosite = codes.filter(c => c.status==='folosit').length
+                return (
+                  <div key={casino.id}
+                    onClick={() => { setSelectedCasino(casino.id); setAddCodeMode(false) }}
+                    style={{flex:1,minWidth:200,background:selectedCasino===casino.id?'rgba(245,166,35,0.08)':'rgba(255,255,255,0.02)',border:selectedCasino===casino.id?`2px solid ${casino.color}`:'2px solid rgba(255,255,255,0.07)',borderRadius:12,padding:'1rem 1.25rem',cursor:'pointer',transition:'all .15s'}}>
+                    <div style={{fontWeight:700,fontSize:15,marginBottom:6,color:selectedCasino===casino.id?casino.color:'#e2e8f0'}}>{casino.name}</div>
+                    <div style={{display:'flex',gap:16}}>
+                      <div><span style={{fontSize:22,fontWeight:800,color:'#10b981'}}>{disponibile}</span><div style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.06em'}}>Disponibile</div></div>
+                      <div><span style={{fontSize:22,fontWeight:800,color:'#f59e0b'}}>{folosite}</span><div style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.06em'}}>Folosite</div></div>
+                      <div><span style={{fontSize:22,fontWeight:800,color:'rgba(255,255,255,0.4)'}}>{codes.length}</span><div style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.06em'}}>Total</div></div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Selected casino codes table */}
+            {selectedCasino && (() => {
+              const casino = CASINOS_LIST.find(c => c.id===selectedCasino)
+              const codes = promoCodes[selectedCasino] || []
+              const addCodes = () => {
+                if (!newCodeInput.trim()) return
+                const newCodes = newCodeInput.split(/[,\n\s]+/).map(s => s.trim().toUpperCase()).filter(Boolean)
+                setPromoCodes(prev => ({
+                  ...prev,
+                  [selectedCasino]: [...prev[selectedCasino], ...newCodes.map(code => ({code, status:'disponibil', bloggerUsername:null, generatedAt:null}))]
+                }))
+                setNewCodeInput('')
+                setAddCodeMode(false)
+              }
+              const deleteCode = (code) => {
+                setPromoCodes(prev => ({
+                  ...prev,
+                  [selectedCasino]: prev[selectedCasino].filter(c => c.code !== code)
+                }))
+              }
+              const resetCode = (code) => {
+                setPromoCodes(prev => ({
+                  ...prev,
+                  [selectedCasino]: prev[selectedCasino].map(c => c.code===code ? {...c, status:'disponibil', bloggerUsername:null, generatedAt:null} : c)
+                }))
+              }
+              return (
+                <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:12,overflow:'hidden'}}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'1rem 1.25rem',borderBottom:'1px solid rgba(255,255,255,0.07)'}}>
+                    <div>
+                      <span style={{fontWeight:700,fontSize:15,color:casino.color}}>{casino.name}</span>
+                      <span style={{marginLeft:12,fontSize:12,color:'rgba(255,255,255,0.35)'}}>{codes.filter(c=>c.status==='disponibil').length} disponibile din {codes.length}</span>
+                    </div>
+                    <button
+                      onClick={() => setAddCodeMode(m => !m)}
+                      style={{padding:'6px 16px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:6,background:gold,color:'#000'}}>
+                      + Adaugă coduri
+                    </button>
+                  </div>
+
+                  {addCodeMode && (
+                    <div style={{padding:'1rem 1.25rem',borderBottom:'1px solid rgba(255,255,255,0.07)',background:'rgba(245,166,35,0.04)'}}>
+                      <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',marginBottom:8}}>
+                        Introdu codurile (separate prin virgulă, spațiu sau linie nouă):
+                      </div>
+                      <textarea
+                        style={{...inp,height:80,resize:'vertical',fontFamily:'monospace',fontSize:13,letterSpacing:1}}
+                        placeholder={'WIN011, WIN012, WIN013\nsau câte unul pe linie'}
+                        value={newCodeInput}
+                        onChange={e => setNewCodeInput(e.target.value)}
+                      />
+                      <div style={{display:'flex',gap:8,marginTop:8}}>
+                        <button onClick={addCodes} style={{padding:'6px 16px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:6,background:'#10b981',color:'#fff'}}>✓ Adaugă</button>
+                        <button onClick={() => {setAddCodeMode(false);setNewCodeInput('')}} style={{padding:'6px 14px',fontSize:13,cursor:'pointer',border:'1px solid rgba(255,255,255,0.1)',borderRadius:6,background:'none',color:'#94a3b8'}}>Anulează</button>
+                      </div>
+                    </div>
+                  )}
+
+                  <div style={{overflowX:'auto'}}>
+                    <table style={{width:'100%',borderCollapse:'collapse',fontSize:13}}>
+                      <thead>
+                        <tr>
+                          {['Cod','Status','Blogger','Data generării','Acțiuni'].map(h => <th key={h} style={th}>{h}</th>)}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {codes.length === 0 ? (
+                          <tr><td colSpan={5} style={{...td,textAlign:'center',color:'rgba(255,255,255,0.25)',padding:'2rem'}}>Nu există coduri. Apasă "+ Adaugă coduri" pentru a adăuga.</td></tr>
+                        ) : codes.map((entry, i) => (
+                          <tr key={entry.code} style={{background:i%2===0?'rgba(255,255,255,0.01)':'transparent'}}>
+                            <td style={td}>
+                              <span style={{fontFamily:'monospace',fontWeight:700,fontSize:14,color:entry.status==='disponibil'?casino.color:'rgba(255,255,255,0.4)'}}>{entry.code}</span>
+                            </td>
+                            <td style={td}>
+                              <span style={{
+                                padding:'2px 10px',borderRadius:20,fontSize:11,fontWeight:600,
+                                background:entry.status==='disponibil'?'#10b98122':'#f59e0b22',
+                                color:entry.status==='disponibil'?'#10b981':'#f59e0b'
+                              }}>
+                                {entry.status==='disponibil' ? '✓ Disponibil' : '⟳ Folosit'}
+                              </span>
+                            </td>
+                            <td style={td}>
+                              {entry.bloggerUsername
+                                ? <span style={{color:'#93c5fd'}}>@{entry.bloggerUsername}</span>
+                                : <span style={{color:'rgba(255,255,255,0.2)'}}>—</span>}
+                            </td>
+                            <td style={td}>
+                              {entry.generatedAt || <span style={{color:'rgba(255,255,255,0.2)'}}>—</span>}
+                            </td>
+                            <td style={td}>
+                              <div style={{display:'flex',gap:6}}>
+                                {entry.status==='folosit' && (
+                                  <button onClick={() => resetCode(entry.code)}
+                                    style={{padding:'3px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(245,166,35,0.3)',borderRadius:4,background:'none',color:gold}}>
+                                    Reset
+                                  </button>
+                                )}
+                                <button onClick={() => deleteCode(entry.code)}
+                                  style={{padding:'3px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(239,68,68,0.3)',borderRadius:4,background:'none',color:'#ef4444'}}>
+                                  Șterge
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )
+            })()}
+          </div>
+        )}
 
         {tab==='bloggers' && (
           <div>
