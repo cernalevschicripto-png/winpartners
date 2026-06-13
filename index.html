@@ -61,7 +61,7 @@
       window.addEventListener('beforeinstallprompt', function(e) {
         e.preventDefault();
         deferredPrompt = e;
-        setTimeout(function() { showInstallBanner(e); }, 3000);
+        setTimeout(function() { showInstallBanner(e); }, 30000);
       });
 
       function showInstallBanner(prompt) {
