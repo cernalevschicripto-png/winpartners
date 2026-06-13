@@ -109,27 +109,37 @@ const CASINOS = [
     name: 'WinBet Casino',
     logo: '🎰',
     color: '#f5a623',
+    commissionPct: 25,
     commission: '25% Revenue Share',
     description: 'Casino principal — sporturi + slots + live dealer',
-    promoCodes: [], // populate din admin
+    minPayout: '$30',
+    payFreq: 'Săptămânal',
+    // Statistici demo — în producție vin din admin prin actualizare manuală
+    stats: { regs: 23, deposits: 8, revenue: 3680, commission: 920, clicks: 1247 },
   },
   {
     id: 'spinmax',
     name: 'SpinMax Casino',
     logo: '🎲',
     color: '#3b82f6',
+    commissionPct: 30,
     commission: '30% Revenue Share',
     description: 'Specializat slots + jackpot-uri',
-    promoCodes: [],
+    minPayout: '$50',
+    payFreq: 'Bi-săptămânal',
+    stats: { regs: 11, deposits: 4, revenue: 740, commission: 222, clicks: 534 },
   },
   {
     id: 'luckydeal',
     name: 'LuckyDeal Casino',
     logo: '🃏',
     color: '#10b981',
+    commissionPct: 20,
     commission: '20% Revenue Share + CPA',
     description: 'Live dealer + poker + roulette',
-    promoCodes: [],
+    minPayout: '$30',
+    payFreq: 'Lunar',
+    stats: { regs: 0, deposits: 0, revenue: 0, commission: 0, clicks: 0 },
   },
 ]
 
@@ -801,77 +811,174 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* === CONTACTE === */}
+          {/* === CAZINOURI PARTENERE === */}
           {page==='cazinouri'&&(
             <div>
-              <p style={{color:txtSub,marginBottom:'1.5rem',fontSize:14,lineHeight:1.6}}>
-                Alege cazinoul pe care îl reclamezi și generează un cod promoțional unic. Fiecare cod este atribuit contului tău — statisticile și plățile se calculează automat.
-              </p>
-              {/* Casino cards grid */}
-              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:16,marginBottom:'2rem'}}>
-                {CASINOS.map(casino=>(
-                  <div key={casino.id} onClick={()=>{setSelectedCasino(casino.id===selectedCasino?null:casino.id);setGeneratedCode(null)}}
-                    style={{...card,cursor:'pointer',border:selectedCasino===casino.id?`2px solid ${casino.color}`:`2px solid ${bdr}`,transition:'all .15s',position:'relative',overflow:'hidden'}}>
-                    {selectedCasino===casino.id&&<div style={{position:'absolute',top:0,left:0,right:0,height:3,background:casino.color}}/>}
-                    <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
-                      <div style={{width:44,height:44,borderRadius:10,background:`${casino.color}18`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>{casino.logo}</div>
-                      <div>
-                        <div style={{fontWeight:700,fontSize:15,color:txt}}>{casino.name}</div>
-                        <div style={{fontSize:11,color:casino.color,fontWeight:600}}>{casino.commission}</div>
-                      </div>
-                    </div>
-                    <div style={{fontSize:12,color:txtSub,lineHeight:1.5,marginBottom:12}}>{casino.description}</div>
-                    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                      <div style={{fontSize:11,color:txtSub}}>
-                        <span style={{color:selectedCasino===casino.id?casino.color:'#10b981',fontWeight:600}}>
-                          {selectedCasino===casino.id ? '✓ Selectat' : '● Disponibil'}
-                        </span>
-                      </div>
-                      <div style={{fontSize:11,color:txtSub}}>{DEMO_CODES[casino.id]?.length || 0} coduri disponibile</div>
-                    </div>
+              {/* Sumar total deasupra */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)',gap:12,marginBottom:'1.5rem'}}>
+                {[
+                  ['Total înregistrări', CASINOS.reduce((s,c)=>s+(c.stats.regs||0),0), txt, '👥'],
+                  ['Total depunători', CASINOS.reduce((s,c)=>s+(c.stats.deposits||0),0), txt, '💳'],
+                  ['Venit total generat', '$'+CASINOS.reduce((s,c)=>s+(c.stats.revenue||0),0).toLocaleString(), '#3b82f6', '📈'],
+                  ['Comision total al meu', '$'+CASINOS.reduce((s,c)=>s+(c.stats.commission||0),0).toLocaleString(), '#10b981', '💰'],
+                ].map(([l,v,c,icon])=>(
+                  <div key={l} style={{...card,textAlign:'center',padding:'14px 12px'}}>
+                    <div style={{fontSize:18,marginBottom:4}}>{icon}</div>
+                    <div style={{fontSize:11,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4,lineHeight:1.3}}>{l}</div>
+                    <div style={{fontSize:22,fontWeight:800,color:c}}>{v}</div>
                   </div>
                 ))}
               </div>
 
-              {/* Generare cod */}
-              {selectedCasino && (
-                <div style={{...card,border:`1px solid ${CASINOS.find(c=>c.id===selectedCasino)?.color||gold}22`,marginBottom:'1.5rem'}}>
-                  <div style={{fontSize:16,fontWeight:700,marginBottom:4,color:txt}}>
-                    Generează cod promoțional — {CASINOS.find(c=>c.id===selectedCasino)?.name}
-                  </div>
-                  <div style={{fontSize:13,color:txtSub,marginBottom:20}}>
-                    Codul generat va fi asociat contului tău <strong>@{D.username}</strong> și va fi vizibil în panoul admin.
-                  </div>
+              {/* Carduri casino — fiecare cu statistici */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:16,marginBottom:'1.5rem'}}>
+                {CASINOS.map(casino=>{
+                  const myCode = myCodes.find(c=>c.casinoId===casino.id)
+                  const isActive = !!myCode
+                  const isSelected = selectedCasino===casino.id
+                  return (
+                    <div key={casino.id}
+                      onClick={()=>{setSelectedCasino(isSelected?null:casino.id);setGeneratedCode(null)}}
+                      style={{...card,cursor:'pointer',border:isSelected?`2px solid ${casino.color}`:`2px solid ${isActive?casino.color+'44':bdr}`,transition:'all .2s',position:'relative',overflow:'hidden',padding:0}}>
 
-                  {!generatedCode ? (
-                    <button
-                      onClick={()=>generatePromoCode(selectedCasino)}
-                      disabled={codeGenerating}
-                      style={{...btnPrimary,padding:'12px 32px',fontSize:14,borderRadius:8,width:isMobile?'100%':'auto',opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>
-                      {codeGenerating ? '⏳ Generare...' : '🎁 Generează Cod Promoțional'}
-                    </button>
-                  ) : (
-                    <div>
-                      <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'20px',marginBottom:16,textAlign:'center'}}>
-                        <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.08em'}}>✅ Codul tău promoțional</div>
-                        <div style={{fontSize:32,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:4,marginBottom:8}}>{generatedCode.code}</div>
-                        <div style={{fontSize:12,color:'#16a34a'}}>Casino: {CASINOS.find(c=>c.id===generatedCode.casinoId)?.name} · Blogger: @{generatedCode.bloggerUsername}</div>
+                      {/* Header casino */}
+                      <div style={{background:isActive?`${casino.color}12`:'#fafafa',padding:'14px 16px',borderBottom:`1px solid ${bdr}`,display:'flex',alignItems:'center',gap:12}}>
+                        <div style={{width:40,height:40,borderRadius:10,background:`${casino.color}20`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0}}>{casino.logo}</div>
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontWeight:700,fontSize:14,color:txt,marginBottom:2}}>{casino.name}</div>
+                          <div style={{fontSize:11,color:casino.color,fontWeight:700}}>{casino.commission}</div>
+                        </div>
+                        {isActive && <div style={{background:casino.color,color:'#000',fontSize:10,fontWeight:700,padding:'3px 8px',borderRadius:12,flexShrink:0}}>ACTIV</div>}
                       </div>
-                      <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
-                        <button onClick={()=>copy(generatedCode.code,'promoCode')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>
-                          {copied==='promoCode'?'✓ Copiat!':'📋 Copiază codul'}
-                        </button>
-                        <button onClick={()=>{setGeneratedCode(null)}} style={{...btnOutline(txtSub),padding:'10px 20px',fontSize:13}}>
-                          Generează alt cod
-                        </button>
+
+                      {/* Statistici per casino */}
+                      <div style={{padding:'12px 16px'}}>
+                        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,marginBottom:12}}>
+                          {[
+                            ['Înreg.', casino.stats.regs, txt],
+                            ['Depun.', casino.stats.deposits, '#3b82f6'],
+                            ['Comision', '$'+casino.stats.commission, '#10b981'],
+                          ].map(([l,v,c])=>(
+                            <div key={l} style={{textAlign:'center',background:'#f8f9fa',borderRadius:6,padding:'8px 4px'}}>
+                              <div style={{fontSize:10,color:txtSub,marginBottom:3,textTransform:'uppercase',letterSpacing:'.04em'}}>{l}</div>
+                              <div style={{fontSize:16,fontWeight:800,color:c}}>{v}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Codul meu dacă există */}
+                        {isActive ? (
+                          <div style={{background:`${casino.color}0d`,border:`1px solid ${casino.color}30`,borderRadius:6,padding:'8px 12px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                            <div>
+                              <div style={{fontSize:10,color:txtSub,marginBottom:1}}>Codul meu</div>
+                              <div style={{fontFamily:'monospace',fontWeight:900,color:casino.color,fontSize:15,letterSpacing:1}}>{myCode.code}</div>
+                            </div>
+                            <button onClick={e=>{e.stopPropagation();copy(myCode.code,'code_'+casino.id)}}
+                              style={{padding:'4px 10px',fontSize:11,fontWeight:600,cursor:'pointer',border:`1px solid ${casino.color}40`,borderRadius:6,background:'none',color:casino.color,fontFamily:'inherit'}}>
+                              {copied==='code_'+casino.id?'✓':'Copiază'}
+                            </button>
+                          </div>
+                        ) : (
+                          <div style={{background:'#f0fdf4',border:'1px solid #bbf7d0',borderRadius:6,padding:'8px 12px',textAlign:'center'}}>
+                            <div style={{fontSize:12,color:'#16a34a',fontWeight:600}}>Disponibil — generează cod</div>
+                          </div>
+                        )}
                       </div>
-                      <div style={{marginTop:12,padding:'10px 14px',background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,fontSize:12,color:'#854d0e'}}>
-                        ⚠️ Folosește acest cod în descrierea videoclipurilor/postărilor tale. Fiecare jucător care se înregistrează cu codul tău îți aduce comision automat.
+
+                      {/* Footer */}
+                      <div style={{padding:'8px 16px',borderTop:`1px solid ${bdr}`,display:'flex',justifyContent:'space-between',fontSize:11,color:txtSub,background:'#fafafa'}}>
+                        <span>Plată: {casino.payFreq}</span>
+                        <span>Min: {casino.minPayout}</span>
                       </div>
                     </div>
-                  )}
-                </div>
-              )}
+                  )
+                })}
+              </div>
+
+              {/* Panoul de acțiune — apare când selectezi un casino */}
+              {selectedCasino && (()=>{
+                const casino = CASINOS.find(c=>c.id===selectedCasino)
+                const myCode = myCodes.find(c=>c.casinoId===selectedCasino)
+                return (
+                  <div style={{...card,border:`2px solid ${casino.color}44`,marginBottom:'1.5rem'}}>
+                    <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:16}}>
+                      <div style={{width:36,height:36,borderRadius:8,background:`${casino.color}20`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>{casino.logo}</div>
+                      <div>
+                        <div style={{fontWeight:700,fontSize:15,color:txt}}>{casino.name}</div>
+                        <div style={{fontSize:12,color:txtSub}}>{casino.description}</div>
+                      </div>
+                    </div>
+
+                    {myCode ? (
+                      /* Cod deja generat */
+                      <div>
+                        <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:14,display:'flex',alignItems:'center',gap:16}}>
+                          <div style={{flex:1}}>
+                            <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:4,textTransform:'uppercase',letterSpacing:'.06em'}}>✅ Codul tău activ</div>
+                            <div style={{fontSize:28,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{myCode.code}</div>
+                          </div>
+                          <div style={{textAlign:'right'}}>
+                            <div style={{fontSize:11,color:txtSub,marginBottom:2}}>Generat pe</div>
+                            <div style={{fontSize:13,fontWeight:600,color:txt}}>{myCode.date}</div>
+                          </div>
+                        </div>
+                        <div style={{display:'flex',gap:10,flexWrap:'wrap',marginBottom:12}}>
+                          <button onClick={()=>copy(myCode.code,'panel_code')} style={{...btnPrimary,padding:'9px 20px',fontSize:13}}>
+                            {copied==='panel_code'?'✓ Copiat!':'📋 Copiază codul'}
+                          </button>
+                          <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(casino.color),padding:'9px 20px',fontSize:13}}>
+                            ✨ Vreau cod cu numele meu
+                          </button>
+                        </div>
+                        <div style={{padding:'10px 14px',background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,fontSize:12,color:'#854d0e'}}>
+                          ⚠️ Pune codul <strong>{myCode.code}</strong> în descrierea postărilor tale. Fiecare jucător care îl folosește la înregistrare îți aduce {casino.commissionPct}% din pierderile lui.
+                        </div>
+                      </div>
+                    ) : (
+                      /* Nu are cod încă */
+                      <div>
+                        {!generatedCode ? (
+                          <div>
+                            <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>
+                              Generează un cod promoțional unic pentru <strong>{casino.name}</strong>. Codul va fi asociat contului tău @{D.username} și vei câștiga <strong style={{color:casino.color}}>{casino.commissionPct}%</strong> din pierderile jucătorilor care îl folosesc.
+                            </p>
+                            <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                              <button onClick={()=>generatePromoCode(selectedCasino)} disabled={codeGenerating}
+                                style={{...btnPrimary,padding:'12px 28px',fontSize:14,borderRadius:8,opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>
+                                {codeGenerating?'⏳ Se atribuie codul...':'🎁 Generează Cod Promoțional'}
+                              </button>
+                              <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(casino.color),padding:'12px 20px',fontSize:13}}>
+                                ✨ Vreau cod personalizat
+                              </button>
+                            </div>
+                          </div>
+                        ) : generatedCode.error ? (
+                          <div style={{background:'#fef2f2',border:'1px solid #fca5a5',borderRadius:8,padding:'16px',textAlign:'center'}}>
+                            <div style={{fontSize:14,color:'#dc2626',fontWeight:600,marginBottom:4}}>⚠️ Momentan nu sunt coduri disponibile</div>
+                            <div style={{fontSize:12,color:'#9ca3af'}}>Contactează managerul pentru alocare manuală.</div>
+                          </div>
+                        ) : (
+                          <div>
+                            <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'20px',marginBottom:14,textAlign:'center'}}>
+                              <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.08em'}}>✅ Codul tău promoțional</div>
+                              <div style={{fontSize:32,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:4,marginBottom:8}}>{generatedCode.code}</div>
+                              <div style={{fontSize:12,color:'#16a34a'}}>{casino.name} · @{generatedCode.bloggerUsername}</div>
+                            </div>
+                            <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                              <button onClick={()=>copy(generatedCode.code,'promoCode')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>
+                                {copied==='promoCode'?'✓ Copiat!':'📋 Copiază codul'}
+                              </button>
+                              <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(casino.color),padding:'10px 16px',fontSize:13}}>
+                                ✨ Vreau cod cu numele meu
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+              })()}
 
               {/* Buton cod personalizat */}
               <div style={{...card,marginBottom:'1rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:12}}>
@@ -908,61 +1015,32 @@ export default function Dashboard() {
                 </div>
               )}
 
-              {/* Tabel coduri generate */}
-              <div style={card}>
-                <div style={{fontSize:15,fontWeight:700,marginBottom:12,color:txt}}>Codurile mele active</div>
-                {myCodes.length === 0 ? (
-                  <div style={{textAlign:'center',padding:'24px',color:txtSub,fontSize:13,fontStyle:'italic'}}>
-                    Nu ai generat încă niciun cod. Selectează un cazinou și apasă Generează.
-                  </div>
-                ) : (
+              {/* Tabel toate codurile mele */}
+              {myCodes.length > 0 && (
+                <div style={{...card,padding:0,overflow:'hidden'}}>
+                  <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,fontSize:14,fontWeight:700,color:txt}}>Toate codurile mele active</div>
                   <div style={{overflowX:'auto'}}>
                     <table style={{width:'100%',borderCollapse:'collapse'}}>
-                      <thead><tr>{['Casino','Cod promoțional','BTAG','Data','Înregistrări','Comision'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                      <thead><tr>{['Casino','Cod','Data generării','Înregistrări','Comision'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                       <tbody>{myCodes.map((c,i)=>(
                         <tr key={c.code} style={{background:i%2===0?'#fff':'#fafafa'}}>
-                          <td style={TD}>{c.casinoName}</td>
-                          <td style={{...TD,fontFamily:'monospace',fontWeight:700,color:c.color||gold}}>{c.code}</td>
-                          <td style={{...TD,fontSize:11,color:txtSub}}>d_wp_{D.username}_{c.code.toLowerCase()}</td>
+                          <td style={TD}>
+                            <div style={{display:'flex',alignItems:'center',gap:8}}>
+                              <span style={{width:8,height:8,borderRadius:'50%',background:c.color||gold,display:'inline-block',flexShrink:0}}/>
+                              {c.casinoName}
+                            </div>
+                          </td>
+                          <td style={{...TD,fontFamily:'monospace',fontWeight:800,color:c.color||gold,fontSize:14}}>{c.code}</td>
                           <td style={{...TD,color:txtSub}}>{c.date}</td>
                           <td style={TD}>{c.regs}</td>
-                          <td style={{...TD,color:'#10b981',fontWeight:600}}>${c.commission.toFixed(2)}</td>
+                          <td style={{...TD,color:'#10b981',fontWeight:700}}>${c.commission.toFixed(2)}</td>
                         </tr>
                       ))}</tbody>
                     </table>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
-              {/* PWA Install Card */}
-              <div style={{...card,marginTop:16,background:'linear-gradient(135deg,#1a1a2e 0%,#2a1a0a 100%)',border:`1px solid rgba(245,166,35,0.2)`}}>
-                <div style={{fontSize:16,fontWeight:700,color:txt,marginBottom:12,display:'flex',alignItems:'center',gap:10}}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                  Instalează aplicația pe telefon
-                </div>
-                <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>Accesează dashboardul rapid de pe ecranul principal — fără browser, exact ca o aplicație nativă.</p>
-                <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12,marginBottom:14}}>
-                  <div style={{background:'rgba(255,255,255,0.03)',borderRadius:10,padding:'12px 14px',border:'1px solid rgba(255,255,255,0.07)'}}>
-                    <div style={{fontWeight:600,fontSize:13,marginBottom:8,color:txt}}>Android — Chrome</div>
-                    <ol style={{margin:0,paddingLeft:16,fontSize:12,color:txtSub,lineHeight:2.2}}>
-                      <li>Apasă meniu ⋮ (sus-dreapta)</li>
-                      <li>Selectează Adauga pe ecranul principal</li>
-                      <li>Confirma cu Adauga</li>
-                    </ol>
-                  </div>
-                  <div style={{background:'rgba(255,255,255,0.03)',borderRadius:10,padding:'12px 14px',border:'1px solid rgba(255,255,255,0.07)'}}>
-                    <div style={{fontWeight:600,fontSize:13,marginBottom:8,color:txt}}>iPhone — Safari</div>
-                    <ol style={{margin:0,paddingLeft:16,fontSize:12,color:txtSub,lineHeight:2.2}}>
-                      <li>Apasă Share (jos)</li>
-                      <li>Selecteaza Adauga pe ecran principal</li>
-                      <li>Apasă Adauga sus-dreapta</li>
-                    </ol>
-                  </div>
-                </div>
-                <div style={{padding:'10px 14px',background:'rgba(245,166,35,0.06)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:8,fontSize:12,color:txtSub}}>
-                  Daca apare un banner Instaleaza WinPartners — apasă direct pe el!
-                </div>
-              </div>
             </div>
           )}
 
