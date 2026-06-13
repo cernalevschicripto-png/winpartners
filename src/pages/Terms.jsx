@@ -16,7 +16,7 @@ export default function Terms() {
           ['2. Eligibilitate','Programul de afiliere WinPartners este deschis persoanelor cu vârsta de 18 ani sau mai mult. Participanții trebuie să respecte legile locale privind jocurile de noroc.'],
           ['3. Comisioane','Partenerii primesc 20% din veniturile nete generate de jucătorii recomandați. Comisionul se calculează lunar și se plătește săptămânal pentru solduri ce depășesc $30.'],
           ['4. Cod promoțional','Fiecare partener primește un cod unic. Este interzisă utilizarea codului în moduri frauduloase sau înșelătoare. WinPartners își rezervă dreptul de a anula coduri utilizate necorespunzător.'],
-          ['5. Plăți','Plățile se efectuează prin metodele disponibile în platforma. Minimum de retragere: $30. Procesare în 2-5 zile lucrătoare.'],
+          ['5. Plăți și comisioane de procesare','Comisioanele se plătesc săptămânal, cu un minim de $30 per retragere. WinPartners aplică o taxă de procesare de 5% din suma retrasă, pentru acoperirea costurilor de transfer interbancar și crypto. Suma netă primită = suma solicitată × 0.95. Procesare în 24-48 ore. Metodele acceptate: Bitcoin, USDT, Ethereum, Binance Pay, Skrill, Neteller.'],
           ['6. Terminare','WinPartners poate suspenda sau termina orice cont de partener care încalcă acești termeni, cu notificare prealabilă unde este posibil.'],
         ].map(([t,d])=>(
           <div key={t} style={{marginBottom:32}}>

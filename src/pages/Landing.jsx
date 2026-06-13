@@ -123,10 +123,7 @@ export default function Landing() {
       <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:100,background:'rgba(10,10,15,0.98)',borderBottom:'1px solid rgba(245,166,35,0.15)',padding:'0 1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:64,backdropFilter:'blur(10px)'}}>
         {/* LOGO */}
         <div onClick={()=>navigate('/')} style={{cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
-          <svg width="32" height="32" viewBox="0 0 32 32">
-            <polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill={gold} opacity="0.15" stroke={gold} strokeWidth="1.5"/>
-            <text x="16" y="21" textAnchor="middle" fontSize="14" fontWeight="900" fill={gold}>W</text>
-          </svg>
+          <img src="/icons/logo.png" width="32" height="32" alt="WinPartners" style={{borderRadius:4}}/>
           <span style={{fontSize:18,fontWeight:900,letterSpacing:'.02em'}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></span>
         </div>
 

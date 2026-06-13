@@ -1223,7 +1223,24 @@ export default function Dashboard() {
                 <input style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:6,fontFamily:'monospace',fontSize:12}}
                   placeholder={payMethod.includes('Bitcoin')?'bc1q...':payMethod.includes('TRC20')?'T...':payMethod.includes('Binance')?'ID Binance Pay...':'Adresa sau email'}
                   value={payAddr} onChange={e=>setPayAddr(e.target.value)}/>
-                <div style={{fontSize:11,color:txtSub,marginBottom:14}}>
+                <div style={{background:'rgba(245,166,35,0.06)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:6,padding:'8px 12px',marginBottom:10,fontSize:12,color:txtSub}}>
+                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:3}}>
+                    <span>Sumă solicitată:</span>
+                    <strong style={{color:txt}}>${D.bal.available}</strong>
+                  </div>
+                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:3}}>
+                    <span>Taxă procesare (5%):</span>
+                    <span style={{color:'#ef4444'}}>-${(D.bal.available*0.05).toFixed(2)}</span>
+                  </div>
+                  <div style={{display:'flex',justifyContent:'space-between',borderTop:'1px solid rgba(255,255,255,0.08)',paddingTop:4,marginTop:4}}>
+                    <strong>Primești:</strong>
+                    <strong style={{color:'#10b981'}}>${(D.bal.available*0.95).toFixed(2)}</strong>
+                  </div>
+                </div>
+                <div style={{fontSize:10,color:'rgba(255,255,255,0.25)',marginBottom:10}}>
+                  Se aplică o taxă de procesare de 5% pentru acoperirea costurilor de transfer. Detalii în <span style={{color:gold,cursor:'pointer'}} onClick={()=>{}}>Termeni și Condiții</span>.
+                </div>
+                <div style={{fontSize:11,color:txtSub,marginBottom:10}}>
                   Verifică adresa cu atenție. Tranzacțiile crypto sunt ireversibile.
                 </div>
                 <button style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6,opacity:(!payAddr||D.bal.available<30)?0.5:1}}
