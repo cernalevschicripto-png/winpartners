@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { _p } from '../cfg.js'
 
 const gold = '#f5a623'
-const PASS = 'winadmin2026'
+const PASS = _p
 
 const initBloggers = [
   {id:1,name:'Ion Popescu',username:'ionpopescu',platform:'TikTok',promoCode:'IONPOPESCU_WIN',country:'Moldova',phone:'+373601234',status:'active',clicks:1247,regs:89,deposits:34,revenue:1840,commission:20,paid:920},

@@ -11,6 +11,7 @@ import FAQ from './pages/FAQ.jsx'
 import Contact from './pages/Contact.jsx'
 import Terms from './pages/Terms.jsx'
 import Admin from './pages/Admin.jsx'
+import { _r } from './cfg.js'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -26,7 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/terms" element={<Terms />} />
-        <Route path="/xadmin2026" element={<Admin />} />
+        <Route path={_r} element={<Admin />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
