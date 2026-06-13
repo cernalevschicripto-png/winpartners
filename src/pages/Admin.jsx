@@ -27,6 +27,7 @@ export default function Admin() {
   const [tab, setTab] = useState('bloggers')
   const [loading, setLoading] = useState(false)
   const [seedStatus, setSeedStatus] = useState('')
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   // Date din Firebase
   const [bloggers, setBloggers]         = useState([])
@@ -49,6 +50,12 @@ export default function Admin() {
   const [updateBlogger, setUpdateBlogger] = useState(null)
   const [showNotifPanel, setShowNotifPanel] = useState(false)
   const [casinoStatsEdit, setCasinoStatsEdit] = useState({})
+
+  useEffect(() => {
+    const fn = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', fn)
+    return () => window.removeEventListener('resize', fn)
+  }, [])
 
   // Subscriptions Firebase când e autentificat
   useEffect(() => {
@@ -175,28 +182,28 @@ export default function Admin() {
   }
 
   return (
-    <div style={{ minHeight:'100vh', background:'#0a0a0f', fontFamily:'Inter,sans-serif', color:'#e2e8f0', padding:'1.5rem' }}>
+    <div style={{ minHeight:'100vh', background:'#0a0a0f', fontFamily:'Inter,sans-serif', color:'#e2e8f0', padding: isMobile ? '0.75rem' : '1.5rem', overflowX:'hidden' }}>
       {/* HEADER */}
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1.5rem' }}>
-        <div style={{ fontSize:20, fontWeight:900, color:'#fff' }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1rem', flexWrap:'wrap', gap:8 }}>
+        <div style={{ fontSize: isMobile ? 16 : 20, fontWeight:900, color:'#fff' }}>
           WIN<span style={{ color:gold }}>PARTNERS</span>
-          <span style={{ fontSize:11, color:'rgba(255,255,255,0.3)', marginLeft:12, fontWeight:400 }}>Admin Panel · Firebase Sync</span>
+          {!isMobile && <span style={{ fontSize:11, color:'rgba(255,255,255,0.3)', marginLeft:12, fontWeight:400 }}>Admin Panel · Firebase Sync</span>}
         </div>
-        <div style={{ display:'flex', gap:12, alignItems:'center' }}>
-          {seedStatus && <span style={{ fontSize:12, color:'#10b981' }}>{seedStatus}</span>}
-          <button onClick={runSeed} style={{ padding:'6px 14px', fontSize:12, cursor:'pointer', border:'1px solid rgba(245,166,35,0.3)', borderRadius:6, background:'none', color:gold }}>
+        <div style={{ display:'flex', gap: isMobile ? 6 : 12, alignItems:'center' }}>
+          {seedStatus && <span style={{ fontSize:11, color:'#10b981' }}>{seedStatus}</span>}
+          {!isMobile && <button onClick={runSeed} style={{ padding:'6px 14px', fontSize:12, cursor:'pointer', border:'1px solid rgba(245,166,35,0.3)', borderRadius:6, background:'none', color:gold }}>
             🌱 Seed DB
-          </button>
-          <button onClick={() => setShowNotifPanel(p => !p)} style={{ position:'relative', padding:'6px 14px', fontSize:12, cursor:'pointer', border:'1px solid rgba(255,255,255,0.1)', borderRadius:6, background:'none', color:'#e2e8f0' }}>
+          </button>}
+          <button onClick={() => setShowNotifPanel(p => !p)} style={{ position:'relative', padding:'6px 12px', fontSize:12, cursor:'pointer', border:'1px solid rgba(255,255,255,0.1)', borderRadius:6, background:'none', color:'#e2e8f0' }}>
             🔔 {unreadCount > 0 && <span style={{ background:'#ef4444', color:'#fff', borderRadius:10, fontSize:10, padding:'1px 5px', position:'absolute', top:-6, right:-6 }}>{unreadCount}</span>}
           </button>
-          {loading && <span style={{ fontSize:12, color:'rgba(255,255,255,0.3)' }}>⏳ Sincronizare...</span>}
+          {loading && <span style={{ fontSize:11, color:'rgba(255,255,255,0.3)' }}>⏳</span>}
         </div>
       </div>
 
       {/* NOTIF PANEL */}
       {showNotifPanel && (
-        <div style={{ position:'fixed', top:60, right:24, width:380, maxHeight:440, overflowY:'auto', background:'#0d0d1f', border:'1px solid rgba(245,166,35,0.2)', borderRadius:12, padding:'1rem', zIndex:300 }}>
+        <div style={{ position:'fixed', top: isMobile ? 0 : 60, right: isMobile ? 0 : 24, left: isMobile ? 0 : 'auto', width: isMobile ? '100%' : 380, maxHeight: isMobile ? '60vh' : 440, overflowY:'auto', background:'#0d0d1f', border:'1px solid rgba(245,166,35,0.2)', borderRadius: isMobile ? '0 0 12px 12px' : 12, padding:'1rem', zIndex:300 }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
             <span style={{ fontWeight:700, fontSize:14 }}>Notificări</span>
             <button onClick={() => { notifications.forEach(n => !n.read && n._key && markRead(n._key)) }} style={{ fontSize:11, cursor:'pointer', border:'none', background:'none', color:gold }}>Marchează toate</button>
@@ -227,7 +234,7 @@ export default function Admin() {
       </div>
 
       {/* TABS */}
-      <div style={{ display:'flex', gap:4, borderBottom:'1px solid rgba(255,255,255,0.07)', marginBottom:'1.5rem', flexWrap:'wrap' }}>
+      <div style={{ display:'flex', gap:0, borderBottom:'1px solid rgba(255,255,255,0.07)', marginBottom:'1.25rem', overflowX:'auto', WebkitOverflowScrolling:'touch', scrollbarWidth:'none' }}>
         {[
           ['applications','Aplicații (' + pendingApps + ')'],
           ['bloggers','Bloggeri'],
@@ -237,7 +244,7 @@ export default function Admin() {
           ['payments','Plăți'],
           ['notif','Notificări' + (unreadCount>0?' ('+unreadCount+')':'')],
         ].map(([id,lbl]) => (
-          <button key={id} style={{ padding:'8px 16px', fontSize:12, cursor:'pointer', border:'none', background:'none', color:tab===id?gold:'rgba(255,255,255,0.4)', borderBottom:tab===id?`2px solid ${gold}`:'2px solid transparent', marginBottom:-1, fontWeight:tab===id?700:400 }}
+          <button key={id} style={{ padding:'8px 12px', fontSize: isMobile ? 11 : 12, cursor:'pointer', border:'none', background:'none', color:tab===id?gold:'rgba(255,255,255,0.4)', borderBottom:tab===id?`2px solid ${gold}`:'2px solid transparent', marginBottom:-1, fontWeight:tab===id?700:400, whiteSpace:'nowrap', flexShrink:0 }}
             onClick={() => setTab(id)}>{lbl}</button>
         ))}
       </div>
@@ -591,7 +598,7 @@ export default function Admin() {
       {/* MODAL PLATĂ */}
       {payModal && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:200}} onClick={()=>setPayModal(null)}>
-          <div style={{background:'#0d0d1f',border:'1px solid rgba(255,255,255,0.1)',borderRadius:16,padding:'1.5rem',width:380}} onClick={e=>e.stopPropagation()}>
+          <div style={{background:'#0d0d1f',border:'1px solid rgba(255,255,255,0.1)',borderRadius:16,padding:'1.5rem',width: isMobile ? '90vw' : 380, maxWidth:'95vw'}} onClick={e=>e.stopPropagation()}>
             <h3 style={{color:'#fff',fontWeight:700,marginBottom:4}}>Procesează plată</h3>
             <p style={{color:'rgba(255,255,255,0.4)',fontSize:13,marginBottom:4}}>Blogger: <strong style={{color:'#fff'}}>{payModal.name}</strong></p>
             <p style={{color:'rgba(255,255,255,0.4)',fontSize:12,marginBottom:16}}>Metodă: {payModal.payMethod||'Bitcoin'} · {payModal.payAddress||'adresă nesetată'}</p>

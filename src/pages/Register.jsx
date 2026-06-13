@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { addApplication } from '../db.js'
 
@@ -41,6 +41,7 @@ export default function Register() {
   const inviteCode = searchParams.get('invite') || ''
 
   const [lang, setLang] = useState('ro')
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [step, setStep] = useState(1) // 1=formular, 2=confirmare trimisă
   const [form, setForm] = useState({
     name: '', username: '', email: '', phone: '',
@@ -52,6 +53,12 @@ export default function Register() {
   const [errors, setErrors] = useState({})
   const navigate = useNavigate()
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
+
+  useEffect(() => {
+    const fn = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', fn)
+    return () => window.removeEventListener('resize', fn)
+  }, [])
 
   const validate = () => {
     const e = {}
