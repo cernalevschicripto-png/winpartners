@@ -183,6 +183,14 @@ const CASINOS_BASE = [
   },
 ]
 
+// Generează linkul de jucători Melbet pentru un cod promoțional
+// Format: https://refpa3665.com/L?tag=d_{AffID}m_{campanie}c_{cod}
+const MELBET_AFF_ID = '5666408'
+const MELBET_CAMPAIGN = '2170'
+function getMelbetPlayerLink(promoCode) {
+  return `https://refpa3665.com/L?tag=d_${MELBET_AFF_ID}m_${MELBET_CAMPAIGN}c_${promoCode}`
+}
+
 // CASINOS cu stats — recalculate la fiecare render din localStorage
 function buildCasinos(username) {
   const stats = loadCasinoStats(username)
@@ -929,9 +937,10 @@ export default function Dashboard() {
                           </div>
                         ) : isActive ? (
                           <div>
+                            {/* Codul promoțional */}
                             <div style={{background:`${casino.color}0d`,border:`1px solid ${casino.color}30`,borderRadius:6,padding:'8px 12px',display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
                               <div>
-                                <div style={{fontSize:10,color:txtSub,marginBottom:1}}>Codul meu Melbet</div>
+                                <div style={{fontSize:10,color:txtSub,marginBottom:1}}>Codul meu (spune-l în video)</div>
                                 <div style={{fontFamily:'monospace',fontWeight:900,color:casino.color,fontSize:15,letterSpacing:1}}>{myCode.code}</div>
                               </div>
                               <button onClick={e=>{e.stopPropagation();copy(myCode.code,'code_'+casino.id)}}
@@ -939,6 +948,19 @@ export default function Dashboard() {
                                 {copied==='code_'+casino.id?'✓':'Copiază'}
                               </button>
                             </div>
+                            {/* Link pentru jucători */}
+                            {casino.id==='melbet' && (
+                              <div style={{background:'rgba(59,130,246,0.06)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:6,padding:'8px 12px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                                <div style={{flex:1,minWidth:0}}>
+                                  <div style={{fontSize:10,color:txtSub,marginBottom:1}}>Link pentru jucători (pune în bio/stories)</div>
+                                  <div style={{fontFamily:'monospace',fontSize:10,color:'#3b82f6',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{getMelbetPlayerLink(myCode.code)}</div>
+                                </div>
+                                <button onClick={e=>{e.stopPropagation();copy(getMelbetPlayerLink(myCode.code),'link_'+casino.id)}}
+                                  style={{padding:'4px 10px',fontSize:11,fontWeight:600,cursor:'pointer',border:'1px solid rgba(59,130,246,0.3)',borderRadius:6,background:'none',color:'#3b82f6',fontFamily:'inherit',flexShrink:0,marginLeft:8}}>
+                                  {copied==='link_'+casino.id?'✓':'Copiază'}
+                                </button>
+                              </div>
+                            )}
                           </div>
                         ) : (
                           <div style={{background:'#f0fdf4',border:'1px solid #bbf7d0',borderRadius:6,padding:'8px 12px',textAlign:'center'}}>
@@ -974,27 +996,47 @@ export default function Dashboard() {
                     {myCode ? (
                       /* Cod deja generat */
                       <div>
-                        <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:14,display:'flex',alignItems:'center',gap:16}}>
-                          <div style={{flex:1}}>
-                            <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:4,textTransform:'uppercase',letterSpacing:'.06em'}}>✅ Codul tău activ</div>
-                            <div style={{fontSize:28,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{myCode.code}</div>
+                        {/* Codul promoțional */}
+                        <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                          <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Codul tău promoțional — spune-l în video</div>
+                          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
+                            <div style={{fontSize:32,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{myCode.code}</div>
+                            <button onClick={()=>copy(myCode.code,'panel_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13,flexShrink:0}}>
+                              {copied==='panel_code'?'✓ Copiat!':'📋 Copiază'}
+                            </button>
                           </div>
-                          <div style={{textAlign:'right'}}>
-                            <div style={{fontSize:11,color:txtSub,marginBottom:2}}>Generat pe</div>
-                            <div style={{fontSize:13,fontWeight:600,color:txt}}>{myCode.date}</div>
+                          <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul introduce acest cod la înregistrare pe Melbet → tu primești {casino.commissionPct}% din pierderile lui.</div>
+                        </div>
+
+                        {/* Linkul de jucători — PRINCIPAL */}
+                        {casino.id==='melbet' && (
+                          <div style={{background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                            <div style={{fontSize:11,color:'#1d4ed8',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🔗 Linkul tău de afiliat — pune în bio, stories, descriere</div>
+                            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                              <div style={{flex:1,fontFamily:'monospace',fontSize:12,color:'#1d4ed8',background:'#dbeafe',padding:'8px 10px',borderRadius:6,wordBreak:'break-all',lineHeight:1.5}}>
+                                {getMelbetPlayerLink(myCode.code)}
+                              </div>
+                              <button onClick={()=>copy(getMelbetPlayerLink(myCode.code),'player_link')} style={{...btnPrimary,padding:'8px 16px',fontSize:13,flexShrink:0,background:'#2563eb'}}>
+                                {copied==='player_link'?'✓ Copiat!':'📋 Copiază'}
+                              </button>
+                            </div>
+                            <div style={{fontSize:11,color:'#3b82f6',lineHeight:1.6}}>
+                              Jucătorul dă click pe link → ajunge direct pe Melbet → se înregistrează → e legat automat de tine. <strong>Nu trebuie să introducă codul manual!</strong>
+                            </div>
                           </div>
+                        )}
+
+                        {/* Cum să folosești */}
+                        <div style={{background:'#fefce8',border:'1px solid #fde047',borderRadius:8,padding:'12px 16px',marginBottom:12,fontSize:12,color:'#854d0e',lineHeight:1.7}}>
+                          <strong>💡 Cum promovezi:</strong><br/>
+                          • <strong>TikTok/Instagram Bio:</strong> Pune linkul de afiliat în bio → „Înregistrează-te pe Melbet prin linkul din bio"<br/>
+                          • <strong>În video/stories:</strong> „Folosiți codul <strong>{myCode.code}</strong> la înregistrare pentru bonus"<br/>
+                          • <strong>YouTube descriere:</strong> Pune linkul + scrie codul în descriere
                         </div>
-                        <div style={{display:'flex',gap:10,flexWrap:'wrap',marginBottom:12}}>
-                          <button onClick={()=>copy(myCode.code,'panel_code')} style={{...btnPrimary,padding:'9px 20px',fontSize:13}}>
-                            {copied==='panel_code'?'✓ Copiat!':'📋 Copiază codul'}
-                          </button>
-                          <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(casino.color),padding:'9px 20px',fontSize:13}}>
-                            ✨ Vreau cod cu numele meu
-                          </button>
-                        </div>
-                        <div style={{padding:'10px 14px',background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,fontSize:12,color:'#854d0e'}}>
-                          ⚠️ Pune codul <strong>{myCode.code}</strong> în descrierea postărilor tale. Fiecare jucător care îl folosește la înregistrare îți aduce {casino.commissionPct}% din pierderile lui.
-                        </div>
+
+                        <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(casino.color),padding:'9px 20px',fontSize:13}}>
+                          ✨ Vreau cod personalizat cu numele meu
+                        </button>
                       </div>
                     ) : (
                       /* Nu are cod încă */
