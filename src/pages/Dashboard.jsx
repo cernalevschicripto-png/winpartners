@@ -61,7 +61,7 @@ const MENU = [
 ]
 
 // ============================================================
-// CAZINOURI - sistemmulti-casino cu promcoduri
+// CAZINOURI - sistem multi-casino cu promcoduri
 // ============================================================
 const CASINOS = [
   {
