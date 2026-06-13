@@ -42,38 +42,21 @@ const D = {
   ],
 }
 
-const ICONS = {
-  main: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
-  sites: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>,
-  comm: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>,
-  pays: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>,
-  account: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
-  contact: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
-  links: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>,
-  promo: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>,
-  media: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>,
-  summary: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
-  report: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>,
-  mkttools: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>,
-  players: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>,
-  subaff: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg>,
-}
-
 const MENU = [
-  {id:'main',label:'Pagina principală',section:'MENIU PRINCIPAL'},
-  {id:'sites',label:'Site-uri',section:''},
-  {id:'comm',label:'Structura comisionului',section:''},
-  {id:'pays',label:'Istoricul plăților',section:''},
-  {id:'account',label:'Cont',section:''},
-  {id:'contact',label:'Contacte',section:''},
-  {id:'links',label:'Link-uri Afiliați',section:'COOKIE-URI DE DIRECȚIONARE'},
-  {id:'promo',label:'Coduri Promoționale',section:''},
-  {id:'media',label:'Media',section:''},
-  {id:'summary',label:'Rezumat',section:'RAPOARTE'},
-  {id:'report',label:'Raport complet',section:''},
-  {id:'mkttools',label:'Instrumente de marketing',section:''},
-  {id:'players',label:'Raport despre jucători',section:''},
-  {id:'subaff',label:'Raport despre sub-afiliați',section:''},
+  {id:'main',label:'Pagina principală',section:'MENIU PRINCIPAL',icon:'🏠'},
+  {id:'sites',label:'Site-uri',section:'',icon:'🌐'},
+  {id:'comm',label:'Structura comisionului',section:'',icon:'💲'},
+  {id:'pays',label:'Istoricul plăților',section:'',icon:'💳'},
+  {id:'account',label:'Cont',section:'',icon:'👤'},
+  {id:'contact',label:'Contacte',section:'',icon:'✉️'},
+  {id:'links',label:'Link-uri Afiliați',section:'COOKIE-URI DE DIRECȚIONARE',icon:'🔗'},
+  {id:'promo',label:'Coduri Promoționale',section:'',icon:'🎟'},
+  {id:'media',label:'Media',section:'',icon:'📢'},
+  {id:'summary',label:'Rezumat',section:'RAPOARTE',icon:'📊'},
+  {id:'report',label:'Raport complet',section:'',icon:'📋'},
+  {id:'mkttools',label:'Instrumente de marketing',section:'',icon:'🛠'},
+  {id:'players',label:'Raport despre jucători',section:'',icon:'👥'},
+  {id:'subaff',label:'Raport despre sub-afiliați',section:'',icon:'🌿'},
 ]
 
 function LineChart({data,field,color,h=60}) {
@@ -126,15 +109,15 @@ export default function Dashboard() {
   const totComm=Math.round(totRv*D.commission/100)
 
   // Styles
-  const inp = {padding:'6px 10px',fontSize:13,border:`1px solid ${bdr}`,borderRadius:4,background:'#fff',color:txt,outline:'none',fontFamily:'inherit'}
-  const btnPrimary = {padding:'7px 18px',fontSize:13,fontWeight:600,cursor:'pointer',border:'none',borderRadius:20,background:gold,color:'#000',fontFamily:'inherit'}
+  const inp = {padding:'7px 12px',fontSize:13,border:`1px solid #d1d5db`,borderRadius:4,background:'#fff',color:txt,outline:'none',fontFamily:'inherit',minWidth:120}
+  const btnPrimary = {padding:'8px 22px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:20,background:gold,color:'#000',fontFamily:'inherit',letterSpacing:'.02em'}
   const btnOutline = (c=gold)=>({padding:'6px 14px',fontSize:12,fontWeight:600,cursor:'pointer',border:`1px solid ${c}`,borderRadius:4,background:'none',color:c,fontFamily:'inherit'})
-  const TH = {textAlign:'left',padding:'10px 14px',color:txtSub,fontWeight:500,borderBottom:`1px solid ${bdr}`,fontSize:12,whiteSpace:'nowrap',background:'#f9fafb'}
-  const TD = {padding:'9px 14px',borderBottom:`1px solid #f3f4f6`,color:txt,fontSize:13}
+  const TH = {textAlign:'left',padding:'10px 14px',color:'#fff',fontWeight:600,fontSize:12,whiteSpace:'nowrap',background:'#2d2d3d',cursor:'pointer',userSelect:'none'}
+  const TD = {padding:'10px 14px',borderBottom:`1px solid #f3f4f6`,color:txt,fontSize:13}
   const card = {background:bgCard,border:`1px solid ${bdr}`,borderRadius:8,padding:'16px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}
   const label = {fontSize:11,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4,display:'block',fontWeight:500}
-  const filterRow = {display:'flex',alignItems:'center',gap:10,background:bgCard,borderRadius:8,padding:'12px 16px',border:`1px solid ${bdr}`,marginBottom:12,flexWrap:'wrap',boxShadow:'0 1px 3px rgba(0,0,0,0.04)'}
-  const pageTitle = {fontSize:18,fontWeight:700,color:txt,marginBottom:'1.25rem',paddingBottom:'0.75rem',borderBottom:`1px solid ${bdr}`}
+  const filterRow = {display:'flex',alignItems:'center',gap:10,marginBottom:16,flexWrap:'wrap'}
+  const pageTitle = {fontSize:20,fontWeight:700,color:txt,marginBottom:'1.5rem'}
 
   const tabActive = {padding:'8px 20px',fontSize:13,cursor:'pointer',border:'none',background:gold,color:'#000',fontWeight:700,fontFamily:'inherit',borderRadius:'4px 4px 0 0'}
   const tabInactive = {padding:'8px 20px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderBottom:'none',background:bgCard,color:txtSub,fontWeight:400,fontFamily:'inherit',borderRadius:'4px 4px 0 0'}
@@ -144,12 +127,12 @@ export default function Dashboard() {
 
       {/* TOP HEADER - dark like Melbet */}
       <div style={{background:bgHeader,height:52,display:'flex',alignItems:'center',padding:'0 1.5rem',gap:12,flexShrink:0,zIndex:10,boxShadow:'0 2px 8px rgba(0,0,0,0.2)'}}>
-        <div style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',marginRight:12,minWidth:160}} onClick={()=>nav('/')}>
-          <div style={{background:gold,borderRadius:4,width:28,height:28,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:900,fontSize:14,color:'#000',letterSpacing:'-1px'}}>W</div>
-          <div style={{lineHeight:1}}>
-            <div style={{fontSize:14,fontWeight:800,color:'#fff',letterSpacing:'.02em'}}>WIN<span style={{color:gold}}>PARTNERS</span></div>
-            <div style={{fontSize:9,color:'rgba(255,255,255,0.3)',fontWeight:500,letterSpacing:'.08em'}}>CASINO AFFILIATE</div>
-          </div>
+        <div style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',marginRight:8}} onClick={()=>nav('/')}>
+          <svg width="22" height="22" viewBox="0 0 22 22">
+            <polygon points="11,2 20,6.5 20,15.5 11,20 2,15.5 2,6.5" fill={gold} opacity=".2" stroke={gold} strokeWidth="1.2"/>
+            <text x="11" y="15" textAnchor="middle" fontSize="9" fontWeight="900" fill={gold}>W</text>
+          </svg>
+          <span style={{fontSize:15,fontWeight:800,color:'#fff'}}><span>WIN</span><span style={{color:gold}}>PARTNERS</span></span>
         </div>
         {/* Badge inline items like Melbet */}
         <div style={{display:'flex',alignItems:'center',gap:6,background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:4,padding:'4px 10px'}}>
@@ -157,19 +140,7 @@ export default function Dashboard() {
           <span style={{fontSize:12,fontWeight:700,color:gold,fontFamily:'monospace'}}>{D.affId}</span>
         </div>
         <div style={{flex:1}}/>
-        <div style={{display:'flex',alignItems:'center',gap:6,background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:4,padding:'5px 12px'}}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span style={{fontSize:10,color:'rgba(255,255,255,0.6)',fontWeight:600,letterSpacing:'.05em'}}>WINPARTNERS</span>
-          <span style={{fontSize:10,color:gold,fontWeight:700}}>2 ANI</span>
-        </div>
-        <div style={{display:'flex',alignItems:'center',gap:5,background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:4,padding:'5px 10px'}}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
-          <span style={{fontSize:10,color:'rgba(255,255,255,0.6)'}}>App Android</span>
-        </div>
-        <button style={{...btnPrimary,fontSize:11,padding:'6px 14px',borderRadius:4,display:'flex',alignItems:'center',gap:5}}>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-          ACTUALIZARE STATISTICI
-        </button>
+        <button style={{...btnPrimary,fontSize:11,padding:'6px 14px',borderRadius:20}}>↻ ACTUALIZARE STATISTICI</button>
         <div style={{display:'flex',alignItems:'center',gap:8,borderLeft:'1px solid rgba(255,255,255,0.1)',paddingLeft:12}}>
           <div style={{width:28,height:28,borderRadius:'50%',background:`linear-gradient(135deg,${gold},#c97d00)`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:700,color:'#000'}}>{D.name[0]}</div>
           <div style={{lineHeight:1.2}}>
@@ -183,13 +154,13 @@ export default function Dashboard() {
       <div style={{display:'flex',flex:1,overflow:'hidden'}}>
 
         {/* SIDEBAR - dark like Melbet */}
-        <div style={{width:220,background:bgSide,flexShrink:0,overflowY:'auto',paddingBottom:20,borderRight:'1px solid rgba(255,255,255,0.05)'}}>
+        <div style={{width:210,background:bgSide,flexShrink:0,overflowY:'auto',paddingBottom:20}}>
           {MENU.map((m)=>(
             <div key={m.id}>
-              {m.section&&<div style={{padding:'16px 14px 5px',fontSize:9,color:'rgba(255,255,255,0.22)',textTransform:'uppercase',letterSpacing:'.14em',fontWeight:600,borderTop:m.id!=='main'?'1px solid rgba(255,255,255,0.05)':'none',marginTop:m.id!=='main'?8:0}}>{m.section}</div>}
-              <div onClick={()=>setPage(m.id)} style={{display:'flex',alignItems:'center',gap:9,padding:'9px 14px 9px 16px',cursor:'pointer',fontSize:13,color:page===m.id?gold:'rgba(255,255,255,0.55)',background:page===m.id?'rgba(245,166,35,0.08)':'none',borderLeft:page===m.id?`3px solid ${gold}`:'3px solid transparent',transition:'all .12s',userSelect:'none'}}>
-                <span style={{opacity:page===m.id?1:0.6,display:'flex',alignItems:'center'}}>{ICONS[m.id]}</span>
-                <span style={{fontSize:13}}>{m.label}</span>
+              {m.section&&<div style={{padding:'12px 14px 4px',fontSize:9,color:'rgba(255,255,255,0.25)',textTransform:'uppercase',letterSpacing:'.12em',fontWeight:600}}>{m.section}</div>}
+              <div onClick={()=>setPage(m.id)} style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px 9px 16px',cursor:'pointer',fontSize:13,color:page===m.id?gold:'rgba(255,255,255,0.55)',background:page===m.id?'rgba(245,166,35,0.1)':'none',borderLeft:page===m.id?`3px solid ${gold}`:'3px solid transparent',transition:'all .12s'}}>
+                <span style={{fontSize:14}}>{m.icon}</span>
+                <span>{m.label}</span>
               </div>
             </div>
           ))}
@@ -199,7 +170,12 @@ export default function Dashboard() {
         <div style={{flex:1,overflowY:'auto',padding:'1.5rem',minWidth:0}}>
 
           {/* PAGE TITLE */}
-          <div style={pageTitle}>{MENU.find(m=>m.id===page)?.label||'Dashboard'}</div>
+          {/* Page title bar - like Melbet's yellow title */}
+          <div style={{display:'flex',alignItems:'center',gap:0,marginBottom:'1.5rem',borderBottom:`2px solid #e5e7eb`}}>
+            <div style={{padding:'0 0 12px',fontSize:18,fontWeight:700,color:gold,borderBottom:`3px solid ${gold}`,marginBottom:-2}}>
+              {MENU.find(m=>m.id===page)?.label||'Dashboard'}
+            </div>
+          </div>
 
           {/* === PAGINA PRINCIPALA === */}
           {page==='main'&&(
@@ -207,17 +183,13 @@ export default function Dashboard() {
               {/* Balance cards */}
               <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:0,background:bgCard,borderRadius:8,overflow:'hidden',border:`1px solid ${bdr}`,marginBottom:'1.25rem',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
                 {[
-                  {l:'DISPONIBIL PENTRU RETRAGERE',v:'$'+D.bal.available,c:'#10b981',bc:'#10b981',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>,info:true},
-                  {l:'IERI',v:'$'+D.bal.yesterday,c:'#3b82f6',bc:'#3b82f6',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="1.8"><polyline points="13 2 13 9 20 9"/><path d="M21 15.5a9 9 0 11-9-9 9 9 0 019 9z"/></svg>},
-                  {l:'LUNA CURENTĂ',v:'$'+D.bal.month,c:'#f59e0b',bc:'#f59e0b',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>},
-                  {l:'30 DE ZILE',v:'$'+D.bal.days30,c:'#ef4444',bc:'#ef4444',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="1.8"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>},
-                  {l:'TOTAL',v:'$'+D.bal.total,c:'#10b981',bc:'#10b981',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="1.8"><polyline points="20 6 9 17 4 12"/></svg>},
+                  {l:'DISPONIBIL PENTRU RETRAGERE',v:'$'+D.bal.available,c:'#10b981',bc:'#10b981'},
+                  {l:'IERI',v:'$'+D.bal.yesterday,c:'#3b82f6',bc:'#3b82f6'},
+                  {l:'LUNA CURENTĂ',v:'$'+D.bal.month,c:'#f59e0b',bc:'#f59e0b'},
+                  {l:'30 DE ZILE',v:'$'+D.bal.days30,c:'#ef4444',bc:'#ef4444'},
+                  {l:'TOTAL',v:'$'+D.bal.total,c:'#10b981',bc:'#10b981'},
                 ].map((it,i)=>(
-                  <div key={it.l} style={{padding:'16px',borderLeft:i>0?`1px solid ${bdr}`:'none',borderBottom:`3px solid ${it.bc}`,textAlign:'center',position:'relative'}}>
-                    <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:5,marginBottom:4}}>
-                      {it.icon}
-                      {it.info&&<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={txtSub} strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>}
-                    </div>
+                  <div key={it.l} style={{padding:'14px 16px',borderLeft:i>0?`1px solid ${bdr}`:'none',borderBottom:`3px solid ${it.bc}`,textAlign:'center'}}>
                     <div style={{fontSize:22,fontWeight:800,color:it.c,marginBottom:4}}>{it.v}</div>
                     <div style={{fontSize:9,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em',lineHeight:1.3}}>{it.l}</div>
                   </div>
@@ -238,13 +210,13 @@ export default function Dashboard() {
               </div>
 
               {/* Charts */}
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:'1.25rem'}}>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:'1.5rem'}}>
                 {[
                   {title:'Statistici conversii',items:[{f:'cl',c:'#3b82f6',l:'Vizualizări'},{f:'rg',c:'#6366f1',l:'Clickuri'},{f:'dp',c:'#06b6d4',l:'Linkuri directe'}]},
                   {title:'Statistici înregistrare',items:[{f:'rg',c:'#ef4444',l:'Înregistrări'},{f:'dp',c:'#10b981',l:'Depunători noi'},{f:'rv',c:gold,l:'Suma comisionului'}]},
                 ].map(ch=>(
                   <div key={ch.title} style={{...card}}>
-                    <div style={{fontSize:14,fontWeight:600,marginBottom:'1rem',color:txt}}>{ch.title}</div>
+                    <div style={{fontSize:16,fontWeight:600,marginBottom:'1.25rem',color:txt}}>{ch.title}</div>
                     {ch.items.map(it=>(
                       <div key={it.f} style={{marginBottom:'0.75rem'}}>
                         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:4}}>
@@ -577,7 +549,13 @@ export default function Dashboard() {
                           <td style={{...TD,color:'#10b981',fontWeight:700}}>{r.rv>0?'$'+Math.round(r.rv*.2):'—'}</td>
                         </tr>
                       ))}
-                      {page==='summary'&&<tr>{['0','0','0','0','0','0','0','$0','0','0','$0','$0','0','0','$0','$0','$0','0','$'+totComm,'$0'].map((v,i)=><td key={i} style={{...TD,color:i===18?'#10b981':txt,fontWeight:i===18?700:400}}>{v}</td>)}</tr>}
+                      {page==='summary'&&(
+                        <tr>
+                          {['0','0','0','0','0','0','0','$0','0','0','$0','$0','0','0','$0','$0','$0','0','$'+totComm,'$0'].map((v,i)=>(
+                            <td key={i} style={{...TD,background:i%2===0?'#fffbf0':'#fff',color:i===18?'#10b981':txt}}>{v}</td>
+                          ))}
+                        </tr>
+                      )
                       <tr style={{background:'#fafafa'}}><td colSpan={20} style={{...TD,fontStyle:'italic',color:txtSub,textAlign:'center',padding:'16px'}}>Fără informații pentru perioada selectată</td></tr>
                     </tbody>
                   </table>
@@ -741,6 +719,18 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+
+      {/* Footer - like Melbet */}
+      <div style={{background:'#1e1e30',borderTop:'1px solid rgba(255,255,255,0.06)',padding:'12px 24px',display:'flex',alignItems:'center',gap:24,flexShrink:0}}>
+        <div style={{display:'flex',gap:20,flex:1}}>
+          {['Contacte','Știri','Politica de confidențialitate','Politica cookie'].map(l=>(
+            <span key={l} style={{fontSize:11,color:'rgba(255,255,255,0.35)',cursor:'pointer'}}>{l}</span>
+          ))}
+        </div>
+        <span style={{fontSize:11,color:'rgba(255,255,255,0.35)'}}>App for Android™</span>
+        <span style={{fontSize:11,color:'rgba(255,255,255,0.2)'}}>Copyright © 2024-2026 WinPartners. Toate drepturile rezervate.</span>
+      </div>
     </div>
   )
 }
