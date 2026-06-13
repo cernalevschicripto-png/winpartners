@@ -49,37 +49,7 @@ const CODE_QUEUE = {
 // Lăsat stub pentru compatibilitate
 function getNextCode(casinoId, username) { return null }
 
-const D = {
-  name:'Ion Popescu', username:'ionpopescu', platform:'TikTok',
-  promoCode:'IONPOPESCU_WIN', refCode:'REF_ION2026', affId:'WP-4438301',
-  commission:20, email:'ion@gmail.com', phone:'+37360484777',
-  country:'Moldova', lang:'Română', messenger:'WhatsApp',
-  payMethod:'Bitcoin', payAddress:'bc1qxxxxxxxxxxxxxxxxxx',
-  bal:{available:448,yesterday:56,month:248,days30:368,total:368},
-  daily:[
-    {d:'06.06',cl:145,rg:12,dp:4,rv:280},
-    {d:'07.06',cl:198,rg:18,dp:6,rv:340},
-    {d:'08.06',cl:167,rg:14,dp:5,rv:210},
-    {d:'09.06',cl:223,rg:21,dp:8,rv:410},
-    {d:'10.06',cl:189,rg:16,dp:6,rv:320},
-    {d:'11.06',cl:201,rg:19,dp:7,rv:280},
-    {d:'12.06',cl:124,rg:11,dp:4,rv:0},
-  ],
-  refs:[
-    {name:'@alex_md',pl:'Instagram',rg:23,rv:180,cm:5.4,dt:'05.06.2026'},
-    {name:'@vlad_gaming',pl:'YouTube',rg:45,rv:340,cm:10.2,dt:'02.06.2026'},
-    {name:'@marina_ro',pl:'TikTok',rg:12,rv:90,cm:2.7,dt:'08.06.2026'},
-  ],
-  pays:[
-    {dt:'01.06.2026',am:920,mt:'Bitcoin',venituri:4600,sold:0,st:'Plătit'},
-    {dt:'01.05.2026',am:780,mt:'Bitcoin',venituri:3900,sold:0,st:'Plătit'},
-  ],
-  links:[{id:1,camp:'English',subid:'',page:'/live',link:'https://melbet.com/go/WP4438301',shown:true}],
-  commStructure:[
-    {val:'USD',struct:'Revenue Share',group:'RS25% REF3%',start:'2026-06-02',desc:'Procent comision: 25%; Comision negativ: Da; Administrator: 0%',end:''},
-    {val:'USD',struct:'Refferal',group:'RS25% REF3%',start:'2026-06-02',desc:'Nivelul 1|3%; Comision negativ: Da; (2019-07-24)',end:''},
-  ],
-}
+// Datele bloggerului vin din Firebase/localStorage prin loginBlogger()
 
 const MENU = [
   {id:'main',label:'Pagina principală',section:'MENIU PRINCIPAL',icon:'🏠'},
@@ -104,17 +74,7 @@ const MENU = [
 // ============================================================
 // Statistici per casino per blogger — admin le actualizează manual din panoul secret
 // Cheia: wp_casino_stats_{username}_{casinoId}
-function loadCasinoStats(username) {
-  const defaults = {
-    winbet:    { regs: 0, deposits: 0, revenue: 0, commission: 0, clicks: 0 },
-    spinmax:   { regs: 0, deposits: 0, revenue: 0, commission: 0, clicks: 0 },
-    luckydeal: { regs: 0, deposits: 0, revenue: 0, commission: 0, clicks: 0 },
-  }
-  try {
-    const saved = JSON.parse(localStorage.getItem('wp_casino_stats_' + username) || '{}')
-    return { ...defaults, ...saved }
-  } catch(e) { return defaults }
-}
+// loadCasinoStats înlocuită de subscribeCasinoStats din db.js
 
 const CASINOS_BASE = [
   {
@@ -176,11 +136,7 @@ function getMelbetPlayerLink(promoCode) {
   return `https://refpa3665.com/L?tag=d_${MELBET_AFF_ID}m_${MELBET_CAMPAIGN}c_${promoCode}`
 }
 
-// CASINOS cu stats — recalculate la fiecare render din localStorage
-function buildCasinos(username) {
-  const stats = loadCasinoStats(username)
-  return CASINOS_BASE.map(c => ({ ...c, stats: stats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
-}
+// buildCasinos eliminat — CASINOS se calculează în DashboardContent din casinoStats Firebase
 
 // Promcoduri demo per casino (în producție vin din admin)
 const DEMO_CODES = {
@@ -247,7 +203,7 @@ function LoginScreen({ onLogin }) {
             <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>Username</div>
             <input
               style={{width:'100%',padding:'11px 14px',fontSize:14,border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,background:'rgba(255,255,255,0.05)',color:'#e2e8f0',outline:'none',boxSizing:'border-box'}}
-              type="text" placeholder="ionpopescu" value={username}
+              type="text" placeholder="username" value={username}
               onChange={e=>setUsername(e.target.value)}
               onKeyDown={e=>e.key==='Enter'&&doLogin()}
             />
@@ -305,15 +261,10 @@ function DashboardContent({ blogger, onLogout }) {
     refCode: blogger.refCode || 'REF_' + blogger.username.toUpperCase(),
     affId: blogger.affId || 'WP-' + Math.floor(Math.random()*9000000+1000000),
     bal: {
-      available: blogger.commission ? Math.max(0, Math.round((blogger.revenue||0)*(blogger.commission/100)-(blogger.paid||0))) : 0,
+      available: Math.max(0, Math.round((blogger.revenue||0)*((blogger.commission||25)/100)-(blogger.paid||0))),
       yesterday: 56, month: 248, days30: blogger.revenue||0, total: blogger.revenue||0,
     },
-    daily:[
-      {d:'06.06',cl:145,rg:12,dp:4,rv:280},{d:'07.06',cl:198,rg:18,dp:6,rv:340},
-      {d:'08.06',cl:167,rg:14,dp:5,rv:210},{d:'09.06',cl:223,rg:21,dp:8,rv:410},
-      {d:'10.06',cl:189,rg:16,dp:6,rv:320},{d:'11.06',cl:201,rg:19,dp:7,rv:280},
-      {d:'12.06',cl:124,rg:11,dp:4,rv:0},
-    ],
+    daily:[],
     refs: [],
     pays: [],
     links:[{id:1,camp:'English',subid:'',page:'/live',link:'https://melbet.com/go/WP'+blogger.affId,shown:true}],
@@ -360,9 +311,7 @@ function DashboardContent({ blogger, onLogout }) {
   }, [D.username])
   const [showCasinoRequest, setShowCasinoRequest] = useState(null)
   // Referrals
-  const [myReferrals, setMyReferrals] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('wp_referrals_' + D.username) || '[]') } catch(e) { return D.refs }
-  })
+  const [myReferrals] = useState([])
   // Cazinouri cu statistici live din Firebase (actualizate de admin)
   const [casinoStats, setCasinoStatsState] = useState({})
   const CASINOS = CASINOS_BASE.map(c => ({ ...c, stats: casinoStats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
