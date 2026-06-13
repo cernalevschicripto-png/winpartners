@@ -61,7 +61,7 @@ const MENU = [
 ]
 
 // ============================================================
-// CAZINOURI - sistem multi-casino cu promcoduri
+// CAZINOURI - sistemmulti-casino cu promcoduri
 // ============================================================
 const CASINOS = [
   {
@@ -627,7 +627,7 @@ export default function Dashboard() {
                             <td key={i} style={{...TD,background:i%2===0?'#fffbf0':'#fff',color:i===18?'#10b981':txt}}>{v}</td>
                           ))}
                         </tr>
-                      )
+                      )}
                       <tr style={{background:'#fafafa'}}><td colSpan={20} style={{...TD,fontStyle:'italic',color:txtSub,textAlign:'center',padding:'16px'}}>Fără informații pentru perioada selectată</td></tr>
                     </tbody>
                   </table>
