@@ -80,6 +80,7 @@ export default function Admin() {
   ])
   const [showNotifPanel, setShowNotifPanel] = useState(false)
   const [payments, setPayments] = useState([])
+  const [updateBlogger, setUpdateBlogger] = useState(null)
   const [requests, setRequests] = useState([
     {id:1,name:'Ion Popescu',type:'Cod personalizat',detail:'IONEL',date:'10.06.2026',status:'pending'},
     {id:2,name:'Alex Marin',type:'Plată',detail:'$560',date:'09.06.2026',status:'pending'},
@@ -734,27 +735,108 @@ export default function Admin() {
 
         {tab==='update' && (
           <div>
-            <p style={{fontSize:13,color:'rgba(255,255,255,0.5)',marginBottom:'1rem'}}>Actualizează statisticile zilnic din Melbet Partners.</p>
-            <div style={{display:'flex',flexDirection:'column',gap:12}}>
-              {bloggers.filter(b => b.status==='active').map(b => (
-                <div key={b.id} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:12,padding:'1.25rem',display:'grid',gridTemplateColumns:'220px 1fr',gap:16,alignItems:'center'}}>
-                  <div>
-                    <div style={{fontWeight:700,fontSize:15}}>{b.name}</div>
-                    <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',marginTop:2}}>{b.platform} · <span style={{color:gold,fontFamily:'monospace'}}>{b.promoCode}</span></div>
+            <p style={{fontSize:13,color:'rgba(255,255,255,0.5)',marginBottom:'1rem'}}>
+              Introduci manual statisticile din Melbet/1xBet/etc. Bloggerul vede imediat în dashboard.
+            </p>
+
+            {/* Selector blogger */}
+            <div style={{display:'flex',gap:12,alignItems:'center',marginBottom:'1.5rem',flexWrap:'wrap'}}>
+              <span style={{fontSize:13,color:'rgba(255,255,255,0.5)'}}>Blogger:</span>
+              <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                {bloggers.map(b => (
+                  <button key={b.id}
+                    onClick={() => setUpdateBlogger(b)}
+                    style={{padding:'6px 14px',fontSize:13,fontWeight:600,cursor:'pointer',border:`1px solid ${updateBlogger?.id===b.id?gold:'rgba(255,255,255,0.1)'}`,borderRadius:6,background:updateBlogger?.id===b.id?'rgba(245,166,35,0.15)':'none',color:updateBlogger?.id===b.id?gold:'rgba(255,255,255,0.5)'}}>
+                    {b.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {updateBlogger && (() => {
+              const b = updateBlogger
+              // Citim statisticile curente din localStorage
+              const statsKey = 'wp_casino_stats_' + b.username
+              const currentStats = (() => {
+                try { return JSON.parse(localStorage.getItem(statsKey) || '{}') } catch(e) { return {} }
+              })()
+              const casinos = [
+                { id:'winbet', name:'WinBet Casino', color:'#f5a623' },
+                { id:'spinmax', name:'SpinMax Casino', color:'#3b82f6' },
+                { id:'luckydeal', name:'LuckyDeal Casino', color:'#10b981' },
+              ]
+              return (
+                <div>
+                  <div style={{marginBottom:16,display:'flex',alignItems:'center',gap:12}}>
+                    <div style={{width:36,height:36,borderRadius:'50%',background:'rgba(245,166,35,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700,color:gold}}>{b.name[0]}</div>
+                    <div>
+                      <div style={{fontWeight:700,fontSize:15}}>{b.name}</div>
+                      <div style={{fontSize:12,color:'rgba(255,255,255,0.4)'}}>@{b.username} · {b.platform}</div>
+                    </div>
                   </div>
-                  <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10}}>
-                    {[['Click-uri','clicks'],['Înregistrări','regs'],['Depunători','deposits'],['Venit net ($)','revenue']].map(([label,field]) => (
-                      <div key={field}>
-                        <div style={{fontSize:11,color:'rgba(255,255,255,0.35)',marginBottom:3,textTransform:'uppercase',letterSpacing:'.05em'}}>{label}</div>
-                        <input style={inp} type="number" value={b[field]} onChange={e => setBloggers(prev => prev.map(bl => bl.id===b.id ? {...bl,[field]:+e.target.value} : bl))}/>
-                      </div>
-                    ))}
+
+                  {/* Per casino */}
+                  <div style={{display:'flex',flexDirection:'column',gap:14}}>
+                    {casinos.map(casino => {
+                      const s = currentStats[casino.id] || { clicks:0, regs:0, deposits:0, revenue:0, commission:0 }
+                      // Calculăm comisionul automat
+                      const commPct = casino.id==='winbet'?25:casino.id==='spinmax'?30:20
+                      return (
+                        <div key={casino.id} style={{background:'rgba(255,255,255,0.02)',border:`1px solid ${casino.color}25`,borderRadius:12,padding:'1rem',borderLeft:`3px solid ${casino.color}`}}>
+                          <div style={{fontSize:13,fontWeight:700,color:casino.color,marginBottom:12}}>{casino.name} · {commPct}% RevShare</div>
+                          <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:10}}>
+                            {[['Clickuri','clicks'],['Înregistrări','regs'],['Depunători','deposits'],['Venit net ($)','revenue'],['Comision ($)','commission']].map(([label,field]) => (
+                              <div key={field}>
+                                <div style={{fontSize:10,color:'rgba(255,255,255,0.35)',marginBottom:3,textTransform:'uppercase',letterSpacing:'.05em'}}>{label}</div>
+                                <input style={{...inp,fontFamily:field==='revenue'||field==='commission'?'monospace':'inherit'}}
+                                  type="number" defaultValue={s[field]||0}
+                                  id={`stat_${b.username}_${casino.id}_${field}`}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                          <div style={{marginTop:10,display:'flex',justifyContent:'flex-end'}}>
+                            <button
+                              onClick={() => {
+                                const newStats = { ...currentStats }
+                                if (!newStats[casino.id]) newStats[casino.id] = {}
+                                ;['clicks','regs','deposits','revenue','commission'].forEach(f => {
+                                  const el = document.getElementById('stat_'+b.username+'_'+casino.id+'_'+f)
+                                  if (el) newStats[casino.id][f] = +el.value
+                                })
+                                // Auto-calculează comisionul dacă nu e completat manual
+                                if (!newStats[casino.id].commission && newStats[casino.id].revenue) {
+                                  newStats[casino.id].commission = Math.round(newStats[casino.id].revenue * commPct / 100)
+                                }
+                                localStorage.setItem(statsKey, JSON.stringify(newStats))
+                                // Adaugă notificare
+                                setNotifications(prev => [{
+                                  id: Date.now(), type:'code_generated',
+                                  blogger: b.username, casino: casino.name,
+                                  code: 'Statistici actualizate', timestamp: new Date().toLocaleString('ro-RO'), read:false
+                                }, ...prev])
+                                alert('✅ Statistici salvate pentru ' + b.name + ' · ' + casino.name)
+                              }}
+                              style={{padding:'7px 18px',fontSize:12,fontWeight:700,cursor:'pointer',border:'none',borderRadius:6,background:casino.color,color:'#000'}}>
+                              💾 Salvează {casino.name}
+                            </button>
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
-              ))}
-            </div>
+              )
+            })()}
+
+            {!updateBlogger && (
+              <div style={{padding:'32px',textAlign:'center',color:'rgba(255,255,255,0.3)',fontSize:13,fontStyle:'italic'}}>
+                Selectează un blogger din lista de sus pentru a actualiza statisticile
+              </div>
+            )}
+
             <div style={{marginTop:16,padding:'12px 16px',background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:8,fontSize:13,color:'#10b981'}}>
-              ✓ Modificările se salvează automat. Bloggerii văd statisticile actualizate în dashboard-ul lor.
+              ✓ După salvare, bloggerul vede instantaneu statisticile actualizate în dashboard-ul lui pe secțiunea Cazinouri Partenere.
             </div>
           </div>
         )}

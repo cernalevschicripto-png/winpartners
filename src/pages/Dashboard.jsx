@@ -103,7 +103,21 @@ const MENU = [
 // ============================================================
 // CAZINOURI - sistemmulti-casino cu promcoduri
 // ============================================================
-const CASINOS = [
+// Statistici per casino per blogger — admin le actualizează manual din panoul secret
+// Cheia: wp_casino_stats_{username}_{casinoId}
+function loadCasinoStats(username) {
+  const defaults = {
+    winbet:    { regs: 0, deposits: 0, revenue: 0, commission: 0, clicks: 0 },
+    spinmax:   { regs: 0, deposits: 0, revenue: 0, commission: 0, clicks: 0 },
+    luckydeal: { regs: 0, deposits: 0, revenue: 0, commission: 0, clicks: 0 },
+  }
+  try {
+    const saved = JSON.parse(localStorage.getItem('wp_casino_stats_' + username) || '{}')
+    return { ...defaults, ...saved }
+  } catch(e) { return defaults }
+}
+
+const CASINOS_BASE = [
   {
     id: 'winbet',
     name: 'WinBet Casino',
@@ -114,8 +128,6 @@ const CASINOS = [
     description: 'Casino principal — sporturi + slots + live dealer',
     minPayout: '$30',
     payFreq: 'Săptămânal',
-    // Statistici demo — în producție vin din admin prin actualizare manuală
-    stats: { regs: 23, deposits: 8, revenue: 3680, commission: 920, clicks: 1247 },
   },
   {
     id: 'spinmax',
@@ -127,7 +139,6 @@ const CASINOS = [
     description: 'Specializat slots + jackpot-uri',
     minPayout: '$50',
     payFreq: 'Bi-săptămânal',
-    stats: { regs: 11, deposits: 4, revenue: 740, commission: 222, clicks: 534 },
   },
   {
     id: 'luckydeal',
@@ -139,9 +150,14 @@ const CASINOS = [
     description: 'Live dealer + poker + roulette',
     minPayout: '$30',
     payFreq: 'Lunar',
-    stats: { regs: 0, deposits: 0, revenue: 0, commission: 0, clicks: 0 },
   },
 ]
+
+// CASINOS cu stats — recalculate la fiecare render din localStorage
+function buildCasinos(username) {
+  const stats = loadCasinoStats(username)
+  return CASINOS_BASE.map(c => ({ ...c, stats: stats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
+}
 
 // Promcoduri demo per casino (în producție vin din admin)
 const DEMO_CODES = {
@@ -193,6 +209,16 @@ export default function Dashboard() {
   const [myReferrals, setMyReferrals] = useState(() => {
     try { return JSON.parse(localStorage.getItem('wp_referrals_' + D.username) || '[]') } catch(e) { return D.refs }
   })
+  // Cazinouri cu statistici live din localStorage (actualizate de admin)
+  const [casinoStats, setCasinoStats] = useState(() => loadCasinoStats(D.username))
+  const CASINOS = CASINOS_BASE.map(c => ({ ...c, stats: casinoStats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
+
+  // Reîncarcă statisticile cazinouri la focus (admin le poate actualiza)
+  useEffect(() => {
+    const onFocus = () => setCasinoStats(loadCasinoStats(D.username))
+    window.addEventListener('focus', onFocus)
+    return () => window.removeEventListener('focus', onFocus)
+  }, [])
 
   useEffect(() => {
     const handleResize = () => {
