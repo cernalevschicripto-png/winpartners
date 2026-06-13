@@ -136,7 +136,13 @@ export default function Landing() {
         {/* Desktop nav links */}
         {!isMobile && (
           <div style={{display:'flex',gap:20}}>
-            {[['about',lang==='ru'?'О нас':'Despre noi'],['benefits',lang==='ru'?'Преимущества':'Beneficii'],['instructions',lang==='ru'?'Инструкции':'Instrucțiuni'],['faq','FAQ'],['contact',lang==='ru'?'Контакты':'Contact']].map(([path,label])=>(
+            {[
+              ['about', lang==='ru'?'О нас':lang==='en'?'About':'Despre noi'],
+              ['benefits', lang==='ru'?'Преимущества':lang==='en'?'Benefits':'Beneficii'],
+              ['instructions', lang==='ru'?'Инструкции':lang==='en'?'How it works':'Instrucțiuni'],
+              ['faq','FAQ'],
+              ['contact', lang==='ru'?'Контакты':lang==='en'?'Contact':'Contact']
+            ].map(([path,label])=>(
               <span key={path} onClick={()=>navigate('/'+path)} style={{fontSize:13,color:'rgba(255,255,255,0.55)',cursor:'pointer',fontWeight:500}} onMouseOver={e=>e.target.style.color=gold} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.55)'}>{label}</span>
             ))}
           </div>
@@ -165,7 +171,13 @@ export default function Landing() {
         {/* Mobile dropdown menu */}
         {isMobile && menuOpen && (
           <div style={{position:'absolute',top:64,left:0,right:0,background:'rgba(10,10,15,0.98)',borderBottom:'1px solid rgba(245,166,35,0.15)',padding:'1rem',display:'flex',flexDirection:'column',gap:12,zIndex:200}}>
-            {[['about',lang==='ru'?'О нас':'Despre noi'],['benefits',lang==='ru'?'Преимущества':'Beneficii'],['instructions',lang==='ru'?'Инструкции':'Instrucțiuni'],['faq','FAQ'],['contact',lang==='ru'?'Контакты':'Contact']].map(([path,label])=>(
+            {[
+              ['about', lang==='ru'?'О нас':lang==='en'?'About':'Despre noi'],
+              ['benefits', lang==='ru'?'Преимущества':lang==='en'?'Benefits':'Beneficii'],
+              ['instructions', lang==='ru'?'Инструкции':lang==='en'?'How it works':'Instrucțiuni'],
+              ['faq','FAQ'],
+              ['contact', lang==='ru'?'Контакты':lang==='en'?'Contact':'Contact']
+            ].map(([path,label])=>(
               <span key={path} onClick={()=>{navigate('/'+path);setMenuOpen(false)}} style={{fontSize:15,color:'rgba(255,255,255,0.8)',cursor:'pointer',fontWeight:500,padding:'8px 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>{label}</span>
             ))}
             <div style={{display:'flex',gap:8,marginTop:4}}>
@@ -320,15 +332,27 @@ export default function Landing() {
           <div style={{display:'grid',gridTemplateColumns:'1fr auto auto auto',gap:48,marginBottom:32,flexWrap:'wrap'}}>
             <div>
               <div style={{fontSize:20,fontWeight:900,marginBottom:12}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div>
-              <div style={{fontSize:13,color:'rgba(255,255,255,0.3)',lineHeight:1.7,maxWidth:260}}>Platformă profesională de afiliere pentru bloggeri și influenceri din toată lumea.</div>
+              <div style={{fontSize:13,color:'rgba(255,255,255,0.3)',lineHeight:1.7,maxWidth:260}}>{lang==='ru'?'Профессиональная партнёрская платформа для блогеров и инфлюенсеров.':lang==='en'?'Professional affiliate platform for bloggers and influencers worldwide.':'Platformă profesională de afiliere pentru bloggeri și influenceri.'}</div>
               <div style={{display:'flex',gap:8,marginTop:16}}>
                 {[t.f_ssl, t.f_lic, t.f_rating].map(b=><span key={b} style={{fontSize:11,color:'rgba(255,255,255,0.35)',background:'rgba(255,255,255,0.05)',padding:'3px 8px',borderRadius:4}}>{b}</span>)}
               </div>
             </div>
             {[
-              ['Program',['about','Despre noi'],['benefits','Beneficii'],['instructions','Instrucțiuni'],['faq','FAQ']],
-              ['Companie',['about','Despre noi'],['contact','Contacte'],['terms','Termeni'],['terms','Confidențialitate']],
-              ['Contact',['','support@winpartners.partners'],['','Telegram: @winpartners'],['','WhatsApp disponibil'],['','Program: 24/7']],
+              [lang==='ru'?'Программа':lang==='en'?'Program':'Program',
+                ['about',lang==='ru'?'О нас':lang==='en'?'About':'Despre noi'],
+                ['benefits',lang==='ru'?'Преимущества':lang==='en'?'Benefits':'Beneficii'],
+                ['instructions',lang==='ru'?'Инструкции':lang==='en'?'How it works':'Instrucțiuni'],
+                ['faq','FAQ']],
+              [lang==='ru'?'Компания':lang==='en'?'Company':'Companie',
+                ['about',lang==='ru'?'О нас':lang==='en'?'About':'Despre noi'],
+                ['contact',lang==='ru'?'Контакты':lang==='en'?'Contact':'Contact'],
+                ['terms',lang==='ru'?'Условия':lang==='en'?'Terms':'Termeni'],
+                ['terms',lang==='ru'?'Конфиденциальность':lang==='en'?'Privacy':'Confidențialitate']],
+              ['Contact',
+                ['','support@winpartners.partners'],
+                ['','Telegram: @winpartners_support'],
+                ['',lang==='ru'?'WhatsApp доступен':lang==='en'?'WhatsApp available':'WhatsApp disponibil'],
+                ['','24/7']],
             ].map(([title,...links])=>(
               <div key={title}>
                 <div style={{fontSize:12,fontWeight:700,color:gold,textTransform:'uppercase',letterSpacing:'.1em',marginBottom:12}}>{title}</div>
