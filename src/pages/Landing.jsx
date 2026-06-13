@@ -184,7 +184,7 @@ export default function Landing() {
         </svg>
         <div style={{position:'absolute',right:'-5%',top:'10%',width:'55%',height:'80%',background:`radial-gradient(ellipse at center, rgba(245,166,35,0.1) 0%, transparent 65%)`,pointerEvents:'none'}}/>
         
-        <div style={{position:'relative',zIndex:1,padding:'0 4rem',maxWidth:680}}>
+        <div style={{position:'relative',zIndex:1,padding:isMobile?'0 1.25rem':'0 4rem',maxWidth:680}}>
           <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(245,166,35,0.1)',border:`1px solid rgba(245,166,35,0.25)`,borderRadius:20,padding:'6px 16px',marginBottom:24}}>
             <span style={{width:6,height:6,borderRadius:'50%',background:'#10b981',display:'inline-block'}}/>
             <span style={{fontSize:12,color:gold,fontWeight:600,letterSpacing:'.05em'}}>PROGRAM ACTIV · 500K+ PARTENERI</span>
