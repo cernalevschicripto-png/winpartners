@@ -216,10 +216,10 @@ export default function Landing() {
 
       {/* STATS */}
       <div style={{background:'rgba(0,0,0,0.5)',borderTop:`1px solid rgba(245,166,35,0.12)`,borderBottom:`1px solid rgba(245,166,35,0.12)`,padding:'3rem 2rem'}}>
-        <div style={{maxWidth:900,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:0}}>
+        <div style={{maxWidth:900,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:0}}>
           {[[t.s1v,t.s1l],[t.s2v,t.s2l],[t.s3v,t.s3l]].map(([v,l],i)=>(
             <div key={l} style={{textAlign:'center',padding:'1rem',borderLeft:i>0?`1px solid rgba(245,166,35,0.1)`:'none'}}>
-              <div style={{fontSize:48,fontWeight:900,color:gold,lineHeight:1,marginBottom:6}}>{v}</div>
+              <div style={{fontSize:isMobile?28:48,fontWeight:900,color:gold,lineHeight:1,marginBottom:6}}>{v}</div>
               <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.1em'}}>{l}</div>
             </div>
           ))}
@@ -252,7 +252,7 @@ export default function Landing() {
             <h2 style={{fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.how_title}</h2>
             <div style={{width:60,height:3,background:gold,margin:'12px auto 0',borderRadius:2}}/>
           </div>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:0,position:'relative'}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:0,position:'relative'}}>
             <div style={{position:'absolute',top:28,left:'12.5%',right:'12.5%',height:2,background:`linear-gradient(90deg,${gold},rgba(245,166,35,0.3))`,zIndex:0}}/>
             {[[t.hw1,'01'],[t.hw2,'02'],[t.hw3,'03'],[t.hw4,'04']].map(([title,num])=>(
               <div key={num} style={{textAlign:'center',padding:'1.5rem',position:'relative',zIndex:1}}>

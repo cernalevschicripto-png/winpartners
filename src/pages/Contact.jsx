@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const gold = '#f5a623'
@@ -6,6 +6,12 @@ const FORMSPREE = 'https://formspree.io/f/mnjyoylo'
 
 export default function Contact() {
   const nav = useNavigate()
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 650)
+  useEffect(() => {
+    const fn = () => setIsMobile(window.innerWidth < 650)
+    window.addEventListener('resize', fn)
+    return () => window.removeEventListener('resize', fn)
+  }, [])
   const [form, setForm] = useState({ name:'', email:'', subject:'', message:'' })
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))

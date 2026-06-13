@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const gold = '#f5a623'
@@ -40,6 +40,12 @@ async function saveApplication(data) {
 }
 
 export default function Register() {
+  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 600)
+  React.useEffect(() => {
+    const fn = () => setIsMobile(window.innerWidth < 600)
+    window.addEventListener('resize', fn)
+    return () => window.removeEventListener('resize', fn)
+  }, [])
   const [searchParams] = useSearchParams()
   const refCode = searchParams.get('ref') || ''
   const inviteCode = searchParams.get('invite') || ''
@@ -168,7 +174,7 @@ export default function Register() {
             1. Date personale
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
             <div>
               <label style={lbl}>Nume complet *</label>
               <input style={errors.name?inpErr:inp} value={form.name} onChange={set('name')} placeholder="Ion Popescu"/>
@@ -184,7 +190,7 @@ export default function Register() {
             <input style={errors.email?inpErr:inp} type="email" value={form.email} onChange={set('email')} placeholder="ion@gmail.com"/>
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
             <div>
               <label style={lbl}>WhatsApp / Telegram *</label>
               <input style={errors.phone?inpErr:inp} value={form.phone} onChange={set('phone')} placeholder="+373 60 000 000"/>
@@ -202,7 +208,7 @@ export default function Register() {
             2. Profilul tău social
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
             <div>
               <label style={lbl}>Platforma principală</label>
               <select style={inp} value={form.platform} onChange={set('platform')}>
@@ -235,7 +241,7 @@ export default function Register() {
             <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',marginBottom:14,lineHeight:1.6}}>
               Comisioanele tale vor fi plătite săptămânal, minim $30. Poți modifica metoda de plată oricând din contul tău.
             </div>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+            <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
               <div>
                 <label style={lbl}>Metoda preferată</label>
                 <select style={inp} value={form.payMethod} onChange={set('payMethod')}>
