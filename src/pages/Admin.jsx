@@ -12,48 +12,29 @@ const initBloggers = [
 ]
 
 const CASINOS_LIST = [
-  { id: 'winbet',    name: 'WinBet Casino',    color: '#f5a623' },
-  { id: 'spinmax',   name: 'SpinMax Casino',   color: '#3b82f6' },
-  { id: 'luckydeal', name: 'LuckyDeal Casino', color: '#10b981' },
+  { id: 'melbet',    name: 'Melbet',    color: '#f5a623' },
+  { id: 'winbet',    name: 'WinBet',    color: '#e63946' },
+  { id: 'spinmax',   name: '1xBet',     color: '#3b82f6' },
+  { id: 'luckydeal', name: 'Mostbet',   color: '#10b981' },
 ]
 
+// Coduri REALE din Melbet Partners (generate 13.06.2026)
 const initPromoCodes = {
-  winbet: [
-    {code:'WIN001',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'WIN002',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'WIN003',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'WIN004',status:'folosit',bloggerUsername:'ionpopescu',generatedAt:'02.06.2026'},
-    {code:'WIN005',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'WIN006',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'WIN007',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'WIN008',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'WIN009',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'WIN010',status:'folosit',bloggerUsername:'alexmarin',generatedAt:'05.06.2026'},
+  melbet: [
+    {code:'ml_2738117', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11035387'},
+    {code:'ml_2796938', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180407'},
+    {code:'ml_2796939', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180417'},
+    {code:'ml_2796940', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180418'},
+    {code:'ml_2796941', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180419'},
+    {code:'ml_2796942', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180420'},
+    {code:'ml_2796943', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180421'},
+    {code:'ml_2796944', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180422'},
+    {code:'ml_2796945', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180423'},
+    {code:'ml_2796946', status:'disponibil', bloggerUsername:null, generatedAt:null, melbetId:'11180424'},
   ],
-  spinmax: [
-    {code:'SPX001',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'SPX002',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'SPX003',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'SPX004',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'SPX005',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'SPX006',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'SPX007',status:'folosit',bloggerUsername:'ionpopescu',generatedAt:'03.06.2026'},
-    {code:'SPX008',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'SPX009',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'SPX010',status:'disponibil',bloggerUsername:null,generatedAt:null},
-  ],
-  luckydeal: [
-    {code:'LKD001',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'LKD002',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'LKD003',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'LKD004',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'LKD005',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'LKD006',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'LKD007',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'LKD008',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'LKD009',status:'disponibil',bloggerUsername:null,generatedAt:null},
-    {code:'LKD010',status:'disponibil',bloggerUsername:null,generatedAt:null},
-  ],
+  winbet:    [],
+  spinmax:   [],
+  luckydeal: [],
 }
 
 export default function Admin() {

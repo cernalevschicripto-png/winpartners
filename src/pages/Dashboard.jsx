@@ -29,22 +29,36 @@ function saveCustomRequests(arr) {
   try { localStorage.setItem(CUSTOM_REQUESTS_KEY, JSON.stringify(arr)) } catch(e) {}
 }
 
-// Coada de coduri disponibile per casino
+// Coada de coduri REALE Melbet — generate din panoul partners.melbet.com
+// Aceste coduri sunt valide și active în sistemul Melbet
 const CODE_QUEUE = {
-  winbet:    ['WIN001','WIN002','WIN003','WIN004','WIN005','WIN006','WIN007','WIN008','WIN009','WIN010','WIN011','WIN012','WIN013'],
-  spinmax:   ['SPX001','SPX002','SPX003','SPX004','SPX005','SPX006','SPX007','SPX008','SPX009','SPX010'],
-  luckydeal: ['LKD001','LKD002','LKD003','LKD004','LKD005','LKD006','LKD007','LKD008','LKD009','LKD010'],
+  melbet: [
+    'ml_2738117',  // ID Melbet: 11035387
+    'ml_2796938',  // ID Melbet: 11180407
+    'ml_2796939',  // ID Melbet: 11180417
+    'ml_2796940',  // ID Melbet: 11180418
+    'ml_2796941',  // ID Melbet: 11180419
+    'ml_2796942',  // ID Melbet: 11180420
+    'ml_2796943',  // ID Melbet: 11180421
+    'ml_2796944',  // ID Melbet: 11180422
+    'ml_2796945',  // ID Melbet: 11180423
+    'ml_2796946',  // ID Melbet: 11180424
+  ],
+  // Alte cazinouri — coduri de adăugat după înregistrare
+  winbet:    [],
+  spinmax:   [],
+  luckydeal: [],
 }
 
 // Găsește primul cod disponibil și îl atribuie bloggerului
 function getNextCode(casinoId, username) {
-  const prefix = casinoId === 'winbet' ? 'WIN' : casinoId === 'spinmax' ? 'SPX' : 'LKD'
   const queue = CODE_QUEUE[casinoId] || []
+  if (queue.length === 0) return null
   const assigned = loadAssigned()
   // Dacă are deja cod pentru acest casino, returnează-l
-  const existing = Object.entries(assigned).find(([c, u]) => u === username && c.startsWith(prefix))
+  const existing = Object.entries(assigned).find(([c, u]) => u === username && queue.includes(c))
   if (existing) return existing[0]
-  // Primul cod neatribuit
+  // Primul cod neatribuit din coada acestui casino
   const next = queue.find(c => !assigned[c])
   if (next) { assigned[next] = username; saveAssigned(assigned) }
   return next || null
@@ -119,37 +133,53 @@ function loadCasinoStats(username) {
 
 const CASINOS_BASE = [
   {
-    id: 'winbet',
-    name: 'WinBet Casino',
-    logo: '🎰',
+    id: 'melbet',
+    name: 'Melbet',
+    logo: '🏆',
     color: '#f5a623',
     commissionPct: 25,
     commission: '25% Revenue Share',
-    description: 'Casino principal — sporturi + slots + live dealer',
+    description: 'Casino + sporturi · cel mai popular în Moldova și România',
     minPayout: '$30',
     payFreq: 'Săptămânal',
+    affLink: 'https://melbetpartners.com',
+    affId: '5666408',
+  },
+  {
+    id: 'winbet',
+    name: 'WinBet',
+    logo: '🎰',
+    color: '#e63946',
+    commissionPct: 25,
+    commission: '25% Revenue Share',
+    description: 'În curând — înregistrare în progres',
+    minPayout: '$30',
+    payFreq: 'Săptămânal',
+    comingSoon: true,
   },
   {
     id: 'spinmax',
-    name: 'SpinMax Casino',
+    name: '1xBet',
     logo: '🎲',
     color: '#3b82f6',
-    commissionPct: 30,
-    commission: '30% Revenue Share',
-    description: 'Specializat slots + jackpot-uri',
-    minPayout: '$50',
-    payFreq: 'Bi-săptămânal',
+    commissionPct: 25,
+    commission: '25% Revenue Share',
+    description: 'În curând — înregistrare în progres',
+    minPayout: '$30',
+    payFreq: 'Săptămânal',
+    comingSoon: true,
   },
   {
     id: 'luckydeal',
-    name: 'LuckyDeal Casino',
+    name: 'Mostbet',
     logo: '🃏',
     color: '#10b981',
-    commissionPct: 20,
-    commission: '20% Revenue Share + CPA',
-    description: 'Live dealer + poker + roulette',
+    commissionPct: 25,
+    commission: '25% Revenue Share',
+    description: 'În curând — înregistrare în progres',
     minPayout: '$30',
     payFreq: 'Lunar',
+    comingSoon: true,
   },
 ]
 
@@ -893,16 +923,22 @@ export default function Dashboard() {
                         </div>
 
                         {/* Codul meu dacă există */}
-                        {isActive ? (
-                          <div style={{background:`${casino.color}0d`,border:`1px solid ${casino.color}30`,borderRadius:6,padding:'8px 12px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                            <div>
-                              <div style={{fontSize:10,color:txtSub,marginBottom:1}}>Codul meu</div>
-                              <div style={{fontFamily:'monospace',fontWeight:900,color:casino.color,fontSize:15,letterSpacing:1}}>{myCode.code}</div>
+                        {casino.comingSoon ? (
+                          <div style={{background:'rgba(0,0,0,0.04)',border:'1px solid rgba(0,0,0,0.08)',borderRadius:6,padding:'8px 12px',textAlign:'center'}}>
+                            <div style={{fontSize:12,color:txtSub,fontWeight:600}}>🔜 În curând</div>
+                          </div>
+                        ) : isActive ? (
+                          <div>
+                            <div style={{background:`${casino.color}0d`,border:`1px solid ${casino.color}30`,borderRadius:6,padding:'8px 12px',display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
+                              <div>
+                                <div style={{fontSize:10,color:txtSub,marginBottom:1}}>Codul meu Melbet</div>
+                                <div style={{fontFamily:'monospace',fontWeight:900,color:casino.color,fontSize:15,letterSpacing:1}}>{myCode.code}</div>
+                              </div>
+                              <button onClick={e=>{e.stopPropagation();copy(myCode.code,'code_'+casino.id)}}
+                                style={{padding:'4px 10px',fontSize:11,fontWeight:600,cursor:'pointer',border:`1px solid ${casino.color}40`,borderRadius:6,background:'none',color:casino.color,fontFamily:'inherit'}}>
+                                {copied==='code_'+casino.id?'✓':'Copiază'}
+                              </button>
                             </div>
-                            <button onClick={e=>{e.stopPropagation();copy(myCode.code,'code_'+casino.id)}}
-                              style={{padding:'4px 10px',fontSize:11,fontWeight:600,cursor:'pointer',border:`1px solid ${casino.color}40`,borderRadius:6,background:'none',color:casino.color,fontFamily:'inherit'}}>
-                              {copied==='code_'+casino.id?'✓':'Copiază'}
-                            </button>
                           </div>
                         ) : (
                           <div style={{background:'#f0fdf4',border:'1px solid #bbf7d0',borderRadius:6,padding:'8px 12px',textAlign:'center'}}>
