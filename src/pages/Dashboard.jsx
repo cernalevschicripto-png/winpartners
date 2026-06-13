@@ -1,5 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import {
+  loginBlogger,
+  getCasinoStats, subscribeCasinoStats,
+  getNextAvailableCode, subscribePromoCodes,
+  addCustomRequest, subscribeCustomRequests,
+} from '../db.js'
 
 const gold = '#f5a623'
 const bg = '#f0f2f5'
@@ -11,23 +17,12 @@ const txt = '#1a1a2e'
 const txtSub = '#6b7280'
 
 // ============================================================
-// STORAGE — simulează baza de date în localStorage
+// STORAGE — Firebase Realtime Database (sync în timp real)
 // ============================================================
-const ASSIGNED_CODES_KEY = 'wp_assigned_codes'
-function loadAssigned() {
-  try { return JSON.parse(localStorage.getItem(ASSIGNED_CODES_KEY) || '{}') } catch(e) { return {} }
-}
-function saveAssigned(obj) {
-  try { localStorage.setItem(ASSIGNED_CODES_KEY, JSON.stringify(obj)) } catch(e) {}
-}
-
-const CUSTOM_REQUESTS_KEY = 'wp_custom_requests'
-function loadCustomRequests() {
-  try { return JSON.parse(localStorage.getItem(CUSTOM_REQUESTS_KEY) || '[]') } catch(e) { return [] }
-}
-function saveCustomRequests(arr) {
-  try { localStorage.setItem(CUSTOM_REQUESTS_KEY, JSON.stringify(arr)) } catch(e) {}
-}
+// Funcțiile de localStorage sunt înlocuite de Firebase db.js
+// Rămân stub-uri goale pentru compatibilitate cu codul vechi
+function loadCustomRequests() { return [] }
+function saveCustomRequests() {}
 
 // Coada de coduri REALE Melbet — generate din panoul partners.melbet.com
 // Aceste coduri sunt valide și active în sistemul Melbet
@@ -50,19 +45,9 @@ const CODE_QUEUE = {
   luckydeal: [],
 }
 
-// Găsește primul cod disponibil și îl atribuie bloggerului
-function getNextCode(casinoId, username) {
-  const queue = CODE_QUEUE[casinoId] || []
-  if (queue.length === 0) return null
-  const assigned = loadAssigned()
-  // Dacă are deja cod pentru acest casino, returnează-l
-  const existing = Object.entries(assigned).find(([c, u]) => u === username && queue.includes(c))
-  if (existing) return existing[0]
-  // Primul cod neatribuit din coada acestui casino
-  const next = queue.find(c => !assigned[c])
-  if (next) { assigned[next] = username; saveAssigned(assigned) }
-  return next || null
-}
+// getNextCode — înlocuit cu Firebase (async) în generatePromoCode
+// Lăsat stub pentru compatibilitate
+function getNextCode(casinoId, username) { return null }
 
 const D = {
   name:'Ion Popescu', username:'ionpopescu', platform:'TikTok',
@@ -226,38 +211,167 @@ function LineChart({data,field,color,h=60}) {
   )
 }
 
+// ─── LOGIN SCREEN ───────────────────────────────────────────
+function LoginScreen({ onLogin }) {
+  const [username, setUsername] = useState('')
+  const [pass, setPass] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const doLogin = async () => {
+    if (!username.trim() || !pass.trim()) { setError('Completează username și parola'); return }
+    setLoading(true)
+    setError('')
+    try {
+      const blogger = await loginBlogger(username.trim().toLowerCase(), pass.trim())
+      if (!blogger) { setError('Username sau parolă incorectă'); setLoading(false); return }
+      if (blogger.status === 'pending') { setError('Contul tău este în așteptare. Contactează adminul.'); setLoading(false); return }
+      onLogin(blogger)
+    } catch(e) {
+      setError('Eroare de conexiune. Verifică internetul.')
+      setLoading(false)
+    }
+  }
+
+  const gold2 = '#f5a623'
+  return (
+    <div style={{minHeight:'100vh',background:'#0a0a0f',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Inter,sans-serif'}}>
+      <div style={{textAlign:'center',maxWidth:380,width:'100%',padding:'2rem'}}>
+        <div style={{fontSize:28,fontWeight:900,marginBottom:8,color:'#fff'}}>
+          WIN<span style={{color:gold2}}>PARTNERS</span>
+        </div>
+        <div style={{fontSize:13,color:'rgba(255,255,255,0.35)',marginBottom:32}}>Platforma oficială de afiliere casino</div>
+        <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:16,padding:'2rem',textAlign:'left'}}>
+          <h2 style={{fontSize:18,fontWeight:700,marginBottom:20,color:'#fff',textAlign:'center'}}>Intră în cont</h2>
+          <div style={{marginBottom:14}}>
+            <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>Username</div>
+            <input
+              style={{width:'100%',padding:'11px 14px',fontSize:14,border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,background:'rgba(255,255,255,0.05)',color:'#e2e8f0',outline:'none',boxSizing:'border-box'}}
+              type="text" placeholder="ionpopescu" value={username}
+              onChange={e=>setUsername(e.target.value)}
+              onKeyDown={e=>e.key==='Enter'&&doLogin()}
+            />
+          </div>
+          <div style={{marginBottom:20}}>
+            <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>Parola</div>
+            <input
+              style={{width:'100%',padding:'11px 14px',fontSize:14,border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,background:'rgba(255,255,255,0.05)',color:'#e2e8f0',outline:'none',boxSizing:'border-box'}}
+              type="password" placeholder="••••••••" value={pass}
+              onChange={e=>setPass(e.target.value)}
+              onKeyDown={e=>e.key==='Enter'&&doLogin()}
+            />
+          </div>
+          {error && <div style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:8,padding:'10px 14px',fontSize:13,color:'#ef4444',marginBottom:16}}>{error}</div>}
+          <button
+            disabled={loading}
+            onClick={doLogin}
+            style={{width:'100%',padding:'13px',fontSize:15,fontWeight:700,cursor:loading?'wait':'pointer',border:'none',borderRadius:8,background:gold2,color:'#000',opacity:loading?0.7:1}}>
+            {loading ? '⏳ Se verifică...' : 'INTRĂ ÎN CONT'}
+          </button>
+          <div style={{textAlign:'center',marginTop:16,fontSize:12,color:'rgba(255,255,255,0.3)'}}>
+            Nu ai cont? <a href="/register" style={{color:gold2,textDecoration:'none',fontWeight:600}}>Aplică acum</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Dashboard() {
+  // ─── AUTH STATE ───────────────────────────────────────────
+  const [blogger, setBlogger] = useState(() => {
+    try { return JSON.parse(sessionStorage.getItem('wp_blogger') || 'null') } catch(e) { return null }
+  })
+
+  const handleLogin = (bloggerData) => {
+    sessionStorage.setItem('wp_blogger', JSON.stringify(bloggerData))
+    setBlogger(bloggerData)
+  }
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('wp_blogger')
+    setBlogger(null)
+  }
+
+  if (!blogger) return <LoginScreen onLogin={handleLogin} />
+
+  return <DashboardContent blogger={blogger} onLogout={handleLogout} />
+}
+
+function DashboardContent({ blogger, onLogout }) {
+  // Înlocuiește D cu datele reale ale bloggerului
+  const D = {
+    ...blogger,
+    refCode: blogger.refCode || 'REF_' + blogger.username.toUpperCase(),
+    affId: blogger.affId || 'WP-' + Math.floor(Math.random()*9000000+1000000),
+    bal: {
+      available: blogger.commission ? Math.max(0, Math.round((blogger.revenue||0)*(blogger.commission/100)-(blogger.paid||0))) : 0,
+      yesterday: 56, month: 248, days30: blogger.revenue||0, total: blogger.revenue||0,
+    },
+    daily:[
+      {d:'06.06',cl:145,rg:12,dp:4,rv:280},{d:'07.06',cl:198,rg:18,dp:6,rv:340},
+      {d:'08.06',cl:167,rg:14,dp:5,rv:210},{d:'09.06',cl:223,rg:21,dp:8,rv:410},
+      {d:'10.06',cl:189,rg:16,dp:6,rv:320},{d:'11.06',cl:201,rg:19,dp:7,rv:280},
+      {d:'12.06',cl:124,rg:11,dp:4,rv:0},
+    ],
+    refs: [],
+    pays: [],
+    links:[{id:1,camp:'English',subid:'',page:'/live',link:'https://melbet.com/go/WP'+blogger.affId,shown:true}],
+    commStructure:[{val:'USD',struct:'Revenue Share',group:'RS25% REF3%',start:'2026-06-02',desc:'Procent comision: 25%; Comision negativ: Da; Administrator: 0%',end:''}],
+  }
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [page,setPage]=useState('main')
   const [selectedCasino, setSelectedCasino] = useState(null)
   const [generatedCode, setGeneratedCode] = useState(null)
   const [codeGenerating, setCodeGenerating] = useState(false)
-  // Codurile mele atribuite
-  const [myCodes, setMyCodes] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('wp_my_codes_' + D.username) || '[]') } catch(e) { return [] }
-  })
+  // Codurile mele atribuite — din Firebase
+  const [myCodes, setMyCodes] = useState([])
+  const [allPromoCodes, setAllPromoCodes] = useState({})
+
+  useEffect(() => {
+    const unsub = subscribePromoCodes(codes => {
+      setAllPromoCodes(codes)
+      // Codurile atribuite bloggerului curent
+      const mine = []
+      for (const [casinoId, list] of Object.entries(codes)) {
+        const myCode = list.find(c => c.bloggerUsername === D.username && c.status === 'atribuit')
+        if (myCode) {
+          const casino = CASINOS_BASE.find(c => c.id === casinoId)
+          mine.push({ ...myCode, casinoId, casinoName: casino?.name, color: casino?.color })
+        }
+      }
+      setMyCodes(mine)
+    })
+    return unsub
+  }, [D.username])
   // Cerere cod personalizat
   const [showCustomCode, setShowCustomCode] = useState(false)
   const [customCodeText, setCustomCodeText] = useState('')
   const [customCasinoId, setCustomCasinoId] = useState('winbet')
   const [customCodeSent, setCustomCodeSent] = useState(false)
-  const [customRequests, setCustomRequests] = useState(() => loadCustomRequests().filter(r => r.blogger === D.username))
+  const [customRequests, setCustomRequests] = useState([])
+
+  useEffect(() => {
+    const unsub = subscribeCustomRequests(all => {
+      setCustomRequests(all.filter(r => r.blogger === D.username))
+    })
+    return unsub
+  }, [D.username])
   const [showCasinoRequest, setShowCasinoRequest] = useState(null)
   // Referrals
   const [myReferrals, setMyReferrals] = useState(() => {
     try { return JSON.parse(localStorage.getItem('wp_referrals_' + D.username) || '[]') } catch(e) { return D.refs }
   })
-  // Cazinouri cu statistici live din localStorage (actualizate de admin)
-  const [casinoStats, setCasinoStats] = useState(() => loadCasinoStats(D.username))
+  // Cazinouri cu statistici live din Firebase (actualizate de admin)
+  const [casinoStats, setCasinoStatsState] = useState({})
   const CASINOS = CASINOS_BASE.map(c => ({ ...c, stats: casinoStats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
 
-  // Reîncarcă statisticile cazinouri la focus (admin le poate actualiza)
+  // Subscribe Firebase — polling la 5 secunde
   useEffect(() => {
-    const onFocus = () => setCasinoStats(loadCasinoStats(D.username))
-    window.addEventListener('focus', onFocus)
-    return () => window.removeEventListener('focus', onFocus)
-  }, [])
+    const unsub = subscribeCasinoStats(D.username, setCasinoStatsState)
+    return unsub
+  }, [D.username])
 
   useEffect(() => {
     const handleResize = () => {
@@ -268,48 +382,33 @@ export default function Dashboard() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Salvează myCodes în localStorage
-  useEffect(() => {
-    try { localStorage.setItem('wp_my_codes_' + D.username, JSON.stringify(myCodes)) } catch(e) {}
-  }, [myCodes])
+  // myCodes sunt din Firebase — nu mai salvăm în localStorage
 
-  const generatePromoCode = (casinoId) => {
+  const generatePromoCode = async (casinoId) => {
     setCodeGenerating(true)
     setGeneratedCode(null)
-    setTimeout(() => {
-      // Ia primul cod disponibil din coadă — atribuire secvențială
-      const code = getNextCode(casinoId, D.username)
-      if (code) {
-        setGeneratedCode({ code, casinoId, bloggerUsername: D.username, timestamp: new Date().toISOString() })
-        // Salvează în lista codurilor mele
-        setMyCodes(prev => {
-          const exists = prev.find(c => c.code === code && c.casinoId === casinoId)
-          if (exists) return prev
-          const casino = CASINOS.find(c => c.id === casinoId)
-          return [...prev, { code, casinoId, casinoName: casino?.name, color: casino?.color, regs: 0, deposits: 0, commission: 0, date: new Date().toLocaleDateString('ro-RO') }]
-        })
+    try {
+      const result = await getNextAvailableCode(casinoId, D.username)
+      if (result && result.code) {
+        setGeneratedCode({ code: result.code, casinoId, bloggerUsername: D.username, timestamp: new Date().toISOString() })
       } else {
         setGeneratedCode({ code: 'INDISPONIBIL', casinoId, bloggerUsername: D.username, timestamp: new Date().toISOString(), error: true })
       }
-      setCodeGenerating(false)
-    }, 1200)
+    } catch(e) {
+      setGeneratedCode({ code: 'EROARE', casinoId, bloggerUsername: D.username, timestamp: new Date().toISOString(), error: true })
+    }
+    setCodeGenerating(false)
   }
 
-  const submitCustomRequest = () => {
+  const submitCustomRequest = async () => {
     if (!customCodeText.trim() || !customCasinoId) return
-    const requests = loadCustomRequests()
-    const newReq = {
-      id: Date.now(),
+    await addCustomRequest({
       blogger: D.username,
       bloggerName: D.name,
       casinoId: customCasinoId,
       casinoName: CASINOS.find(c => c.id === customCasinoId)?.name,
       requestedCode: customCodeText.toUpperCase(),
-      date: new Date().toLocaleDateString('ro-RO'),
-      status: 'pending'
-    }
-    saveCustomRequests([...requests, newReq])
-    setCustomRequests(prev => [...prev, newReq])
+    })
     setCustomCodeSent(true)
     setCustomCodeText('')
   }
@@ -329,6 +428,10 @@ export default function Dashboard() {
   const [linkCamp,setLinkCamp]=useState('English')
   const [linkPage,setLinkPage]=useState('/live')
   const nav=useNavigate()
+  // Logout
+  const logout = () => {
+    if (confirm('Ești sigur că vrei să ieși?')) onLogout()
+  }
 
   const copy=(t,k)=>{navigator.clipboard.writeText(t).then(()=>{setCopied(k);setTimeout(()=>setCopied(''),2000)})}
   const refLink=`https://winpartners.partners/register?ref=${D.refCode}`
