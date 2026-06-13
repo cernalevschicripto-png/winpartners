@@ -62,12 +62,12 @@ export default function Register() {
 
   const validate = () => {
     const e = {}
-    if (!form.name.trim()) e.name = true
-    if (!form.username.trim()) e.username = true
-    if (!form.email.includes('@')) e.email = true
-    if (!form.phone.trim()) e.phone = true
+    if (!form.name.trim() || form.name.trim().length < 2) e.name = true
+    if (!form.username.trim() || form.username.trim().length < 3) e.username = true
+    if (!form.email.includes('@') || !form.email.includes('.')) e.email = true
+    if (!form.phone.trim() || form.phone.trim().length < 6) e.phone = true
     if (!form.profileLink.trim()) e.profileLink = true
-    if (!form.followers) e.followers = true
+    if (!form.followers || +form.followers < 100) e.followers = true
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -103,7 +103,7 @@ export default function Register() {
         <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:12,padding:'1.5rem',marginBottom:24,textAlign:'left'}}>
           <div style={{fontSize:12,color:gold,fontWeight:700,marginBottom:16,textTransform:'uppercase',letterSpacing:'.08em'}}>Ce urmează:</div>
           {[
-            ['📧', 'Acum', 'Ai primit un email de confirmare la ' + form.email],
+            ['📬', 'Acum', 'Cererea ta a fost înregistrată și trimisă echipei noastre'],
             ['🔍', '24-48 ore', 'Echipa noastră analizează profilul tău'],
             ['✅', 'După aprobare', 'Primești email cu datele de acces și codul tău Melbet'],
             ['🚀', 'Start', 'Intri în dashboard și începi să câștigați'],
@@ -159,10 +159,12 @@ export default function Register() {
             </div>
           )}
           <h1 style={{fontSize:isMobile?22:28,fontWeight:900,color:'#fff',marginBottom:8,textTransform:'uppercase'}}>
-            Aplică pentru parteneriat
+            {lang==='ru'?'Подать заявку на партнёрство':lang==='en'?'Apply for Partnership':'Aplică pentru parteneriat'}
           </h1>
           <p style={{color:'rgba(255,255,255,0.4)',fontSize:14,lineHeight:1.6}}>
-            Completează formularul de mai jos. Echipa noastră va analiza profilul tău și te va contacta în <strong style={{color:'#fff'}}>24-48 de ore</strong>.
+            {lang==='ru'?'Заполните форму. Наша команда рассмотрит ваш профиль и свяжется с вами в течение 24-48 часов.':lang==='en'?'Fill in the form. Our team will review your profile and contact you within 24-48 hours.':'Completează formularul. Echipa noastră va analiza profilul tău și te va contacta în '}
+            {lang==='ro'&&<strong style={{color:'#fff'}}>24-48 de ore</strong>}
+            {lang==='ro'&&'.'}
           </p>
         </div>
 
@@ -187,7 +189,7 @@ export default function Register() {
 
           <div>
             <label style={lbl}>Email *</label>
-            <input style={errors.email?inpErr:inp} type="email" value={form.email} onChange={set('email')} placeholder="ion@gmail.com"/>
+            <input style={errors.email?inpErr:inp} type="email" value={form.email} onChange={set('email')} placeholder="email@exemplu.com"/>
           </div>
 
           <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:14}}>
@@ -270,7 +272,7 @@ export default function Register() {
           {/* Erori */}
           {Object.keys(errors).length > 0 && (
             <div style={{background:'rgba(239,68,68,0.08)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:6,padding:'10px 14px',fontSize:13,color:'#ef4444'}}>
-              ⚠ Completează toate câmpurile obligatorii marcate cu *
+              ⚠ Verifică câmpurile marcate: username minim 3 caractere, email valid, minim 100 urmăritori
             </div>
           )}
 
