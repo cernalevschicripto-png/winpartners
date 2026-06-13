@@ -243,6 +243,7 @@ export default function Dashboard() {
   const [customCasinoId, setCustomCasinoId] = useState('winbet')
   const [customCodeSent, setCustomCodeSent] = useState(false)
   const [customRequests, setCustomRequests] = useState(() => loadCustomRequests().filter(r => r.blogger === D.username))
+  const [showCasinoRequest, setShowCasinoRequest] = useState(null)
   // Referrals
   const [myReferrals, setMyReferrals] = useState(() => {
     try { return JSON.parse(localStorage.getItem('wp_referrals_' + D.username) || '[]') } catch(e) { return D.refs }
@@ -932,8 +933,15 @@ export default function Dashboard() {
 
                         {/* Codul meu dacă există */}
                         {casino.comingSoon ? (
-                          <div style={{background:'rgba(0,0,0,0.04)',border:'1px solid rgba(0,0,0,0.08)',borderRadius:6,padding:'8px 12px',textAlign:'center'}}>
-                            <div style={{fontSize:12,color:txtSub,fontWeight:600}}>🔜 În curând</div>
+                          <div>
+                            <div style={{background:'rgba(0,0,0,0.04)',border:'1px solid rgba(0,0,0,0.08)',borderRadius:6,padding:'8px 10px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                              <div style={{fontSize:12,color:txtSub,fontWeight:600}}>🔜 Disponibil în curând</div>
+                              <button
+                                onClick={e=>{e.stopPropagation();setShowCasinoRequest(casino.id)}}
+                                style={{padding:'3px 10px',fontSize:11,fontWeight:600,cursor:'pointer',border:'1px solid rgba(245,166,35,0.3)',borderRadius:5,background:'none',color:gold,fontFamily:'inherit',flexShrink:0}}>
+                                Aplică
+                              </button>
+                            </div>
                           </div>
                         ) : isActive ? (
                           <div>
@@ -1186,24 +1194,85 @@ export default function Dashboard() {
               <div style={{textAlign:'center',padding:'1rem'}}>
                 <div style={{fontSize:40,marginBottom:10}}>✅</div>
                 <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>Cerere trimisă!</h3>
-                <p style={{color:txtSub,fontSize:13,marginBottom:16}}>Plata va fi procesată în 48 ore.</p>
+                <p style={{color:txtSub,fontSize:13,marginBottom:8,lineHeight:1.6}}>
+                  Cererea ta de plată a fost înregistrată. Suma va fi procesată în <strong>48 ore</strong> pe adresa ta {payMethod}.
+                </p>
+                <div style={{background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,padding:'8px 12px',fontSize:12,color:'#854d0e',marginBottom:16}}>
+                  💡 Primești notificare pe WhatsApp când plata e confirmată.
+                </div>
                 <button style={btnPrimary} onClick={()=>{setShowPay(false);setPaySent(false)}}>Închide</button>
               </div>
             ):(
               <>
-                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>Solicită plată</div>
-                <p style={{color:txtSub,fontSize:13,marginBottom:14}}>Disponibil: <strong style={{color:'#10b981'}}>${D.bal.available}</strong> · Minimum $30</p>
+                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>Solicită plată comisioane</div>
+                <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:6,padding:'10px 14px',marginBottom:14,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <div>
+                    <div style={{fontSize:11,color:txtSub,marginBottom:1}}>Disponibil pentru retragere</div>
+                    <div style={{fontSize:22,fontWeight:900,color:'#15803d'}}>${D.bal.available}</div>
+                  </div>
+                  <div style={{textAlign:'right'}}>
+                    <div style={{fontSize:11,color:txtSub,marginBottom:1}}>Minim retragere</div>
+                    <div style={{fontSize:14,fontWeight:700,color:txtSub}}>$30</div>
+                  </div>
+                </div>
                 <label style={label}>Metodă de plată</label>
-                <select style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:10}} value={payMethod} onChange={e=>setPayMethod(e.target.value)}>{['Bitcoin','Skrill','Neteller','PAYEER','Transfer bancar'].map(m=><option key={m}>{m}</option>)}</select>
+                <select style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:10}} value={payMethod} onChange={e=>setPayMethod(e.target.value)}>
+                  {['Bitcoin (BTC)','USDT (TRC20)','USDT (ERC20)','Ethereum (ETH)','Binance Pay','Skrill','Neteller'].map(m=><option key={m}>{m}</option>)}
+                </select>
                 <label style={label}>Adresa {payMethod}</label>
-                <input style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:14}} placeholder={payMethod==='Bitcoin'?'bc1q...':'Cont/email'} value={payAddr} onChange={e=>setPayAddr(e.target.value)}/>
-                <button style={{...btnPrimary,width:'100%',padding:'10px',fontSize:14,borderRadius:6}} onClick={()=>payAddr&&setPaySent(true)}>Trimite cererea</button>
+                <input style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:6,fontFamily:'monospace',fontSize:12}}
+                  placeholder={payMethod.includes('Bitcoin')?'bc1q...':payMethod.includes('TRC20')?'T...':payMethod.includes('Binance')?'ID Binance Pay...':'Adresa sau email'}
+                  value={payAddr} onChange={e=>setPayAddr(e.target.value)}/>
+                <div style={{fontSize:11,color:txtSub,marginBottom:14}}>
+                  Verifică adresa cu atenție. Tranzacțiile crypto sunt ireversibile.
+                </div>
+                <button style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6,opacity:(!payAddr||D.bal.available<30)?0.5:1}}
+                  disabled={!payAddr||D.bal.available<30}
+                  onClick={()=>payAddr&&D.bal.available>=30&&setPaySent(true)}>
+                  {D.bal.available<30?`Minim $30 (ai $${D.bal.available})`:'Solicită plata →'}
+                </button>
                 <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowPay(false)}>Anulează</button>
               </>
             )}
           </div>
         </div>
       )}
+
+      {/* MODAL CERERE CASINO NOU */}
+      {showCasinoRequest && (() => {
+        const casino = CASINOS_BASE.find(c => c.id === showCasinoRequest)
+        return (
+          <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.6)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:200,padding:'1rem'}} onClick={()=>setShowCasinoRequest(null)}>
+            <div style={{...card,width:'100%',maxWidth:420,boxShadow:'0 20px 60px rgba(0,0,0,0.4)'}} onClick={e=>e.stopPropagation()}>
+              <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>Solicită acces — {casino?.name}</div>
+              <p style={{color:txtSub,fontSize:13,marginBottom:20,lineHeight:1.6}}>
+                Trimite o cerere pentru a promova <strong>{casino?.name}</strong>. Echipa noastră îți va activa accesul și îți va aloca un cod promoțional dedicat.
+              </p>
+              <div style={{background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,padding:'10px 14px',marginBottom:20,fontSize:12,color:'#854d0e'}}>
+                ⏱ Procesare în 24-48 ore. Vei fi notificat pe email și WhatsApp.
+              </div>
+              <button
+                onClick={()=>{
+                  const reqs = loadCustomRequests()
+                  const already = reqs.find(r=>r.blogger===D.username && r.casinoId===showCasinoRequest && r.type==='casino_access')
+                  if (!already) {
+                    saveCustomRequests([...reqs, {
+                      id: Date.now(), blogger: D.username, bloggerName: D.name,
+                      casinoId: showCasinoRequest, casinoName: casino?.name,
+                      type: 'casino_access', requestedCode: 'ACCES', date: new Date().toLocaleDateString('ro-RO'), status: 'pending'
+                    }])
+                  }
+                  setShowCasinoRequest(null)
+                  alert('✅ Cererea a fost trimisă! Vei fi notificat în 24-48 ore.')
+                }}
+                style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6}}>
+                Trimite cererea
+              </button>
+              <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCasinoRequest(null)}>Anulează</button>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* MODAL COD PERSONALIZAT */}
       {showCustomCode&&(

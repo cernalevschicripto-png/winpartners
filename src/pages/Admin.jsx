@@ -62,6 +62,27 @@ export default function Admin() {
   const [showNotifPanel, setShowNotifPanel] = useState(false)
   const [payments, setPayments] = useState([])
   const [updateBlogger, setUpdateBlogger] = useState(null)
+  const [applications, setApplications] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('wp_applications') || '[]') } catch(e) { return [] }
+  })
+
+  const processApplication = (id, approve) => {
+    setApplications(prev => {
+      const updated = prev.map(a => a.id === id ? {...a, status: approve ? 'approved' : 'rejected'} : a)
+      localStorage.setItem('wp_applications', JSON.stringify(updated))
+      return updated
+    })
+    if (approve) {
+      const app = applications.find(a => a.id === id)
+      if (app) {
+        setNotifications(prev => [{
+          id: Date.now(), type: 'new_blogger',
+          blogger: app.name, detail: 'Cerere aprobată — ' + app.platform + ' · ' + app.followers + ' urmăritori',
+          timestamp: new Date().toLocaleString('ro-RO'), read: false
+        }, ...prev])
+      }
+    }
+  }
   const [requests, setRequests] = useState([
     {id:1,name:'Ion Popescu',type:'Cod personalizat',detail:'IONEL',date:'10.06.2026',status:'pending'},
     {id:2,name:'Alex Marin',type:'Plată',detail:'$560',date:'09.06.2026',status:'pending'},
@@ -275,7 +296,7 @@ export default function Admin() {
         </div>
 
         <div style={{display:'flex',gap:4,borderBottom:'1px solid rgba(255,255,255,0.07)',marginBottom:'1.5rem'}}>
-          {[['bloggers','Bloggeri'],['promo','Promcoduri'],['special','Coduri speciale'],['update','Actualizare'],['requests','Cereri'],['payments','Plăți'],['notif','Notificări']].map(([id,lbl]) => (
+          {[['applications','Aplicații'],['bloggers','Bloggeri'],['promo','Promcoduri'],['special','Coduri speciale'],['update','Actualizare'],['payments','Plăți'],['notif','Notificări']].map(([id,lbl]) => (
             <button key={id} style={{padding:'8px 18px',fontSize:13,cursor:'pointer',border:'none',background:'none',color:tab===id?gold:'rgba(255,255,255,0.4)',borderBottom:tab===id?`2px solid ${gold}`:'2px solid transparent',marginBottom:-1,fontWeight:tab===id?700:400,display:'flex',alignItems:'center',gap:6}} onClick={() => setTab(id)}>
               {lbl}
               {id==='notif' && unreadCount>0 && <span style={{background:'#ef4444',color:'#fff',borderRadius:10,fontSize:10,fontWeight:700,padding:'1px 6px'}}>{unreadCount}</span>}
@@ -621,6 +642,86 @@ export default function Admin() {
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+
+        {tab==='applications' && (
+          <div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
+              <h3 style={{fontSize:16,fontWeight:700,color:'#e2e8f0',margin:0}}>Cereri de afiliere</h3>
+              <div style={{display:'flex',gap:8,fontSize:12}}>
+                <span style={{background:'rgba(245,166,35,0.15)',color:gold,padding:'3px 10px',borderRadius:12,fontWeight:600}}>{applications.filter(a=>a.status==='pending').length} în așteptare</span>
+                <span style={{background:'rgba(16,185,129,0.1)',color:'#10b981',padding:'3px 10px',borderRadius:12,fontWeight:600}}>{applications.filter(a=>a.status==='approved').length} aprobate</span>
+              </div>
+            </div>
+
+            {applications.length === 0 ? (
+              <div style={{padding:'48px',textAlign:'center',color:'rgba(255,255,255,0.3)',background:'rgba(255,255,255,0.02)',borderRadius:12,border:'1px solid rgba(255,255,255,0.06)'}}>
+                <div style={{fontSize:32,marginBottom:12}}>📬</div>
+                <div style={{fontSize:14}}>Nicio cerere primită încă. Bloggerii se vor înregistra prin winpartners.partners/register</div>
+              </div>
+            ) : (
+              <div style={{display:'flex',flexDirection:'column',gap:14}}>
+                {applications.map(app => (
+                  <div key={app.id} style={{background:'rgba(255,255,255,0.02)',border:`1px solid ${app.status==='approved'?'rgba(16,185,129,0.2)':app.status==='rejected'?'rgba(239,68,68,0.15)':'rgba(245,166,35,0.1)'}`,borderRadius:12,padding:'1.25rem'}}>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexWrap:'wrap',gap:12}}>
+                      <div style={{flex:1}}>
+                        <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                          <div style={{width:36,height:36,borderRadius:'50%',background:'rgba(245,166,35,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700,color:gold,flexShrink:0}}>{(app.name||'?')[0]}</div>
+                          <div>
+                            <div style={{fontWeight:700,fontSize:15,color:'#e2e8f0'}}>{app.name}</div>
+                            <div style={{fontSize:12,color:'rgba(255,255,255,0.4)'}}>@{app.username} · {app.email}</div>
+                          </div>
+                          <span style={{padding:'3px 10px',borderRadius:12,fontSize:11,fontWeight:700,
+                            background:app.status==='approved'?'rgba(16,185,129,0.15)':app.status==='rejected'?'rgba(239,68,68,0.15)':'rgba(245,166,35,0.15)',
+                            color:app.status==='approved'?'#10b981':app.status==='rejected'?'#ef4444':gold}}>
+                            {app.status==='approved'?'✓ Aprobat':app.status==='rejected'?'✗ Respins':'⏳ În așteptare'}
+                          </span>
+                        </div>
+                        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:8,fontSize:12}}>
+                          {[
+                            ['📱 Platformă', app.platform],
+                            ['👥 Urmăritori', app.followers ? Number(app.followers).toLocaleString() : '—'],
+                            ['🌍 Țara', app.country],
+                            ['📅 Data', app.date],
+                            ['💬 Contact', app.phone],
+                            ['🔗 Profil', app.profileLink ? <a href={app.profileLink} target="_blank" rel="noreferrer" style={{color:gold}}>Vezi profil</a> : '—'],
+                          ].map(([label, val]) => (
+                            <div key={label} style={{background:'rgba(0,0,0,0.2)',borderRadius:6,padding:'6px 10px'}}>
+                              <div style={{color:'rgba(255,255,255,0.35)',marginBottom:2}}>{label}</div>
+                              <div style={{color:'#e2e8f0',fontWeight:600}}>{val}</div>
+                            </div>
+                          ))}
+                        </div>
+                        {app.aboutYou && (
+                          <div style={{marginTop:10,fontSize:12,color:'rgba(255,255,255,0.45)',background:'rgba(0,0,0,0.15)',padding:'8px 12px',borderRadius:6,fontStyle:'italic'}}>
+                            "{app.aboutYou}"
+                          </div>
+                        )}
+                        {app.refCode && (
+                          <div style={{marginTop:8,fontSize:11,color:'#10b981'}}>✓ Invitat cu codul: <strong>{app.refCode}</strong></div>
+                        )}
+                        {app.payAddress && (
+                          <div style={{marginTop:6,fontSize:11,color:'rgba(255,255,255,0.35)'}}>💳 {app.payMethod}: <span style={{fontFamily:'monospace',color:'rgba(255,255,255,0.5)'}}>{app.payAddress.substring(0,20)}...</span></div>
+                        )}
+                      </div>
+                      {app.status === 'pending' && (
+                        <div style={{display:'flex',flexDirection:'column',gap:8,flexShrink:0}}>
+                          <button onClick={() => processApplication(app.id, true)}
+                            style={{padding:'8px 20px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:8,background:'#10b981',color:'#fff',fontFamily:'inherit'}}>
+                            ✓ Aprobă
+                          </button>
+                          <button onClick={() => processApplication(app.id, false)}
+                            style={{padding:'8px 20px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:8,background:'rgba(239,68,68,0.2)',color:'#ef4444',fontFamily:'inherit'}}>
+                            ✗ Respinge
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
