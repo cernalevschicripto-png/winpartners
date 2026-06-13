@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const gold = '#f5a623'
@@ -93,6 +93,14 @@ export default function Landing() {
   const [lang, setLang] = useState('ro')
   const navigate = useNavigate()
   const t = T[lang]
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const benefits = [
     ['💰',t.b1t,t.b1d],['📊',t.b2t,t.b2d],['🎯',t.b3t,t.b3d],
@@ -112,29 +120,57 @@ export default function Landing() {
     <div style={{background:dark,minHeight:'100vh',color:'#fff',fontFamily:"'Inter',sans-serif",overflowX:'hidden'}}>
 
       {/* NAV */}
-      <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:100,background:'rgba(10,10,15,0.98)',borderBottom:'1px solid rgba(245,166,35,0.15)',padding:'0 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:64,backdropFilter:'blur(10px)'}}>
-        <div style={{display:'flex',alignItems:'center',gap:32}}>
-          {/* LOGO */}
-          <div onClick={()=>navigate('/')} style={{cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
-            <svg width="32" height="32" viewBox="0 0 32 32">
-              <polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill={gold} opacity="0.15" stroke={gold} strokeWidth="1.5"/>
-              <text x="16" y="21" textAnchor="middle" fontSize="14" fontWeight="900" fill={gold}>W</text>
-            </svg>
-            <span style={{fontSize:18,fontWeight:900,letterSpacing:'.02em'}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></span>
-          </div>
+      <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:100,background:'rgba(10,10,15,0.98)',borderBottom:'1px solid rgba(245,166,35,0.15)',padding:'0 1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:64,backdropFilter:'blur(10px)'}}>
+        {/* LOGO */}
+        <div onClick={()=>navigate('/')} style={{cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
+          <svg width="32" height="32" viewBox="0 0 32 32">
+            <polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill={gold} opacity="0.15" stroke={gold} strokeWidth="1.5"/>
+            <text x="16" y="21" textAnchor="middle" fontSize="14" fontWeight="900" fill={gold}>W</text>
+          </svg>
+          <span style={{fontSize:18,fontWeight:900,letterSpacing:'.02em'}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></span>
+        </div>
+
+        {/* Desktop nav links */}
+        {!isMobile && (
           <div style={{display:'flex',gap:20}}>
-            {[['about', lang==='ru'?'О нас':'Despre noi'],['benefits',lang==='ru'?'Преимущества':'Beneficii'],['instructions',lang==='ru'?'Инструкции':'Instrucțiuni'],['faq','FAQ'],['contact',lang==='ru'?'Контакты':'Contact']].map(([path,label])=>(
-              <span key={path} onClick={()=>navigate('/'+path)} style={{fontSize:13,color:'rgba(255,255,255,0.55)',cursor:'pointer',fontWeight:500,transition:'color .15s'}} onMouseOver={e=>e.target.style.color=gold} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.55)'}>{label}</span>
+            {[['about',lang==='ru'?'О нас':'Despre noi'],['benefits',lang==='ru'?'Преимущества':'Beneficii'],['instructions',lang==='ru'?'Инструкции':'Instrucțiuni'],['faq','FAQ'],['contact',lang==='ru'?'Контакты':'Contact']].map(([path,label])=>(
+              <span key={path} onClick={()=>navigate('/'+path)} style={{fontSize:13,color:'rgba(255,255,255,0.55)',cursor:'pointer',fontWeight:500}} onMouseOver={e=>e.target.style.color=gold} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.55)'}>{label}</span>
             ))}
           </div>
-        </div>
-        <div style={{display:'flex',alignItems:'center',gap:8}}>
+        )}
+
+        {/* Right side */}
+        <div style={{display:'flex',alignItems:'center',gap:6}}>
+          {/* Lang switcher */}
           {['ro','ru','en'].map(l=>(
-            <button key={l} onClick={()=>setLang(l)} style={{padding:'3px 8px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>{l.toUpperCase()}</button>
+            <button key={l} onClick={()=>setLang(l)} style={{padding:'3px 7px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>{l.toUpperCase()}</button>
           ))}
-          <button onClick={()=>navigate('/dashboard')} style={{marginLeft:4,padding:'7px 16px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:4,background:'none',color:'#e2e8f0'}}>{t.nav_login}</button>
-          <button onClick={()=>navigate('/register')} style={{padding:'7px 16px',fontSize:13,fontWeight:800,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.03em'}}>{t.nav_reg}</button>
+          {!isMobile && <>
+            <button onClick={()=>navigate('/dashboard')} style={{marginLeft:4,padding:'7px 16px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:4,background:'none',color:'#e2e8f0'}}>{t.nav_login}</button>
+            <button onClick={()=>navigate('/register')} style={{padding:'7px 16px',fontSize:13,fontWeight:800,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.03em'}}>{t.nav_reg}</button>
+          </>}
+          {/* Hamburger */}
+          {isMobile && (
+            <button onClick={()=>setMenuOpen(o=>!o)} style={{background:'none',border:'none',cursor:'pointer',padding:8,color:'#fff',display:'flex',flexDirection:'column',gap:5}}>
+              <span style={{display:'block',width:22,height:2,background:menuOpen?gold:'#fff',transition:'all .2s',transform:menuOpen?'rotate(45deg) translate(5px,5px)':'none'}}/>
+              <span style={{display:'block',width:22,height:2,background:'#fff',opacity:menuOpen?0:1,transition:'all .2s'}}/>
+              <span style={{display:'block',width:22,height:2,background:menuOpen?gold:'#fff',transition:'all .2s',transform:menuOpen?'rotate(-45deg) translate(5px,-5px)':'none'}}/>
+            </button>
+          )}
         </div>
+
+        {/* Mobile dropdown menu */}
+        {isMobile && menuOpen && (
+          <div style={{position:'absolute',top:64,left:0,right:0,background:'rgba(10,10,15,0.98)',borderBottom:'1px solid rgba(245,166,35,0.15)',padding:'1rem',display:'flex',flexDirection:'column',gap:12,zIndex:200}}>
+            {[['about',lang==='ru'?'О нас':'Despre noi'],['benefits',lang==='ru'?'Преимущества':'Beneficii'],['instructions',lang==='ru'?'Инструкции':'Instrucțiuni'],['faq','FAQ'],['contact',lang==='ru'?'Контакты':'Contact']].map(([path,label])=>(
+              <span key={path} onClick={()=>{navigate('/'+path);setMenuOpen(false)}} style={{fontSize:15,color:'rgba(255,255,255,0.8)',cursor:'pointer',fontWeight:500,padding:'8px 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>{label}</span>
+            ))}
+            <div style={{display:'flex',gap:8,marginTop:4}}>
+              <button onClick={()=>{navigate('/dashboard');setMenuOpen(false)}} style={{flex:1,padding:'10px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:6,background:'none',color:'#e2e8f0'}}>{t.nav_login}</button>
+              <button onClick={()=>{navigate('/register');setMenuOpen(false)}} style={{flex:1,padding:'10px',fontSize:13,fontWeight:800,cursor:'pointer',border:'none',borderRadius:6,background:gold,color:'#000',textTransform:'uppercase'}}>{t.nav_reg}</button>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* HERO */}
