@@ -812,34 +812,35 @@ export default function Dashboard() {
                   </table>
                 </div>
               </div>
-            </div>
-            {/* PWA Install Card */}
-            <div style={{...card,marginTop:16,background:'linear-gradient(135deg,#1a1a2e 0%,#2a1a0a 100%)',border:`1px solid rgba(245,166,35,0.2)`}}>
-              <div style={{fontSize:16,fontWeight:700,color:txt,marginBottom:12,display:'flex',alignItems:'center',gap:10}}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                Instalează aplicația pe telefon
-              </div>
-              <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>Accesează dashboardul rapid de pe ecranul principal — fără browser, exact ca o aplicație nativă.</p>
-              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12,marginBottom:14}}>
-                <div style={{background:'rgba(255,255,255,0.03)',borderRadius:10,padding:'12px 14px',border:'1px solid rgba(255,255,255,0.07)'}}>
-                  <div style={{fontWeight:600,fontSize:13,marginBottom:8,color:txt}}>🤖 Android — Chrome</div>
-                  <ol style={{margin:0,paddingLeft:16,fontSize:12,color:txtSub,lineHeight:2.2}}>
-                    <li>Apasă <strong style={{color:gold}}>⋮</strong> meniu (sus-dreapta)</li>
-                    <li>Selectează <strong>Adaugă pe ecranul principal</strong></li>
-                    <li>Confirmă cu <strong>Adaugă</strong></li>
-                  </ol>
+
+              {/* PWA Install Card */}
+              <div style={{...card,marginTop:16,background:'linear-gradient(135deg,#1a1a2e 0%,#2a1a0a 100%)',border:`1px solid rgba(245,166,35,0.2)`}}>
+                <div style={{fontSize:16,fontWeight:700,color:txt,marginBottom:12,display:'flex',alignItems:'center',gap:10}}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                  Instalează aplicația pe telefon
                 </div>
-                <div style={{background:'rgba(255,255,255,0.03)',borderRadius:10,padding:'12px 14px',border:'1px solid rgba(255,255,255,0.07)'}}>
-                  <div style={{fontWeight:600,fontSize:13,marginBottom:8,color:txt}}>🍎 iPhone — Safari</div>
-                  <ol style={{margin:0,paddingLeft:16,fontSize:12,color:txtSub,lineHeight:2.2}}>
-                    <li>Apasă <strong style={{color:gold}}>□↑</strong> Share (jos)</li>
-                    <li>Selectează <strong>Adaugă pe ecran principal</strong></li>
-                    <li>Apasă <strong>Adaugă</strong> sus-dreapta</li>
-                  </ol>
+                <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>Accesează dashboardul rapid de pe ecranul principal — fără browser, exact ca o aplicație nativă.</p>
+                <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12,marginBottom:14}}>
+                  <div style={{background:'rgba(255,255,255,0.03)',borderRadius:10,padding:'12px 14px',border:'1px solid rgba(255,255,255,0.07)'}}>
+                    <div style={{fontWeight:600,fontSize:13,marginBottom:8,color:txt}}>Android — Chrome</div>
+                    <ol style={{margin:0,paddingLeft:16,fontSize:12,color:txtSub,lineHeight:2.2}}>
+                      <li>Apasă meniu ⋮ (sus-dreapta)</li>
+                      <li>Selectează Adauga pe ecranul principal</li>
+                      <li>Confirma cu Adauga</li>
+                    </ol>
+                  </div>
+                  <div style={{background:'rgba(255,255,255,0.03)',borderRadius:10,padding:'12px 14px',border:'1px solid rgba(255,255,255,0.07)'}}>
+                    <div style={{fontWeight:600,fontSize:13,marginBottom:8,color:txt}}>iPhone — Safari</div>
+                    <ol style={{margin:0,paddingLeft:16,fontSize:12,color:txtSub,lineHeight:2.2}}>
+                      <li>Apasă Share (jos)</li>
+                      <li>Selecteaza Adauga pe ecran principal</li>
+                      <li>Apasă Adauga sus-dreapta</li>
+                    </ol>
+                  </div>
                 </div>
-              </div>
-              <div style={{padding:'10px 14px',background:'rgba(245,166,35,0.06)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:8,fontSize:12,color:txtSub}}>
-                💡 Dacă apare un banner Instalează WinPartners jos pe ecran — apasă direct pe el!
+                <div style={{padding:'10px 14px',background:'rgba(245,166,35,0.06)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:8,fontSize:12,color:txtSub}}>
+                  Daca apare un banner Instaleaza WinPartners — apasă direct pe el!
+                </div>
               </div>
             </div>
           )}
