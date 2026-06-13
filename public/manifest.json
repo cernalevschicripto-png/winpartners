@@ -1,0 +1,46 @@
+{
+  "name": "WinPartners — Casino Affiliate",
+  "short_name": "WinPartners",
+  "description": "Platforma de afiliere casino pentru bloggeri",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#f5a623",
+  "orientation": "portrait-primary",
+  "lang": "ro",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/screenshot.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "categories": ["business", "finance"],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "/dashboard",
+      "description": "Statistici și câștiguri"
+    },
+    {
+      "name": "Cazinouri Partenere",
+      "url": "/dashboard",
+      "description": "Generează promcoduri"
+    }
+  ]
+}
