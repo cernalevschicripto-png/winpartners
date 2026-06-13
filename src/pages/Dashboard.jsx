@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const gold = '#f5a623'
@@ -59,6 +59,47 @@ const MENU = [
   {id:'subaff',label:'Raport despre sub-afiliați',section:'',icon:'🌿'},
 ]
 
+// ============================================================
+// CAZINOURI - sistemmulti-casino cu promcoduri
+// ============================================================
+const CASINOS = [
+  {
+    id: 'winbet',
+    name: 'WinBet Casino',
+    logo: '🎰',
+    color: '#f5a623',
+    commission: '25% Revenue Share',
+    description: 'Casino principal — sporturi + slots + live dealer',
+    promoCodes: [], // populate din admin
+  },
+  {
+    id: 'spinmax',
+    name: 'SpinMax Casino',
+    logo: '🎲',
+    color: '#3b82f6',
+    commission: '30% Revenue Share',
+    description: 'Specializat slots + jackpot-uri',
+    promoCodes: [],
+  },
+  {
+    id: 'luckydeal',
+    name: 'LuckyDeal Casino',
+    logo: '🃏',
+    color: '#10b981',
+    commission: '20% Revenue Share + CPA',
+    description: 'Live dealer + poker + roulette',
+    promoCodes: [],
+  },
+]
+
+// Promcoduri demo per casino (în producție vin din admin)
+const DEMO_CODES = {
+  winbet:    ['WIN001','WIN002','WIN003','WIN004','WIN005','WIN006','WIN007','WIN008','WIN009','WIN010'],
+  spinmax:   ['SPX001','SPX002','SPX003','SPX004','SPX005','SPX006','SPX007','SPX008','SPX009','SPX010'],
+  luckydeal: ['LKD001','LKD002','LKD003','LKD004','LKD005','LKD006','LKD007','LKD008','LKD009','LKD010'],
+}
+
+
 function LineChart({data,field,color,h=60}) {
   const vals=data.map(d=>d[field]),max=Math.max(...vals,1)
   const W=400,H=h
@@ -81,7 +122,33 @@ function LineChart({data,field,color,h=60}) {
 }
 
 export default function Dashboard() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [page,setPage]=useState('main')
+  const [selectedCasino, setSelectedCasino] = useState(null)
+  const [generatedCode, setGeneratedCode] = useState(null)
+  const [codeGenerating, setCodeGenerating] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+      if (window.innerWidth >= 768) setSidebarOpen(false)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const generatePromoCode = (casinoId) => {
+    setCodeGenerating(true)
+    setGeneratedCode(null)
+    setTimeout(() => {
+      const codes = DEMO_CODES[casinoId] || []
+      const idx = Math.floor(Math.random() * codes.length)
+      const code = codes[idx] || 'NODISPONIBIL'
+      setGeneratedCode({ code, casinoId, bloggerUsername: D.username, timestamp: new Date().toISOString() })
+      setCodeGenerating(false)
+    }, 1200)
+  }
   const [period,setPeriod]=useState('1 lună')
   const [currency,setCurrency]=useState('USD')
   const [copied,setCopied]=useState('')
@@ -123,7 +190,11 @@ export default function Dashboard() {
   const tabInactive = {padding:'8px 20px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderBottom:'none',background:bgCard,color:txtSub,fontWeight:400,fontFamily:'inherit',borderRadius:'4px 4px 0 0'}
 
   return (
-    <div style={{background:bg,minHeight:'100vh',color:txt,fontFamily:'"Inter",-apple-system,sans-serif',display:'flex',flexDirection:'column',fontSize:13}}>
+    <div style={{background:bg,minHeight:'100vh',color:txt,fontFamily:'"Inter",-apple-system,sans-serif',display:'flex',flexDirection:'column',fontSize:13,position:'relative'}}>
+      {/* Mobile overlay */}
+      {isMobile && sidebarOpen && (
+        <div onClick={()=>setSidebarOpen(false)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.5)',zIndex:40}} />
+      )}
 
       {/* TOP HEADER - dark like Melbet */}
       <div style={{background:bgHeader,height:52,display:'flex',alignItems:'center',padding:'0 1.5rem',gap:12,flexShrink:0,zIndex:10,boxShadow:'0 2px 8px rgba(0,0,0,0.2)'}}>
@@ -153,8 +224,8 @@ export default function Dashboard() {
 
       <div style={{display:'flex',flex:1,overflow:'hidden'}}>
 
-        {/* SIDEBAR - dark like Melbet */}
-        <div style={{width:210,background:bgSide,flexShrink:0,overflowY:'auto',paddingBottom:20}}>
+        {/* SIDEBAR - responsive */}
+        <div style={Object.assign({},{width:220,background:bgSide,flexShrink:0,overflowY:'auto',paddingBottom:20,borderRight:'1px solid rgba(255,255,255,0.05)'},isMobile?{position:'fixed',top:52,left:sidebarOpen?0:-220,height:'calc(100vh - 52px)',zIndex:50,transition:'left .25s ease',boxShadow:sidebarOpen?'4px 0 20px rgba(0,0,0,0.4)':'none'}:{})}>
           {MENU.map((m)=>(
             <div key={m.id}>
               {m.section&&<div style={{padding:'12px 14px 4px',fontSize:9,color:'rgba(255,255,255,0.25)',textTransform:'uppercase',letterSpacing:'.12em',fontWeight:600}}>{m.section}</div>}
@@ -167,7 +238,7 @@ export default function Dashboard() {
         </div>
 
         {/* MAIN CONTENT - light white background like Melbet */}
-        <div style={{flex:1,overflowY:'auto',padding:'1.5rem',minWidth:0}}>
+        <div style={{flex:1,overflowY:'auto',padding:isMobile?'1rem 0.75rem':'1.5rem',minWidth:0}}>
 
           {/* PAGE TITLE */}
           {/* Page title bar - like Melbet's yellow title */}
@@ -181,7 +252,7 @@ export default function Dashboard() {
           {page==='main'&&(
             <div>
               {/* Balance cards */}
-              <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:0,background:bgCard,borderRadius:8,overflow:'hidden',border:`1px solid ${bdr}`,marginBottom:'1.25rem',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(5,1fr)',gap:isMobile?1:0,background:isMobile?'transparent':bgCard,borderRadius:8,overflow:isMobile?'visible':'hidden',border:isMobile?'none':`1px solid ${bdr}`,marginBottom:'1.25rem',boxShadow:isMobile?'none':'0 1px 3px rgba(0,0,0,0.06)'}}>
                 {[
                   {l:'DISPONIBIL PENTRU RETRAGERE',v:'$'+D.bal.available,c:'#10b981',bc:'#10b981'},
                   {l:'IERI',v:'$'+D.bal.yesterday,c:'#3b82f6',bc:'#3b82f6'},
@@ -210,7 +281,7 @@ export default function Dashboard() {
               </div>
 
               {/* Charts */}
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:'1.5rem'}}>
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12,marginBottom:'1.5rem'}}>
                 {[
                   {title:'Statistici conversii',items:[{f:'cl',c:'#3b82f6',l:'Vizualizări'},{f:'rg',c:'#6366f1',l:'Clickuri'},{f:'dp',c:'#06b6d4',l:'Linkuri directe'}]},
                   {title:'Statistici înregistrare',items:[{f:'rg',c:'#ef4444',l:'Înregistrări'},{f:'dp',c:'#10b981',l:'Depunători noi'},{f:'rv',c:gold,l:'Suma comisionului'}]},
@@ -638,6 +709,111 @@ export default function Dashboard() {
           )}
 
           {/* === CONTACTE === */}
+          {page==='cazinouri'&&(
+            <div>
+              <p style={{color:txtSub,marginBottom:'1.5rem',fontSize:14,lineHeight:1.6}}>
+                Alege cazinoul pe care îl reclamezi și generează un cod promoțional unic. Fiecare cod este atribuit contului tău — statisticile și plățile se calculează automat.
+              </p>
+              {/* Casino cards grid */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:16,marginBottom:'2rem'}}>
+                {CASINOS.map(casino=>(
+                  <div key={casino.id} onClick={()=>{setSelectedCasino(casino.id===selectedCasino?null:casino.id);setGeneratedCode(null)}}
+                    style={{...card,cursor:'pointer',border:selectedCasino===casino.id?`2px solid ${casino.color}`:`2px solid ${bdr}`,transition:'all .15s',position:'relative',overflow:'hidden'}}>
+                    {selectedCasino===casino.id&&<div style={{position:'absolute',top:0,left:0,right:0,height:3,background:casino.color}}/>}
+                    <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
+                      <div style={{width:44,height:44,borderRadius:10,background:`${casino.color}18`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>{casino.logo}</div>
+                      <div>
+                        <div style={{fontWeight:700,fontSize:15,color:txt}}>{casino.name}</div>
+                        <div style={{fontSize:11,color:casino.color,fontWeight:600}}>{casino.commission}</div>
+                      </div>
+                    </div>
+                    <div style={{fontSize:12,color:txtSub,lineHeight:1.5,marginBottom:12}}>{casino.description}</div>
+                    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                      <div style={{fontSize:11,color:txtSub}}>
+                        <span style={{color:selectedCasino===casino.id?casino.color:'#10b981',fontWeight:600}}>
+                          {selectedCasino===casino.id ? '✓ Selectat' : '● Disponibil'}
+                        </span>
+                      </div>
+                      <div style={{fontSize:11,color:txtSub}}>{DEMO_CODES[casino.id]?.length || 0} coduri disponibile</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Generare cod */}
+              {selectedCasino && (
+                <div style={{...card,border:`1px solid ${CASINOS.find(c=>c.id===selectedCasino)?.color||gold}22`,marginBottom:'1.5rem'}}>
+                  <div style={{fontSize:16,fontWeight:700,marginBottom:4,color:txt}}>
+                    Generează cod promoțional — {CASINOS.find(c=>c.id===selectedCasino)?.name}
+                  </div>
+                  <div style={{fontSize:13,color:txtSub,marginBottom:20}}>
+                    Codul generat va fi asociat contului tău <strong>@{D.username}</strong> și va fi vizibil în panoul admin.
+                  </div>
+
+                  {!generatedCode ? (
+                    <button
+                      onClick={()=>generatePromoCode(selectedCasino)}
+                      disabled={codeGenerating}
+                      style={{...btnPrimary,padding:'12px 32px',fontSize:14,borderRadius:8,width:isMobile?'100%':'auto',opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>
+                      {codeGenerating ? '⏳ Generare...' : '🎁 Generează Cod Promoțional'}
+                    </button>
+                  ) : (
+                    <div>
+                      <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'20px',marginBottom:16,textAlign:'center'}}>
+                        <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.08em'}}>✅ Codul tău promoțional</div>
+                        <div style={{fontSize:32,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:4,marginBottom:8}}>{generatedCode.code}</div>
+                        <div style={{fontSize:12,color:'#16a34a'}}>Casino: {CASINOS.find(c=>c.id===generatedCode.casinoId)?.name} · Blogger: @{generatedCode.bloggerUsername}</div>
+                      </div>
+                      <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                        <button onClick={()=>copy(generatedCode.code,'promoCode')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>
+                          {copied==='promoCode'?'✓ Copiat!':'📋 Copiază codul'}
+                        </button>
+                        <button onClick={()=>{setGeneratedCode(null)}} style={{...btnOutline(txtSub),padding:'10px 20px',fontSize:13}}>
+                          Generează alt cod
+                        </button>
+                      </div>
+                      <div style={{marginTop:12,padding:'10px 14px',background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,fontSize:12,color:'#854d0e'}}>
+                        ⚠️ Folosește acest cod în descrierea videoclipurilor/postărilor tale. Fiecare jucător care se înregistrează cu codul tău îți aduce comision automat.
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Tabel coduri generate anterior */}
+              <div style={card}>
+                <div style={{fontSize:15,fontWeight:700,marginBottom:12,color:txt}}>Codurile mele active</div>
+                <div style={{overflowX:'auto'}}>
+                  <table style={{width:'100%',borderCollapse:'collapse'}}>
+                    <thead>
+                      <tr>
+                        {['Casino','Cod promoțional','BTAG','Înregistrări','Depunători','Comision'].map(h=>(
+                          <th key={h} style={TH}>{h} ↕</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style={TD}>WinBet Casino</td>
+                        <td style={{...TD,fontFamily:'monospace',fontWeight:700,color:gold}}>WIN004</td>
+                        <td style={{...TD,fontSize:11,color:txtSub}}>d_wp_{D.username}_win_004</td>
+                        <td style={TD}>23</td><td style={TD}>8</td>
+                        <td style={{...TD,color:'#10b981',fontWeight:600}}>$45.60</td>
+                      </tr>
+                      <tr style={{background:'#fafafa'}}>
+                        <td style={TD}>SpinMax Casino</td>
+                        <td style={{...TD,fontFamily:'monospace',fontWeight:700,color:'#3b82f6'}}>SPX007</td>
+                        <td style={{...TD,fontSize:11,color:txtSub}}>d_wp_{D.username}_spx_007</td>
+                        <td style={TD}>11</td><td style={TD}>4</td>
+                        <td style={{...TD,color:'#10b981',fontWeight:600}}>$22.10</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
           {page==='contact'&&(
             <div style={{...card,maxWidth:440}}>
               {[['Email','support@winpartners.partners'],['Telegram','@winpartners_support'],['WhatsApp','+373 XX XXX XXX'],['Program','24/7, 365 zile/an']].map(([l,v])=>(
