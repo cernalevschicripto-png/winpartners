@@ -51,6 +51,7 @@ const MENU = [
   {id:'contact',label:'Contacte',section:'',icon:'✉️'},
   {id:'links',label:'Link-uri Afiliați',section:'COOKIE-URI DE DIRECȚIONARE',icon:'🔗'},
   {id:'promo',label:'Coduri Promoționale',section:'',icon:'🎟'},
+  {id:'cazinouri',label:'Cazinouri Partenere',section:'',icon:'🎰'},
   {id:'media',label:'Media',section:'',icon:'📢'},
   {id:'summary',label:'Rezumat',section:'RAPOARTE',icon:'📊'},
   {id:'report',label:'Raport complet',section:'',icon:'📋'},
