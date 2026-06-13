@@ -10,8 +10,8 @@ const T = {
     h1:'CONECTAȚI-VĂ ȘI', h2:'CÂȘTIGAȚI PENTRU', h3:'FIECARE CLIENT RECOMANDAT',
     hsub:'Program unic care vă permite să obțineți câștiguri de până la 20% de la clienți, alături de o cotă de venit pe viață.',
     hbtn:'ÎNCEPEȚI ACUM', hbtn2:'Cum funcționează',
-    trust1:'Plăți garantate', trust2:'SSL Securizat', trust3:'Suport 24/7', trust4:'500K+ Parteneri',
-    s1v:'1M+', s1l:'Jucători înregistrați', s2v:'100K+', s2l:'Parteneri activi', s3v:'$2,000+', s3l:'Câștig mediu/lună',
+    trust1:'Plăți garantate', trust2:'SSL Securizat', trust3:'Suport 24/7', trust4:'Parteneri verificați',
+    s1v:'25%', s1l:'Comision Revenue Share', s2v:'48h', s2l:'Procesare plăți', s3v:'24/7', s3l:'Suport dedicat',
     ben_title:'DE CE WINPARTNERS', 
     b1t:'Comision 20% RevShare', b1d:'Primiți 20% din veniturile nete ale jucătorilor recomandați pe viață.',
     b2t:'Statistici zilnice', b2d:'Dashboard complet cu clickuri, înregistrări, depuneri și comisioane.',
@@ -21,12 +21,12 @@ const T = {
     b6t:'Manager dedicat', b6d:'Manager personal 24/7 pe WhatsApp și Telegram.',
     how_title:'CUM FUNCȚIONEAZĂ',
     hw1:'Înregistrare gratuită', hw2:'Primiți codul unic', hw3:'Promovați pe rețele', hw4:'Primiți bani',
-    test_title:'CE SPUN PARTENERII NOȘTRI',
-    t1n:'@vlad_md', t1p:'TikTok · 180K urmăritori', t1t:'Prima lună am câștigat $1,200. Acum după 6 luni am constant $3,500+ lunar. Cel mai bun program de afiliere din Moldova!',
-    t2n:'@beauty_ro', t2p:'Instagram · 95K urmăritori', t2t:'Am încercat mai multe programe. WinPartners plătește cel mai bine și au suport real. Recomand tuturor!',
-    t3n:'@gaming_ua', t3p:'YouTube · 340K urmăritori', t3t:'Sistemul de statistici e perfect. Văd exact câți jucători am adus și cât câștig. Transparent 100%.',
+    test_title:'DE CE BLOGGERII ALEG WINPARTNERS',
+    t1n:'Acces direct', t1p:'La programele oficiale Melbet, 1xBet, Mostbet', t1t:'Nu mai trebuie să negociezi separat cu fiecare cazinou. WinPartners îți dă acces imediat la toate programele de afiliere, cu comisioanele cele mai bune negociate deja.',
+    t2n:'Un singur dashboard', t2p:'Toate cazinouriile într-un loc', t2t:'Statistici unificate, un singur loc de retragere, un singur manager. Nu mai gestionezi 5 conturi separate la 5 cazinouri diferite.',
+    t3n:'Transparență totală', t3p:'Fiecare jucător, fiecare comision', t3t:'Știi exact câți jucători ai adus, la ce cazinou, cât au depus și cât câștigi. Date live, actualizate zilnic direct din sistemele cazinourilor.',
     cas_title:'CAZINOURI PARTENERE',
-    cta_title:'GATA SĂ CÂȘTIGAȚI?', cta_sub:'Alăturați-vă miilor de parteneri care câștigă zilnic.', cta_btn:'ÎNREGISTRARE GRATUITĂ',
+    cta_title:'DEVINO PARTENER OFICIAL', cta_sub:'Acces la Melbet, 1xBet, Mostbet și alte cazinouri de top — dintr-un singur loc.', cta_btn:'APLICĂ ACUM',
     f_copy:'© 2026 WinPartners. Toate drepturile rezervate.',
   },
   ru: {
@@ -34,8 +34,8 @@ const T = {
     h1:'ПОДКЛЮЧАЙТЕСЬ И', h2:'ЗАРАБАТЫВАЙТЕ НА', h3:'КАЖДОМ ПРИВЛЕЧЕННОМ КЛИЕНТЕ',
     hsub:'Уникальная программа позволяет получать до 20% от клиентов с пожизненной долей дохода.',
     hbtn:'НАЧАТЬ СЕЙЧАС', hbtn2:'Как это работает',
-    trust1:'Гарантированные выплаты', trust2:'SSL Защита', trust3:'Поддержка 24/7', trust4:'500K+ Партнеров',
-    s1v:'1M+', s1l:'Зарегистрированных игроков', s2v:'100К+', s2l:'Активных партнеров', s3v:'$2,000+', s3l:'Средний доход/мес',
+    trust1:'Гарантированные выплаты', trust2:'SSL Защита', trust3:'Поддержка 24/7', trust4:'Проверенные партнеры',
+    s1v:'25%', s1l:'Комиссия Revenue Share', s2v:'48h', s2l:'Обработка выплат', s3v:'24/7', s3l:'Личный менеджер',
     ben_title:'ПОЧЕМУ WINPARTNERS',
     b1t:'Комиссия 20% RevShare', b1d:'Получайте 20% от чистого дохода привлеченных игроков пожизненно.',
     b2t:'Ежедневная статистика', b2d:'Полный дашборд с кликами, регистрациями, депозитами и комиссиями.',
@@ -45,10 +45,10 @@ const T = {
     b6t:'Личный менеджер', b6d:'Персональный менеджер 24/7 в WhatsApp и Telegram.',
     how_title:'КАК ЭТО РАБОТАЕТ',
     hw1:'Бесплатная регистрация', hw2:'Получите уникальный код', hw3:'Продвигайте в сетях', hw4:'Получайте деньги',
-    test_title:'ЧТО ГОВОРЯТ НАШИ ПАРТНЕРЫ',
-    t1n:'@vlad_md', t1p:'TikTok · 180К подписчиков', t1t:'В первый месяц заработал $1,200. Сейчас через 6 месяцев стабильно $3,500+ в месяц. Лучшая партнерская программа!',
-    t2n:'@beauty_ro', t2p:'Instagram · 95К подписчиков', t2t:'Пробовала разные программы. WinPartners платит лучше всех и есть реальная поддержка. Рекомендую всем!',
-    t3n:'@gaming_ua', t3p:'YouTube · 340К подписчиков', t3t:'Система статистики идеальная. Вижу точно сколько игроков привел и сколько зарабатываю. 100% прозрачно.',
+    test_title:'ПОЧЕМУ БЛОГЕРЫ ВЫБИРАЮТ WINPARTNERS',
+    t1n:'Прямой доступ', t1p:'К официальным программам Melbet, 1xBet, Mostbet', t1t:'Не нужно отдельно договариваться с каждым казино. WinPartners даёт мгновенный доступ ко всем партнёрским программам с лучшими комиссиями.',
+    t2n:'Единый дашборд', t2p:'Все казино в одном месте', t2t:'Единая статистика, одно место для вывода, один менеджер. Не нужно управлять 5 отдельными аккаунтами в 5 разных казино.',
+    t3n:'Полная прозрачность', t3p:'Каждый игрок, каждая комиссия', t3t:'Вы точно знаете, сколько игроков привели, в каком казино, сколько они внесли и сколько вы зарабатываете. Данные обновляются ежедневно.',
     cas_title:'КАЗИНО-ПАРТНЕРЫ',
     cta_title:'ГОТОВЫ ЗАРАБАТЫВАТЬ?', cta_sub:'Присоединяйтесь к тысячам партнеров, которые зарабатывают ежедневно.', cta_btn:'БЕСПЛАТНАЯ РЕГИСТРАЦИЯ',
     f_copy:'© 2026 WinPartners. Все права защищены.',
@@ -58,8 +58,8 @@ const T = {
     h1:'CONNECT AND', h2:'EARN FOR EVERY', h3:'CLIENT YOU RECOMMEND',
     hsub:'Unique program allowing you to earn up to 20% from clients with a lifetime revenue share.',
     hbtn:'GET STARTED', hbtn2:'How it works',
-    trust1:'Guaranteed payments', trust2:'SSL Secured', trust3:'24/7 Support', trust4:'500K+ Partners',
-    s1v:'1M+', s1l:'Registered players', s2v:'100K+', s2l:'Active partners', s3v:'$2,000+', s3l:'Avg earnings/month',
+    trust1:'Guaranteed payments', trust2:'SSL Secured', trust3:'24/7 Support', trust4:'Verified partners',
+    s1v:'25%', s1l:'Revenue Share commission', s2v:'48h', s2l:'Payment processing', s3v:'24/7', s3l:'Dedicated support',
     ben_title:'WHY WINPARTNERS',
     b1t:'20% RevShare Commission', b1d:'Receive 20% of net revenue from referred players for life.',
     b2t:'Daily statistics', b2d:'Full dashboard with clicks, registrations, deposits and commissions.',
@@ -69,10 +69,10 @@ const T = {
     b6t:'Dedicated manager', b6d:'Personal manager 24/7 on WhatsApp and Telegram.',
     how_title:'HOW IT WORKS',
     hw1:'Free registration', hw2:'Get your unique code', hw3:'Promote on social media', hw4:'Get paid',
-    test_title:'WHAT OUR PARTNERS SAY',
-    t1n:'@vlad_md', t1p:'TikTok · 180K followers', t1t:'First month I earned $1,200. Now after 6 months I consistently earn $3,500+ monthly. Best affiliate program!',
-    t2n:'@beauty_ro', t2p:'Instagram · 95K followers', t2t:'Tried many programs. WinPartners pays the best and has real support. Recommend to everyone!',
-    t3n:'@gaming_ua', t3p:'YouTube · 340K followers', t3t:'The statistics system is perfect. I see exactly how many players I brought and how much I earn. 100% transparent.',
+    test_title:'WHY BLOGGERS CHOOSE WINPARTNERS',
+    t1n:'Direct access', t1p:'To official Melbet, 1xBet, Mostbet programs', t1t:'No need to negotiate separately with each casino. WinPartners gives you instant access to all affiliate programs with the best commissions already negotiated.',
+    t2n:'Single dashboard', t2p:'All casinos in one place', t2t:'Unified statistics, one withdrawal point, one manager. No more managing 5 separate accounts at 5 different casinos.',
+    t3n:'Full transparency', t3p:'Every player, every commission', t3t:'You know exactly how many players you brought, to which casino, how much they deposited and how much you earn. Data updated daily.',
     cas_title:'CASINO PARTNERS',
     cta_title:'READY TO EARN?', cta_sub:'Join thousands of partners earning daily with WinPartners.', cta_btn:'FREE REGISTRATION',
     f_copy:'© 2026 WinPartners. All rights reserved.',
@@ -187,7 +187,7 @@ export default function Landing() {
         <div style={{position:'relative',zIndex:1,padding:isMobile?'0 1.25rem':'0 4rem',maxWidth:680}}>
           <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(245,166,35,0.1)',border:`1px solid rgba(245,166,35,0.25)`,borderRadius:20,padding:'6px 16px',marginBottom:24}}>
             <span style={{width:6,height:6,borderRadius:'50%',background:'#10b981',display:'inline-block'}}/>
-            <span style={{fontSize:12,color:gold,fontWeight:600,letterSpacing:'.05em'}}>PROGRAM ACTIV · 500K+ PARTENERI</span>
+            <span style={{fontSize:12,color:gold,fontWeight:600,letterSpacing:'.05em'}}>PROGRAM OFICIAL DE AFILIERE · MELBET · 1XBET · MOSTBET</span>
           </div>
           <div style={{fontSize:'clamp(2.2rem,4vw,4rem)',fontWeight:900,lineHeight:1.05,letterSpacing:'-0.01em',textTransform:'uppercase',marginBottom:20}}>
             <div style={{color:'#fff'}}>{t.h1}</div>
@@ -285,17 +285,16 @@ export default function Landing() {
             <div style={{width:60,height:3,background:gold,margin:'12px auto 0',borderRadius:2}}/>
           </div>
           <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
-            {[[t.t1n,t.t1p,t.t1t,'V','#e63946'],[t.t2n,t.t2p,t.t2t,'B','#e91e8c'],[t.t3n,t.t3p,t.t3t,'G','#0066cc']].map(([name,platform,text,letter,color])=>(
-              <div key={name} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:14,padding:'1.5rem'}}>
-                <StarRating/>
-                <p style={{fontSize:14,color:'rgba(255,255,255,0.7)',lineHeight:1.7,marginBottom:16,fontStyle:'italic'}}>"{text}"</p>
-                <div style={{display:'flex',alignItems:'center',gap:10,borderTop:'1px solid rgba(255,255,255,0.06)',paddingTop:12}}>
-                  <Avatar letter={letter} color={color}/>
-                  <div>
-                    <div style={{fontSize:14,fontWeight:700,color:'#fff'}}>{name}</div>
-                    <div style={{fontSize:12,color:'rgba(255,255,255,0.4)'}}>{platform}</div>
-                  </div>
-                </div>
+            {[
+              [t.t1n, t.t1p, t.t1t, '🔗'],
+              [t.t2n, t.t2p, t.t2t, '📊'],
+              [t.t3n, t.t3p, t.t3t, '✅'],
+            ].map(([name, platform, text, icon])=>(
+              <div key={name} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.12)',borderRadius:14,padding:'1.75rem'}}>
+                <div style={{fontSize:32,marginBottom:14}}>{icon}</div>
+                <div style={{fontSize:16,fontWeight:800,color:'#fff',marginBottom:6}}>{name}</div>
+                <div style={{fontSize:12,color:gold,fontWeight:600,marginBottom:14,textTransform:'uppercase',letterSpacing:'.06em'}}>{platform}</div>
+                <p style={{fontSize:13,color:'rgba(255,255,255,0.6)',lineHeight:1.8,margin:0}}>{text}</p>
               </div>
             ))}
           </div>
