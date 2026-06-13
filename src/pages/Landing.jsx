@@ -26,8 +26,10 @@ const T = {
     t2n:'Un singur dashboard', t2p:'Toate cazinouriile într-un loc', t2t:'Statistici unificate, un singur loc de retragere, un singur manager. Nu mai gestionezi 5 conturi separate la 5 cazinouri diferite.',
     t3n:'Transparență totală', t3p:'Fiecare jucător, fiecare comision', t3t:'Știi exact câți jucători ai adus, la ce cazinou, cât au depus și cât câștigi. Date live, actualizate zilnic direct din sistemele cazinourilor.',
     cas_title:'CAZINOURI PARTENERE',
+    badge:'PROGRAM OFICIAL DE AFILIERE · MELBET · 1XBET · MOSTBET',
     cta_title:'DEVINO PARTENER OFICIAL', cta_sub:'Acces la Melbet, 1xBet, Mostbet și alte cazinouri de top — dintr-un singur loc.', cta_btn:'APLICĂ ACUM',
     f_copy:'© 2026 WinPartners. Toate drepturile rezervate.',
+    f_lic:'✓ Licențiat', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   ru: {
     nav_login:'Войти', nav_reg:'Регистрация',
@@ -37,7 +39,7 @@ const T = {
     trust1:'Гарантированные выплаты', trust2:'SSL Защита', trust3:'Поддержка 24/7', trust4:'Проверенные партнеры',
     s1v:'25%', s1l:'Комиссия Revenue Share', s2v:'48h', s2l:'Обработка выплат', s3v:'24/7', s3l:'Личный менеджер',
     ben_title:'ПОЧЕМУ WINPARTNERS',
-    b1t:'Комиссия 20% RevShare', b1d:'Получайте 20% от чистого дохода привлеченных игроков пожизненно.',
+    b1t:'Комиссия 25% RevShare', b1d:'Получайте 25% от чистого дохода привлеченных игроков пожизненно.',
     b2t:'Ежедневная статистика', b2d:'Полный дашборд с кликами, регистрациями, депозитами и комиссиями.',
     b3t:'Персональный код', b3d:'Уникальный код с вашим именем. Игроки вводят его при регистрации.',
     b4t:'Еженедельные выплаты', b4d:'Bitcoin, Skrill, Neteller, Visa. Обработка в течение 48 часов.',
@@ -50,32 +52,36 @@ const T = {
     t2n:'Единый дашборд', t2p:'Все казино в одном месте', t2t:'Единая статистика, одно место для вывода, один менеджер. Не нужно управлять 5 отдельными аккаунтами в 5 разных казино.',
     t3n:'Полная прозрачность', t3p:'Каждый игрок, каждая комиссия', t3t:'Вы точно знаете, сколько игроков привели, в каком казино, сколько они внесли и сколько вы зарабатываете. Данные обновляются ежедневно.',
     cas_title:'КАЗИНО-ПАРТНЕРЫ',
-    cta_title:'ГОТОВЫ ЗАРАБАТЫВАТЬ?', cta_sub:'Присоединяйтесь к тысячам партнеров, которые зарабатывают ежедневно.', cta_btn:'БЕСПЛАТНАЯ РЕГИСТРАЦИЯ',
+    badge:'ОФИЦИАЛЬНАЯ ПАРТНЁРСКАЯ ПРОГРАММА · MELBET · 1XBET · MOSTBET',
+    cta_title:'СТАТЬ ОФИЦИАЛЬНЫМ ПАРТНЁРОМ', cta_sub:'Доступ к Melbet, 1xBet, Mostbet и другим топ-казино — из одного места.', cta_btn:'ПОДАТЬ ЗАЯВКУ',
     f_copy:'© 2026 WinPartners. Все права защищены.',
+    f_lic:'✓ Лицензировано', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   en: {
     nav_login:'Login', nav_reg:'Register',
     h1:'CONNECT AND', h2:'EARN FOR EVERY', h3:'CLIENT YOU RECOMMEND',
-    hsub:'Unique program allowing you to earn up to 20% from clients with a lifetime revenue share.',
+    hsub:'Official Melbet affiliate program — earn 25% Revenue Share from referred players\' losses, for life.',
     hbtn:'GET STARTED', hbtn2:'How it works',
     trust1:'Guaranteed payments', trust2:'SSL Secured', trust3:'24/7 Support', trust4:'Verified partners',
     s1v:'25%', s1l:'Revenue Share commission', s2v:'48h', s2l:'Payment processing', s3v:'24/7', s3l:'Dedicated support',
     ben_title:'WHY WINPARTNERS',
-    b1t:'20% RevShare Commission', b1d:'Receive 20% of net revenue from referred players for life.',
+    b1t:'25% RevShare Commission', b1d:'Receive 25% of net revenue from referred players for life.',
     b2t:'Daily statistics', b2d:'Full dashboard with clicks, registrations, deposits and commissions.',
     b3t:'Personalized code', b3d:'Unique code with your name. Players enter it at registration.',
     b4t:'Weekly payments', b4d:'Bitcoin, Skrill, Neteller, Visa. Processing within 48 hours.',
     b5t:'Referrals 3%', b5d:'Earn 3% from commissions of bloggers you invite.',
     b6t:'Dedicated manager', b6d:'Personal manager 24/7 on WhatsApp and Telegram.',
     how_title:'HOW IT WORKS',
-    hw1:'Free registration', hw2:'Get your unique code', hw3:'Promote on social media', hw4:'Get paid',
+    hw1:'Apply for access', hw2:'Get your Melbet code', hw3:'Promote on social media', hw4:'Get paid',
     test_title:'WHY BLOGGERS CHOOSE WINPARTNERS',
     t1n:'Direct access', t1p:'To official Melbet, 1xBet, Mostbet programs', t1t:'No need to negotiate separately with each casino. WinPartners gives you instant access to all affiliate programs with the best commissions already negotiated.',
     t2n:'Single dashboard', t2p:'All casinos in one place', t2t:'Unified statistics, one withdrawal point, one manager. No more managing 5 separate accounts at 5 different casinos.',
     t3n:'Full transparency', t3p:'Every player, every commission', t3t:'You know exactly how many players you brought, to which casino, how much they deposited and how much you earn. Data updated daily.',
     cas_title:'CASINO PARTNERS',
-    cta_title:'READY TO EARN?', cta_sub:'Join thousands of partners earning daily with WinPartners.', cta_btn:'FREE REGISTRATION',
+    badge:'OFFICIAL AFFILIATE PROGRAM · MELBET · 1XBET · MOSTBET',
+    cta_title:'BECOME AN OFFICIAL PARTNER', cta_sub:'Access Melbet, 1xBet, Mostbet and other top casinos — from one place.', cta_btn:'APPLY NOW',
     f_copy:'© 2026 WinPartners. All rights reserved.',
+    f_lic:'✓ Licensed', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   }
 }
 
@@ -184,7 +190,7 @@ export default function Landing() {
         <div style={{position:'relative',zIndex:1,padding:isMobile?'0 1.25rem':'0 4rem',maxWidth:680}}>
           <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(245,166,35,0.1)',border:`1px solid rgba(245,166,35,0.25)`,borderRadius:20,padding:'6px 16px',marginBottom:24}}>
             <span style={{width:6,height:6,borderRadius:'50%',background:'#10b981',display:'inline-block'}}/>
-            <span style={{fontSize:12,color:gold,fontWeight:600,letterSpacing:'.05em'}}>PROGRAM OFICIAL DE AFILIERE · MELBET · 1XBET · MOSTBET</span>
+            <span style={{fontSize:12,color:gold,fontWeight:600,letterSpacing:'.05em'}}>{t.badge}</span>
           </div>
           <div style={{fontSize:'clamp(2.2rem,4vw,4rem)',fontWeight:900,lineHeight:1.05,letterSpacing:'-0.01em',textTransform:'uppercase',marginBottom:20}}>
             <div style={{color:'#fff'}}>{t.h1}</div>
@@ -316,7 +322,7 @@ export default function Landing() {
               <div style={{fontSize:20,fontWeight:900,marginBottom:12}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div>
               <div style={{fontSize:13,color:'rgba(255,255,255,0.3)',lineHeight:1.7,maxWidth:260}}>Platformă profesională de afiliere pentru bloggeri și influenceri din toată lumea.</div>
               <div style={{display:'flex',gap:8,marginTop:16}}>
-                {['🔒 SSL','✓ Licențiat','⭐ 4.9/5'].map(b=><span key={b} style={{fontSize:11,color:'rgba(255,255,255,0.35)',background:'rgba(255,255,255,0.05)',padding:'3px 8px',borderRadius:4}}>{b}</span>)}
+                {[t.f_ssl, t.f_lic, t.f_rating].map(b=><span key={b} style={{fontSize:11,color:'rgba(255,255,255,0.35)',background:'rgba(255,255,255,0.05)',padding:'3px 8px',borderRadius:4}}>{b}</span>)}
               </div>
             </div>
             {[
