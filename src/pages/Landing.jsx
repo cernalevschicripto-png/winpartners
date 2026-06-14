@@ -12,7 +12,10 @@ const T = {
     hbtn:'ÎNCEPEȚI ACUM', hbtn2:'Cum funcționează',
     trust1:'Plăți garantate', trust2:'SSL Securizat', trust3:'Suport 24/7', trust4:'Parteneri verificați',
     s1v:'25%', s1l:'Comision Revenue Share', s2v:'48h', s2l:'Procesare plăți', s3v:'24/7', s3l:'Suport dedicat',
-    ben_title:'DE CE WINPARTNERS', 
+    hex1v:'6', hex1l:'Cazinouri partenere', hex2v:'10K+', hex2l:'Jucători activi', hex3v:'$2K+', hex3l:'Câștig mediu/lună',
+    mgr_title:'MANAGERUL TĂU PERSONAL', mgr_name:'Manager WinPartners', mgr_role:'Parteneriat & Suport', mgr_text:'Îmi ocup personal de contul tău — de la primul cod până la prima plată. Scrie-mi direct pe Telegram.',mgr_btn:'Scrie pe Telegram',
+    mgr_verify:'Verifică că vorbești cu managerul oficial',
+    ben_title:'DE CE WINPARTNERS',
     b1t:'Comision 25% RevShare', b1d:'Primiți 25% din pierderile nete ale jucătorilor recomandați pe viață.',
     b2t:'Statistici zilnice', b2d:'Dashboard complet cu clickuri, înregistrări, depuneri și comisioane.',
     b3t:'Cod personalizat', b3d:'Cod unic cu numele dvs. Jucătorii îl introduc la înregistrare.',
@@ -38,6 +41,9 @@ const T = {
     hbtn:'НАЧАТЬ СЕЙЧАС', hbtn2:'Как это работает',
     trust1:'Гарантированные выплаты', trust2:'SSL Защита', trust3:'Поддержка 24/7', trust4:'Проверенные партнеры',
     s1v:'25%', s1l:'Комиссия Revenue Share', s2v:'48h', s2l:'Обработка выплат', s3v:'24/7', s3l:'Личный менеджер',
+    hex1v:'6', hex1l:'Казино-партнеров', hex2v:'10K+', hex2l:'Активных игроков', hex3v:'$2K+', hex3l:'Средний доход/мес',
+    mgr_title:'ВАШ ЛИЧНЫЙ МЕНЕДЖЕР', mgr_name:'Менеджер WinPartners', mgr_role:'Партнёрство и поддержка', mgr_text:'Я лично веду ваш аккаунт — от первого кода до первой выплаты. Пишите мне напрямую в Telegram.',mgr_btn:'Написать в Telegram',
+    mgr_verify:'Проверьте, что вы общаетесь с официальным менеджером',
     ben_title:'ПОЧЕМУ WINPARTNERS',
     b1t:'Комиссия 25% RevShare', b1d:'Получайте 25% от чистого дохода привлеченных игроков пожизненно.',
     b2t:'Ежедневная статистика', b2d:'Полный дашборд с кликами, регистрациями, депозитами и комиссиями.',
@@ -64,6 +70,9 @@ const T = {
     hbtn:'GET STARTED', hbtn2:'How it works',
     trust1:'Guaranteed payments', trust2:'SSL Secured', trust3:'24/7 Support', trust4:'Verified partners',
     s1v:'25%', s1l:'Revenue Share commission', s2v:'48h', s2l:'Payment processing', s3v:'24/7', s3l:'Dedicated support',
+    hex1v:'6', hex1l:'Casino partners', hex2v:'10K+', hex2l:'Active players', hex3v:'$2K+', hex3l:'Avg monthly income',
+    mgr_title:'YOUR PERSONAL MANAGER', mgr_name:'WinPartners Manager', mgr_role:'Partnership & Support', mgr_text:'I personally manage your account — from your first code to your first payment. Message me directly on Telegram.',mgr_btn:'Message on Telegram',
+    mgr_verify:'Verify you are speaking with the official manager',
     ben_title:'WHY WINPARTNERS',
     b1t:'25% RevShare Commission', b1d:'Receive 25% of net revenue from referred players for life.',
     b2t:'Daily statistics', b2d:'Full dashboard with clicks, registrations, deposits and commissions.',
@@ -238,6 +247,36 @@ export default function Landing() {
         </div>
       </div>
 
+      {/* HEXAGON STATS */}
+      <div style={{background:'linear-gradient(180deg,rgba(0,0,0,0.7) 0%,rgba(10,10,15,0.9) 100%)',padding:isMobile?'3rem 1rem':'4.5rem 2rem',borderBottom:`1px solid rgba(245,166,35,0.08)`}}>
+        <div style={{maxWidth:860,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:isMobile?8:0}}>
+          {[[t.hex1v,t.hex1l,gold],[t.hex2v,t.hex2l,'#10b981'],[t.hex3v,t.hex3l,'#a78bfa']].map(([v,l,c],idx)=>(
+            <div key={l} style={{textAlign:'center',position:'relative',padding:isMobile?'0':'0 1rem'}}>
+              <div style={{position:'relative',width:isMobile?160:200,height:isMobile?144:180,margin:'0 auto'}}>
+                <svg viewBox="0 0 200 180" style={{width:'100%',height:'100%'}}>
+                  <defs>
+                    <linearGradient id={`hgrad${idx}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor={c} stopOpacity="0.3"/>
+                      <stop offset="100%" stopColor={c} stopOpacity="0.05"/>
+                    </linearGradient>
+                    <filter id={`glow${idx}`}>
+                      <feGaussianBlur stdDeviation="3" result="blur"/>
+                      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  <polygon points="100,8 188,54 188,126 100,172 12,126 12,54" fill={`url(#hgrad${idx})`} stroke={c} strokeWidth="1.5"/>
+                  <polygon points="100,22 174,63 174,117 100,158 26,117 26,63" fill="none" stroke={c} strokeWidth="0.5" opacity="0.4"/>
+                </svg>
+                <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-52%)',textAlign:'center',pointerEvents:'none'}}>
+                  <div style={{fontSize:isMobile?30:38,fontWeight:900,color:c,lineHeight:1,textShadow:`0 0 20px ${c}88`}}>{v}</div>
+                  <div style={{fontSize:10,color:'rgba(255,255,255,0.55)',marginTop:5,textTransform:'uppercase',letterSpacing:'.1em',fontWeight:700,maxWidth:90,margin:'5px auto 0'}}>{l}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* BENEFITS */}
       <div style={{maxWidth:1200,margin:'0 auto',padding:'5rem 2rem'}}>
         <div style={{textAlign:'center',marginBottom:'3rem'}}>
@@ -254,6 +293,43 @@ export default function Landing() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* MANAGER PERSONAL */}
+      <div style={{background:'rgba(0,0,0,0.5)',padding:isMobile?'3rem 1.25rem':'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.08)`,borderBottom:`1px solid rgba(245,166,35,0.08)`}}>
+        <div style={{maxWidth:800,margin:'0 auto'}}>
+          <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
+            <h2 style={{fontSize:'clamp(1.4rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.mgr_title}</h2>
+            <div style={{width:60,height:3,background:gold,margin:'12px auto 0',borderRadius:2}}/>
+          </div>
+          <div style={{background:'rgba(245,166,35,0.05)',border:`1px solid rgba(245,166,35,0.2)`,borderRadius:20,padding:isMobile?'1.5rem':'2.5rem',display:'flex',gap:isMobile?16:32,alignItems:'center',flexDirection:isMobile?'column':'row'}}>
+            {/* Avatar */}
+            <div style={{flexShrink:0,textAlign:'center'}}>
+              <div style={{width:isMobile?80:100,height:isMobile?80:100,borderRadius:'50%',background:`linear-gradient(135deg,rgba(245,166,35,0.3),rgba(245,166,35,0.05))`,border:`2px solid ${gold}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:isMobile?36:44,margin:isMobile?'0 auto':'0'}}>
+                👤
+              </div>
+              <div style={{marginTop:10,display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
+                <div style={{width:8,height:8,borderRadius:'50%',background:'#10b981',boxShadow:'0 0 8px #10b981'}}/>
+                <span style={{fontSize:11,color:'#10b981',fontWeight:700}}>Online acum</span>
+              </div>
+            </div>
+            {/* Content */}
+            <div style={{flex:1}}>
+              <div style={{fontSize:isMobile?17:20,fontWeight:900,color:'#fff',marginBottom:3}}>{t.mgr_name}</div>
+              <div style={{fontSize:13,color:gold,fontWeight:600,marginBottom:14,letterSpacing:'.05em'}}>{t.mgr_role}</div>
+              <p style={{fontSize:14,color:'rgba(255,255,255,0.65)',lineHeight:1.75,marginBottom:20}}>{t.mgr_text}</p>
+              <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                <a href="https://t.me/winpartners_support" target="_blank" rel="noreferrer" style={{display:'inline-flex',alignItems:'center',gap:8,padding:'11px 22px',background:gold,color:'#000',border:'none',borderRadius:8,fontSize:14,fontWeight:700,cursor:'pointer',textDecoration:'none'}}>
+                  <span>✈️</span> {t.mgr_btn}
+                </a>
+                <div style={{display:'flex',alignItems:'center',gap:6,padding:'11px 16px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8}}>
+                  <span style={{fontSize:12}}>🔒</span>
+                  <span style={{fontSize:12,color:'rgba(255,255,255,0.5)'}}>{t.mgr_verify}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
