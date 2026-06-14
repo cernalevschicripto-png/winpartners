@@ -219,7 +219,7 @@ export default function Register() {
             </div>
             <div>
               <label style={lbl}>Număr urmăritori *</label>
-              <input style={errors.followers?inpErr:inp} type="number" value={form.followers} onChange={set('followers')} placeholder="10000"/>
+              <input style={errors.followers?inpErr:inp} type="number" value={form.followers} onChange={set('followers')} onInput={set('followers')} placeholder="10000" min="100"/>
             </div>
           </div>
 
