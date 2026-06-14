@@ -155,13 +155,16 @@ export default function Admin() {
       id: app.username, name: app.name, username: app.username,
       platform: app.platform, country: app.country||'Moldova',
       phone: app.phone||'', email: app.email||'',
-      status:'active', commission:20,
+      status:'active', commission:25,
       clicks:0, regs:0, deposits:0, revenue:0, paid:0,
       pass: app.username + '2026',
       payMethod: app.payMethod||'Bitcoin', payAddress: app.payAddress||'',
     }
     await setBlogger(blogger)
     await addNotification({ type:'new_blogger', blogger: app.name, detail:'Cerere aprobată · parolă: '+blogger.pass })
+    // Refresh imediat
+    getApplications().then(setApplications)
+    getBloggers().then(setBloggers)
   }
 
   const saveCasinoStats = async (casinoId) => {

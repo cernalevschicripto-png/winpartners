@@ -252,12 +252,8 @@ export async function updateApplication(key, status) {
   lsSet('wp_applications', updated)
 }
 
-export function subscribeApplications(callback, interval = 5000) {
+export function subscribeApplications(callback, interval = 2000) {
   getApplications().then(callback)
-  if (!USE_FIREBASE) {
-    const id = setInterval(() => getApplications().then(callback), interval)
-    return () => clearInterval(id)
-  }
   const id = setInterval(() => getApplications().then(callback), interval)
   return () => clearInterval(id)
 }
