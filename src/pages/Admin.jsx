@@ -149,6 +149,8 @@ export default function Admin() {
   }
 
   const approveApp = async (app) => {
+    // Actualizare optimistă imediată în UI
+    setApplications(prev => prev.map(a => a._key === app._key ? { ...a, status: 'approved' } : a))
     await updateApplication(app._key, 'approved')
     // Adaugă blogger în sistem
     const blogger = {
@@ -162,8 +164,6 @@ export default function Admin() {
     }
     await setBlogger(blogger)
     await addNotification({ type:'new_blogger', blogger: app.name, detail:'Cerere aprobată · parolă: '+blogger.pass })
-    // Refresh imediat
-    getApplications().then(setApplications)
     getBloggers().then(setBloggers)
   }
 
@@ -280,7 +280,7 @@ export default function Admin() {
                         {app.status==='pending' && (
                           <>
                             <button onClick={() => approveApp(app)} style={{ padding:'6px 14px', fontSize:12, fontWeight:700, cursor:'pointer', border:'none', borderRadius:6, background:'#10b981', color:'#fff' }}>✓ Aprobă</button>
-                            <button onClick={() => updateApplication(app._key, 'rejected')} style={{ padding:'6px 14px', fontSize:12, fontWeight:700, cursor:'pointer', border:'none', borderRadius:6, background:'#ef4444', color:'#fff' }}>✗ Respinge</button>
+                            <button onClick={() => { setApplications(prev => prev.map(a => a._key === app._key ? { ...a, status: 'rejected' } : a)); updateApplication(app._key, 'rejected') }} style={{ padding:'6px 14px', fontSize:12, fontWeight:700, cursor:'pointer', border:'none', borderRadius:6, background:'#ef4444', color:'#fff' }}>✗ Respinge</button>
                           </>
                         )}
                       </div>
