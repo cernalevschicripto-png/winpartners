@@ -49,7 +49,7 @@ export default function Admin() {
   const [addCodeMode, setAddCodeMode] = useState(false)
   const [updateBlogger, setUpdateBlogger] = useState(null)
   const [showNotifPanel, setShowNotifPanel] = useState(false)
-  const [casinoStatsEdit, setCasinoStatsEdit] = useState({})
+  const [saveMsg, setSaveMsg] = useState('')
 
   useEffect(() => {
     const fn = () => setIsMobile(window.innerWidth < 768)
@@ -101,7 +101,7 @@ export default function Admin() {
             />
             <button
               style={{ width:'100%', padding:'10px', fontSize:14, fontWeight:700, cursor:'pointer', border:'none', borderRadius:6, background:gold, color:'#000' }}
-              onClick={() => pass===PASS ? setAuth(true) : alert('Parolă incorectă!')}
+              onClick={() => { if(pass===PASS) { setAuth(true) } else { setPass(''); document.querySelector('input')?.focus() } }}
             >INTRĂ</button>
           </div>
         </div>
@@ -174,7 +174,8 @@ export default function Admin() {
     if (!s.commission && s.revenue) s.commission = Math.round(s.revenue * commPct / 100)
     await setCasinoStats(updateBlogger.username, casinoId, s)
     await addNotification({ type:'stats_update', blogger: updateBlogger.username, detail: CASINOS_LIST.find(c=>c.id===casinoId)?.name + ' · statistici actualizate' })
-    alert('✅ Salvat în Firebase!')
+    setSaveMsg('✅ Salvat!')
+    setTimeout(() => setSaveMsg(''), 3000)
   }
 
   const runSeed = async () => {
@@ -516,7 +517,8 @@ export default function Admin() {
                           </div>
                         ))}
                       </div>
-                      <div style={{marginTop:10,display:'flex',justifyContent:'flex-end'}}>
+                      <div style={{marginTop:10,display:'flex',justifyContent:'flex-end',alignItems:'center',gap:10}}>
+                        {saveMsg && <span style={{fontSize:12,color:'#10b981',fontWeight:700}}>{saveMsg}</span>}
                         <button onClick={() => saveCasinoStats(casino.id)}
                           style={{padding:'7px 18px',fontSize:12,fontWeight:700,cursor:'pointer',border:'none',borderRadius:6,background:casino.color,color:'#000'}}>
                           💾 Salvează în Firebase
