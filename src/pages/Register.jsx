@@ -41,6 +41,94 @@ export default function Register() {
   const inviteCode = searchParams.get('invite') || ''
 
   const [lang, setLang] = useState('ro')
+
+  const T = {
+    ro: {
+      title: 'Aplică pentru parteneriat',
+      sub: 'Completează formularul de mai jos. Echipa noastră va analiza profilul tău și te va contacta în 24-48 de ore.',
+      invited: '{t.invited}', invited2: 'Cererea ta va fi procesată prioritar.',
+      sec1: 'Date personale', sec2: 'Profil social', sec3: 'Metodă de plată',
+      name: t.name, namePh: 'Ion Popescu',
+      username: t.username, usernamePh: 'ionpopescu',
+      email: t.email, emailPh: 'ion@gmail.com',
+      phone: t.phone, phonePh: '+373 60 000 000',
+      country: t.country, platform: t.platform,
+      followers: t.followers, followersPh: 'ex: 15000',
+      profileLink: t.profileLink, profileLinkPh: 'https://tiktok.com/@ionpopescu',
+      aboutYou: 'De ce vrei să te alături? (opțional)', aboutYouPh: 'Descrie pe scurt experiența ta...',
+      payMethod: t.payMethod,
+      payAddress: 'Adresă portofel (opțional)', payAddressPh: 'Poți completa și după aprobare',
+      payNote: '{t.payNote}',
+      refLabel: 'Cod de invitație / referral', refPh: 'Opțional',
+      submit: t.submit, submitting: t.submitting,
+      sent: 'Cererea a fost trimisă!',
+      thanks: 'Cererea ta de afiliere a fost primită și va fi analizată de echipa noastră.',
+      next: t.next,
+      step1t: 'Acum', step1d: 'Ai primit un email de confirmare la ',
+      step2t: '24-48 ore', step2d: 'Echipa noastră analizează profilul tău',
+      step3t: 'După aprobare', step3d: 'Primești email cu datele de acces și codul tău Melbet',
+      step4t: 'Start', step4d: 'Intri în dashboard și începi să câștigi',
+      contact: 'Ai întrebări? Contactează-ne pe WhatsApp sau Telegram @winpartners',
+      back: '{t.back}',
+    },
+    ru: {
+      title: 'Подать заявку на партнёрство',
+      sub: 'Заполните форму ниже. Наша команда рассмотрит ваш профиль и свяжется в течение 24-48 часов.',
+      invited: 'Вы приглашены с кодом', invited2: 'Ваша заявка будет обработана приоритетно.',
+      sec1: 'Личные данные', sec2: 'Социальный профиль', sec3: 'Способ оплаты',
+      name: 'Полное имя', namePh: 'Иван Иванов',
+      username: 'Имя пользователя', usernamePh: 'ivanivanov',
+      email: 'Email', emailPh: 'ivan@mail.ru',
+      phone: 'Телефон / WhatsApp', phonePh: '+7 900 000 0000',
+      country: 'Страна', platform: 'Основная платформа',
+      followers: 'Количество подписчиков', followersPh: 'напр: 15000',
+      profileLink: 'Ссылка на профиль', profileLinkPh: 'https://tiktok.com/@ivanivanov',
+      aboutYou: 'Почему хотите присоединиться? (необязательно)', aboutYouPh: 'Опишите ваш опыт...',
+      payMethod: 'Предпочтительный способ оплаты',
+      payAddress: 'Адрес кошелька (необязательно)', payAddressPh: 'Можно заполнить после одобрения',
+      payNote: 'Адрес для выплат можно указать позже в личном кабинете.',
+      refLabel: 'Код приглашения / реферал', refPh: 'Необязательно',
+      submit: 'ОТПРАВИТЬ ЗАЯВКУ', submitting: 'Отправка...',
+      sent: 'Заявка отправлена!',
+      thanks: 'Ваша заявка получена и будет рассмотрена нашей командой.',
+      next: 'Что дальше:',
+      step1t: 'Сейчас', step1d: 'Вы получили письмо с подтверждением на ',
+      step2t: '24-48 часов', step2d: 'Наша команда анализирует ваш профиль',
+      step3t: 'После одобрения', step3d: 'Получите email с данными для входа и кодом Melbet',
+      step4t: 'Старт', step4d: 'Войдите в личный кабинет и начните зарабатывать',
+      contact: 'Есть вопросы? WhatsApp или Telegram @winpartners',
+      back: '← Вернуться на главную',
+    },
+    en: {
+      title: 'Apply for Partnership',
+      sub: 'Fill in the form below. Our team will review your profile and contact you within 24-48 hours.',
+      invited: 'You were invited with code', invited2: 'Your application will be processed with priority.',
+      sec1: 'Personal Details', sec2: 'Social Profile', sec3: 'Payment Method',
+      name: 'Full name', namePh: 'John Smith',
+      username: 'Username / Nickname', usernamePh: 'johnsmith',
+      email: 'Email', emailPh: 'john@gmail.com',
+      phone: 'Phone / WhatsApp', phonePh: '+44 7000 000000',
+      country: 'Country', platform: 'Main platform',
+      followers: 'Number of followers', followersPh: 'e.g. 15000',
+      profileLink: 'Public profile link', profileLinkPh: 'https://tiktok.com/@johnsmith',
+      aboutYou: 'Why do you want to join? (optional)', aboutYouPh: 'Briefly describe your experience...',
+      payMethod: 'Preferred payment method',
+      payAddress: 'Wallet address (optional)', payAddressPh: 'You can fill this in after approval',
+      payNote: 'You can add your payment address later from the dashboard.',
+      refLabel: 'Invitation / referral code', refPh: 'Optional',
+      submit: 'SUBMIT APPLICATION', submitting: 'Submitting...',
+      sent: 'Application Submitted!',
+      thanks: 'Your affiliate application has been received and will be reviewed by our team.',
+      next: "What's next:",
+      step1t: 'Now', step1d: 'You received a confirmation email at ',
+      step2t: '24-48 hours', step2d: 'Our team reviews your profile',
+      step3t: 'After approval', step3d: 'You receive login details and your Melbet code by email',
+      step4t: 'Start', step4d: 'Log into your dashboard and start earning',
+      contact: 'Questions? Contact us on WhatsApp or Telegram @winpartners',
+      back: '← Back to homepage',
+    },
+  }
+  const t = T[lang] || T.ro
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [step, setStep] = useState(1) // 1=formular, 2=confirmare trimisă
   const [form, setForm] = useState({
@@ -96,7 +184,7 @@ export default function Register() {
         </h2>
 
         <p style={{color:'rgba(255,255,255,0.55)',marginBottom:28,lineHeight:1.8,fontSize:14}}>
-          Mulțumim, <strong style={{color:'#fff'}}>{form.name}</strong>! Cererea ta de afiliere a fost primită și va fi analizată de echipa noastră.
+          {t.thanks}
         </p>
 
         {/* Timeline de așteptare */}
@@ -104,9 +192,9 @@ export default function Register() {
           <div style={{fontSize:12,color:gold,fontWeight:700,marginBottom:16,textTransform:'uppercase',letterSpacing:'.08em'}}>Ce urmează:</div>
           {[
             ['📬', 'Acum', 'Cererea ta a fost înregistrată și trimisă echipei noastre'],
-            ['🔍', '24-48 ore', 'Echipa noastră analizează profilul tău'],
-            ['✅', 'După aprobare', 'Primești email cu datele de acces și codul tău Melbet'],
-            ['🚀', 'Start', 'Intri în dashboard și începi să câștigați'],
+            ['🔍', t.step2t, t.step2d],
+            ['✅', t.step3t, t.step3d],
+            ['🚀', t.step4t, t.step4d],
           ].map(([icon, time, text]) => (
             <div key={time} style={{display:'flex',gap:12,marginBottom:12,alignItems:'flex-start'}}>
               <span style={{fontSize:18,flexShrink:0}}>{icon}</span>
@@ -119,7 +207,7 @@ export default function Register() {
         </div>
 
         <div style={{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:8,padding:'12px 16px',marginBottom:24,fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.6}}>
-          💬 Ai întrebări? Contactează-ne pe <strong style={{color:gold}}>WhatsApp sau Telegram @winpartners</strong>
+          💬 {t.contact}
         </div>
 
         <button onClick={() => navigate('/')} style={{padding:'12px 32px',fontSize:14,fontWeight:700,cursor:'pointer',border:`1px solid rgba(255,255,255,0.15)`,borderRadius:6,background:'none',color:'rgba(255,255,255,0.6)',fontFamily:'inherit'}}>
@@ -155,7 +243,7 @@ export default function Register() {
         <div style={{marginBottom:32}}>
           {(refCode || inviteCode) && (
             <div style={{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:8,padding:'10px 14px',marginBottom:20,fontSize:13,color:'#10b981',display:'flex',alignItems:'center',gap:8}}>
-              ✓ Ai fost invitat cu codul <strong style={{fontFamily:'monospace'}}>{refCode || inviteCode}</strong>. Cererea ta va fi procesată prioritar.
+              ✓ Ai fost invitat cu codul <strong style={{fontFamily:'monospace'}}>{refCode || inviteCode}</strong>. {t.invited2}
             </div>
           )}
           <h1 style={{fontSize:isMobile?22:28,fontWeight:900,color:'#fff',marginBottom:8,textTransform:'uppercase'}}>
