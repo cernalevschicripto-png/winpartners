@@ -104,6 +104,107 @@ const StarRating = () => (
   </div>
 )
 
+// ── Calculator câștig ──────────────────────────────────────
+function CalcSection({ isMobile, lang, navigate, gold }) {
+  const [followers, setFollowers] = useState(10000)
+  const [postsPerWeek, setPostsPerWeek] = useState(3)
+
+  // Formula: urmăritori × 0.003% conversie × 0.4 depun × pierd $120/lună × 25% comision
+  const players     = Math.round(followers * postsPerWeek * 0.0003)
+  const depositors  = Math.round(players * 0.4)
+  const monthlyRev  = Math.round(depositors * 120 * 0.25)
+  const yearlyRev   = monthlyRev * 12
+
+  const labels = {
+    ro: { title:'CALCULEAZĂ CÂȘTIGUL TĂU', sub:'Introdu datele tale și vezi cât poți câștiga lunar',
+          fol:'Număr urmăritori', posts:'Postări/săptămână cu Melbet',
+          play:'Jucători estimați/lună', dep:'Depunători activi',
+          earn:'Câștig lunar estimat', year:'Câștig anual',
+          cta:'Aplică acum și începe să câștigi', note:'Estimare bazată pe conversie medie industrie. Rezultatele reale pot varia.' },
+    ru: { title:'РАССЧИТАЙ СВОЙ ЗАРАБОТОК', sub:'Введи данные и узнай сколько можешь зарабатывать',
+          fol:'Количество подписчиков', posts:'Постов/неделю о Melbet',
+          play:'Игроков в месяц', dep:'Активных вкладчиков',
+          earn:'Доход в месяц', year:'Доход в год',
+          cta:'Подать заявку и начать зарабатывать', note:'Оценка на основе средней конверсии по отрасли.' },
+    en: { title:'CALCULATE YOUR EARNINGS', sub:'Enter your data and see how much you can earn monthly',
+          fol:'Number of followers', posts:'Posts/week about Melbet',
+          play:'Estimated players/month', dep:'Active depositors',
+          earn:'Estimated monthly earnings', year:'Yearly earnings',
+          cta:'Apply now and start earning', note:'Estimate based on industry average conversion. Actual results may vary.' },
+  }
+  const L = labels[lang] || labels.ro
+
+  const fmt = (n) => n >= 1000 ? (n/1000).toFixed(1).replace('.0','') + 'K' : n
+
+  return (
+    <div style={{background:'rgba(0,0,0,0.5)',padding:isMobile?'3rem 1.25rem':'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.08)`}}>
+      <div style={{maxWidth:780,margin:'0 auto'}}>
+        <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
+          <h2 style={{fontSize:'clamp(1.4rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:8}}>{L.title}</h2>
+          <div style={{width:60,height:3,background:gold,margin:'0 auto 12px',borderRadius:2}}/>
+          <p style={{fontSize:14,color:'rgba(255,255,255,0.45)'}}>{L.sub}</p>
+        </div>
+
+        {/* Sliders */}
+        <div style={{background:'rgba(245,166,35,0.04)',border:`1px solid rgba(245,166,35,0.15)`,borderRadius:20,padding:isMobile?'1.5rem':'2.5rem',marginBottom:24}}>
+          {/* Slider urmăritori */}
+          <div style={{marginBottom:28}}>
+            <div style={{display:'flex',justifyContent:'space-between',marginBottom:10}}>
+              <span style={{fontSize:13,color:'rgba(255,255,255,0.6)',fontWeight:600}}>{L.fol}</span>
+              <span style={{fontSize:18,fontWeight:900,color:gold}}>{fmt(followers)}</span>
+            </div>
+            <input type="range" min="1000" max="500000" step="1000" value={followers}
+              onChange={e=>setFollowers(Number(e.target.value))}
+              style={{width:'100%',accentColor:gold,cursor:'pointer',height:4}}
+            />
+            <div style={{display:'flex',justifyContent:'space-between',marginTop:4}}>
+              <span style={{fontSize:11,color:'rgba(255,255,255,0.25)'}}>1K</span>
+              <span style={{fontSize:11,color:'rgba(255,255,255,0.25)'}}>500K</span>
+            </div>
+          </div>
+          {/* Slider postări */}
+          <div>
+            <div style={{display:'flex',justifyContent:'space-between',marginBottom:10}}>
+              <span style={{fontSize:13,color:'rgba(255,255,255,0.6)',fontWeight:600}}>{L.posts}</span>
+              <span style={{fontSize:18,fontWeight:900,color:gold}}>{postsPerWeek}</span>
+            </div>
+            <input type="range" min="1" max="7" step="1" value={postsPerWeek}
+              onChange={e=>setPostsPerWeek(Number(e.target.value))}
+              style={{width:'100%',accentColor:gold,cursor:'pointer',height:4}}
+            />
+            <div style={{display:'flex',justifyContent:'space-between',marginTop:4}}>
+              <span style={{fontSize:11,color:'rgba(255,255,255,0.25)'}}>1</span>
+              <span style={{fontSize:11,color:'rgba(255,255,255,0.25)'}}>7</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Rezultate */}
+        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)',gap:12,marginBottom:24}}>
+          {[
+            [L.play, fmt(players), 'rgba(255,255,255,0.6)'],
+            [L.dep, fmt(depositors), '#3b82f6'],
+            [L.earn, '$'+monthlyRev, gold],
+            [L.year, '$'+yearlyRev, '#10b981'],
+          ].map(([label, val, color]) => (
+            <div key={label} style={{background:'rgba(255,255,255,0.03)',border:`1px solid ${color}33`,borderRadius:12,padding:'1rem',textAlign:'center'}}>
+              <div style={{fontSize:isMobile?20:26,fontWeight:900,color,lineHeight:1,marginBottom:4}}>{val}</div>
+              <div style={{fontSize:10,color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.06em'}}>{label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{textAlign:'center'}}>
+          <button onClick={()=>navigate('/register')} style={{padding:isMobile?'13px 32px':'16px 48px',fontSize:15,fontWeight:800,cursor:'pointer',border:`2px solid ${gold}`,borderRadius:8,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.05em',boxShadow:`0 8px 32px rgba(245,166,35,0.3)`,marginBottom:12}}>
+            {L.cta}
+          </button>
+          <div style={{fontSize:11,color:'rgba(255,255,255,0.2)'}}>{L.note}</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Landing() {
   const [lang, setLang] = useState('ro')
   const navigate = useNavigate()
@@ -248,11 +349,11 @@ export default function Landing() {
       </div>
 
       {/* HEXAGON STATS */}
-      <div style={{background:'linear-gradient(180deg,rgba(0,0,0,0.7) 0%,rgba(10,10,15,0.9) 100%)',padding:isMobile?'3rem 1rem':'4.5rem 2rem',borderBottom:`1px solid rgba(245,166,35,0.08)`}}>
-        <div style={{maxWidth:860,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:isMobile?8:0}}>
+      <div style={{background:'linear-gradient(180deg,rgba(0,0,0,0.7) 0%,rgba(10,10,15,0.9) 100%)',padding:isMobile?'1.5rem 0.25rem':'4.5rem 2rem',borderBottom:`1px solid rgba(245,166,35,0.08)`}}>
+        <div style={{maxWidth:860,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:isMobile?4:0}}>
           {[[t.hex1v,t.hex1l,gold],[t.hex2v,t.hex2l,'#10b981'],[t.hex3v,t.hex3l,'#a78bfa']].map(([v,l,c],idx)=>(
-            <div key={l} style={{textAlign:'center',position:'relative',padding:isMobile?'0':'0 1rem'}}>
-              <div style={{position:'relative',width:isMobile?160:200,height:isMobile?144:180,margin:'0 auto'}}>
+            <div key={l} style={{textAlign:'center',position:'relative',padding:'0 2px'}}>
+              <div style={{position:'relative',width:isMobile?'100%':200,height:isMobile?'auto':180,margin:'0 auto'}}>
                 <svg viewBox="0 0 200 180" style={{width:'100%',height:'100%'}}>
                   <defs>
                     <linearGradient id={`hgrad${idx}`} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -268,7 +369,7 @@ export default function Landing() {
                   <polygon points="100,22 174,63 174,117 100,158 26,117 26,63" fill="none" stroke={c} strokeWidth="0.5" opacity="0.4"/>
                 </svg>
                 <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-52%)',textAlign:'center',pointerEvents:'none'}}>
-                  <div style={{fontSize:isMobile?30:38,fontWeight:900,color:c,lineHeight:1,textShadow:`0 0 20px ${c}88`}}>{v}</div>
+                  <div style={{fontSize:isMobile?16:38,fontWeight:900,color:c,lineHeight:1,textShadow:`0 0 20px ${c}88`}}>{v}</div>
                   <div style={{fontSize:10,color:'rgba(255,255,255,0.55)',marginTop:5,textTransform:'uppercase',letterSpacing:'.1em',fontWeight:700,maxWidth:90,margin:'5px auto 0'}}>{l}</div>
                 </div>
               </div>
@@ -306,8 +407,36 @@ export default function Landing() {
           <div style={{background:'rgba(245,166,35,0.05)',border:`1px solid rgba(245,166,35,0.2)`,borderRadius:20,padding:isMobile?'1.5rem':'2.5rem',display:'flex',gap:isMobile?16:32,alignItems:'center',flexDirection:isMobile?'column':'row'}}>
             {/* Avatar */}
             <div style={{flexShrink:0,textAlign:'center'}}>
-              <div style={{width:isMobile?80:100,height:isMobile?80:100,borderRadius:'50%',background:`linear-gradient(135deg,rgba(245,166,35,0.3),rgba(245,166,35,0.05))`,border:`2px solid ${gold}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:isMobile?36:44,margin:isMobile?'0 auto':'0'}}>
-                👤
+              <div style={{width:isMobile?88:108,height:isMobile?88:108,borderRadius:'50%',background:'linear-gradient(135deg,#1a1a2e,#0f0f1a)',border:`3px solid ${gold}`,overflow:'hidden',margin:isMobile?'0 auto':'0',flexShrink:0}}>
+                <svg viewBox="0 0 108 108" style={{width:'100%',height:'100%'}}>
+                  <rect width="108" height="108" fill="url(#avatarBg)"/>
+                  <defs>
+                    <radialGradient id="avatarBg" cx="50%" cy="40%" r="60%">
+                      <stop offset="0%" stopColor="#1e1e35"/>
+                      <stop offset="100%" stopColor="#0a0a15"/>
+                    </radialGradient>
+                  </defs>
+                  {/* Body */}
+                  <ellipse cx="54" cy="95" rx="30" ry="20" fill="rgba(245,166,35,0.15)"/>
+                  <ellipse cx="54" cy="92" rx="22" ry="16" fill="#f5a623" opacity="0.9"/>
+                  {/* Head */}
+                  <circle cx="54" cy="42" r="20" fill="#f5a623" opacity="0.95"/>
+                  {/* Face shading */}
+                  <circle cx="54" cy="44" r="18" fill="rgba(0,0,0,0.08)"/>
+                  {/* Eyes */}
+                  <circle cx="47" cy="40" r="3" fill="#1a1000"/>
+                  <circle cx="61" cy="40" r="3" fill="#1a1000"/>
+                  <circle cx="48" cy="39" r="1" fill="rgba(255,255,255,0.5)"/>
+                  <circle cx="62" cy="39" r="1" fill="rgba(255,255,255,0.5)"/>
+                  {/* Smile */}
+                  <path d="M46,48 Q54,55 62,48" stroke="#1a1000" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+                  {/* Suit collar */}
+                  <path d="M38,88 L50,72 L54,78 L58,72 L70,88" fill="#0d0d20" opacity="0.9"/>
+                  <path d="M50,72 L54,82 L58,72" fill={gold} opacity="0.6"/>
+                  {/* Win badge */}
+                  <circle cx="82" cy="26" r="12" fill={gold}/>
+                  <text x="82" y="31" textAnchor="middle" fontSize="9" fontWeight="900" fill="#000">W</text>
+                </svg>
               </div>
               <div style={{marginTop:10,display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
                 <div style={{width:8,height:8,borderRadius:'50%',background:'#10b981',boxShadow:'0 0 8px #10b981'}}/>
@@ -392,6 +521,9 @@ export default function Landing() {
         </div>
       </div>
 
+      {/* CALCULATOR CÂȘTIG */}
+      <CalcSection isMobile={isMobile} lang={lang} navigate={navigate} gold={gold} />
+
       {/* CTA */}
       <div style={{padding:'5rem 2rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
         <div style={{position:'absolute',inset:0,background:`radial-gradient(ellipse 70% 80% at 50% 50%, rgba(245,166,35,0.08) 0%, transparent 70%)`,pointerEvents:'none'}}/>
@@ -403,13 +535,13 @@ export default function Landing() {
       </div>
 
       {/* FOOTER */}
-      <footer style={{background:'#050508',borderTop:`1px solid rgba(245,166,35,0.1)`,padding:'3rem 3rem 2rem'}}>
+      <footer style={{background:'#050508',borderTop:`1px solid rgba(245,166,35,0.1)`,padding:isMobile?'2rem 1.25rem 1.5rem':'3rem 3rem 2rem'}}>
         <div style={{maxWidth:1200,margin:'0 auto'}}>
-          <div style={{display:'grid',gridTemplateColumns:'1fr auto auto auto',gap:48,marginBottom:32,flexWrap:'wrap'}}>
-            <div>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'1fr auto auto auto',gap:isMobile?20:48,marginBottom:24}}>
+            <div style={{gridColumn:isMobile?'1 / -1':'auto'}}>
               <div style={{fontSize:20,fontWeight:900,marginBottom:12}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div>
               <div style={{fontSize:13,color:'rgba(255,255,255,0.3)',lineHeight:1.7,maxWidth:260}}>{lang==='ru'?'Профессиональная партнёрская платформа для блогеров и инфлюенсеров.':lang==='en'?'Professional affiliate platform for bloggers and influencers worldwide.':'Platformă profesională de afiliere pentru bloggeri și influenceri.'}</div>
-              <div style={{display:'flex',gap:8,marginTop:16}}>
+              <div style={{display:'flex',gap:8,marginTop:16,flexWrap:'wrap'}}>
                 {[t.f_ssl, t.f_lic, t.f_rating].map(b=><span key={b} style={{fontSize:11,color:'rgba(255,255,255,0.35)',background:'rgba(255,255,255,0.05)',padding:'3px 8px',borderRadius:4}}>{b}</span>)}
               </div>
             </div>
