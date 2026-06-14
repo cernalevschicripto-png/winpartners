@@ -553,6 +553,18 @@ function DashboardContent({ blogger, onLogout }) {
           {/* === STRUCTURA COMISIONULUI === */}
           {page==='comm'&&(
             <div>
+              {/* Explicatie structura comision */}
+              <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.03))',border:'1px solid rgba(245,166,35,0.3)',borderRadius:10,padding:'16px 20px',marginBottom:'1.25rem'}}>
+                <div style={{fontSize:14,fontWeight:700,color:gold,marginBottom:8}}>📋 Structura ta de comision: RS25% + REF3%</div>
+                <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12}}>
+                  <div style={{fontSize:12,color:txtSub,lineHeight:1.7}}>
+                    <b style={{color:txt}}>Revenue Share 25%</b> — primești 25% din pierderile nete ale jucătorilor recomandați de tine, pe toată durata activității lor pe platforma Melbet.
+                  </div>
+                  <div style={{fontSize:12,color:txtSub,lineHeight:1.7}}>
+                    <b style={{color:'#10b981'}}>Referral 3%</b> — dacă inviți un alt blogger în WinPartners, primești 3% din comisionul lui lunar, pe viață. Copiază linkul de referral din tab-ul "Link-uri Afiliați".
+                  </div>
+                </div>
+              </div>
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12,padding:'6px 12px'}}><option>6 articole selectate ▼</option></select></div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <div style={{overflowX:'auto'}}>
@@ -578,6 +590,23 @@ function DashboardContent({ blogger, onLogout }) {
           {/* === ISTORICUL PLATILOR === */}
           {page==='pays'&&(
             <div>
+              {/* INFO BANNER — REF3% + $30 minim */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12,marginBottom:'1.5rem'}}>
+                <div style={{background:'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(16,185,129,0.04))',border:'1px solid rgba(16,185,129,0.3)',borderRadius:10,padding:'14px 18px',display:'flex',gap:12,alignItems:'flex-start'}}>
+                  <div style={{fontSize:24,flexShrink:0}}>💰</div>
+                  <div>
+                    <div style={{fontSize:13,fontWeight:700,color:'#10b981',marginBottom:4}}>Comision RS25% + REF3%</div>
+                    <div style={{fontSize:12,color:txtSub,lineHeight:1.6}}>Primești <b style={{color:txt}}>25%</b> din pierderile jucătorilor tăi + <b style={{color:'#10b981'}}>3% bonus</b> din câștigurile oricărui blogger pe care îl inviți tu în program — pe viață.</div>
+                  </div>
+                </div>
+                <div style={{background:'linear-gradient(135deg,rgba(167,139,250,0.12),rgba(167,139,250,0.04))',border:'1px solid rgba(167,139,250,0.3)',borderRadius:10,padding:'14px 18px',display:'flex',gap:12,alignItems:'flex-start'}}>
+                  <div style={{fontSize:24,flexShrink:0}}>📅</div>
+                  <div>
+                    <div style={{fontSize:13,fontWeight:700,color:'#a78bfa',marginBottom:4}}>Plăți săptămânale automate</div>
+                    <div style={{fontSize:12,color:txtSub,lineHeight:1.6}}>Suma minimă de retragere: <b style={{color:txt}}>$30/săptămână</b>. Prima plată se activează după ce contactezi managerul WinPartners pe Telegram.</div>
+                  </div>
+                </div>
+              </div>
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>Valută</span>
                 <select style={inp}><option>USD</option></select>
@@ -734,6 +763,16 @@ function DashboardContent({ blogger, onLogout }) {
           {/* === CODURI PROMO === */}
           {page==='promo'&&(
             <div>
+              {/* Banner important — cod numeric Melbet */}
+              <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.12),rgba(245,166,35,0.03))',border:'1px solid rgba(245,166,35,0.35)',borderRadius:10,padding:'14px 18px',marginBottom:'1.25rem',display:'flex',gap:14,alignItems:'flex-start'}}>
+                <div style={{fontSize:22,flexShrink:0}}>🎟️</div>
+                <div>
+                  <div style={{fontSize:13,fontWeight:700,color:gold,marginBottom:5}}>Codul tău promoțional Melbet — cum funcționează</div>
+                  <div style={{fontSize:12,color:txtSub,lineHeight:1.7}}>
+                    Codul tău numeric (ex: <span style={{fontFamily:'monospace',color:txt,fontWeight:700}}>11035387</span>) e codul promoțional oficial generat de Melbet. Jucătorii îl introduc la înregistrare pe Melbet.com și sunt legați automat de tine — fără link de referral. <b style={{color:txt}}>Spune-le bloggerilor tăi să-l includă în videoclipuri și descrieri.</b>
+                  </div>
+                </div>
+              </div>
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>Site web</span>
                 <select style={{...inp,width:190}}><option>winpartners.partners</option></select>

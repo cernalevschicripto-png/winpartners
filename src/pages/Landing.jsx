@@ -11,7 +11,7 @@ const T = {
     hsub:'Program oficial de afiliere Melbet — câștigați 25% Revenue Share din pierderile jucătorilor recomandați, pe viață.',
     hbtn:'ÎNCEPEȚI ACUM', hbtn2:'Cum funcționează',
     trust1:'Plăți garantate', trust2:'SSL Securizat', trust3:'Suport 24/7', trust4:'Parteneri verificați',
-    s1v:'25%', s1l:'Comision Revenue Share', s2v:'48h', s2l:'Procesare plăți', s3v:'24/7', s3l:'Suport dedicat',
+    s1v:'25%', s1l:'Comision Revenue Share', s2v:'+3%', s2l:'Bonus referral bloggeri', s3v:'48h', s3l:'Procesare plăți', s4v:'$30', s4l:'Plată minimă/săptămână',
     hex1v:'6', hex1l:'Cazinouri partenere', hex2v:'10K+', hex2l:'Jucători activi', hex3v:'$2K+', hex3l:'Câștig mediu/lună',
     mgr_title:'MANAGERUL TĂU PERSONAL', mgr_name:'Manager WinPartners', mgr_role:'Parteneriat & Suport', mgr_text:'Îmi ocup personal de contul tău — de la primul cod până la prima plată. Scrie-mi direct pe Telegram.',mgr_btn:'Scrie pe Telegram',
     mgr_verify:'Verifică că vorbești cu managerul oficial',
@@ -40,7 +40,7 @@ const T = {
     hsub:'Официальная партнёрская программа Melbet — зарабатывайте 25% Revenue Share от потерь рекомендованных игроков, пожизненно.',
     hbtn:'НАЧАТЬ СЕЙЧАС', hbtn2:'Как это работает',
     trust1:'Гарантированные выплаты', trust2:'SSL Защита', trust3:'Поддержка 24/7', trust4:'Проверенные партнеры',
-    s1v:'25%', s1l:'Комиссия Revenue Share', s2v:'48h', s2l:'Обработка выплат', s3v:'24/7', s3l:'Личный менеджер',
+    s1v:'25%', s1l:'Комиссия Revenue Share', s2v:'+3%', s2l:'Реферальный бонус', s3v:'48h', s3l:'Обработка выплат', s4v:'$30', s4l:'Мин. выплата/неделя',
     hex1v:'6', hex1l:'Казино-партнеров', hex2v:'10K+', hex2l:'Активных игроков', hex3v:'$2K+', hex3l:'Средний доход/мес',
     mgr_title:'ВАШ ЛИЧНЫЙ МЕНЕДЖЕР', mgr_name:'Менеджер WinPartners', mgr_role:'Партнёрство и поддержка', mgr_text:'Я лично веду ваш аккаунт — от первого кода до первой выплаты. Пишите мне напрямую в Telegram.',mgr_btn:'Написать в Telegram',
     mgr_verify:'Проверьте, что вы общаетесь с официальным менеджером',
@@ -69,7 +69,7 @@ const T = {
     hsub:'Official Melbet affiliate program — earn 25% Revenue Share from referred players\' losses, for life.',
     hbtn:'GET STARTED', hbtn2:'How it works',
     trust1:'Guaranteed payments', trust2:'SSL Secured', trust3:'24/7 Support', trust4:'Verified partners',
-    s1v:'25%', s1l:'Revenue Share commission', s2v:'48h', s2l:'Payment processing', s3v:'24/7', s3l:'Dedicated support',
+    s1v:'25%', s1l:'Revenue Share commission', s2v:'+3%', s2l:'Blogger referral bonus', s3v:'48h', s3l:'Payment processing', s4v:'$30', s4l:'Min. payout/week',
     hex1v:'6', hex1l:'Casino partners', hex2v:'10K+', hex2l:'Active players', hex3v:'$2K+', hex3l:'Avg monthly income',
     mgr_title:'YOUR PERSONAL MANAGER', mgr_name:'WinPartners Manager', mgr_role:'Partnership & Support', mgr_text:'I personally manage your account — from your first code to your first payment. Message me directly on Telegram.',mgr_btn:'Message on Telegram',
     mgr_verify:'Verify you are speaking with the official manager',
@@ -337,12 +337,12 @@ export default function Landing() {
       </div>
 
       {/* STATS */}
-      <div style={{background:'rgba(0,0,0,0.5)',borderTop:`1px solid rgba(245,166,35,0.12)`,borderBottom:`1px solid rgba(245,166,35,0.12)`,padding:'3rem 2rem'}}>
-        <div style={{maxWidth:900,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:0}}>
-          {[[t.s1v,t.s1l],[t.s2v,t.s2l],[t.s3v,t.s3l]].map(([v,l],i)=>(
-            <div key={l} style={{textAlign:'center',padding:'1rem',borderLeft:i>0?`1px solid rgba(245,166,35,0.1)`:'none'}}>
-              <div style={{fontSize:isMobile?28:48,fontWeight:900,color:gold,lineHeight:1,marginBottom:6}}>{v}</div>
-              <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.1em'}}>{l}</div>
+      <div style={{background:'rgba(0,0,0,0.5)',borderTop:`1px solid rgba(245,166,35,0.12)`,borderBottom:`1px solid rgba(245,166,35,0.12)`,padding:'2rem 1rem'}}>
+        <div style={{maxWidth:1000,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:0}}>
+          {[[t.s1v,t.s1l,'#f5a623'],[t.s2v,t.s2l,'#10b981'],[t.s3v,t.s3l,'rgba(255,255,255,0.7)'],[t.s4v,t.s4l,'#a78bfa']].map(([v,l,c],i)=>(
+            <div key={l} style={{textAlign:'center',padding:'1rem 0.5rem',borderLeft:(!isMobile&&i>0)||( isMobile&&i%2===1)?`1px solid rgba(245,166,35,0.1)`:'none',borderTop:isMobile&&i>=2?`1px solid rgba(245,166,35,0.1)`:'none'}}>
+              <div style={{fontSize:isMobile?22:38,fontWeight:900,color:c,lineHeight:1,marginBottom:6}}>{v}</div>
+              <div style={{fontSize:10,color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.08em'}}>{l}</div>
             </div>
           ))}
         </div>

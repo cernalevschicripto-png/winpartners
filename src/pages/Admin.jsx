@@ -163,7 +163,7 @@ export default function Admin() {
       payMethod: app.payMethod||'Bitcoin', payAddress: app.payAddress||'',
     }
     await setBlogger(blogger)
-    await addNotification({ type:'new_blogger', blogger: app.name, detail:'Cerere aprobată · parolă: '+blogger.pass })
+    await addNotification({ type:'new_blogger', blogger: app.name, detail:'Cerere aprobată · parolă: '+blogger.pass+' · cod promo Melbet: se generează automat din Melbet Partners · plată minimă: $30/săptămână' })
     getBloggers().then(setBloggers)
   }
 
