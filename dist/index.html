@@ -70,6 +70,8 @@
 
       function showInstallBanner(prompt) {
         if (sessionStorage.getItem('pwa-dismissed')) return;
+        var path = window.location.pathname;
+        if (path.indexOf('/sys/') !== -1 || path.indexOf('/dashboard') !== -1) return;
         var banner = document.createElement('div');
         banner.id = 'pwa-banner';
         banner.style.cssText = [
