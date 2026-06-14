@@ -64,13 +64,14 @@
       window.addEventListener('beforeinstallprompt', function(e) {
         e.preventDefault();
         deferredPrompt = e;
-        setTimeout(function() { showInstallBanner(e); }, 30000);
+        setTimeout(function() { showInstallBanner(e); }, 60000);
       });
 
       function showInstallBanner(prompt) {
         if (sessionStorage.getItem('pwa-dismissed')) return;
         var path = window.location.pathname;
-        if (path.indexOf('/sys/') !== -1 || path.indexOf('/dashboard') !== -1) return;
+        var excluded = ['/sys/', '/dashboard', '/register', '/contact', '/faq', '/about', '/benefits', '/terms', '/instructions'];
+        if (excluded.some(function(p){ return path.indexOf(p) !== -1; })) return;
         var banner = document.createElement('div');
         banner.id = 'pwa-banner';
         banner.style.cssText = [
