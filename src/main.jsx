@@ -11,7 +11,8 @@ import FAQ from './pages/FAQ.jsx'
 import Contact from './pages/Contact.jsx'
 import Terms from './pages/Terms.jsx'
 import Admin from './pages/Admin.jsx'
-import { _r } from './cfg.js'
+import AdminMobile from './pages/AdminMobile.jsx'
+import { _r, _rm } from './cfg.js'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/contact" element={<Contact />} />
         <Route path="/terms" element={<Terms />} />
         <Route path={_r} element={<Admin />} />
+        <Route path={_rm} element={<AdminMobile />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
