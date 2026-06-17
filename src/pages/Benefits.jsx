@@ -4,7 +4,7 @@ export default function Benefits() {
   const nav = useNavigate()
   const gold = '#f5a623'
   const benefits = [
-    {icon:'💰',t:'Comision RevShare 25%',d:'Primiți 25% din veniturile nete generate de jucătorii recomandați pe toată durata activității lor. Fără limită de timp, fără reduceri.'},
+    {icon:'💰',t:'Comision RevShare 25%',d:'Primiți 25% din pierderile nete ale jucătorilor recomandați pe toată durata activității lor. Fără limită de timp, fără reduceri.'},
     {icon:'📊',t:'Statistici detaliate',d:'Rapoarte complete cu vizualizări, clickuri, înregistrări, depunători noi, profit al companiei și suma comisionului dvs.'},
     {icon:'🎯',t:'Cod promoțional unic',d:'Fiecare partener primește un cod personalizat. Jucătorii îl introduc la înregistrare și sunt legați automat de dvs.'},
     {icon:'⚡',t:'Plăți săptămânale',d:'Plăți garantate de două ori pe săptămână prin Bitcoin, Skrill, Neteller, PAYEER, Visa, Mastercard sau transfer bancar.'},
