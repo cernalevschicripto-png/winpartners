@@ -310,7 +310,10 @@ export default function Register() {
   const refCode = searchParams.get('ref') || ''
   const inviteCode = searchParams.get('invite') || ''
 
-  const [lang, setLang] = useState('ro')
+  const [lang, setLang] = useState(() => {
+    const saved = localStorage.getItem('wp_lang')
+    return ['ro','ru','en','tr','de','pt','pl'].includes(saved) ? saved : 'ro'
+  })
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [step, setStep] = useState(1)
   const [form, setForm] = useState({
@@ -359,13 +362,13 @@ export default function Register() {
 
   const Nav = () => (
     <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:56,position:'sticky',top:0,zIndex:50}}>
-      <div onClick={() => navigate('/')} style={{fontSize:18,fontWeight:900,cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
+      <div onClick={() => navigate('/')} style={{fontSize:18,fontWeight:900,cursor:'pointer',display:'flex',alignItems:'center',gap:6}}>
         <img src="/icons/logo.png" width="24" height="24" alt="W" style={{borderRadius:3}}/>
-        <span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span>
+        <span style={{color:'#fff',letterSpacing:'.02em'}}>WIN</span><span style={{color:gold,letterSpacing:'.02em'}}>PARTNERS</span>
       </div>
       <div style={{display:'flex',gap:4,flexWrap:'wrap',justifyContent:'flex-end'}}>
         {LANGS.map(l => (
-          <button key={l} onClick={() => setLang(l)} style={{padding:'3px 6px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>
+          <button key={l} onClick={() => { setLang(l); localStorage.setItem('wp_lang', l) }} style={{padding:'3px 6px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>
             {l.toUpperCase()}
           </button>
         ))}

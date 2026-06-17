@@ -336,7 +336,10 @@ function CalcSection({ isMobile, lang, navigate, gold }) {
 }
 
 export default function Landing() {
-  const [lang, setLang] = useState('ro')
+  const [lang, setLang] = useState(() => {
+    const saved = localStorage.getItem('wp_lang')
+    return ['ro','ru','en','tr','de','pt','pl'].includes(saved) ? saved : 'ro'
+  })
   const navigate = useNavigate()
   const t = T[lang]
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
@@ -394,7 +397,7 @@ export default function Landing() {
           {!isMobile && (
             <div style={{position:'relative',display:'flex',alignItems:'center',gap:2}}>
               {['ro','ru','en','tr','de','pt','pl'].map(l=>(
-                <button key={l} onClick={()=>setLang(l)} style={{padding:'3px 6px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.1)'}`,borderRadius:3,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.35)',transition:'all .15s'}}>{l.toUpperCase()}</button>
+                <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l)}} style={{padding:'3px 6px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.1)'}`,borderRadius:3,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.35)',transition:'all .15s'}}>{l.toUpperCase()}</button>
               ))}
             </div>
           )}

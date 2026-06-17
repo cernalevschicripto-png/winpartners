@@ -168,23 +168,38 @@ function LineChart({data,field,color,h=60}) {
 }
 
 // ─── LOGIN SCREEN ───────────────────────────────────────────
+const LOGIN_T = {
+  ro: { sub:'Platforma oficială de afiliere casino', title:'Intră în cont', user:'Username', pass:'Parolă', btn:'INTRĂ ÎN CONT', loading:'⏳ Se verifică...', noAcc:'Nu ai cont?', apply:'Aplică acum', errEmpty:'Completează username și parola', errWrong:'Username sau parolă incorectă', errPending:'Contul tău este în așteptare. Contactează adminul.', errConn:'Eroare de conexiune. Verifică internetul.' },
+  ru: { sub:'Официальная партнёрская платформа казино', title:'Войти в аккаунт', user:'Имя пользователя', pass:'Пароль', btn:'ВОЙТИ', loading:'⏳ Проверка...', noAcc:'Нет аккаунта?', apply:'Подать заявку', errEmpty:'Введите имя пользователя и пароль', errWrong:'Неверное имя пользователя или пароль', errPending:'Ваш аккаунт ожидает одобрения. Свяжитесь с администратором.', errConn:'Ошибка подключения. Проверьте интернет.' },
+  en: { sub:'Official casino affiliate platform', title:'Log in to your account', user:'Username', pass:'Password', btn:'LOG IN', loading:'⏳ Checking...', noAcc:"Don't have an account?", apply:'Apply now', errEmpty:'Enter your username and password', errWrong:'Incorrect username or password', errPending:'Your account is pending approval. Contact the admin.', errConn:'Connection error. Check your internet.' },
+  tr: { sub:'Resmi casino ortaklık platformu', title:'Hesabınıza giriş yapın', user:'Kullanıcı adı', pass:'Şifre', btn:'GİRİŞ YAP', loading:'⏳ Kontrol ediliyor...', noAcc:'Hesabınız yok mu?', apply:'Başvuru yapın', errEmpty:'Kullanıcı adı ve şifre girin', errWrong:'Hatalı kullanıcı adı veya şifre', errPending:'Hesabınız onay bekliyor. Yöneticiyle iletişime geçin.', errConn:'Bağlantı hatası. İnternet bağlantınızı kontrol edin.' },
+  de: { sub:'Offizielle Casino-Affiliate-Plattform', title:'In Ihr Konto einloggen', user:'Benutzername', pass:'Passwort', btn:'EINLOGGEN', loading:'⏳ Wird geprüft...', noAcc:'Noch kein Konto?', apply:'Jetzt bewerben', errEmpty:'Benutzername und Passwort eingeben', errWrong:'Falscher Benutzername oder Passwort', errPending:'Ihr Konto wartet auf Genehmigung. Kontaktieren Sie den Admin.', errConn:'Verbindungsfehler. Überprüfen Sie Ihre Internetverbindung.' },
+  pt: { sub:'Plataforma oficial de afiliados casino', title:'Entrar na sua conta', user:'Nome de usuário', pass:'Senha', btn:'ENTRAR', loading:'⏳ A verificar...', noAcc:'Não tem conta?', apply:'Candidatar-se', errEmpty:'Insira o nome de usuário e senha', errWrong:'Nome de usuário ou senha incorretos', errPending:'A sua conta está a aguardar aprovação. Contacte o administrador.', errConn:'Erro de ligação. Verifique a sua internet.' },
+  pl: { sub:'Oficjalna platforma partnerska kasyna', title:'Zaloguj się do konta', user:'Nazwa użytkownika', pass:'Hasło', btn:'ZALOGUJ SIĘ', loading:'⏳ Sprawdzanie...', noAcc:'Nie masz konta?', apply:'Złóż wniosek', errEmpty:'Wprowadź nazwę użytkownika i hasło', errWrong:'Nieprawidłowa nazwa użytkownika lub hasło', errPending:'Twoje konto oczekuje na zatwierdzenie. Skontaktuj się z administratorem.', errConn:'Błąd połączenia. Sprawdź swój internet.' },
+}
+
 function LoginScreen({ onLogin }) {
   const [username, setUsername] = useState('')
   const [pass, setPass] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [lang, setLang] = useState(() => {
+    const saved = localStorage.getItem('wp_lang')
+    return ['ro','ru','en','tr','de','pt','pl'].includes(saved) ? saved : 'ro'
+  })
+  const lt = LOGIN_T[lang] || LOGIN_T.ro
 
   const doLogin = async () => {
-    if (!username.trim() || !pass.trim()) { setError('Completează username și parola'); return }
+    if (!username.trim() || !pass.trim()) { setError(lt.errEmpty); return }
     setLoading(true)
     setError('')
     try {
       const blogger = await loginBlogger(username.trim().toLowerCase(), pass.trim())
-      if (!blogger) { setError('Username sau parolă incorectă'); setLoading(false); return }
-      if (blogger.status === 'pending') { setError('Contul tău este în așteptare. Contactează adminul.'); setLoading(false); return }
+      if (!blogger) { setError(lt.errWrong); setLoading(false); return }
+      if (blogger.status === 'pending') { setError(lt.errPending); setLoading(false); return }
       onLogin(blogger)
     } catch(e) {
-      setError('Eroare de conexiune. Verifică internetul.')
+      setError(lt.errConn)
       setLoading(false)
     }
   }
@@ -196,11 +211,19 @@ function LoginScreen({ onLogin }) {
         <div style={{fontSize:28,fontWeight:900,marginBottom:8,color:'#fff'}}>
           WIN<span style={{color:gold2}}>PARTNERS</span>
         </div>
-        <div style={{fontSize:13,color:'rgba(255,255,255,0.35)',marginBottom:32}}>Platforma oficială de afiliere casino</div>
+        <div style={{fontSize:13,color:'rgba(255,255,255,0.35)',marginBottom:16}}>{lt.sub}</div>
+        {/* Lang switcher */}
+        <div style={{display:'flex',gap:4,justifyContent:'center',marginBottom:24}}>
+          {['ro','ru','en','tr','de','pt','pl'].map(l=>(
+            <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l)}} style={{padding:'3px 7px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold2:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold2:'rgba(255,255,255,0.35)'}}>
+              {l.toUpperCase()}
+            </button>
+          ))}
+        </div>
         <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:16,padding:'2rem',textAlign:'left'}}>
-          <h2 style={{fontSize:18,fontWeight:700,marginBottom:20,color:'#fff',textAlign:'center'}}>Intră în cont</h2>
+          <h2 style={{fontSize:18,fontWeight:700,marginBottom:20,color:'#fff',textAlign:'center'}}>{lt.title}</h2>
           <div style={{marginBottom:14}}>
-            <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>Username</div>
+            <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>{lt.user}</div>
             <input
               style={{width:'100%',padding:'11px 14px',fontSize:14,border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,background:'rgba(255,255,255,0.05)',color:'#e2e8f0',outline:'none',boxSizing:'border-box'}}
               type="text" placeholder="username" value={username}
@@ -209,7 +232,7 @@ function LoginScreen({ onLogin }) {
             />
           </div>
           <div style={{marginBottom:20}}>
-            <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>Parola</div>
+            <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>{lt.pass}</div>
             <input
               style={{width:'100%',padding:'11px 14px',fontSize:14,border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,background:'rgba(255,255,255,0.05)',color:'#e2e8f0',outline:'none',boxSizing:'border-box'}}
               type="password" placeholder="••••••••" value={pass}
@@ -222,10 +245,10 @@ function LoginScreen({ onLogin }) {
             disabled={loading}
             onClick={doLogin}
             style={{width:'100%',padding:'13px',fontSize:15,fontWeight:700,cursor:loading?'wait':'pointer',border:'none',borderRadius:8,background:gold2,color:'#000',opacity:loading?0.7:1}}>
-            {loading ? '⏳ Se verifică...' : 'INTRĂ ÎN CONT'}
+            {loading ? lt.loading : lt.btn}
           </button>
           <div style={{textAlign:'center',marginTop:16,fontSize:12,color:'rgba(255,255,255,0.3)'}}>
-            Nu ai cont? <a href="/register" style={{color:gold2,textDecoration:'none',fontWeight:600}}>Aplică acum</a>
+            {lt.noAcc} <a href="/register" style={{color:gold2,textDecoration:'none',fontWeight:600}}>{lt.apply}</a>
           </div>
         </div>
       </div>
