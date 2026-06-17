@@ -361,7 +361,7 @@ export default function Landing() {
 
         {/* Desktop nav links */}
         {!isMobile && (
-          <div style={{display:'flex',gap:20}}>
+          <div style={{display:'flex',gap:24,marginLeft:16}}>
             {[
               ['about', lang==='ru'?'О нас':lang==='en'?'About':'Despre noi'],
               ['benefits', lang==='ru'?'Преимущества':lang==='en'?'Benefits':'Beneficii'],
