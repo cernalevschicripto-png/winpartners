@@ -7,10 +7,10 @@ export default function Benefits() {
     {icon:'💰',t:'Comision RevShare 25%',d:'Primiți 25% din pierderile nete ale jucătorilor recomandați pe toată durata activității lor. Fără limită de timp, fără reduceri.'},
     {icon:'📊',t:'Statistici detaliate',d:'Rapoarte complete cu vizualizări, clickuri, înregistrări, depunători noi, profit al companiei și suma comisionului dvs.'},
     {icon:'🎯',t:'Cod promoțional unic',d:'Fiecare partener primește un cod personalizat. Jucătorii îl introduc la înregistrare și sunt legați automat de dvs.'},
-    {icon:'⚡',t:'Plăți săptămânale',d:'Plăți garantate de două ori pe săptămână prin Bitcoin, Skrill, Neteller, PAYEER, Visa, Mastercard sau transfer bancar.'},
+    {icon:'⚡',t:'Plăți săptămânale',d:'Plăți garantate săptămânal prin Bitcoin, USDT, Skrill, Neteller sau Visa. Procesare în 48 ore după solicitare.'},
     {icon:'👥',t:'Program referrali 3%',d:'Invitați alți bloggeri în program și câștigați 3% din comisioanele lor pe viață. Cu cât mai mulți parteneri, cu atât mai mult câștigați.'},
     {icon:'💬',t:'Manager personal 24/7',d:'Fiecare partener are un manager dedicat disponibil permanent pe WhatsApp și Telegram pentru suport și optimizare.'},
-    {icon:'🌍',t:'40+ GEO-uri',d:'Promovați în peste 40 de țări. Cazinouri disponibile în Moldova, România, Ucraina, Rusia, Kazakhstan și multe altele.'},
+    {icon:'🌍',t:'40+ GEO-uri',d:'Melbet este disponibil în Moldova, România, Ucraina și alte 40+ țări. Jucătorii tăi se pot înregistra indiferent de unde sunt.'},
     {icon:'📱',t:'Materiale de marketing',d:'Bannere, linkuri, videoclipuri și alte materiale de promovare gata de utilizat pentru toate platformele sociale.'},
     {icon:'🔒',t:'Transparență totală',d:'Statistici actualizate zilnic. Nicio manipulare, nicio întârziere. Vedeți exact câți jucători ați adus și cât câștigați.'},
   ]

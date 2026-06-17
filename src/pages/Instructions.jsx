@@ -7,7 +7,7 @@ export default function Instructions() {
     {n:'01',t:'Înregistrați-vă',d:'Completați formularul de înregistrare cu datele dvs. Procesul durează 2 minute și este complet gratuit. Nu sunt necesare contracte sau investiții inițiale.'},
     {n:'02',t:'Așteptați aprobarea',d:'Contul dvs. va fi verificat de echipa noastră în maxim 24 ore. Veți primi un email de confirmare cu datele de acces.'},
     {n:'03',t:'Obțineți codul promoțional',d:'După aprobare, primiți automat un cod promoțional unic. Puteți solicita și un cod personalizat cu numele dvs. din dashboard.'},
-    {n:'04',t:'Obțineți linkurile de afiliat',d:'Din secțiunea "Linkuri" generați linkuri unice cu SubID pentru fiecare campanie sau platformă socială.'},
+    {n:'04',t:'Obțineți linkurile de afiliat',d:'Din secțiunea "Linkuri" generați linkuri unice de tracking pentru TikTok, Instagram sau YouTube — vedeți exact de unde vin jucătorii tăi.'},
     {n:'05',t:'Promovați pe rețele sociale',d:'Distribuiți codul și linkurile pe TikTok, Instagram, YouTube, Telegram, Facebook sau alte platforme. Includeți codul în videoclipuri, bio și descrieri.'},
     {n:'06',t:'Monitorizați statisticile',d:'Verificați zilnic dashboard-ul pentru a vedea câți jucători ați adus, câți au depus și cât câștigați. Statisticile se actualizează zilnic.'},
     {n:'07',t:'Solicitați plata',d:'Când soldul dvs. depășește $30, puteți solicita plata. Plățile se procesează de 2 ori pe săptămână prin metoda preferată.'},

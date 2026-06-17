@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom'
 const faqs = [
   {q:'Cât costă înregistrarea?',a:'Înregistrarea este complet gratuită. Nu există costuri ascunse, taxe de aderare sau investiții minime.'},
   {q:'Cât timp durează aprobarea contului?',a:'Contul dvs. va fi verificat și aprobat în maxim 24 ore lucrătoare de la înregistrare.'},
-  {q:'Care este comisionul meu?',a:'Primiți 25% din veniturile nete generate de jucătorii pe care îi recomandați. Acesta este un comision pe viață — câștigați atât timp cât jucătorul rămâne activ.'},
+  {q:'Care este comisionul meu?',a:'Primiți 25% din pierderile jucătorilor pe care îi recomandați. Este un comision pe viață — câștigați cât timp jucătorul rămâne activ pe Melbet.'},
   {q:'Când și cum primesc plata?',a:'Plățile se procesează de 2 ori pe săptămână. Suma minimă pentru retragere este $30. Plătim prin Bitcoin, Skrill, Neteller, PAYEER, Visa, Mastercard sau transfer bancar.'},
   {q:'Pot solicita un cod promoțional personalizat?',a:'Da! Din dashboard puteți trimite o cerere pentru un cod personalizat cu numele dvs. (ex: IONEL, VLAD20). Cererea se procesează în 24-48 ore.'},
   {q:'Cum funcționează programul de referrali?',a:'Când invitați alt blogger în program folosind linkul dvs. de referral, câștigați 3% din toate comisioanele lui pe viață.'},
   {q:'Pe ce platforme pot promova?',a:'Puteți promova pe orice platformă: TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, site-uri web, blog-uri etc.'},
-  {q:'Statisticile sunt în timp real?',a:'Statisticile se actualizează zilnic. Puteți vedea click-uri, înregistrări, depunători și comisioane pentru fiecare zi.'},
+  {q:'Când se actualizează statisticile?',a:'Statisticile se actualizează zilnic, direct din sistemele Melbet. Puteți vedea clickuri, înregistrări, depunători și comisioane per zi.'},
   {q:'Ce se întâmplă dacă un jucător pierde bani?',a:'Primiți 25% din pierderile nete ale jucătorilor. Cu cât joacă mai mult, cu atât câștigați mai mult.'},
-  {q:'Pot să am mai multe coduri promoționale?',a:'Da, puteți genera mai multe coduri pentru campanii diferite sau platforme diferite. Fiecare cod este tracked separat.'},
+  {q:'Pot să am mai multe coduri promoționale?',a:'Da, puteți genera mai multe coduri pentru campanii sau platforme diferite. Statisticile fiecărui cod sunt urmărite separat în dashboard.'},
 ]
 
 export default function FAQ() {

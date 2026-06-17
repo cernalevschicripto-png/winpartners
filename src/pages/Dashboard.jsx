@@ -58,7 +58,7 @@ const MENU = [
   {id:'pays',label:'Istoricul plăților',section:'',icon:'💳'},
   {id:'account',label:'Cont',section:'',icon:'👤'},
   {id:'contact',label:'Contacte',section:'',icon:'✉️'},
-  {id:'links',label:'Link-uri Afiliați',section:'COOKIE-URI DE DIRECȚIONARE',icon:'🔗'},
+  {id:'links',label:'Link-uri Afiliați',section:'LINK-URI DE TRACKING',icon:'🔗'},
   {id:'promo',label:'Coduri Promoționale',section:'',icon:'🎟'},
   {id:'media',label:'Media',section:'',icon:'📢'},
   {id:'cazinouri',label:'Cazinouri Partenere',section:'',icon:'🎰'},
@@ -66,7 +66,7 @@ const MENU = [
   {id:'report',label:'Raport complet',section:'',icon:'📋'},
   {id:'mkttools',label:'Instrumente de marketing',section:'',icon:'🛠'},
   {id:'players',label:'Raport despre jucători',section:'',icon:'👥'},
-  {id:'subaff',label:'Raport despre sub-afiliați',section:'',icon:'🌿'},
+  {id:'subaff',label:'Bloggeri invitați',section:'',icon:'🌿'},
 ]
 
 // ============================================================
