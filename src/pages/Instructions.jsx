@@ -1,43 +1,51 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+const gold = '#f5a623'
+const LANGS = ['ro','ru','en','tr','de','pt','pl']
+const T = {
+  ro:{ login:'Conectați-vă', reg:'Înregistrare', start:'ÎNREGISTRARE GRATUITĂ', title:'INSTRUCȚIUNI', title2:'PAS CU PAS', sub:'Cum să începeți să câștigați cu WinPartners',
+    steps:[['01','Aplică pentru parteneriat','Completați formularul cu datele dvs. și profilul social. Procesul durează 2 minute și este complet gratuit.'],['02','Așteptați aprobarea','Contul dvs. va fi analizat de echipa noastră în 24-48 ore. Veți fi contactat pe WhatsApp sau email.'],['03','Primiți codul promoțional Melbet','După aprobare, primiți automat un cod unic Melbet. Puteți solicita și un cod personalizat din dashboard.'],['04','Obțineți linkul de afiliat','Din dashboard generați linkul unic de afiliat pentru campanii pe orice platformă socială.'],['05','Promovați la audiența dvs.','Distribuiți codul și linkul pe TikTok, Instagram, YouTube, Telegram. Includeți codul în videoclipuri și bio.'],['06','Monitorizați statisticile zilnic','Verificați dashboard-ul pentru a vedea câți jucători ați adus, câți au depus și cât câștigați.'],['07','Solicitați plata','Când soldul depășește $30, solicitați plata. Plățile se procesează săptămânal prin metoda preferată.'],['08','Invitați alți bloggeri','Distribuiți linkul de referral altor bloggeri. Câștigați 3% din comisioanele lor pe viață.']]},
+  ru:{ login:'Войти', reg:'Регистрация', start:'БЕСПЛАТНАЯ РЕГИСТРАЦИЯ', title:'ПОШАГОВЫЕ', title2:'ИНСТРУКЦИИ', sub:'Как начать зарабатывать с WinPartners',
+    steps:[['01','Подайте заявку','Заполните форму заявки с данными и социальным профилем. Процесс занимает 2 минуты и полностью бесплатен.'],['02','Ожидайте одобрения','Заявка рассматривается командой за 24-48 часов. С вами свяжутся в WhatsApp или по email.'],['03','Получите промокод Melbet','После одобрения автоматически получите уникальный код Melbet. Можно запросить персональный код из дашборда.'],['04','Получите партнёрскую ссылку','Из дашборда генерируйте уникальную ссылку для кампаний на любой платформе.'],['05','Продвигайте своей аудитории','Делитесь кодом и ссылкой в TikTok, Instagram, YouTube, Telegram. Включайте в видео и bio.'],['06','Ежедневно отслеживайте статистику','Проверяйте дашборд: сколько игроков привлекли, сколько внесли депозит, сколько зарабатываете.'],['07','Запросите выплату','При балансе свыше $30 запросите выплату. Еженедельно удобным способом.'],['08','Приглашайте других блогеров','Делитесь реферальной ссылкой. Зарабатывайте 3% от их комиссий пожизненно.']]},
+  en:{ login:'Login', reg:'Register', start:'FREE REGISTRATION', title:'STEP BY STEP', title2:'INSTRUCTIONS', sub:'How to start earning with WinPartners',
+    steps:[['01','Apply for partnership','Fill out the application form with your details and social profile. 2 minutes, completely free.'],['02','Wait for approval','Your account will be reviewed by our team in 24-48 hours. You will be contacted on WhatsApp or email.'],['03','Receive your Melbet promo code','After approval, you automatically receive a unique Melbet code. You can also request a custom code from the dashboard.'],['04','Get your affiliate link','From the dashboard, generate a unique affiliate link for campaigns on any social platform.'],['05','Promote to your audience','Share the code and link on TikTok, Instagram, YouTube, Telegram. Include the code in videos and bio.'],['06','Monitor statistics daily','Check the dashboard to see how many players you brought, how many deposited, and how much you earn.'],['07','Request payment','When your balance exceeds $30, request a payment. Processed weekly via your preferred method.'],['08','Invite other bloggers','Share your referral link with other bloggers. Earn 3% of their commissions for life.']]},
+  tr:{ login:'Giriş', reg:'Kayıt', start:'ÜCRETSİZ KAYIT', title:'ADIM ADIM', title2:'TALİMATLAR', sub:'WinPartners ile kazanmaya nasıl başlanır',
+    steps:[['01','Ortaklık için başvurun','Verileriniz ve sosyal profilinizle başvuru formunu doldurun. 2 dakika sürer, tamamen ücretsizdir.'],['02','Onayı bekleyin','Başvurunuz 24-48 saat içinde incelenecektir. WhatsApp veya email ile iletişime geçilecektir.'],['03','Melbet kodunuzu alın','Onaydan sonra benzersiz bir Melbet kodu alırsınız. Panodan kişisel kod da talep edebilirsiniz.'],['04','Ortaklık linkinizi alın','Panodan herhangi bir platformdaki kampanyalar için benzersiz ortaklık linki oluşturun.'],['05','Kitlenize tanıtım yapın','Kodu ve linki TikTok, Instagram, YouTube, Telegramda paylaşın. Videolara ve bioya ekleyin.'],['06','İstatistikleri günlük takip edin','Kaç oyuncu getirdiğinizi, kaçının para yatırdığını ve ne kadar kazandığınızı görmek için panoyu kontrol edin.'],['07','Ödeme talep edin','Bakiyeniz 30 doları aştığında ödeme talep edin. Haftalık olarak tercih ettiğiniz yöntemle işlenir.'],['08','Diğer bloggerları davet edin','Referans linkinizi paylaşın. Ömür boyu komisyonlarının %3ünü kazanın.']]},
+  de:{ login:'Anmelden', reg:'Registrieren', start:'KOSTENLOSE REGISTRIERUNG', title:'SCHRITT FÜR SCHRITT', title2:'ANLEITUNG', sub:'So beginnen Sie mit WinPartners zu verdienen',
+    steps:[['01','Für Partnerschaft bewerben','Füllen Sie das Bewerbungsformular mit Ihren Daten und Profil aus. 2 Minuten, kostenlos.'],['02','Auf Genehmigung warten','Ihr Konto wird in 24-48 Stunden überprüft. Sie werden per WhatsApp oder E-Mail kontaktiert.'],['03','Melbet-Promo-Code erhalten','Nach der Genehmigung erhalten Sie automatisch einen einzigartigen Melbet-Code. Personalisierten Code aus dem Dashboard möglich.'],['04','Affiliate-Link erhalten','Über das Dashboard einen einzigartigen Affiliate-Link für Kampagnen auf jeder Plattform generieren.'],['05','Für Ihr Publikum bewerben','Code und Link auf TikTok, Instagram, YouTube, Telegram teilen. In Videos und Bio einfügen.'],['06','Statistiken täglich überwachen','Dashboard prüfen: wie viele Spieler gebracht, wie viele eingezahlt, wie viel verdient.'],['07','Auszahlung anfordern','Bei Guthaben über $30 Auszahlung anfordern. Wöchentlich über Ihre bevorzugte Methode.'],['08','Andere Blogger einladen','Empfehlungslink teilen. Lebenslang 3% ihrer Provisionen verdienen.']]},
+  pt:{ login:'Entrar', reg:'Registrar', start:'REGISTO GRATUITO', title:'INSTRUÇÕES', title2:'PASSO A PASSO', sub:'Como começar a ganhar com o WinPartners',
+    steps:[['01','Candidatar-se à parceria','Preencha o formulário com os seus dados e perfil social. 2 minutos, completamente gratuito.'],['02','Aguardar aprovação','A sua conta será analisada em 24-48 horas. Será contactado no WhatsApp ou email.'],['03','Receber o código Melbet','Após aprovação, recebe automaticamente um código Melbet único. Pode solicitar um personalizado no painel.'],['04','Obter o link de afiliado','No painel, gere um link de afiliado único para campanhas em qualquer plataforma social.'],['05','Promover para o seu público','Partilhe o código e link no TikTok, Instagram, YouTube, Telegram. Inclua em vídeos e bio.'],['06','Monitorizar estatísticas diariamente','Verifique o painel: quantos jogadores trouxe, quantos depositaram, quanto ganha.'],['07','Solicitar pagamento','Quando o saldo superar $30, solicite um pagamento. Processado semanalmente pelo método preferido.'],['08','Convidar outros bloggers','Partilhe o link de referência. Ganhe 3% das comissões deles para sempre.']]},
+  pl:{ login:'Zaloguj się', reg:'Rejestracja', start:'BEZPŁATNA REJESTRACJA', title:'INSTRUKCJE', title2:'KROK PO KROKU', sub:'Jak zacząć zarabiać z WinPartners',
+    steps:[['01','Złóż wniosek o partnerstwo','Wypełnij formularz wniosku danymi i profilem społecznościowym. 2 minuty, całkowicie bezpłatne.'],['02','Czekaj na zatwierdzenie','Twoje konto zostanie sprawdzone w ciągu 24-48 godzin. Zostaniesz skontaktowany na WhatsApp lub email.'],['03','Odbierz kod Melbet','Po zatwierdzeniu automatycznie otrzymujesz unikalny kod Melbet. Możesz też poprosić o spersonalizowany z panelu.'],['04','Uzyskaj link partnerski','Z panelu generuj unikalny link partnerski do kampanii na dowolnej platformie.'],['05','Promuj swojej publiczności','Udostępniaj kod i link na TikTok, Instagram, YouTube, Telegram. Dodawaj do filmów i bio.'],['06','Monitoruj statystyki codziennie','Sprawdzaj panel: ilu graczy przyprowadziłeś, ilu wpłaciło, ile zarabiasz.'],['07','Poproś o wypłatę','Gdy saldo przekroczy $30, poproś o wypłatę. Tygodniowo preferowaną metodą.'],['08','Zapraszaj innych blogerów','Udostępniaj link polecający. Zarabiaj 3% ich prowizji dożywotnio.']]},
+}
 export default function Instructions() {
   const nav = useNavigate()
-  const gold = '#f5a623'
-  const steps = [
-    {n:'01',t:'Înregistrați-vă',d:'Completați formularul de înregistrare cu datele dvs. Procesul durează 2 minute și este complet gratuit. Nu sunt necesare contracte sau investiții inițiale.'},
-    {n:'02',t:'Așteptați aprobarea',d:'Contul dvs. va fi verificat de echipa noastră în maxim 24 ore. Veți primi un email de confirmare cu datele de acces.'},
-    {n:'03',t:'Obțineți codul promoțional',d:'După aprobare, primiți automat un cod promoțional unic. Puteți solicita și un cod personalizat cu numele dvs. din dashboard.'},
-    {n:'04',t:'Obțineți linkurile de afiliat',d:'Din secțiunea "Linkuri" generați linkuri unice de tracking pentru TikTok, Instagram sau YouTube — vedeți exact de unde vin jucătorii tăi.'},
-    {n:'05',t:'Promovați pe rețele sociale',d:'Distribuiți codul și linkurile pe TikTok, Instagram, YouTube, Telegram, Facebook sau alte platforme. Includeți codul în videoclipuri, bio și descrieri.'},
-    {n:'06',t:'Monitorizați statisticile',d:'Verificați zilnic dashboard-ul pentru a vedea câți jucători ați adus, câți au depus și cât câștigați. Statisticile se actualizează zilnic.'},
-    {n:'07',t:'Solicitați plata',d:'Când soldul dvs. depășește $30, puteți solicita plata. Plățile se procesează de 2 ori pe săptămână prin metoda preferată.'},
-    {n:'08',t:'Invitați alți bloggeri',d:'Distribuiți linkul dvs. de referral altor bloggeri. Câștigați 3% din comisioanele lor pe viață fără niciun efort suplimentar.'},
-  ]
+  const [lang, setLang] = useState(() => { const s = localStorage.getItem('wp_lang'); return LANGS.includes(s) ? s : 'ro' })
+  const t = T[lang] || T.ro
+  const setL = l => { setLang(l); localStorage.setItem('wp_lang', l) }
   return (
     <div style={{background:'#0a0a0f',minHeight:'100vh',color:'#fff',fontFamily:"'Inter',sans-serif"}}>
-      <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:60,flexWrap:'wrap'}}>
+      <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:60,position:'sticky',top:0,zIndex:50,flexWrap:'wrap',gap:4}}>
         <div onClick={()=>nav('/')} style={{fontSize:20,fontWeight:900,cursor:'pointer'}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div>
-        <div style={{display:'flex',gap:8}}>
-          <button onClick={()=>nav('/dashboard')} style={{padding:'7px 18px',fontSize:13,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:4,background:'none',color:'#e2e8f0'}}>Login</button>
-          <button onClick={()=>nav('/register')} style={{padding:'7px 18px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000'}}>Înregistrare</button>
+        <div style={{display:'flex',gap:4,alignItems:'center',flexWrap:'wrap'}}>
+          {LANGS.map(l=>(<button key={l} onClick={()=>setL(l)} style={{padding:'3px 6px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>{l.toUpperCase()}</button>))}
+          <button onClick={()=>nav('/dashboard')} style={{marginLeft:4,padding:'6px 14px',fontSize:12,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:4,background:'none',color:'#e2e8f0'}}>{t.login}</button>
+          <button onClick={()=>nav('/register')} style={{padding:'6px 14px',fontSize:12,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000'}}>{t.reg}</button>
         </div>
       </nav>
-      <div style={{maxWidth:900,margin:'0 auto',padding:'2rem 1rem'}}>
-        <h1 style={{fontSize:'clamp(2rem,4vw,3rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.05em',marginBottom:8}}>INSTRUCȚIUNI <span style={{color:gold}}>PAS CU PAS</span></h1>
-        <p style={{fontSize:15,color:'rgba(255,255,255,0.5)',marginBottom:48}}>Cum să începeți să câștigați cu WinPartners</p>
+      <div style={{maxWidth:900,margin:'0 auto',padding:'3rem 1.25rem'}}>
+        <h1 style={{fontSize:'clamp(2rem,4vw,3rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.05em',marginBottom:8}}>{t.title} <span style={{color:gold}}>{t.title2}</span></h1>
+        <p style={{fontSize:15,color:'rgba(255,255,255,0.5)',marginBottom:40}}>{t.sub}</p>
         <div style={{display:'flex',flexDirection:'column',gap:0}}>
-          {steps.map((s,i)=>(
-            <div key={i} style={{display:'flex',gap:24,padding:'1.5rem 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
-              <div style={{width:56,height:56,borderRadius:'50%',background:'rgba(245,166,35,0.1)',border:`2px solid ${gold}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,fontWeight:900,color:gold,flexShrink:0}}>{s.n}</div>
-              <div style={{paddingTop:8}}>
-                <div style={{fontSize:17,fontWeight:700,color:'#fff',marginBottom:6}}>{s.t}</div>
-                <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.7}}>{s.d}</div>
-              </div>
+          {t.steps.map(([num,title,desc])=>(
+            <div key={num} style={{display:'flex',gap:24,padding:'1.5rem 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
+              <div style={{width:56,height:56,borderRadius:'50%',background:'rgba(245,166,35,0.1)',border:`2px solid ${gold}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,fontWeight:900,color:gold,flexShrink:0}}>{num}</div>
+              <div style={{paddingTop:8}}><div style={{fontSize:17,fontWeight:700,color:'#fff',marginBottom:6}}>{title}</div><div style={{fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.7}}>{desc}</div></div>
             </div>
           ))}
         </div>
         <div style={{textAlign:'center',marginTop:48}}>
-          <button onClick={()=>nav('/register')} style={{padding:'16px 48px',fontSize:15,fontWeight:800,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',textTransform:'uppercase'}}>ÎNREGISTRARE GRATUITĂ</button>
+          <button onClick={()=>nav('/register')} style={{padding:'16px 48px',fontSize:15,fontWeight:800,cursor:'pointer',border:'none',borderRadius:8,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.05em'}}>{t.start}</button>
         </div>
       </div>
     </div>
