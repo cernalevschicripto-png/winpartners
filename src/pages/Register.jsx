@@ -42,198 +42,6 @@ export default function Register() {
 
   const [lang, setLang] = useState('ro')
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
-
-  const T = {
-    ro: {
-      title: 'Aplică pentru parteneriat',
-      sub: 'Completează formularul de mai jos. Echipa noastră va analiza profilul tău și te va contacta în 24-48 de ore.',
-      invited: 'Ai fost invitat cu codul', invited2: 'Cererea ta va fi procesată prioritar.',
-      sec1: 'Date personale', sec2: 'Profil social', sec3: 'Metodă de plată',
-      name: 'Nume complet *', namePh: 'Ion Popescu',
-      username: 'Username dorit *', usernamePh: 'ionpopescu',
-      email: 'Email *', emailPh: 'ion@gmail.com',
-      phone: 'WhatsApp / Telegram *', phonePh: '+373 60 000 000',
-      country: 'Țară', platform: 'Platforma principală',
-      followers: 'Număr urmăritori *', followersPh: 'ex: 15000',
-      profileLink: 'Link profil *', profileLinkPh: 'https://tiktok.com/@ionpopescu',
-      aboutYou: 'De ce vrei să te alături? (opțional)', aboutYouPh: 'Descrie pe scurt experiența ta...',
-      payMethod: 'Metoda de plată',
-      payAddress: 'Adresă portofel (opțional)', payAddressPh: 'Poți completa și după aprobare',
-      payNote: 'Comisioanele vor fi plătite săptămânal, minim 30. Poți modifica metoda de plată oricând.',
-      refLabel: 'Cod de invitație / referral', refPh: 'Opțional',
-      submit: 'TRIMITE CEREREA →', submitting: 'Se trimite...',
-      sent: 'Cererea a fost trimisă!',
-      thanks: 'Cererea ta de afiliere a fost primită și va fi analizată de echipa noastră.',
-      next: t.next,
-      step1t: 'Acum', step1d: 'Ai primit un email de confirmare la ',
-      step2t: '24-48 ore', step2d: 'Echipa noastră analizează profilul tău',
-      step3t: 'După aprobare', step3d: 'Primești email cu datele de acces și codul tău Melbet',
-      step4t: 'Start', step4d: 'Intri în dashboard și începi să câștigi',
-      contact: 'Ai întrebări? Contactează-ne pe WhatsApp sau Telegram @winpartners',
-      back: '{t.back}',
-    },
-    ru: {
-      title: 'Подать заявку на партнёрство',
-      sub: 'Заполните форму ниже. Наша команда рассмотрит ваш профиль и свяжется в течение 24-48 часов.',
-      invited: 'Вы приглашены с кодом', invited2: 'Ваша заявка будет обработана приоритетно.',
-      sec1: 'Личные данные', sec2: 'Социальный профиль', sec3: 'Способ оплаты',
-      name: 'Полное имя', namePh: 'Иван Иванов',
-      username: 'Имя пользователя', usernamePh: 'ivanivanov',
-      email: 'Email', emailPh: 'ivan@mail.ru',
-      phone: 'Телефон / WhatsApp', phonePh: '+7 900 000 0000',
-      country: 'Страна', platform: 'Основная платформа',
-      followers: 'Количество подписчиков', followersPh: 'напр: 15000',
-      profileLink: 'Ссылка на профиль', profileLinkPh: 'https://tiktok.com/@ivanivanov',
-      aboutYou: 'Почему хотите присоединиться? (необязательно)', aboutYouPh: 'Опишите ваш опыт...',
-      payMethod: 'Предпочтительный способ оплаты',
-      payAddress: 'Адрес кошелька (необязательно)', payAddressPh: 'Можно заполнить после одобрения',
-      payNote: 'Адрес для выплат можно указать позже в личном кабинете.',
-      refLabel: 'Код приглашения / реферал', refPh: 'Необязательно',
-      submit: 'ОТПРАВИТЬ ЗАЯВКУ', submitting: 'Отправка...',
-      sent: 'Заявка отправлена!',
-      thanks: 'Ваша заявка получена и будет рассмотрена нашей командой.',
-      next: 'Что дальше:',
-      step1t: 'Сейчас', step1d: 'Вы получили письмо с подтверждением на ',
-      step2t: '24-48 часов', step2d: 'Наша команда анализирует ваш профиль',
-      step3t: 'После одобрения', step3d: 'Получите email с данными для входа и кодом Melbet',
-      step4t: 'Старт', step4d: 'Войдите в личный кабинет и начните зарабатывать',
-      contact: 'Есть вопросы? WhatsApp или Telegram @winpartners',
-      back: '← Вернуться на главную',
-    },
-    en: {
-      title: 'Apply for Partnership',
-      sub: 'Fill in the form below. Our team will review your profile and contact you within 24-48 hours.',
-      invited: 'You were invited with code', invited2: 'Your application will be processed with priority.',
-      sec1: 'Personal Details', sec2: 'Social Profile', sec3: 'Payment Method',
-      name: 'Full name', namePh: 'John Smith',
-      username: 'Username / Nickname', usernamePh: 'johnsmith',
-      email: 'Email', emailPh: 'john@gmail.com',
-      phone: 'Phone / WhatsApp', phonePh: '+44 7000 000000',
-      country: 'Country', platform: 'Main platform',
-      followers: 'Number of followers', followersPh: 'e.g. 15000',
-      profileLink: 'Public profile link', profileLinkPh: 'https://tiktok.com/@johnsmith',
-      aboutYou: 'Why do you want to join? (optional)', aboutYouPh: 'Briefly describe your experience...',
-      payMethod: 'Preferred payment method',
-      payAddress: 'Wallet address (optional)', payAddressPh: 'You can fill this in after approval',
-      payNote: 'You can add your payment address later from the dashboard.',
-      refLabel: 'Invitation / referral code', refPh: 'Optional',
-      submit: 'SUBMIT APPLICATION', submitting: 'Submitting...',
-      sent: 'Application Submitted!',
-      thanks: 'Your affiliate application has been received and will be reviewed by our team.',
-      next: "What's next:",
-      step1t: 'Now', step1d: 'You received a confirmation email at ',
-      step2t: '24-48 hours', step2d: 'Our team reviews your profile',
-      step3t: 'After approval', step3d: 'You receive login details and your Melbet code by email',
-      step4t: 'Start', step4d: 'Log into your dashboard and start earning',
-      contact: 'Questions? Contact us on WhatsApp or Telegram @winpartners',
-      back: '← Back to homepage',
-    },
-    tr: {
-      title: 'Ortaklık Başvurusu',
-      sub: 'Aşağıdaki formu doldurun. Ekibimiz profilinizi inceleyip 24-48 saat içinde sizinle iletişime geçecektir.',
-      invited: 'Bu kodla davet edildiniz', invited2: 'Başvurunuz öncelikli olarak işlenecektir.',
-      sec1: 'Kişisel Bilgiler', sec2: 'Sosyal Profil', sec3: 'Ödeme Yöntemi',
-      name: 'Ad Soyad', namePh: 'Ahmet Yılmaz',
-      username: 'Kullanıcı Adı', usernamePh: 'ahmetyilmaz',
-      email: 'E-posta', emailPh: 'ahmet@gmail.com',
-      phone: 'Telefon / WhatsApp', phonePh: '+90 500 000 0000',
-      country: 'Ülke', platform: 'Ana Platform',
-      followers: 'Takipçi Sayısı (yaklaşık)', followersPh: 'örn: 15000',
-      profileLink: 'Herkese Açık Profil Linki', profileLinkPh: 'https://tiktok.com/@ahmetyilmaz',
-      aboutYou: 'Neden WinPartners’a katılmak istiyorsunuz? (isteğe bağlı)', aboutYouPh: 'Deneyiminizi kısaca anlatın...',
-      payMethod: 'Tercih Edilen Ödeme Yöntemi',
-      payAddress: 'Cüzdan Adresi (isteğe bağlı)', payAddressPh: 'Onaydan sonra doldurabilirsiniz',
-      payNote: 'Ödeme adresinizi daha sonra panelden ekleyebilirsiniz.',
-      refLabel: 'Davet / Referans Kodu', refPh: 'İsteğe bağlı',
-      submit: 'BAŞVURU GÖNDER', submitting: 'Gönderiliyor...',
-      sent: 'Başvurunuz Alındı!', thanks: 'Ortaklık başvurunuz alındı ve ekibimiz tarafından incelenecektir.',
-      next: 'Sıradakiler:', step1t: 'Şimdi', step1d: 'Onay e-postası aldınız: ',
-      step2t: '24-48 saat', step2d: 'Ekibimiz profilinizi inceler',
-      step3t: 'Onaydan sonra', step3d: 'Giriş bilgileriniz ve Melbet kodunuzla e-posta alırsınız',
-      step4t: 'Başlangıç', step4d: 'Panele giriş yapın ve kazanmaya başlayın',
-      contact: 'Sorularınız mı var? WhatsApp veya Telegram @winpartners',
-      back: '← Ana sayfaya dön',
-    },
-    de: {
-      title: 'Partnerschaft beantragen',
-      sub: 'Füllen Sie das Formular aus. Unser Team überprüft Ihr Profil und kontaktiert Sie innerhalb von 24-48 Stunden.',
-      invited: 'Sie wurden mit dem Code eingeladen', invited2: 'Ihre Bewerbung wird vorrangig bearbeitet.',
-      sec1: 'Persönliche Daten', sec2: 'Soziales Profil', sec3: 'Zahlungsmethode',
-      name: 'Vollständiger Name', namePh: 'Max Mustermann',
-      username: 'Benutzername / Nickname', usernamePh: 'maxmustermann',
-      email: 'E-Mail', emailPh: 'max@gmail.com',
-      phone: 'Telefon / WhatsApp', phonePh: '+49 170 000 0000',
-      country: 'Land', platform: 'Hauptplattform',
-      followers: 'Anzahl Follower (ungefähr)', followersPh: 'z.B. 15000',
-      profileLink: 'Öffentlicher Profillink', profileLinkPh: 'https://tiktok.com/@maxmustermann',
-      aboutYou: 'Warum möchten Sie WinPartners beitreten? (optional)', aboutYouPh: 'Beschreiben Sie kurz Ihre Erfahrung...',
-      payMethod: 'Bevorzugte Zahlungsmethode',
-      payAddress: 'Wallet-Adresse (optional)', payAddressPh: 'Kann nach Genehmigung ausgefüllt werden',
-      payNote: 'Sie können die Zahlungsadresse später im Dashboard hinzufügen.',
-      refLabel: 'Einladungs- / Empfehlungscode', refPh: 'Optional',
-      submit: 'BEWERBUNG EINREICHEN', submitting: 'Wird gesendet...',
-      sent: 'Bewerbung eingereicht!', thanks: 'Ihre Partnerbewerbung wurde erhalten und wird von unserem Team geprüft.',
-      next: 'Was passiert als nächstes:', step1t: 'Jetzt', step1d: 'Sie haben eine Bestätigungs-E-Mail erhalten an ',
-      step2t: '24-48 Stunden', step2d: 'Unser Team überprüft Ihr Profil',
-      step3t: 'Nach Genehmigung', step3d: 'Sie erhalten E-Mail mit Anmeldedaten und Melbet-Code',
-      step4t: 'Start', step4d: 'Melden Sie sich im Dashboard an und beginnen Sie zu verdienen',
-      contact: 'Fragen? Kontaktieren Sie uns auf WhatsApp oder Telegram @winpartners',
-      back: '← Zurück zur Startseite',
-    },
-    pt: {
-      title: 'Candidatar-se à Parceria',
-      sub: 'Preencha o formulário abaixo. Nossa equipe analisará seu perfil e entrará em contato em 24-48 horas.',
-      invited: 'Você foi convidado com o código', invited2: 'Sua candidatura será processada com prioridade.',
-      sec1: 'Dados Pessoais', sec2: 'Perfil Social', sec3: 'Método de Pagamento',
-      name: 'Nome completo', namePh: 'João Silva',
-      username: 'Nome de usuário / Apelido', usernamePh: 'joaosilva',
-      email: 'Email', emailPh: 'joao@gmail.com',
-      phone: 'Telefone / WhatsApp', phonePh: '+351 900 000 000',
-      country: 'País', platform: 'Plataforma principal',
-      followers: 'Número de seguidores (aproximado)', followersPh: 'ex: 15000',
-      profileLink: 'Link do perfil público', profileLinkPh: 'https://tiktok.com/@joaosilva',
-      aboutYou: 'Por que quer se juntar ao WinPartners? (opcional)', aboutYouPh: 'Descreva brevemente sua experiência...',
-      payMethod: 'Método de pagamento preferido',
-      payAddress: 'Endereço da carteira (opcional)', payAddressPh: 'Pode preencher após aprovação',
-      payNote: 'Você pode adicionar o endereço de pagamento depois no painel.',
-      refLabel: 'Código de convite / referência', refPh: 'Opcional',
-      submit: 'ENVIAR CANDIDATURA', submitting: 'A enviar...',
-      sent: 'Candidatura enviada!', thanks: 'Sua candidatura de afiliado foi recebida e será analisada pela nossa equipe.',
-      next: 'O que vem a seguir:', step1t: 'Agora', step1d: 'Recebeu um email de confirmação em ',
-      step2t: '24-48 horas', step2d: 'A nossa equipa analisa o seu perfil',
-      step3t: 'Após aprovação', step3d: 'Recebe email com dados de acesso e o seu código Melbet',
-      step4t: 'Início', step4d: 'Entre no painel e comece a ganhar',
-      contact: 'Dúvidas? Contacte-nos no WhatsApp ou Telegram @winpartners',
-      back: '← Voltar à página inicial',
-    },
-    pl: {
-      title: 'Złóż wniosek o partnerstwo',
-      sub: 'Wypełnij poniższy formularz. Nasz zespół sprawdzi Twój profil i skontaktuje się w ciągu 24-48 godzin.',
-      invited: 'Zostałeś zaproszony kodem', invited2: 'Twój wniosek zostanie rozpatrzony priorytetowo.',
-      sec1: 'Dane osobowe', sec2: 'Profil społecznościowy', sec3: 'Metoda płatności',
-      name: 'Imię i nazwisko', namePh: 'Jan Kowalski',
-      username: 'Nazwa użytkownika / Pseudonim', usernamePh: 'jankowalski',
-      email: 'Email', emailPh: 'jan@gmail.com',
-      phone: 'Telefon / WhatsApp', phonePh: '+48 500 000 000',
-      country: 'Kraj', platform: 'Główna platforma',
-      followers: 'Liczba obserwujących (w przybliżeniu)', followersPh: 'np. 15000',
-      profileLink: 'Link do publicznego profilu', profileLinkPh: 'https://tiktok.com/@jankowalski',
-      aboutYou: 'Dlaczego chcesz dołączyć do WinPartners? (opcjonalnie)', aboutYouPh: 'Krótko opisz swoje doświadczenie...',
-      payMethod: 'Preferowana metoda płatności',
-      payAddress: 'Adres portfela (opcjonalnie)', payAddressPh: 'Możesz uzupełnić po zatwierdzeniu',
-      payNote: 'Adres płatności możesz dodać później z panelu.',
-      refLabel: 'Kod zaproszenia / polecenia', refPh: 'Opcjonalnie',
-      submit: 'WYŚLIJ WNIOSEK', submitting: 'Wysyłanie...',
-      sent: 'Wniosek wysłany!', thanks: 'Twój wniosek partnerski został otrzymany i zostanie rozpatrzony przez nasz zespół.',
-      next: 'Co dalej:', step1t: 'Teraz', step1d: 'Otrzymałeś email potwierdzający na ',
-      step2t: '24-48 godzin', step2d: 'Nasz zespół analizuje Twój profil',
-      step3t: 'Po zatwierdzeniu', step3d: 'Otrzymasz email z danymi logowania i kodem Melbet',
-      step4t: 'Start', step4d: 'Zaloguj się do panelu i zacznij zarabiać',
-      contact: 'Masz pytania? Skontaktuj się przez WhatsApp lub Telegram @winpartners',
-      back: '← Powrót do strony głównej',
-    },
-  }
-  const t = T[lang] || T.ro
   const [step, setStep] = useState(1) // 1=formular, 2=confirmare trimisă
   const [form, setForm] = useState({
     name: '', username: '', email: '', phone: '',
@@ -288,7 +96,7 @@ export default function Register() {
         </h2>
 
         <p style={{color:'rgba(255,255,255,0.55)',marginBottom:28,lineHeight:1.8,fontSize:14}}>
-          {t.thanks}
+          Mulțumim, <strong style={{color:'#fff'}}>{form.name}</strong>! Cererea ta de afiliere a fost primită și va fi analizată de echipa noastră.
         </p>
 
         {/* Timeline de așteptare */}
@@ -296,9 +104,9 @@ export default function Register() {
           <div style={{fontSize:12,color:gold,fontWeight:700,marginBottom:16,textTransform:'uppercase',letterSpacing:'.08em'}}>Ce urmează:</div>
           {[
             ['📬', 'Acum', 'Cererea ta a fost înregistrată și trimisă echipei noastre'],
-            ['🔍', t.step2t, t.step2d],
-            ['✅', t.step3t, t.step3d],
-            ['🚀', t.step4t, t.step4d],
+            ['🔍', '24-48 ore', 'Echipa noastră analizează profilul tău'],
+            ['✅', 'După aprobare', 'Primești email cu datele de acces și codul tău Melbet'],
+            ['🚀', 'Start', 'Intri în dashboard și începi să câștigați'],
           ].map(([icon, time, text]) => (
             <div key={time} style={{display:'flex',gap:12,marginBottom:12,alignItems:'flex-start'}}>
               <span style={{fontSize:18,flexShrink:0}}>{icon}</span>
@@ -311,7 +119,7 @@ export default function Register() {
         </div>
 
         <div style={{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:8,padding:'12px 16px',marginBottom:24,fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.6}}>
-          💬 {t.contact}
+          💬 Ai întrebări? Contactează-ne pe <strong style={{color:gold}}>WhatsApp sau Telegram @winpartners</strong>
         </div>
 
         <button onClick={() => navigate('/')} style={{padding:'12px 32px',fontSize:14,fontWeight:700,cursor:'pointer',border:`1px solid rgba(255,255,255,0.15)`,borderRadius:6,background:'none',color:'rgba(255,255,255,0.6)',fontFamily:'inherit'}}>
@@ -332,7 +140,7 @@ export default function Register() {
         </div>
         {!isMobile && (
           <div style={{display:'flex',gap:5}}>
-            {['ro','ru','en','tr','de','pt','pl'].map(l => (
+            {['ro','ru','en'].map(l => (
               <button key={l} onClick={() => setLang(l)} style={{padding:'3px 7px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>
                 {l.toUpperCase()}
               </button>
@@ -347,7 +155,7 @@ export default function Register() {
         <div style={{marginBottom:32}}>
           {(refCode || inviteCode) && (
             <div style={{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:8,padding:'10px 14px',marginBottom:20,fontSize:13,color:'#10b981',display:'flex',alignItems:'center',gap:8}}>
-              ✓ Ai fost invitat cu codul <strong style={{fontFamily:'monospace'}}>{refCode || inviteCode}</strong>. {t.invited2}
+              ✓ Ai fost invitat cu codul <strong style={{fontFamily:'monospace'}}>{refCode || inviteCode}</strong>. Cererea ta va fi procesată prioritar.
             </div>
           )}
           <h1 style={{fontSize:isMobile?22:28,fontWeight:900,color:'#fff',marginBottom:8,textTransform:'uppercase'}}>
