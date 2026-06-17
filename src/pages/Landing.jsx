@@ -7,6 +7,7 @@ const dark = '#0a0a0f'
 const T = {
   ro: {
     nav_login:'Conectați-vă', nav_reg:'Înregistrare',
+    nav_about:'Despre noi', nav_ben:'Beneficii', nav_how:'Instrucțiuni', nav_faq:'FAQ', nav_contact:'Contact',
     h1:'CONECTAȚI-VĂ ȘI', h2:'CÂȘTIGAȚI PENTRU', h3:'FIECARE CLIENT RECOMANDAT',
     hsub:'Program oficial de afiliere Melbet — câștigați 25% Revenue Share din pierderile jucătorilor recomandați, pe viață.',
     hbtn:'ÎNCEPEȚI ACUM', hbtn2:'Cum funcționează',
@@ -31,11 +32,13 @@ const T = {
     cas_title:'CAZINOURI PARTENERE',
     badge:'PROGRAM OFICIAL DE AFILIERE · MELBET · 1XBET · MOSTBET',
     cta_title:'DEVINO PARTENER OFICIAL', cta_sub:'Acces la Melbet, 1xBet, Mostbet și alte cazinouri de top — dintr-un singur loc.', cta_btn:'APLICĂ ACUM',
+    f_prog:'Program', f_comp:'Companie', f_terms:'Termeni', f_priv:'Confidențialitate', f_wa:'WhatsApp disponibil',
     f_copy:'© 2026 WinPartners. Toate drepturile rezervate.',
     f_lic:'✓ Licențiat', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   ru: {
     nav_login:'Войти', nav_reg:'Регистрация',
+    nav_about:'О нас', nav_ben:'Преимущества', nav_how:'Инструкции', nav_faq:'FAQ', nav_contact:'Контакты',
     h1:'ПОДКЛЮЧАЙТЕСЬ И', h2:'ЗАРАБАТЫВАЙТЕ НА', h3:'КАЖДОМ ПРИВЛЕЧЕННОМ КЛИЕНТЕ',
     hsub:'Официальная партнёрская программа Melbet — зарабатывайте 25% Revenue Share от потерь рекомендованных игроков, пожизненно.',
     hbtn:'НАЧАТЬ СЕЙЧАС', hbtn2:'Как это работает',
@@ -60,11 +63,13 @@ const T = {
     cas_title:'КАЗИНО-ПАРТНЕРЫ',
     badge:'ОФИЦИАЛЬНАЯ ПАРТНЁРСКАЯ ПРОГРАММА · MELBET · 1XBET · MOSTBET',
     cta_title:'СТАТЬ ОФИЦИАЛЬНЫМ ПАРТНЁРОМ', cta_sub:'Доступ к Melbet, 1xBet, Mostbet и другим топ-казино — из одного места.', cta_btn:'ПОДАТЬ ЗАЯВКУ',
+    f_prog:'Программа', f_comp:'Компания', f_terms:'Условия', f_priv:'Конфиденциальность', f_wa:'WhatsApp доступен',
     f_copy:'© 2026 WinPartners. Все права защищены.',
     f_lic:'✓ Лицензировано', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   en: {
     nav_login:'Login', nav_reg:'Register',
+    nav_about:'About', nav_ben:'Benefits', nav_how:'How it works', nav_faq:'FAQ', nav_contact:'Contact',
     h1:'CONNECT AND', h2:'EARN FOR EVERY', h3:'CLIENT YOU RECOMMEND',
     hsub:'Official Melbet affiliate program — earn 25% Revenue Share from referred players\' losses, for life.',
     hbtn:'GET STARTED', hbtn2:'How it works',
@@ -89,11 +94,13 @@ const T = {
     cas_title:'CASINO PARTNERS',
     badge:'OFFICIAL AFFILIATE PROGRAM · MELBET · 1XBET · MOSTBET',
     cta_title:'BECOME AN OFFICIAL PARTNER', cta_sub:'Access Melbet, 1xBet, Mostbet and other top casinos — from one place.', cta_btn:'APPLY NOW',
+    f_prog:'Program', f_comp:'Company', f_terms:'Terms', f_priv:'Privacy', f_wa:'WhatsApp available',
     f_copy:'© 2026 WinPartners. All rights reserved.',
     f_lic:'✓ Licensed', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   tr: {
     nav_login:'Giriş', nav_reg:'Kayıt',
+    nav_about:'Hakkımızda', nav_ben:'Avantajlar', nav_how:'Nasıl çalışır', nav_faq:'SSS', nav_contact:'İletişim',
     h1:'BAĞLANIN VE', h2:'HER ÖNERİLEN', h3:'MÜŞTERİ İÇİN KAZANIN',
     hsub:'Resmi Melbet ortaklık programı — önerdiğiniz oyuncuların kayıplarından ömür boyu %25 Revenue Share kazanın.',
     hbtn:'HEMEN BAŞLA', hbtn2:'Nasıl çalışır',
@@ -118,11 +125,13 @@ const T = {
     cas_title:'CASINO ORTAKLARI',
     badge:'RESMİ ORTAKLIK PROGRAMI · MELBET · 1XBET · MOSTBET',
     cta_title:'RESMİ ORTAK OLUN', cta_sub:'Melbet, 1xBet, Mostbet ve diğer üst düzey casinolara tek yerden erişin.', cta_btn:'BAŞVUR',
+    f_prog:'Program', f_comp:'Şirket', f_terms:'Şartlar', f_priv:'Gizlilik', f_wa:'WhatsApp mevcut',
     f_copy:'© 2026 WinPartners. Tüm hakları saklıdır.',
     f_lic:'✓ Lisanslı', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   de: {
     nav_login:'Anmelden', nav_reg:'Registrieren',
+    nav_about:'Über uns', nav_ben:'Vorteile', nav_how:'So funktioniert es', nav_faq:'FAQ', nav_contact:'Kontakt',
     h1:'VERBINDEN SIE SICH', h2:'UND VERDIENEN FÜR JEDEN', h3:'EMPFOHLENEN KUNDEN',
     hsub:'Offizielles Melbet-Partnerprogramm — verdienen Sie 25% Revenue Share aus den Verlusten empfohlener Spieler, lebenslang.',
     hbtn:'JETZT STARTEN', hbtn2:'Wie es funktioniert',
@@ -147,11 +156,13 @@ const T = {
     cas_title:'CASINO-PARTNER',
     badge:'OFFIZIELLES PARTNERPROGRAMM · MELBET · 1XBET · MOSTBET',
     cta_title:'OFFIZIELLER PARTNER WERDEN', cta_sub:'Zugang zu Melbet, 1xBet, Mostbet und anderen Top-Casinos — von einem Ort.', cta_btn:'JETZT BEWERBEN',
+    f_prog:'Programm', f_comp:'Unternehmen', f_terms:'Bedingungen', f_priv:'Datenschutz', f_wa:'WhatsApp verfügbar',
     f_copy:'© 2026 WinPartners. Alle Rechte vorbehalten.',
     f_lic:'✓ Lizenziert', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   pt: {
     nav_login:'Entrar', nav_reg:'Registrar',
+    nav_about:'Sobre nós', nav_ben:'Benefícios', nav_how:'Como funciona', nav_faq:'FAQ', nav_contact:'Contacto',
     h1:'CONECTE-SE E', h2:'GANHE POR CADA', h3:'CLIENTE INDICADO',
     hsub:'Programa oficial de afiliados Melbet — ganhe 25% Revenue Share das perdas dos jogadores indicados, para sempre.',
     hbtn:'COMEÇAR AGORA', hbtn2:'Como funciona',
@@ -176,11 +187,13 @@ const T = {
     cas_title:'PARCEIROS CASINO',
     badge:'PROGRAMA OFICIAL DE AFILIADOS · MELBET · 1XBET · MOSTBET',
     cta_title:'TORNE-SE PARCEIRO OFICIAL', cta_sub:'Acesso a Melbet, 1xBet, Mostbet e outros top casinos — de um só lugar.', cta_btn:'CANDIDATAR-SE',
+    f_prog:'Programa', f_comp:'Empresa', f_terms:'Termos', f_priv:'Privacidade', f_wa:'WhatsApp disponível',
     f_copy:'© 2026 WinPartners. Todos os direitos reservados.',
     f_lic:'✓ Licenciado', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   pl: {
     nav_login:'Zaloguj się', nav_reg:'Rejestracja',
+    nav_about:'O nas', nav_ben:'Korzyści', nav_how:'Jak to działa', nav_faq:'FAQ', nav_contact:'Kontakt',
     h1:'POŁĄCZ SIĘ I', h2:'ZARABIAJ NA KAŻDYM', h3:'POLECONYM KLIENCIE',
     hsub:'Oficjalny program partnerski Melbet — zarabiaj 25% Revenue Share z przegranych poleconych graczy, dożywotnio.',
     hbtn:'ZACZNIJ TERAZ', hbtn2:'Jak to działa',
@@ -205,6 +218,7 @@ const T = {
     cas_title:'PARTNERZY CASINO',
     badge:'OFICJALNY PROGRAM PARTNERSKI · MELBET · 1XBET · MOSTBET',
     cta_title:'ZOSTAŃ OFICJALNYM PARTNEREM', cta_sub:'Dostęp do Melbet, 1xBet, Mostbet i innych top kasyn — z jednego miejsca.', cta_btn:'APLIKUJ TERAZ',
+    f_prog:'Program', f_comp:'Firma', f_terms:'Warunki', f_priv:'Prywatność', f_wa:'WhatsApp dostępny',
     f_copy:'© 2026 WinPartners. Wszelkie prawa zastrzeżone.',
     f_lic:'✓ Licencjonowany', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
@@ -363,11 +377,11 @@ export default function Landing() {
         {!isMobile && (
           <div style={{display:'flex',gap:24,marginLeft:16}}>
             {[
-              ['about', lang==='ru'?'О нас':lang==='en'?'About':'Despre noi'],
-              ['benefits', lang==='ru'?'Преимущества':lang==='en'?'Benefits':'Beneficii'],
-              ['instructions', lang==='ru'?'Инструкции':lang==='en'?'How it works':'Instrucțiuni'],
-              ['faq','FAQ'],
-              ['contact', lang==='ru'?'Контакты':lang==='en'?'Contact':'Contact']
+              ['about', t.nav_about],
+              ['benefits', t.nav_ben],
+              ['instructions', t.nav_how],
+              ['faq', t.nav_faq],
+              ['contact', t.nav_contact]
             ].map(([path,label])=>(
               <span key={path} onClick={()=>navigate('/'+path)} style={{fontSize:13,color:'rgba(255,255,255,0.55)',cursor:'pointer',fontWeight:500}} onMouseOver={e=>e.target.style.color=gold} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.55)'}>{label}</span>
             ))}
@@ -376,10 +390,14 @@ export default function Landing() {
 
         {/* Right side */}
         <div style={{display:'flex',alignItems:'center',gap:6}}>
-          {/* Lang switcher */}
-          {['ro','ru','en','tr','de','pt','pl'].map(l=>(
-            <button key={l} onClick={()=>setLang(l)} style={{padding:'3px 7px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>{l.toUpperCase()}</button>
-          ))}
+          {/* Lang switcher - desktop: dropdown compact, mobile: in hamburger */}
+          {!isMobile && (
+            <div style={{position:'relative',display:'flex',alignItems:'center',gap:2}}>
+              {['ro','ru','en','tr','de','pt','pl'].map(l=>(
+                <button key={l} onClick={()=>setLang(l)} style={{padding:'3px 6px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.1)'}`,borderRadius:3,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.35)',transition:'all .15s'}}>{l.toUpperCase()}</button>
+              ))}
+            </div>
+          )}
           {!isMobile && <>
             <button onClick={()=>navigate('/dashboard')} style={{marginLeft:4,padding:'7px 16px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:4,background:'none',color:'#e2e8f0'}}>{t.nav_login}</button>
             <button onClick={()=>navigate('/register')} style={{padding:'7px 16px',fontSize:13,fontWeight:800,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.03em'}}>{t.nav_reg}</button>
@@ -398,14 +416,20 @@ export default function Landing() {
         {isMobile && menuOpen && (
           <div style={{position:'absolute',top:64,left:0,right:0,background:'rgba(10,10,15,0.98)',borderBottom:'1px solid rgba(245,166,35,0.15)',padding:'1rem',display:'flex',flexDirection:'column',gap:12,zIndex:200}}>
             {[
-              ['about', lang==='ru'?'О нас':lang==='en'?'About':'Despre noi'],
-              ['benefits', lang==='ru'?'Преимущества':lang==='en'?'Benefits':'Beneficii'],
-              ['instructions', lang==='ru'?'Инструкции':lang==='en'?'How it works':'Instrucțiuni'],
-              ['faq','FAQ'],
-              ['contact', lang==='ru'?'Контакты':lang==='en'?'Contact':'Contact']
+              ['about', t.nav_about],
+              ['benefits', t.nav_ben],
+              ['instructions', t.nav_how],
+              ['faq', t.nav_faq],
+              ['contact', t.nav_contact]
             ].map(([path,label])=>(
               <span key={path} onClick={()=>{navigate('/'+path);setMenuOpen(false)}} style={{fontSize:15,color:'rgba(255,255,255,0.8)',cursor:'pointer',fontWeight:500,padding:'8px 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>{label}</span>
             ))}
+            {/* Lang switcher în mobile menu */}
+            <div style={{display:'flex',gap:6,flexWrap:'wrap',paddingTop:4,borderTop:'1px solid rgba(255,255,255,0.06)'}}>
+              {['ro','ru','en','tr','de','pt','pl'].map(l=>(
+                <button key={l} onClick={()=>{setLang(l);setMenuOpen(false)}} style={{padding:'5px 10px',fontSize:12,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:5,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.5)'}}>{l.toUpperCase()}</button>
+              ))}
+            </div>
             <div style={{display:'flex',gap:8,marginTop:4}}>
               <button onClick={()=>{navigate('/dashboard');setMenuOpen(false)}} style={{flex:1,padding:'10px',fontSize:13,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:6,background:'none',color:'#e2e8f0'}}>{t.nav_login}</button>
               <button onClick={()=>{navigate('/register');setMenuOpen(false)}} style={{flex:1,padding:'10px',fontSize:13,fontWeight:800,cursor:'pointer',border:'none',borderRadius:6,background:gold,color:'#000',textTransform:'uppercase'}}>{t.nav_reg}</button>
@@ -662,20 +686,20 @@ export default function Landing() {
               </div>
             </div>
             {[
-              [lang==='ru'?'Программа':lang==='en'?'Program':'Program',
-                ['about',lang==='ru'?'О нас':lang==='en'?'About':'Despre noi'],
-                ['benefits',lang==='ru'?'Преимущества':lang==='en'?'Benefits':'Beneficii'],
-                ['instructions',lang==='ru'?'Инструкции':lang==='en'?'How it works':'Instrucțiuni'],
-                ['faq','FAQ']],
-              [lang==='ru'?'Компания':lang==='en'?'Company':'Companie',
-                ['about',lang==='ru'?'О нас':lang==='en'?'About':'Despre noi'],
-                ['contact',lang==='ru'?'Контакты':lang==='en'?'Contact':'Contact'],
-                ['terms',lang==='ru'?'Условия':lang==='en'?'Terms':'Termeni'],
-                ['terms',lang==='ru'?'Конфиденциальность':lang==='en'?'Privacy':'Confidențialitate']],
+              [t.f_prog,
+                ['about', t.nav_about],
+                ['benefits', t.nav_ben],
+                ['instructions', t.nav_how],
+                ['faq', t.nav_faq]],
+              [t.f_comp,
+                ['about', t.nav_about],
+                ['contact', t.nav_contact],
+                ['terms', t.f_terms],
+                ['terms', t.f_priv]],
               ['Contact',
                 ['','support@winpartners.partners'],
                 ['','Telegram: @winpartners_support'],
-                ['',lang==='ru'?'WhatsApp доступен':lang==='en'?'WhatsApp available':'WhatsApp disponibil'],
+                ['',t.f_wa],
                 ['','24/7']],
             ].map(([title,...links])=>(
               <div key={title}>
