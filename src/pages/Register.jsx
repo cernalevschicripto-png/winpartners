@@ -41,6 +41,7 @@ export default function Register() {
   const inviteCode = searchParams.get('invite') || ''
 
   const [lang, setLang] = useState('ro')
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   const T = {
     ro: {
@@ -233,7 +234,6 @@ export default function Register() {
     },
   }
   const t = T[lang] || T.ro
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [step, setStep] = useState(1) // 1=formular, 2=confirmare trimisă
   const [form, setForm] = useState({
     name: '', username: '', email: '', phone: '',
