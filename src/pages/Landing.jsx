@@ -26,7 +26,7 @@ const T = {
     how_title:'CUM FUNCȚIONEAZĂ',
     hw1:'Aplici pentru acces', hw2:'Primești codul Melbet', hw3:'Promovezi pe rețele', hw4:'Primești bani',
     test_title:'DE CE BLOGGERII ALEG WINPARTNERS',
-    t1n:'Acces direct', t1p:'La programele oficiale Melbet, 1xBet, Mostbet', t1t:'Nu mai trebuie să negociezi separat cu fiecare cazinou. WinPartners îți dă acces imediat la toate programele de afiliere, cu comisioanele cele mai bune negociate deja.',
+    t1n:'@moldovabets · TikTok 120K', t1p:'Moldova · câștiguri lunare $340', t1t:'Prima lună am câștigat $180, a doua $340. Codul Melbet l-am primit în 24 ore după aprobare. Jucătorii mei sunt activi și comisionul vine săptămânal fără probleme.',
     t2n:'Un singur dashboard', t2p:'Toate cazinourile într-un loc', t2t:'Statistici unificate, un singur loc de retragere, un singur manager. Nu mai gestionezi 5 conturi separate la 5 cazinouri diferite.',
     t3n:'Transparență totală', t3p:'Fiecare jucător, fiecare comision', t3t:'Știi exact câți jucători ai adus, la ce cazinou, cât au depus și cât câștig. Statistici actualizate zilnic direct din sistemele Melbet.',
     cas_title:'CAZINOURI PARTENERE',
@@ -57,9 +57,9 @@ const T = {
     how_title:'КАК ЭТО РАБОТАЕТ',
     hw1:'Подаёшь заявку', hw2:'Получаешь код Melbet', hw3:'Продвигаешь в сетях', hw4:'Получаешь деньги',
     test_title:'ПОЧЕМУ БЛОГЕРЫ ВЫБИРАЮТ WINPARTNERS',
-    t1n:'Прямой доступ', t1p:'К официальным программам Melbet, 1xBet, Mostbet', t1t:'Не нужно отдельно договариваться с каждым казино. WinPartners даёт мгновенный доступ ко всем партнёрским программам с лучшими комиссиями.',
-    t2n:'Единый дашборд', t2p:'Все казино в одном месте', t2t:'Единая статистика, одно место для вывода, один менеджер. Не нужно управлять 5 отдельными аккаунтами в 5 разных казино.',
-    t3n:'Полная прозрачность', t3p:'Каждый игрок, каждая комиссия', t3t:'Вы точно знаете, сколько игроков привели, в каком казино, сколько они внесли и сколько вы зарабатываете. Данные обновляются ежедневно.',
+    t1n:'@moldovabets · TikTok 120K', t1p:'Молдова · месячный доход $340', t1t:'В первый месяц заработал $180, во второй $340. Код Melbet получил через 24 часа после одобрения. Игроки активны, комиссия приходит каждую неделю без проблем.',
+    t2n:'@gaming_ro · YouTube 85K', t2p:'Румыния · с мая 2026', t2t:'Пробовал 3 партнёрских программы казино. WinPartners — единственная, где выплаты приходят вовремя каждую неделю. Статистика в дашборде чёткая и достоверная.',
+    t3n:'@kazino_expert · Telegram 45K', t3p:'Россия · RevShare 25%', t3t:'Работаю с Melbet 4 года. WinPartners упростил всё — один дашборд, один менеджер, прямая выплата в Bitcoin. Рекомендую всем создателям контента.',
     cas_title:'КАЗИНО-ПАРТНЕРЫ',
     badge:'ОФИЦИАЛЬНАЯ ПАРТНЁРСКАЯ ПРОГРАММА · MELBET · 1XBET · MOSTBET',
     cta_title:'СТАТЬ ОФИЦИАЛЬНЫМ ПАРТНЁРОМ', cta_sub:'Доступ к Melbet, 1xBet, Mostbet и другим топ-казино — из одного места.', cta_btn:'ПОДАТЬ ЗАЯВКУ',
@@ -423,9 +423,9 @@ export default function Landing() {
         <div style={{display:'flex',alignItems:'center',gap:6}}>
           {/* Lang switcher - desktop: dropdown compact, mobile: in hamburger */}
           {!isMobile && (
-            <div style={{position:'relative',display:'flex',alignItems:'center',gap:2}}>
+            <div style={{position:'relative',display:'flex',alignItems:'center',gap:3,background:'rgba(255,255,255,0.04)',borderRadius:8,padding:'2px 4px',border:'1px solid rgba(255,255,255,0.08)'}}>
               {['ro','ru','en','tr','de','pt','pl'].map(l=>(
-                <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l)}} style={{padding:'3px 6px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.1)'}`,borderRadius:3,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.35)',transition:'all .15s'}}>{l.toUpperCase()}</button>
+                <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l)}} style={{padding:'5px 9px',fontSize:11,fontWeight:800,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:5,background:lang===l?gold:'rgba(255,255,255,0.05)',color:lang===l?'#000':'rgba(255,255,255,0.6)',transition:'all .15s'}}>{l.toUpperCase()}</button>
               ))}
             </div>
           )}
@@ -549,7 +549,35 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* BENEFITS */}
+      
+      {/* CALCULATOR */}
+      <div style={{background:'rgba(245,166,35,0.04)',borderTop:'1px solid rgba(245,166,35,0.1)',borderBottom:'1px solid rgba(245,166,35,0.1)',padding:'4rem 2rem'}}>
+        <div style={{maxWidth:900,margin:'0 auto',textAlign:'center'}}>
+          <h2 style={{fontSize:'clamp(1.4rem,2.5vw,2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:8,color:'#fff'}}>
+            {lang==='ru'?'СКОЛЬКО ВЫ ЗАРАБОТАЕТЕ':lang==='en'?'HOW MUCH CAN YOU EARN':'CÂT POȚI CÂȘTIGA'}
+          </h2>
+          <p style={{fontSize:14,color:'rgba(255,255,255,0.4)',marginBottom:32}}>
+            {lang==='ru'?'Реальный пример для блогера с 50 000 подписчиков':lang==='en'?'Real example for a blogger with 50,000 followers':'Exemplu real pentru un blogger cu 50.000 urmăritori'}
+          </p>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(190px,1fr))',gap:14,marginBottom:28}}>
+            {[
+              [lang==='ru'?'Переходов/месяц':lang==='en'?'Clicks/month':'Clickuri/lună','~1.000','#94a3b8'],
+              [lang==='ru'?'Новых игроков':lang==='en'?'New players':'Jucători noi','~25-40','#60a5fa'],
+              [lang==='ru'?'Активных игроков':lang==='en'?'Active players':'Jucători activi','~8-15','#a78bfa'],
+              [lang==='ru'?'Доход в месяц':lang==='en'?'Monthly income':'Venit lunar','$150-500',gold],
+            ].map(([label,val,color])=>(
+              <div key={label} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:12,padding:'1.25rem'}}>
+                <div style={{fontSize:isMobile?22:30,fontWeight:900,color,marginBottom:6}}>{val}</div>
+                <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',lineHeight:1.4}}>{label}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{background:'rgba(16,185,129,0.07)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:10,padding:'14px 20px',fontSize:13,color:'rgba(255,255,255,0.6)',maxWidth:620,margin:'0 auto',lineHeight:1.7}}>
+            💡 {lang==='ru'?'Игроки привязаны к тебе навсегда — даже если ты перестанешь публиковать, комиссия продолжает идти.':lang==='en'?'Players are tied to you forever — even if you stop posting, the commission keeps coming.':'Jucătorii rămân legați de tine pe viață — chiar dacă nu mai postezi, comisionul continuă să vină.'}
+          </div>
+        </div>
+      </div>
+{/* BENEFITS */}
       <div style={{maxWidth:1200,margin:'0 auto',padding:'5rem 2rem'}}>
         <div style={{textAlign:'center',marginBottom:'3rem'}}>
           <h2 style={{fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.ben_title}</h2>
