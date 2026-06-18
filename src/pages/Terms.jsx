@@ -28,16 +28,29 @@ export default function Terms() {
     if (localStorage.getItem('wp_lang')) return
     const countryToLang = {
       MD:'ro', RO:'ro',
-      RU:'ru', BY:'ru', KZ:'ru', UA:'ru', UZ:'ru',
+      RU:'ru', BY:'ru', KZ:'ru', UA:'ru', UZ:'ru', AM:'ru', AZ:'ru', GE:'ru', TJ:'ru', TM:'ru', KG:'ru',
       TR:'tr',
       DE:'de', AT:'de', CH:'de',
       PT:'pt', BR:'pt',
       PL:'pl',
     }
-    fetch('https://ipapi.co/json/')
-      .then(r => r.json())
-      .then(d => { const l = countryToLang[d.country_code]; if (l) setLang(l) })
-      .catch(() => {})
+    const detect = async () => {
+      try {
+        // Încercăm 2 API-uri pentru robustețe
+        const r = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) })
+        const d = await r.json()
+        const l = countryToLang[d.country_code]
+        if (l) { setLang(l); localStorage.setItem('wp_lang', l) }
+      } catch {
+        try {
+          const r2 = await fetch('https://api.country.is/', { signal: AbortSignal.timeout(3000) })
+          const d2 = await r2.json()
+          const l2 = countryToLang[d2.country]
+          if (l2) { setLang(l2); localStorage.setItem('wp_lang', l2) }
+        } catch { /* rămâne ro */ }
+      }
+    }
+    detect()
   }, [])
   const t = T[lang] || T.ro
   const setL = l => { setLang(l); localStorage.setItem('wp_lang', l) }
