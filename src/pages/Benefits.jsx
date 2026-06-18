@@ -20,6 +20,8 @@ const T = {
 }
 export default function Benefits() {
   const nav = useNavigate()
+  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768)
+  React.useEffect(()=>{ const fn=()=>setIsMobile(window.innerWidth<768); window.addEventListener('resize',fn); return()=>window.removeEventListener('resize',fn) },[])
   const [lang, setLang] = useState(() => { const s = localStorage.getItem('wp_lang'); return LANGS.includes(s) ? s : 'ro' })
   // Auto-detect limba după locație (doar dacă nu a ales manual)
   useEffect(() => {
@@ -40,13 +42,14 @@ export default function Benefits() {
   const t = T[lang] || T.ro
   const setL = l => { setLang(l); localStorage.setItem('wp_lang', l) }
   return (
-    <div style={{background:'#0a0a0f',minHeight:'100vh',color:'#fff',fontFamily:"'Inter',sans-serif"}}>
-      <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:60,position:'sticky',top:0,zIndex:50,flexWrap:'wrap',gap:4}}>
-        <div onClick={()=>nav('/')} style={{fontSize:20,fontWeight:900,cursor:'pointer'}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div>
-        <div style={{display:'flex',gap:4,alignItems:'center',flexWrap:'wrap'}}>
-          {LANGS.map(l=>(<button key={l} onClick={()=>setL(l)} style={{padding:'3px 6px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)'}}>{l.toUpperCase()}</button>))}
-          <button onClick={()=>nav('/dashboard')} style={{marginLeft:4,padding:'6px 14px',fontSize:12,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:4,background:'none',color:'#e2e8f0'}}>{t.login}</button>
-          <button onClick={()=>nav('/register')} style={{padding:'6px 14px',fontSize:12,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000'}}>{t.reg}</button>
+    <div style={{background:'#0a0a0f',minHeight:'100vh',color:'#fff',fontFamily:"'Inter',sans-serif",overflowX:'hidden'}}>
+            <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 0.75rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:52,position:'sticky',top:0,zIndex:50,gap:8}}>
+        <div onClick={()=>nav('/')} style={{fontSize:16,fontWeight:900,cursor:'pointer',flexShrink:0,whiteSpace:'nowrap'}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div>
+        <div style={{display:'flex',gap:4,alignItems:'center',minWidth:0}}>
+          <div style={{display:'flex',gap:3,overflowX:'auto',scrollbarWidth:'none',WebkitOverflowScrolling:'touch'}}>
+            {LANGS.map(l=>(<button key={l} onClick={()=>setL(l)} style={{padding:'3px 5px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)',flexShrink:0}}>{l.toUpperCase()}</button>))}
+          </div>
+          <button onClick={()=>nav('/register')} style={{padding:'5px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',flexShrink:0,whiteSpace:'nowrap'}}>{t.reg}</button>
         </div>
       </nav>
       <div style={{maxWidth:1100,margin:'0 auto',padding:'3rem 1.25rem'}}>

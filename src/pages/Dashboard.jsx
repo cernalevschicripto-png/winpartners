@@ -552,7 +552,7 @@ function DashboardContent({ blogger, onLogout }) {
                 </div>
               )}
               {/* Balance cards */}
-              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(5,1fr)',gap:isMobile?1:0,background:isMobile?'transparent':bgCard,borderRadius:8,overflow:isMobile?'visible':'hidden',border:isMobile?'none':`1px solid ${bdr}`,marginBottom:'1.25rem',boxShadow:isMobile?'none':'0 1px 3px rgba(0,0,0,0.06)'}}>
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(5,1fr)',gap:isMobile?1:0,background:isMobile?'transparent':bgCard,borderRadius:8,overflow:isMobile?'visible':'hidden',border:isMobile?'none':`1px solid ${bdr}`,marginBottom:'1.25rem',boxShadow:isMobile?'none':'0 1px 3px rgba(0,0,0,0.06)'}}>
                 {[
                   {l:'DISPONIBIL PENTRU RETRAGERE',v:'$'+D.bal.available,c:'#10b981',bc:'#10b981'},
                   {l:'IERI',v:'$'+D.bal.yesterday,c:'#3b82f6',bc:'#3b82f6'},
@@ -560,8 +560,8 @@ function DashboardContent({ blogger, onLogout }) {
                   {l:'30 DE ZILE',v:'$'+D.bal.days30,c:'#ef4444',bc:'#ef4444'},
                   {l:'TOTAL',v:'$'+D.bal.total,c:'#10b981',bc:'#10b981'},
                 ].map((it,i)=>(
-                  <div key={it.l} style={{padding:'14px 16px',borderLeft:i>0?`1px solid ${bdr}`:'none',borderBottom:`3px solid ${it.bc}`,textAlign:'center'}}>
-                    <div style={{fontSize:22,fontWeight:800,color:it.c,marginBottom:4}}>{it.v}</div>
+                  <div key={it.l} style={{padding:isMobile?'10px 8px':'14px 16px',borderLeft:isMobile?'none':i>0?`1px solid ${bdr}`:'none',border:isMobile?`1px solid ${bdr}`:undefined,borderBottom:`3px solid ${it.bc}`,textAlign:'center',borderRadius:isMobile?6:0,background:isMobile?bgCard:undefined}}>
+                    <div style={{fontSize:isMobile?17:22,fontWeight:800,color:it.c,marginBottom:4}}>{it.v}</div>
                     <div style={{fontSize:9,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em',lineHeight:1.3}}>{it.l}</div>
                   </div>
                 ))}
@@ -1283,6 +1283,7 @@ function DashboardContent({ blogger, onLogout }) {
               {customRequests.length > 0 && (
                 <div style={{...card,marginBottom:'1rem',padding:0,overflow:'hidden'}}>
                   <div style={{padding:'10px 16px',borderBottom:`1px solid ${bdr}`,fontSize:13,fontWeight:700,color:txt}}>Cererile mele de cod special</div>
+                  <div style={{overflowX:'auto',WebkitOverflowScrolling:'touch'}}>
                   <table style={{width:'100%',borderCollapse:'collapse'}}>
                     <thead><tr>{['Cod solicitat','Casino','Data','Status'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                     <tbody>{customRequests.map((r,i)=>(
@@ -1300,6 +1301,7 @@ function DashboardContent({ blogger, onLogout }) {
                       </tr>
                     ))}</tbody>
                   </table>
+                  </div>
                 </div>
               )}
 

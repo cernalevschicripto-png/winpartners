@@ -529,8 +529,8 @@ export default function Landing() {
                   <polygon points="100,22 174,63 174,117 100,158 26,117 26,63" fill="none" stroke={c} strokeWidth="0.5" opacity="0.4"/>
                 </svg>
                 <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-52%)',textAlign:'center',pointerEvents:'none'}}>
-                  <div style={{fontSize:isMobile?16:38,fontWeight:900,color:c,lineHeight:1,textShadow:`0 0 20px ${c}88`}}>{v}</div>
-                  <div style={{fontSize:10,color:'rgba(255,255,255,0.55)',marginTop:5,textTransform:'uppercase',letterSpacing:'.1em',fontWeight:700,maxWidth:90,margin:'5px auto 0'}}>{l}</div>
+                  <div style={{fontSize:isMobile?20:38,fontWeight:900,color:c,lineHeight:1,textShadow:`0 0 20px ${c}88`}}>{v}</div>
+                  <div style={{fontSize:isMobile?9:10,color:'rgba(255,255,255,0.55)',marginTop:4,textTransform:'uppercase',letterSpacing:isMobile?'.04em':'.1em',fontWeight:700,maxWidth:isMobile?75:90,margin:'4px auto 0',lineHeight:1.2}}>{l}</div>
                 </div>
               </div>
             </div>
