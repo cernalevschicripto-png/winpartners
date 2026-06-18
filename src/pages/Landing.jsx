@@ -551,7 +551,7 @@ export default function Landing() {
 
       
       {/* CALCULATOR */}
-      <div style={{background:'rgba(245,166,35,0.04)',borderTop:'1px solid rgba(245,166,35,0.1)',borderBottom:'1px solid rgba(245,166,35,0.1)',padding:'4rem 2rem'}}>
+      <div style={{background:'rgba(245,166,35,0.04)',borderTop:'1px solid rgba(245,166,35,0.1)',borderBottom:'1px solid rgba(245,166,35,0.1)',padding:isMobile?'2rem 1rem':'4rem 2rem'}}>
         <div style={{maxWidth:900,margin:'0 auto',textAlign:'center'}}>
           <h2 style={{fontSize:'clamp(1.4rem,2.5vw,2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:8,color:'#fff'}}>
             {lang==='ru'?'СКОЛЬКО ВЫ ЗАРАБОТАЕТЕ':lang==='en'?'HOW MUCH CAN YOU EARN':'CÂT POȚI CÂȘTIGA'}
@@ -578,12 +578,12 @@ export default function Landing() {
         </div>
       </div>
 {/* BENEFITS */}
-      <div style={{maxWidth:1200,margin:'0 auto',padding:'5rem 2rem'}}>
+      <div style={{maxWidth:1200,margin:'0 auto',padding:isMobile?'2.5rem 1rem':'5rem 2rem'}}>
         <div style={{textAlign:'center',marginBottom:'3rem'}}>
           <h2 style={{fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.ben_title}</h2>
           <div style={{width:60,height:3,background:gold,margin:'12px auto 0',borderRadius:2}}/>
         </div>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:20}}>
+        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
           {benefits.map(([icon,title,desc])=>(
             <div key={title} style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:12,padding:'1.5rem',display:'flex',gap:16,transition:'border-color .2s',cursor:'default'}} onMouseOver={e=>e.currentTarget.style.borderColor='rgba(245,166,35,0.35)'} onMouseOut={e=>e.currentTarget.style.borderColor='rgba(245,166,35,0.1)'}>
               <div style={{width:50,height:50,background:'rgba(245,166,35,0.1)',border:`1px solid rgba(245,166,35,0.2)`,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>{icon}</div>
@@ -662,7 +662,7 @@ export default function Landing() {
       </div>
 
       {/* HOW IT WORKS */}
-      <div style={{background:'rgba(0,0,0,0.3)',padding:'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.08)`}}>
+      <div style={{background:'rgba(0,0,0,0.3)',padding:isMobile?'2.5rem 1rem':'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.08)`}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
           <div style={{textAlign:'center',marginBottom:'3rem'}}>
             <h2 style={{fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.how_title}</h2>
@@ -681,7 +681,7 @@ export default function Landing() {
       </div>
 
       {/* CASINO PARTNERS */}
-      <div style={{maxWidth:1100,margin:'0 auto',padding:'5rem 2rem'}}>
+      <div style={{maxWidth:1100,margin:'0 auto',padding:isMobile?'2.5rem 1rem':'5rem 2rem'}}>
         <div style={{textAlign:'center',marginBottom:'3rem'}}>
           <h2 style={{fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.cas_title}</h2>
           <div style={{width:60,height:3,background:gold,margin:'12px auto 0',borderRadius:2}}/>
@@ -697,13 +697,13 @@ export default function Landing() {
       </div>
 
       {/* TESTIMONIALS */}
-      <div style={{background:'rgba(0,0,0,0.4)',padding:'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.08)`}}>
+      <div style={{background:'rgba(0,0,0,0.4)',padding:isMobile?'2.5rem 1rem':'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.08)`}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
           <div style={{textAlign:'center',marginBottom:'3rem'}}>
             <h2 style={{fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.test_title}</h2>
             <div style={{width:60,height:3,background:gold,margin:'12px auto 0',borderRadius:2}}/>
           </div>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(auto-fit,minmax(260px,1fr))',gap:20}}>
             {[
               [t.t1n, t.t1p, t.t1t, '🔗'],
               [t.t2n, t.t2p, t.t2t, '📊'],
@@ -724,7 +724,7 @@ export default function Landing() {
       <CalcSection isMobile={isMobile} lang={lang} navigate={navigate} gold={gold} />
 
       {/* CTA */}
-      <div style={{padding:'5rem 2rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
+      <div style={{padding:isMobile?'2.5rem 1rem':'5rem 2rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
         <div style={{position:'absolute',inset:0,background:`radial-gradient(ellipse 70% 80% at 50% 50%, rgba(245,166,35,0.08) 0%, transparent 70%)`,pointerEvents:'none'}}/>
         <div style={{position:'relative',zIndex:1}}>
           <h2 style={{fontSize:'clamp(2rem,4vw,3rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.03em',marginBottom:12}}>{t.cta_title}</h2>

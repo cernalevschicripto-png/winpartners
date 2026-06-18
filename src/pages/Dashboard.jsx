@@ -697,7 +697,7 @@ function DashboardContent({ blogger, onLogout }) {
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12,padding:'6px 12px'}}><option>6 articole selectate ▼</option></select></div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <div style={{overflowX:'auto'}}>
-                  <table style={{width:'100%',borderCollapse:'collapse'}}>
+                  <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                     <thead><tr>{['Valută ↕','Structura comisionului ↕','Numele grupei ↕','Data de început ↕','Descriere ↕','Dată de sfârșit ↕'].map(h=><th key={h} style={{...TH,cursor:'pointer'}}>{h}</th>)}</tr></thead>
                     <tbody>{D.commStructure.map((r,i)=>(
                       <tr key={i} style={{background:i%2===0?'#fff':'#fafafa'}}>
@@ -754,8 +754,8 @@ function DashboardContent({ blogger, onLogout }) {
                 <button style={{...btnOutline('#ef4444'),marginBottom:2,fontSize:12}} onClick={()=>showToast("📁 Export disponibil în curând")}>EXPORT ▼</button>
               </div>
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>6 articole selectate ▼</option></select></div>
-              <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.25rem'}}>
-                <table style={{width:'100%',borderCollapse:'collapse'}}>
+              <div style={{...card,padding:0,overflowX:'auto'}}>
+                <table style={{width:'100%',borderCollapse:'collapse',minWidth:500}}>
                   <thead><tr>{['Valută ↕','Data ↕','Plata ↕','Venituri ↕','Sold ↕','Status ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>
                     {payTab==='history'&&D.pays.map((p,i)=>(
@@ -863,8 +863,8 @@ function DashboardContent({ blogger, onLogout }) {
                 ))}
               </div>
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>8 articole selectate ▼</option></select></div>
-              <div style={{...card,padding:0,overflow:'hidden'}}>
-                <table style={{width:'100%',borderCollapse:'collapse'}}>
+              <div style={{...card,padding:0,overflowX:'auto'}}>
+                <table style={{width:'100%',borderCollapse:'collapse',minWidth:700}}>
                   <thead><tr>{['Nr. ↕','Site web ↕','Arată/Ascunde ↕','Pagină destinație ↕','SubID ↕','Campanie ↕','Link generat ↕','Valută ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>
                     {linkTab==='created'&&D.links.map((l,i)=>(
@@ -913,8 +913,8 @@ function DashboardContent({ blogger, onLogout }) {
                 <button style={btnPrimary} onClick={()=>setPage("promo")}>GENERAȚI COD PROMOȚIONAL</button>
               </div>
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>5 articole selectate ▼</option></select></div>
-              <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.25rem'}}>
-                <table style={{width:'100%',borderCollapse:'collapse'}}>
+              <div style={{...card,padding:0,overflowX:'auto',marginBottom:'1.25rem'}}>
+                <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                   <thead><tr>{['ID ↕','Site web ↕','Valută ↕','Cod promoțional ↕','BTAG ↕',''].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>
                     <tr>
@@ -1030,8 +1030,8 @@ function DashboardContent({ blogger, onLogout }) {
                 <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
                 <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
-              <div style={{...card,padding:0,overflow:'hidden'}}>
-                <table style={{width:'100%',borderCollapse:'collapse'}}>
+              <div style={{...card,padding:0,overflowX:'auto'}}>
+                <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                   <thead><tr>{['Jucător','Data înregistrării','Prima depunere','Numărul de depuneri','Suma depunerilor','Venituri','Comisionul meu'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody><tr><td colSpan={7} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>Fără informații pentru perioada selectată</td></tr></tbody>
                 </table>
@@ -1060,8 +1060,8 @@ function DashboardContent({ blogger, onLogout }) {
                 <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
                 <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
-              <div style={{...card,padding:0,overflow:'hidden'}}>
-                <table style={{width:'100%',borderCollapse:'collapse'}}>
+              <div style={{...card,padding:0,overflowX:'auto'}}>
+                <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                   <thead><tr>{['Blogger','Platformă','Data înregistrării','Înregistrări aduse','Câștigurile lui','Comisionul meu (3%)'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>{myReferrals.length===0?(
                     <tr><td colSpan={6} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>
@@ -1329,7 +1329,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <div style={{...card,marginBottom:'1rem',padding:0,overflow:'hidden'}}>
                   <div style={{padding:'10px 16px',borderBottom:`1px solid ${bdr}`,fontSize:13,fontWeight:700,color:txt}}>Cererile mele de cod special</div>
                   <div style={{overflowX:'auto',WebkitOverflowScrolling:'touch'}}>
-                  <table style={{width:'100%',borderCollapse:'collapse'}}>
+                  <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                     <thead><tr>{['Cod solicitat','Casino','Data','Status'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                     <tbody>{customRequests.map((r,i)=>(
                       <tr key={r.id} style={{background:i%2===0?'#fff':'#fafafa'}}>
@@ -1355,7 +1355,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <div style={{...card,padding:0,overflow:'hidden'}}>
                   <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,fontSize:14,fontWeight:700,color:txt}}>Toate codurile mele active</div>
                   <div style={{overflowX:'auto'}}>
-                    <table style={{width:'100%',borderCollapse:'collapse'}}>
+                    <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                       <thead><tr>{['Casino','Cod','Data generării','Înregistrări','Comision'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                       <tbody>{myCodes.map((c,i)=>(
                         <tr key={c.code} style={{background:i%2===0?'#fff':'#fafafa'}}>
@@ -1393,7 +1393,7 @@ function DashboardContent({ blogger, onLogout }) {
           {/* === SITES === */}
           {page==='sites'&&(
             <div style={{...card,padding:0,overflow:'hidden'}}>
-              <table style={{width:'100%',borderCollapse:'collapse'}}>
+              <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                 <thead><tr>{['Site web','Status','Data adăugării'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                 <tbody>
                   <tr>

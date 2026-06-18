@@ -68,7 +68,7 @@ export default function Benefits() {
       <div style={{maxWidth:1100,margin:'0 auto',padding:'3rem 1.25rem'}}>
         <h1 style={{fontSize:'clamp(2rem,4vw,3rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.05em',marginBottom:8}}>{t.title} <span style={{color:gold}}>{t.title2}</span></h1>
         <p style={{fontSize:15,color:'rgba(255,255,255,0.5)',marginBottom:48}}>{t.sub}</p>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:20}}>
+        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
           {t.items.map(([icon,title,desc])=>(
             <div key={title} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.12)',borderRadius:12,padding:'1.5rem',display:'flex',gap:16}}>
               <div style={{width:50,height:50,background:'rgba(245,166,35,0.1)',border:'1px solid rgba(245,166,35,0.25)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>{icon}</div>

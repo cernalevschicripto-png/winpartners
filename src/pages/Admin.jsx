@@ -391,8 +391,8 @@ winpartners.pro`
             </div>
           )}
 
-          <div style={{ background:'rgba(255,255,255,0.02)', border:'1px solid rgba(245,166,35,0.08)', borderRadius:12, overflow:'auto' }}>
-            <table style={{ width:'100%', borderCollapse:'collapse', fontSize:13 }}>
+          <div style={{ background:'rgba(255,255,255,0.02)', border:'1px solid rgba(245,166,35,0.08)', borderRadius:12, overflowX:'auto' }}>
+            <table style={{ width:'100%', borderCollapse:'collapse', fontSize:13, minWidth:650 }}>
               <thead>
                 <tr>{['Blogger','Username','Platformă','Țară','Status','Regs','Venit','Comision','Parolă','Acțiuni'].map(h => <th key={h} style={th}>{h}</th>)}</tr>
               </thead>
@@ -482,7 +482,7 @@ winpartners.pro`
                     )}
                   </div>
                 </div>
-                <div style={{ background:'rgba(255,255,255,0.02)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:12, overflow:'auto' }}>
+                <div style={{ background:'rgba(255,255,255,0.02)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:12, overflowX:'auto' }}>
                   <table style={{ width:'100%', borderCollapse:'collapse', fontSize:13 }}>
                     <thead><tr>{['Cod','Status','Blogger','Atribuit la'].map(h=><th key={h} style={th}>{h}</th>)}</tr></thead>
                     <tbody>
@@ -514,7 +514,7 @@ winpartners.pro`
           {customRequests.length === 0
             ? <div style={{padding:40,textAlign:'center',color:'rgba(255,255,255,0.3)',fontSize:13}}>Nicio cerere de cod special</div>
             : (
-              <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:12,overflow:'auto'}}>
+              <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:12,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',fontSize:13}}>
                   <thead><tr>{['Data','Blogger','Casino','Cod solicitat','Status','Acțiuni'].map(h=><th key={h} style={th}>{h}</th>)}</tr></thead>
                   <tbody>

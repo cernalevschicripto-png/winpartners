@@ -103,7 +103,7 @@ export default function Contact() {
           <h2 style={{fontSize:20,fontWeight:700,marginBottom:24}}>{t.formTitle}</h2>
           {status==='sent'?(
             <div style={{textAlign:'center',padding:'3rem 2rem',background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:14}}>
-              <div style={{fontSize:48,marginBottom:16}}>✅</div>
+              <div style={{fontSize:isMobile?36:48,marginBottom:12}}>✅</div>
               <div style={{fontSize:18,fontWeight:700,marginBottom:8}}>{t.sentTitle}</div>
               <div style={{fontSize:13,color:'rgba(255,255,255,0.45)',lineHeight:1.7}}>{t.sentSub}<br/>{t.sentTg} <a href="https://t.me/winpartners_manager" style={{color:gold}}>Telegram</a>.</div>
             </div>
