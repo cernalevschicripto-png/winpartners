@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 const gold = '#f5a623'
 const LANGS = ['ro','ru','en','tr','de','pt','pl']
