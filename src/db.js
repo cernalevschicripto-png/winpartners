@@ -4,13 +4,12 @@
 // ============================================================
 
 const FB_URL = import.meta.env.VITE_FB_URL || ''
-const FB_KEY = import.meta.env.VITE_FB_KEY || ''
 const USE_FIREBASE = FB_URL && FB_URL !== 'PLACEHOLDER_DB_URL' && FB_URL.includes('firebasedatabase')
 
 // ─── FIREBASE REST HELPERS ───────────────────────────────────
 async function fbGet(path) {
   try {
-    const url = FB_KEY ? `${FB_URL}/${path}.json?auth=${FB_KEY}` : `${FB_URL}/${path}.json`
+    const url = `${FB_URL}/${path}.json`
     const res = await fetch(url, { signal: AbortSignal.timeout(5000) })
     if (!res.ok) return null
     return res.json()
@@ -19,7 +18,7 @@ async function fbGet(path) {
 
 async function fbSet(path, data) {
   try {
-    const url = FB_KEY ? `${FB_URL}/${path}.json?auth=${FB_KEY}` : `${FB_URL}/${path}.json`
+    const url = `${FB_URL}/${path}.json`
     const res = await fetch(url, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data), signal: AbortSignal.timeout(5000) })
     return res.ok ? res.json() : null
   } catch { return null }
@@ -27,7 +26,7 @@ async function fbSet(path, data) {
 
 async function fbPatch(path, data) {
   try {
-    const url = FB_KEY ? `${FB_URL}/${path}.json?auth=${FB_KEY}` : `${FB_URL}/${path}.json`
+    const url = `${FB_URL}/${path}.json`
     const res = await fetch(url, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data), signal: AbortSignal.timeout(5000) })
     return res.ok ? res.json() : null
   } catch { return null }
@@ -35,7 +34,7 @@ async function fbPatch(path, data) {
 
 async function fbPush(path, data) {
   try {
-    const url = FB_KEY ? `${FB_URL}/${path}.json?auth=${FB_KEY}` : `${FB_URL}/${path}.json`
+    const url = `${FB_URL}/${path}.json`
     const res = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data), signal: AbortSignal.timeout(5000) })
     return res.ok ? res.json() : null
   } catch { return null }
