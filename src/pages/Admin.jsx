@@ -8,7 +8,7 @@ import {
   getApplications, updateApplication, subscribeApplications,
   getNotifications, markRead, addNotification, subscribeNotifications,
   getCustomRequests, updateCustomRequest, subscribeCustomRequests,
-  seedDatabase, isFirebaseEnabled,
+  seedDatabase, forceReseedDatabase, isFirebaseEnabled,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -181,8 +181,16 @@ export default function Admin() {
   const runSeed = async () => {
     setSeedStatus('Se inițializează...')
     const result = await seedDatabase()
-    setSeedStatus(result === 'seeded_ok' ? '✅ Date inițiale setate cu succes!' : '⚠️ Baza de date era deja inițializată')
-    setTimeout(() => setSeedStatus(''), 4000)
+    setSeedStatus(result === 'seeded_ok' ? '✅ Date inițiale setate!' : '⚠️ Deja inițializată — apasă Force Reseed')
+    setTimeout(() => setSeedStatus(''), 5000)
+  }
+
+  const runForceReseed = async () => {
+    if (!window.confirm('Resetezi toată baza de date? Datele existente vor fi șterse!')) return
+    setSeedStatus('⏳ Force reseed...')
+    const result = await forceReseedDatabase()
+    setSeedStatus(result.includes('ok') ? '✅ Baza de date resetată!' : '✅ LocalStorage reset!')
+    setTimeout(() => setSeedStatus(''), 5000)
   }
 
   return (
@@ -195,9 +203,14 @@ export default function Admin() {
         </div>
         <div style={{ display:'flex', gap: isMobile ? 6 : 12, alignItems:'center' }}>
           {seedStatus && <span style={{ fontSize:11, color:'#10b981' }}>{seedStatus}</span>}
-          {!isMobile && <button onClick={runSeed} style={{ padding:'6px 14px', fontSize:12, cursor:'pointer', border:'1px solid rgba(245,166,35,0.3)', borderRadius:6, background:'none', color:gold }}>
-            🌱 Seed DB
-          </button>}
+          {!isMobile && <>
+            <button onClick={runSeed} style={{ padding:'6px 14px', fontSize:12, cursor:'pointer', border:'1px solid rgba(245,166,35,0.3)', borderRadius:6, background:'none', color:gold }}>
+              🌱 Seed DB
+            </button>
+            <button onClick={runForceReseed} style={{ padding:'6px 14px', fontSize:12, cursor:'pointer', border:'1px solid rgba(239,68,68,0.4)', borderRadius:6, background:'none', color:'#ef4444' }}>
+              🔄 Force Reseed
+            </button>
+          </>}
           <button onClick={() => setShowNotifPanel(p => !p)} style={{ position:'relative', padding:'6px 12px', fontSize:12, cursor:'pointer', border:'1px solid rgba(255,255,255,0.1)', borderRadius:6, background:'none', color:'#e2e8f0' }}>
             🔔 {unreadCount > 0 && <span style={{ background:'#ef4444', color:'#fff', borderRadius:10, fontSize:10, padding:'1px 5px', position:'absolute', top:-6, right:-6 }}>{unreadCount}</span>}
           </button>

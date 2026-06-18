@@ -343,3 +343,27 @@ export async function seedDatabase() {
 }
 
 export const isFirebaseEnabled = USE_FIREBASE
+
+// ─── FORCE RESEED (resetează seeded și repopulează) ───────────
+export async function forceReseedDatabase() {
+  if (USE_FIREBASE) {
+    await fbSet('seeded', null)
+    await fbSet('bloggers', INIT_BLOGGERS)
+    await fbSet('casinoStats', INIT_CASINO_STATS)
+    await fbSet('promoCodes', INIT_PROMO)
+    await fbSet('applications', {})
+    await fbSet('notifications', {})
+    await fbSet('customRequests', {})
+    await fbSet('seeded', true)
+    return 'force_seeded_ok'
+  } else {
+    lsSet('wp_bloggers', INIT_BLOGGERS)
+    lsSet('wp_casino_stats', INIT_CASINO_STATS)
+    lsSet('wp_promo', INIT_PROMO)
+    lsSet('wp_applications', [])
+    lsSet('wp_notifications', [])
+    lsSet('wp_custom_requests', [])
+    lsSet('wp_seeded', true)
+    return 'force_seeded_ls'
+  }
+}
