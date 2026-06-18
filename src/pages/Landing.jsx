@@ -554,17 +554,17 @@ export default function Landing() {
       <div style={{background:'rgba(245,166,35,0.04)',borderTop:'1px solid rgba(245,166,35,0.1)',borderBottom:'1px solid rgba(245,166,35,0.1)',padding:isMobile?'2rem 1rem':'4rem 2rem'}}>
         <div style={{maxWidth:900,margin:'0 auto',textAlign:'center'}}>
           <h2 style={{fontSize:'clamp(1.4rem,2.5vw,2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:8,color:'#fff'}}>
-            {lang==='ru'?'СКОЛЬКО ВЫ ЗАРАБОТАЕТЕ':lang==='en'?'HOW MUCH CAN YOU EARN':'CÂT POȚI CÂȘTIGA'}
+            {lang==='ru'?'СКОЛЬКО ВЫ ЗАРАБОТАЕТЕ':lang==='en'?'HOW MUCH CAN YOU EARN':lang==='tr'?'NE KADAR KAZANABİLİRSİNİZ':lang==='de'?'WIE VIEL KÖNNEN SIE VERDIENEN':lang==='pt'?'QUANTO VOCÊ PODE GANHAR':lang==='pl'?'ILE MOŻESZ ZAROBIĆ':'CÂT POȚI CÂȘTIGA'}
           </h2>
           <p style={{fontSize:14,color:'rgba(255,255,255,0.4)',marginBottom:32}}>
-            {lang==='ru'?'Реальный пример для блогера с 50 000 подписчиков':lang==='en'?'Real example for a blogger with 50,000 followers':'Exemplu real pentru un blogger cu 50.000 urmăritori'}
+            {lang==='ru'?'Реальный пример для блогера с 50 000 подписчиков':lang==='en'?'Real example for a blogger with 50,000 followers':lang==='tr'?'50.000 takipçili bir blog yazarı için gerçek örnek':lang==='de'?'Reales Beispiel für einen Blogger mit 50.000 Followern':lang==='pt'?'Exemplo real para um blogger com 50.000 seguidores':lang==='pl'?'Prawdziwy przykład dla blogera z 50.000 obserwujących':'Exemplu real pentru un blogger cu 50.000 urmăritori'}
           </p>
           <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(190px,1fr))',gap:14,marginBottom:28}}>
             {[
-              [lang==='ru'?'Переходов/месяц':lang==='en'?'Clicks/month':'Clickuri/lună','~1.000','#94a3b8'],
-              [lang==='ru'?'Новых игроков':lang==='en'?'New players':'Jucători noi','~25-40','#60a5fa'],
-              [lang==='ru'?'Активных игроков':lang==='en'?'Active players':'Jucători activi','~8-15','#a78bfa'],
-              [lang==='ru'?'Доход в месяц':lang==='en'?'Monthly income':'Venit lunar','$150-500',gold],
+              [lang==='ru'?'Переходов/месяц':lang==='en'?'Clicks/month':lang==='tr'?'Tıklama/ay':lang==='de'?'Klicks/Monat':lang==='pt'?'Cliques/mês':lang==='pl'?'Kliknięcia/miesiąc':'Clickuri/lună','~1.000','#94a3b8'],
+              [lang==='ru'?'Новых игроков':lang==='en'?'New players':lang==='tr'?'Yeni oyuncular':lang==='de'?'Neue Spieler':lang==='pt'?'Novos jogadores':lang==='pl'?'Nowi gracze':'Jucători noi','~25-40','#60a5fa'],
+              [lang==='ru'?'Активных игроков':lang==='en'?'Active players':lang==='tr'?'Aktif oyuncular':lang==='de'?'Aktive Spieler':lang==='pt'?'Jogadores ativos':lang==='pl'?'Aktywni gracze':'Jucători activi','~8-15','#a78bfa'],
+              [lang==='ru'?'Доход в месяц':lang==='en'?'Monthly income':lang==='tr'?'Aylık gelir':lang==='de'?'Monatseinkommen':lang==='pt'?'Renda mensal':lang==='pl'?'Dochód miesięczny':'Venit lunar','$150-500',gold],
             ].map(([label,val,color])=>(
               <div key={label} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:12,padding:'1.25rem'}}>
                 <div style={{fontSize:isMobile?22:30,fontWeight:900,color,marginBottom:6}}>{val}</div>
@@ -573,7 +573,7 @@ export default function Landing() {
             ))}
           </div>
           <div style={{background:'rgba(16,185,129,0.07)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:10,padding:'14px 20px',fontSize:13,color:'rgba(255,255,255,0.6)',maxWidth:620,margin:'0 auto',lineHeight:1.7}}>
-            💡 {lang==='ru'?'Игроки привязаны к тебе навсегда — даже если ты перестанешь публиковать, комиссия продолжает идти.':lang==='en'?'Players are tied to you forever — even if you stop posting, the commission keeps coming.':'Jucătorii rămân legați de tine pe viață — chiar dacă nu mai postezi, comisionul continuă să vină.'}
+            💡 {lang==='ru'?'Игроки привязаны к тебе навсегда — даже если ты перестанешь публиковать, комиссия продолжает идти.':lang==='en'?'Players are tied to you forever — even if you stop posting, the commission keeps coming.':lang==='tr'?'Oyuncular sonsuza kadar sana bağlı — yayın yapmayı bıraksan bile komisyon gelmeye devam eder.':lang==='de'?'Spieler sind für immer mit dir verbunden — selbst wenn du aufhörst zu posten, kommt die Provision weiter.':lang==='pt'?'Os jogadores estão vinculados a você para sempre — mesmo que pare de postar, a comissão continua chegando.':lang==='pl'?'Gracze są przypisani do ciebie na zawsze — nawet jeśli przestaniesz publikować, prowizja nadal przychodzi.':'Jucătorii rămân legați de tine pe viață — chiar dacă nu mai postezi, comisionul continuă să vină.'}
           </div>
         </div>
       </div>
