@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   loginBlogger,
   getCasinoStats, subscribeCasinoStats,
-  getNextAvailableCode, subscribePromoCodes,
+  getNextAvailableCode, subscribePromoCodes, updateBloggerFields,
   addCustomRequest, subscribeCustomRequests,
 } from '../db.js'
 
@@ -285,7 +285,7 @@ function DashboardContent({ blogger, onLogout }) {
     affId: blogger.affId || 'WP-' + Math.floor(Math.random()*9000000+1000000),
     bal: {
       available: Math.max(0, Math.round((blogger.revenue||0)*((blogger.commission||25)/100)-(blogger.paid||0))),
-      yesterday: 56, month: 248, days30: blogger.revenue||0, total: blogger.revenue||0,
+      yesterday: 0, month: 0, days30: Math.round((blogger.revenue||0)*((blogger.commission||25)/100)), total: Math.round((blogger.revenue||0)*((blogger.commission||25)/100)),
     },
     daily:[],
     refs: [],
@@ -296,6 +296,10 @@ function DashboardContent({ blogger, onLogout }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [page,setPage]=useState('main')
+  const [passOld, setPassOld] = useState('')
+  const [passNew, setPassNew] = useState('')
+  const [passNew2, setPassNew2] = useState('')
+  const [passMsg, setPassMsg] = useState('')
   const [selectedCasino, setSelectedCasino] = useState(null)
   const [generatedCode, setGeneratedCode] = useState(null)
   const [codeGenerating, setCodeGenerating] = useState(false)
@@ -490,6 +494,34 @@ function DashboardContent({ blogger, onLogout }) {
           {/* === PAGINA PRINCIPALA === */}
           {page==='main'&&(
             <div>
+              {/* Welcome screen pentru bloggeri noi */}
+              {(D.clicks===0 && D.regs===0) && (
+                <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.08),rgba(245,166,35,0.02))',border:'1px solid rgba(245,166,35,0.25)',borderRadius:12,padding:'1.5rem',marginBottom:'1.25rem'}}>
+                  <div style={{fontSize:16,fontWeight:800,color:'#f5a623',marginBottom:6}}>🎉 Bun venit în WinPartners, {D.name.split(' ')[0]}!</div>
+                  <div style={{fontSize:13,color:'rgba(255,255,255,0.6)',marginBottom:14,lineHeight:1.6}}>
+                    Contul tău este activ. Urmează 3 pași simpli pentru a începe să câștigi:
+                  </div>
+                  <div style={{display:'flex',flexDirection:'column',gap:10}}>
+                    {[
+                      {n:'1',t:'Ia-ți codul promoțional Melbet',d:'Mergi la "Coduri Promoționale" → generează codul tău unic',p:'promo',btn:'Generează cod →'},
+                      {n:'2',t:'Promovează pe platforma ta',d:'Include codul în videoclipuri, descrieri și story-uri',p:null,btn:null},
+                      {n:'3',t:'Urmărește câștigurile',d:'Statisticile se actualizează săptămânal de echipa WinPartners',p:null,btn:null},
+                    ].map(s=>(
+                      <div key={s.n} style={{display:'flex',alignItems:'flex-start',gap:12,background:'rgba(255,255,255,0.03)',borderRadius:8,padding:'10px 14px'}}>
+                        <div style={{minWidth:24,height:24,borderRadius:'50%',background:'#f5a623',color:'#000',fontWeight:800,fontSize:12,display:'flex',alignItems:'center',justifyContent:'center'}}>{s.n}</div>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:13,fontWeight:700,color:'#fff',marginBottom:2}}>{s.t}</div>
+                          <div style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>{s.d}</div>
+                        </div>
+                        {s.btn && <button onClick={()=>setPage(s.p)} style={{padding:'5px 12px',fontSize:11,fontWeight:700,cursor:'pointer',border:'1px solid #f5a623',borderRadius:6,background:'none',color:'#f5a623',whiteSpace:'nowrap'}}>{s.btn}</button>}
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{marginTop:14,fontSize:12,color:'rgba(255,255,255,0.35)'}}>
+                    Ai întrebări? Scrie-ne pe <a href="https://t.me/winpartners_manager" target="_blank" rel="noopener noreferrer" style={{color:'#f5a623',textDecoration:'none'}}>Telegram @winpartners_manager</a>
+                  </div>
+                </div>
+              )}
               {/* Balance cards */}
               <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(5,1fr)',gap:isMobile?1:0,background:isMobile?'transparent':bgCard,borderRadius:8,overflow:isMobile?'visible':'hidden',border:isMobile?'none':`1px solid ${bdr}`,marginBottom:'1.25rem',boxShadow:isMobile?'none':'0 1px 3px rgba(0,0,0,0.06)'}}>
                 {[
@@ -717,10 +749,11 @@ function DashboardContent({ blogger, onLogout }) {
                 </div>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Modificați parola</div>
-                  <div style={{marginBottom:8}}><label style={label}>Parola veche</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••"/></div>
-                  <div style={{marginBottom:8}}><label style={label}>Parolă nouă</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••"/></div>
-                  <div style={{marginBottom:12}}><label style={label}>Reintroduceți noua parolă</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••"/></div>
-                  <button style={btnPrimary}>MODIFICAȚI PAROLA</button>
+                  <div style={{marginBottom:8}}><label style={label}>Parola veche</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passOld} onChange={e=>setPassOld(e.target.value)}/></div>
+                  <div style={{marginBottom:8}}><label style={label}>Parolă nouă</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passNew} onChange={e=>setPassNew(e.target.value)}/></div>
+                  <div style={{marginBottom:12}}><label style={label}>Reintroduceți noua parolă</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passNew2} onChange={e=>setPassNew2(e.target.value)}/></div>
+                  {passMsg && <div style={{marginBottom:10,fontSize:12,color:passMsg.startsWith('✅')?'#10b981':'#ef4444'}}>{passMsg}</div>}
+                  <button onClick={changePassword} style={btnPrimary}>MODIFICAȚI PAROLA</button>
                   <div style={{borderTop:`1px solid ${bdr}`,paddingTop:12,marginTop:16}}>
                     <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:6}}>Gestionarea autentificării cu doi factori</div>
                     <div style={{fontSize:12,color:txtSub}}>Google Authenticator activat: <span style={{color:'#ef4444',fontWeight:600}}>Nu</span></div>

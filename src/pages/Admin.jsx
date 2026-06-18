@@ -149,21 +149,68 @@ export default function Admin() {
   }
 
   const approveApp = async (app) => {
-    // Actualizare optimistă imediată în UI
     setApplications(prev => prev.map(a => a._key === app._key ? { ...a, status: 'approved' } : a))
     await updateApplication(app._key, 'approved')
-    // Adaugă blogger în sistem
+    const pass = app.username + '2026'
     const blogger = {
       id: app.username, name: app.name, username: app.username,
       platform: app.platform, country: app.country||'Moldova',
       phone: app.phone||'', email: app.email||'',
       status:'active', commission:25,
       clicks:0, regs:0, deposits:0, revenue:0, paid:0,
-      pass: app.username + '2026',
+      pass,
       payMethod: app.payMethod||'Bitcoin', payAddress: app.payAddress||'',
     }
     await setBlogger(blogger)
-    await addNotification({ type:'new_blogger', blogger: app.name, detail:'Cerere aprobată · parolă: '+blogger.pass+' · cod promo Melbet: se generează automat din Melbet Partners · plată minimă: $30/săptămână' })
+    // Trimite email cu credențialele prin Formspree
+    try {
+      await fetch('https://formspree.io/f/mnjyoylo', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({
+          _subject: '🎉 Cererea ta WinPartners a fost aprobată!',
+          _replyto: app.email,
+          to_email: app.email,
+          name: app.name,
+          message: `Felicitări, ${app.name}!
+
+Cererea ta de afiliere WinPartners a fost aprobată!
+
+` +
+            `Date de acces la dashboard:
+` +
+            `🔗 Link: https://winpartners.pro/dashboard
+` +
+            `👤 Username: ${app.username}
+` +
+            `🔑 Parolă: ${pass}
+
+` +
+            `Următorii pași:
+` +
+            `1. Intră pe https://winpartners.pro/dashboard
+` +
+            `2. Loghează-te cu username și parola de mai sus
+` +
+            `3. Generează-ți codul promoțional Melbet din secțiunea "Coduri Promoționale"
+` +
+            `4. Începe să promovezi și să câștigi 25% RevShare!
+
+` +
+            `Ai întrebări? Scrie-ne pe Telegram: https://t.me/winpartners_manager
+
+` +
+            `Cu respect,
+Echipa WinPartners
+winpartners.pro`
+        })
+      })
+    } catch(e) { console.warn('Email notification failed:', e) }
+    await addNotification({
+      type:'new_blogger',
+      blogger: app.name,
+      detail:`Aprobat · user: ${app.username} · pass: ${pass} · email trimis la ${app.email||'N/A'}`
+    })
     getBloggers().then(setBloggers)
   }
 

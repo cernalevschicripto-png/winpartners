@@ -13,6 +13,7 @@ import Terms from './pages/Terms.jsx'
 import Admin from './pages/Admin.jsx'
 import AdminMobile from './pages/AdminMobile.jsx'
 import { _r, _rm } from './cfg.js'
+import NotFound from './pages/NotFound.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -30,6 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/terms" element={<Terms />} />
         <Route path={_r} element={<Admin />} />
         <Route path={_rm} element={<AdminMobile />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
