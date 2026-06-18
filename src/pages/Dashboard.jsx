@@ -428,6 +428,8 @@ function DashboardContent({ blogger, onLogout }) {
     setCustomCodeText('')
   }
   const [period,setPeriod]=useState('1 lună')
+  const [toast, setToast] = useState('')
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500) }
   const [currency,setCurrency]=useState('USD')
   const [copied,setCopied]=useState('')
   const [showPay,setShowPay]=useState(false)
@@ -710,14 +712,14 @@ function DashboardContent({ blogger, onLogout }) {
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
                 <span style={{color:txtSub}}>→</span>
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
-                <button style={btnPrimary}>GENERAȚI RAPORT</button>
+                <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
               <div style={{display:'flex',gap:0,marginBottom:'1rem',borderBottom:`2px solid ${bdr}`}}>
                 {['Statusul solicitărilor','Istoricul plăților'].map((t,i)=>(
                   <button key={t} onClick={()=>setPayTab(i===0?'status':'history')} style={payTab===(i===0?'status':'history')?tabActive:tabInactive}>{t}</button>
                 ))}
                 <div style={{flex:1}}/>
-                <button style={{...btnOutline('#ef4444'),marginBottom:2,fontSize:12}}>EXPORT ▼</button>
+                <button style={{...btnOutline('#ef4444'),marginBottom:2,fontSize:12}} onClick={()=>showToast("📁 Export disponibil în curând")}>EXPORT ▼</button>
               </div>
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>6 articole selectate ▼</option></select></div>
               <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.25rem'}}>
@@ -821,7 +823,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <input style={{...inp,width:70}} value={linkPage} onChange={e=>setLinkPage(e.target.value)}/>
                 <span style={{fontSize:13,color:txtSub}}>Sub ID</span>
                 <input style={{...inp,width:90}} value={subId} onChange={e=>setSubId(e.target.value)} placeholder="SubID"/>
-                <button style={btnPrimary}>GENERARE LINK</button>
+                <button style={btnPrimary} onClick={()=>showToast("🔗 Link generat! Copiați din câmpul de mai jos")}>GENERARE LINK</button>
               </div>
               <div style={{display:'flex',gap:0,marginBottom:'1rem',borderBottom:`2px solid ${bdr}`}}>
                 {['Link-uri create','Link-uri ascunse'].map((t,i)=>(
@@ -876,7 +878,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Campanie</span>
                 <select style={{...inp,width:120}}><option>English</option></select>
-                <button style={btnPrimary}>GENERAȚI COD PROMOȚIONAL</button>
+                <button style={btnPrimary} onClick={()=>setPage("promo")}>GENERAȚI COD PROMOȚIONAL</button>
               </div>
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>5 articole selectate ▼</option></select></div>
               <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.25rem'}}>
@@ -929,7 +931,7 @@ function DashboardContent({ blogger, onLogout }) {
                     {type==='select'?<select style={inp}><option>Selectare...</option></select>:<input type="number" style={{...inp,width:70}} placeholder={opts}/>}
                   </div>
                 ))}
-                <button style={btnPrimary}>CĂUTARE</button>
+                <button style={btnPrimary} onClick={()=>showToast("🔍 Funcție de căutare disponibilă în curând")}>CĂUTARE</button>
               </div>
               <div style={{...card,textAlign:'center',padding:'3rem',color:txtSub,fontSize:13}}>
                 Niciun material media disponibil.<br/>Contactați managerul pentru materiale de promovare personalizate.
@@ -951,7 +953,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
                 <span style={{color:txtSub}}>→</span>
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
-                <button style={btnPrimary}>GENERAȚI RAPORT</button>
+                <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <div style={{overflowX:'auto'}}>
@@ -994,7 +996,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <span style={{fontSize:13,color:txtSub}}>Site web</span><select style={{...inp,width:150}}><option>Toate</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Jucător</span><input style={{...inp,width:120}} placeholder="ID jucător"/>
                 <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
-                <button style={btnPrimary}>GENERAȚI RAPORT</button>
+                <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <table style={{width:'100%',borderCollapse:'collapse'}}>
@@ -1024,7 +1026,7 @@ function DashboardContent({ blogger, onLogout }) {
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>Valută</span><select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
-                <button style={btnPrimary}>GENERAȚI RAPORT</button>
+                <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <table style={{width:'100%',borderCollapse:'collapse'}}>
