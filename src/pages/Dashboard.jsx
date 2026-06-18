@@ -301,31 +301,41 @@ function DashboardContent({ blogger, onLogout }) {
   const [passNew, setPassNew] = useState('')
   const [passNew2, setPassNew2] = useState('')
   const [passMsg, setPassMsg] = useState('')
+  const dashT = {
+    ro: { oldPass:'Parola veche', newPass:'Parolă nouă', confirmPass:'Reintroduceți noua parolă', changeBtn:'MODIFICAȚI PAROLA', saveBtn:'SALVAȚI MODIFICĂRILE', passWrongOld:'❌ Parola veche este incorectă.', passNoMatch:'❌ Parolele noi nu coincid.', passShort:'❌ Parola trebuie să aibă cel puțin 6 caractere.', passFill:'❌ Completați toate câmpurile.', passOk:'✅ Parola a fost schimbată cu succes!', passErr:'❌ Eroare la salvare. Încearcă din nou.', contactInfo:'pentru a modifica datele de contact, contactați managerul dvs.' },
+    ru: { oldPass:'Старый пароль', newPass:'Новый пароль', confirmPass:'Повторите новый пароль', changeBtn:'ИЗМЕНИТЬ ПАРОЛЬ', saveBtn:'СОХРАНИТЬ ИЗМЕНЕНИЯ', passWrongOld:'❌ Неверный старый пароль.', passNoMatch:'❌ Новые пароли не совпадают.', passShort:'❌ Пароль должен содержать не менее 6 символов.', passFill:'❌ Заполните все поля.', passOk:'✅ Пароль успешно изменён!', passErr:'❌ Ошибка сохранения. Попробуйте снова.', contactInfo:'для изменения контактных данных обратитесь к вашему менеджеру.' },
+    en: { oldPass:'Old password', newPass:'New password', confirmPass:'Confirm new password', changeBtn:'CHANGE PASSWORD', saveBtn:'SAVE CHANGES', passWrongOld:'❌ Old password is incorrect.', passNoMatch:'❌ New passwords do not match.', passShort:'❌ Password must be at least 6 characters.', passFill:'❌ Please fill in all fields.', passOk:'✅ Password changed successfully!', passErr:'❌ Save error. Please try again.', contactInfo:'to modify contact details, contact your manager.' },
+    tr: { oldPass:'Eski şifre', newPass:'Yeni şifre', confirmPass:'Yeni şifreyi onaylayın', changeBtn:'ŞİFREYİ DEĞİŞTİR', saveBtn:'DEĞİŞİKLİKLERİ KAYDET', passWrongOld:'❌ Eski şifre yanlış.', passNoMatch:'❌ Yeni şifreler uyuşmuyor.', passShort:'❌ Şifre en az 6 karakter olmalıdır.', passFill:'❌ Lütfen tüm alanları doldurun.', passOk:'✅ Şifre başarıyla değiştirildi!', passErr:'❌ Kaydetme hatası. Tekrar deneyin.', contactInfo:'iletişim bilgilerini değiştirmek için yöneticinizle iletişime geçin.' },
+    de: { oldPass:'Altes Passwort', newPass:'Neues Passwort', confirmPass:'Neues Passwort bestätigen', changeBtn:'PASSWORT ÄNDERN', saveBtn:'ÄNDERUNGEN SPEICHERN', passWrongOld:'❌ Altes Passwort ist falsch.', passNoMatch:'❌ Neue Passwörter stimmen nicht überein.', passShort:'❌ Passwort muss mindestens 6 Zeichen lang sein.', passFill:'❌ Bitte alle Felder ausfüllen.', passOk:'✅ Passwort erfolgreich geändert!', passErr:'❌ Speicherfehler. Bitte erneut versuchen.', contactInfo:'um Kontaktdaten zu ändern, wenden Sie sich an Ihren Manager.' },
+    pt: { oldPass:'Senha antiga', newPass:'Nova senha', confirmPass:'Confirmar nova senha', changeBtn:'ALTERAR SENHA', saveBtn:'GUARDAR ALTERAÇÕES', passWrongOld:'❌ Senha antiga incorreta.', passNoMatch:'❌ As novas senhas não coincidem.', passShort:'❌ A senha deve ter pelo menos 6 caracteres.', passFill:'❌ Por favor preencha todos os campos.', passOk:'✅ Senha alterada com sucesso!', passErr:'❌ Erro ao guardar. Tente novamente.', contactInfo:'para modificar os dados de contacto, contacte o seu gestor.' },
+    pl: { oldPass:'Stare hasło', newPass:'Nowe hasło', confirmPass:'Potwierdź nowe hasło', changeBtn:'ZMIEŃ HASŁO', saveBtn:'ZAPISZ ZMIANY', passWrongOld:'❌ Stare hasło jest nieprawidłowe.', passNoMatch:'❌ Nowe hasła nie są zgodne.', passShort:'❌ Hasło musi mieć co najmniej 6 znaków.', passFill:'❌ Proszę wypełnić wszystkie pola.', passOk:'✅ Hasło zostało zmienione pomyślnie!', passErr:'❌ Błąd zapisu. Spróbuj ponownie.', contactInfo:'aby zmienić dane kontaktowe, skontaktuj się z menedżerem.' },
+  }
+  const dt = dashT[lang] || dashT.ro
 
   const changePassword = async () => {
     if (!passOld.trim() || !passNew.trim() || !passNew2.trim()) {
-      setPassMsg('❌ Completați toate câmpurile.')
+      setPassMsg(dt.passFill)
       return
     }
     if (passNew !== passNew2) {
-      setPassMsg('❌ Parolele noi nu coincid.')
+      setPassMsg(dt.passNoMatch)
       return
     }
     if (passNew.length < 6) {
-      setPassMsg('❌ Parola trebuie să aibă cel puțin 6 caractere.')
+      setPassMsg(dt.passShort)
       return
     }
     if (passOld !== blogger.password) {
-      setPassMsg('❌ Parola veche este incorectă.')
+      setPassMsg(dt.passWrongOld)
       return
     }
     try {
       await updateBloggerFields(blogger.username, { password: passNew })
-      setPassMsg('✅ Parola a fost schimbată cu succes!')
+      setPassMsg(dt.passOk)
       setPassOld(''); setPassNew(''); setPassNew2('')
       sessionStorage.setItem('wp_blogger', JSON.stringify({ ...blogger, password: passNew }))
     } catch(e) {
-      setPassMsg('❌ Eroare la salvare. Încearcă din nou.')
+      setPassMsg(dt.passErr)
     }
   }
 
@@ -577,7 +587,8 @@ function DashboardContent({ blogger, onLogout }) {
                 <select style={{...inp,width:75}} value={currency} onChange={e=>setCurrency(e.target.value)}>
                   {['USD','EUR','MDL'].map(c=><option key={c}>{c}</option>)}
                 </select>
-                <button style={btnPrimary}>APLICAȚI</button>
+                <button style={btnPrimary} onClick={()=>{const el=document.getElementById('apply-toast');if(el){el.style.opacity='1';setTimeout(()=>el.style.opacity='0',1500)}}}>APLICAȚI</button>
+                <span id="apply-toast" style={{fontSize:11,color:'#10b981',transition:'opacity .3s',opacity:0}}>✓ Aplicat</span>
               </div>
 
               {/* Charts */}
@@ -762,7 +773,7 @@ function DashboardContent({ blogger, onLogout }) {
                     <div><label style={label}>Limbă notificări</label><select style={{...inp,width:'100%',boxSizing:'border-box'}}><option>Română</option></select></div>
                   </div>
                   <div style={{fontSize:11,color:txtSub,marginBottom:10}}>pentru a modifica datele de contact, contactați managerul dvs.</div>
-                  <button style={btnPrimary} onClick={()=>setPassMsg('ℹ️ Pentru a modifica datele de contact, contactați managerul.')}>SALVAȚI MODIFICĂRILE</button>
+                  <button style={btnPrimary} onClick={()=>setPassMsg('ℹ️ '+dt.contactInfo)}>{dt.saveBtn}</button>
                 </div>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Detaliile plății</div>
@@ -778,11 +789,11 @@ function DashboardContent({ blogger, onLogout }) {
                 </div>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Modificați parola</div>
-                  <div style={{marginBottom:8}}><label style={label}>Parola veche</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passOld} onChange={e=>setPassOld(e.target.value)}/></div>
-                  <div style={{marginBottom:8}}><label style={label}>Parolă nouă</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passNew} onChange={e=>setPassNew(e.target.value)}/></div>
-                  <div style={{marginBottom:12}}><label style={label}>Reintroduceți noua parolă</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passNew2} onChange={e=>setPassNew2(e.target.value)}/></div>
+                  <div style={{marginBottom:8}}><label style={label}>{dt.oldPass}</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passOld} onChange={e=>setPassOld(e.target.value)}/></div>
+                  <div style={{marginBottom:8}}><label style={label}>{dt.newPass}</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passNew} onChange={e=>setPassNew(e.target.value)}/></div>
+                  <div style={{marginBottom:12}}><label style={label}>{dt.confirmPass}</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passNew2} onChange={e=>setPassNew2(e.target.value)}/></div>
                   {passMsg && <div style={{marginBottom:10,fontSize:12,color:passMsg.startsWith('✅')?'#10b981':'#ef4444'}}>{passMsg}</div>}
-                  <button onClick={changePassword} style={btnPrimary}>MODIFICAȚI PAROLA</button>
+                  <button onClick={changePassword} style={btnPrimary}>{dt.changeBtn}</button>
                   <div style={{borderTop:`1px solid ${bdr}`,paddingTop:12,marginTop:16}}>
                     <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:6}}>Gestionarea autentificării cu doi factori</div>
                     <div style={{fontSize:12,color:txtSub}}>Google Authenticator activat: <span style={{color:'#ef4444',fontWeight:600}}>Nu</span></div>
