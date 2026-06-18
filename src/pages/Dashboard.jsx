@@ -52,23 +52,15 @@ function getNextCode(casinoId, username) { return null }
 
 // Datele bloggerului vin din Firebase/localStorage prin loginBlogger()
 
-const MENU = [
-  {id:'main',label:'Pagina principală',section:'MENIU PRINCIPAL',icon:'🏠'},
-  {id:'sites',label:'Site-uri',section:'',icon:'🌐'},
-  {id:'comm',label:'Structura comisionului',section:'',icon:'💲'},
-  {id:'pays',label:'Istoricul plăților',section:'',icon:'💳'},
-  {id:'account',label:'Cont',section:'',icon:'👤'},
-  {id:'contact',label:'Contacte',section:'',icon:'✉️'},
-  {id:'links',label:'Link-uri Afiliați',section:'LINK-URI DE TRACKING',icon:'🔗'},
-  {id:'promo',label:'Coduri Promoționale',section:'',icon:'🎟'},
-  {id:'media',label:'Media',section:'',icon:'📢'},
-  {id:'cazinouri',label:'Cazinouri Partenere',section:'',icon:'🎰'},
-  {id:'summary',label:'Rezumat',section:'RAPOARTE',icon:'📊'},
-  {id:'report',label:'Raport complet',section:'',icon:'📋'},
-  {id:'mkttools',label:'Instrumente de marketing',section:'',icon:'🛠'},
-  {id:'players',label:'Raport despre jucători',section:'',icon:'👥'},
-  {id:'subaff',label:'Bloggeri invitați',section:'',icon:'🌿'},
-]
+const MENU_T = {
+  ro: {main:'Pagina principală',s1:'MENIU PRINCIPAL',sites:'Site-uri',comm:'Structura comisionului',pays:'Istoricul plăților',account:'Cont',contact:'Contacte',s2:'LINK-URI DE TRACKING',links:'Link-uri Afiliați',promo:'Coduri Promoționale',media:'Media',cazinouri:'Cazinouri Partenere',s3:'RAPOARTE',summary:'Rezumat',report:'Raport complet',mkttools:'Instrumente de marketing',players:'Raport jucători',subaff:'Bloggeri invitați'},
+  ru: {main:'Главная',s1:'ГЛАВНОЕ МЕНЮ',sites:'Сайты',comm:'Структура комиссий',pays:'История выплат',account:'Аккаунт',contact:'Контакты',s2:'ОТСЛЕЖИВАНИЕ ССЫЛОК',links:'Партнёрские ссылки',promo:'Промокоды',media:'Медиа',cazinouri:'Казино-партнёры',s3:'ОТЧЁТЫ',summary:'Сводка',report:'Полный отчёт',mkttools:'Маркетинговые инструменты',players:'Отчёт по игрокам',subaff:'Приглашённые блогеры'},
+  en: {main:'Dashboard',s1:'MAIN MENU',sites:'Sites',comm:'Commission structure',pays:'Payment history',account:'Account',contact:'Contact',s2:'TRACKING LINKS',links:'Affiliate links',promo:'Promo codes',media:'Media',cazinouri:'Partner casinos',s3:'REPORTS',summary:'Summary',report:'Full report',mkttools:'Marketing tools',players:'Player report',subaff:'Invited bloggers'},
+  tr: {main:'Ana sayfa',s1:'ANA MENÜ',sites:'Siteler',comm:'Komisyon yapısı',pays:'Ödeme geçmişi',account:'Hesap',contact:'İletişim',s2:'TAKİP LİNKLERİ',links:'Ortaklık linkleri',promo:'Promosyon kodları',media:'Medya',cazinouri:'Ortak casinolar',s3:'RAPORLAR',summary:'Özet',report:'Tam rapor',mkttools:'Pazarlama araçları',players:'Oyuncu raporu',subaff:'Davet edilen bloggerlar'},
+  de: {main:'Startseite',s1:'HAUPTMENÜ',sites:'Webseiten',comm:'Provisionsstruktur',pays:'Zahlungsverlauf',account:'Konto',contact:'Kontakt',s2:'TRACKING-LINKS',links:'Affiliate-Links',promo:'Promo-Codes',media:'Medien',cazinouri:'Partner-Casinos',s3:'BERICHTE',summary:'Zusammenfassung',report:'Vollständiger Bericht',mkttools:'Marketing-Tools',players:'Spielerbericht',subaff:'Eingeladene Blogger'},
+  pt: {main:'Painel',s1:'MENU PRINCIPAL',sites:'Sites',comm:'Estrutura de comissões',pays:'Histórico de pagamentos',account:'Conta',contact:'Contacto',s2:'LINKS DE RASTREIO',links:'Links de afiliado',promo:'Códigos promocionais',media:'Média',cazinouri:'Casinos parceiros',s3:'RELATÓRIOS',summary:'Resumo',report:'Relatório completo',mkttools:'Ferramentas de marketing',players:'Relatório de jogadores',subaff:'Bloggers convidados'},
+  pl: {main:'Panel główny',s1:'MENU GŁÓWNE',sites:'Strony',comm:'Struktura prowizji',pays:'Historia płatności',account:'Konto',contact:'Kontakt',s2:'LINKI ŚLEDZENIA',links:'Linki partnerskie',promo:'Kody promocyjne',media:'Media',cazinouri:'Kasyna partnerskie',s3:'RAPORTY',summary:'Podsumowanie',report:'Pełny raport',mkttools:'Narzędzia marketingowe',players:'Raport graczy',subaff:'Zaproszeni blogerzy'},
+}
 
 // ============================================================
 // CAZINOURI - sistemmulti-casino cu promcoduri
@@ -310,6 +302,10 @@ function DashboardContent({ blogger, onLogout }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [page,setPage]=useState('main')
+  const [lang, setLang] = useState(() => {
+    const s = localStorage.getItem('wp_lang')
+    return ['ro','ru','en','tr','de','pt','pl'].includes(s) ? s : 'ro'
+  })
   const [passOld, setPassOld] = useState('')
   const [passNew, setPassNew] = useState('')
   const [passNew2, setPassNew2] = useState('')
@@ -442,6 +438,24 @@ function DashboardContent({ blogger, onLogout }) {
   }
   const [period,setPeriod]=useState('1 lună')
   const [toast, setToast] = useState('')
+  const mt = MENU_T[lang] || MENU_T.ro
+  const MENU = [
+    {id:'main',label:mt.main,section:mt.s1,icon:'🏠'},
+    {id:'sites',label:mt.sites,section:'',icon:'🌐'},
+    {id:'comm',label:mt.comm,section:'',icon:'💲'},
+    {id:'pays',label:mt.pays,section:'',icon:'💳'},
+    {id:'account',label:mt.account,section:'',icon:'👤'},
+    {id:'contact',label:mt.contact,section:'',icon:'✉️'},
+    {id:'links',label:mt.links,section:mt.s2,icon:'🔗'},
+    {id:'promo',label:mt.promo,section:'',icon:'🎟'},
+    {id:'media',label:mt.media,section:'',icon:'📢'},
+    {id:'cazinouri',label:mt.cazinouri,section:'',icon:'🎰'},
+    {id:'summary',label:mt.summary,section:mt.s3,icon:'📊'},
+    {id:'report',label:mt.report,section:'',icon:'📋'},
+    {id:'mkttools',label:mt.mkttools,section:'',icon:'🛠'},
+    {id:'players',label:mt.players,section:'',icon:'👥'},
+    {id:'subaff',label:mt.subaff,section:'',icon:'🌿'},
+  ]
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500) }
   const [currency,setCurrency]=useState('USD')
   const [copied,setCopied]=useState('')
@@ -508,7 +522,12 @@ function DashboardContent({ blogger, onLogout }) {
           <span style={{fontSize:12,fontWeight:700,color:gold,fontFamily:'monospace'}}>{D.affId}</span>
         </div>
         <div style={{flex:1}}/>
-        <button style={{...btnPrimary,fontSize:11,padding:'6px 14px',borderRadius:20}}>↻ ACTUALIZARE STATISTICI</button>
+        <div style={{display:'flex',gap:3,marginRight:6}}>
+          {['ro','ru','en','tr','de','pt','pl'].map(l=>(
+            <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l)}} style={{padding:'2px 5px',fontSize:9,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:3,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.35)'}}>{l.toUpperCase()}</button>
+          ))}
+        </div>
+        <button style={{...btnPrimary,fontSize:11,padding:'6px 14px',borderRadius:20}} onClick={()=>showToast('✓ '+{ro:'Statistici actualizate',ru:'Статистика обновлена',en:'Statistics refreshed',tr:'İstatistikler güncellendi',de:'Statistiken aktualisiert',pt:'Estatísticas atualizadas',pl:'Statystyki odświeżone'}[lang]||'Updated')}>↻ {({ro:'Actualizare',ru:'Обновить',en:'Refresh',tr:'Yenile',de:'Aktualisieren',pt:'Atualizar',pl:'Odśwież'})[lang]||'Refresh'}</button>
         <div style={{display:'flex',alignItems:'center',gap:8,borderLeft:'1px solid rgba(255,255,255,0.1)',paddingLeft:12}}>
           <div style={{width:28,height:28,borderRadius:'50%',background:`linear-gradient(135deg,${gold},#c97d00)`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:700,color:'#000'}}>{D.name[0]}</div>
           <div style={{lineHeight:1.2}}>
@@ -713,7 +732,7 @@ function DashboardContent({ blogger, onLogout }) {
                   <div style={{fontSize:24,flexShrink:0}}>📅</div>
                   <div>
                     <div style={{fontSize:13,fontWeight:700,color:'#a78bfa',marginBottom:4}}>Plăți săptămânale automate</div>
-                    <div style={{fontSize:12,color:txtSub,lineHeight:1.6}}>Suma minimă de retragere: <b style={{color:txt}}>$30/săptămână</b>. Prima plată se activează după ce contactezi managerul WinPartners pe Telegram.</div>
+                    <div style={{fontSize:12,color:txtSub,lineHeight:1.6}}>{({'ro':'Suma minimă de retragere: ','ru':'Минимальная сумма вывода: ','en':'Minimum withdrawal: ','tr':'Minimum çekim: ','de':'Mindestauszahlung: ','pt':'Levantamento mínimo: ','pl':'Minimalna wypłata: '})[lang]}<b style={{color:txt}}>$30/{({'ro':'săptămână','ru':'неделю','en':'week','tr':'hafta','de':'Woche','pt':'semana','pl':'tydzień'})[lang]}</b></div>
                   </div>
                 </div>
               </div>
@@ -757,8 +776,8 @@ function DashboardContent({ blogger, onLogout }) {
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
                 <div style={card}>
                   <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:8}}>Pentru a primi plata, vă rugăm să contactați managerul dumneavoastră. Plata automată va fi setată ulterior.</p>
-                  <p style={{fontSize:13,fontWeight:600,color:txt,marginBottom:12}}>Suma minimă de plată este de $30 pe săptămână</p>
-                  <button style={btnPrimary} onClick={()=>setShowPay(true)}>Solicită plată → ${D.bal.available}</button>
+                  <p style={{fontSize:13,fontWeight:600,color:txt,marginBottom:12}}>{({'ro':'Suma minimă de plată este de $30 pe săptămână','ru':'Минимальная сумма выплаты $30 в неделю','en':'Minimum payment amount is $30 per week','tr':'Minimum ödeme tutarı haftada $30','de':'Mindestauszahlungsbetrag beträgt $30 pro Woche','pt':'O valor mínimo de pagamento é $30 por semana','pl':'Minimalna kwota płatności to $30 tygodniowo'})[lang]}</p>
+                  <button style={btnPrimary} onClick={()=>setShowPay(true)}>{({'ro':'Solicită plată','ru':'Запросить выплату','en':'Request payment','tr':'Ödeme talep et','de':'Zahlung anfordern','pt':'Solicitar pagamento','pl':'Zażądaj płatności'})[lang]||'Solicită plată'} → ${D.bal.available}</button>
                 </div>
                 <div style={card}>
                   <p style={{fontSize:13,color:txtSub,lineHeight:1.7}}>Contactați managerii noștri prin <span style={{color:gold,cursor:'pointer',fontWeight:600}}>datele de contact</span> disponibile pe site.</p>
@@ -792,7 +811,7 @@ function DashboardContent({ blogger, onLogout }) {
                 </div>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Detaliile plății</div>
-                  <div style={{marginBottom:8}}><label style={label}>Metoda de plată preferată</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue="Bitcoin" readOnly/></div>
+                  <div style={{marginBottom:8}}><label style={label}>{({'ro':'Metoda de plată preferată','ru':'Предпочтительный метод оплаты','en':'Preferred payment method','tr':'Tercih edilen ödeme yöntemi','de':'Bevorzugte Zahlungsmethode','pt':'Método de pagamento preferido','pl':'Preferowana metoda płatności'})[lang]}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue="Bitcoin" readOnly/></div>
                   <div style={{marginBottom:12}}><label style={label}>Numărul portofelului</label><input style={{...inp,width:'100%',boxSizing:'border-box',fontFamily:'monospace',fontSize:11}} defaultValue={D.payAddress}/></div>
                   <div style={{fontSize:11,color:txtSub,marginBottom:16}}>* pentru a modifica detaliile de plată, contactați Asistența Pentru Parteneri.</div>
                   <div style={{borderTop:`1px solid ${bdr}`,paddingTop:12}}>
@@ -947,7 +966,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <button style={btnPrimary} onClick={()=>showToast("🔍 Funcție de căutare disponibilă în curând")}>CĂUTARE</button>
               </div>
               <div style={{...card,textAlign:'center',padding:'3rem',color:txtSub,fontSize:13}}>
-                Niciun material media disponibil.<br/>Contactați managerul pentru materiale de promovare personalizate.
+                {({'ro':'Niciun material media disponibil.','ru':'Медиаматериалы недоступны.','en':'No media materials available.','tr':'Medya materyali mevcut değil.','de':'Keine Medienmaterialien verfügbar.','pt':'Nenhum material de mídia disponível.','pl':'Brak dostępnych materiałów medialnych.'})[lang]}<br/>{({'ro':'Contactați managerul pentru materiale personalizate.','ru':'Свяжитесь с менеджером для персональных материалов.','en':'Contact your manager for custom materials.','tr':'Özel materyaller için yöneticinize başvurun.','de':'Wenden Sie sich an Ihren Manager für individuelle Materialien.','pt':'Contacte o seu gestor para materiais personalizados.','pl':'Skontaktuj się z menedżerem w sprawie materiałów.'})[lang]}
               </div>
             </div>
           )}
@@ -1408,7 +1427,7 @@ function DashboardContent({ blogger, onLogout }) {
               </div>
             ):(
               <>
-                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>Solicită plată comisioane</div>
+                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>{({'ro':'Solicită plată comisioane','ru':'Запросить выплату комиссий','en':'Request commission payment','tr':'Komisyon ödemesi talep et','de':'Provisionszahlung anfordern','pt':'Solicitar pagamento de comissões','pl':'Zażądaj wypłaty prowizji'})[lang]}</div>
                 <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:6,padding:'10px 14px',marginBottom:14,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                   <div>
                     <div style={{fontSize:11,color:txtSub,marginBottom:1}}>Disponibil pentru retragere</div>
@@ -1445,7 +1464,7 @@ function DashboardContent({ blogger, onLogout }) {
                   Se aplică o taxă de procesare de 5% pentru acoperirea costurilor de transfer. Detalii în <span style={{color:gold,cursor:'pointer'}} onClick={()=>window.open('/terms','_blank')}>Termeni și Condiții</span>.
                 </div>
                 <div style={{fontSize:11,color:txtSub,marginBottom:10}}>
-                  Verifică adresa cu atenție. Tranzacțiile crypto sunt ireversibile.
+                  {({'ro':'Verifică adresa cu atenție. Tranzacțiile crypto sunt ireversibile.','ru':'Проверьте адрес тщательно. Крипто-транзакции необратимы.','en':'Check the address carefully. Crypto transactions are irreversible.','tr':'Adresi dikkatlice kontrol edin. Kripto işlemler geri alınamaz.','de':'Adresse sorgfältig prüfen. Krypto-Transaktionen sind unwiderruflich.','pt':'Verifique o endereço com atenção. Transações cripto são irreversíveis.','pl':'Sprawdź adres uważnie. Transakcje krypto są nieodwracalne.'})[lang]||'Verifică adresa cu atenție.'}
                 </div>
                 <button style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6,opacity:(!payAddr||D.bal.available<30)?0.5:1}}
                   disabled={!payAddr||D.bal.available<30}
@@ -1455,9 +1474,9 @@ function DashboardContent({ blogger, onLogout }) {
                       setPaySent(true)
                     }
                   }}>
-                  {D.bal.available<30?`Minim $30 (ai $${D.bal.available})`:'Solicită plata →'}
+                  {D.bal.available<30?`${({'ro':'Minim $30 (ai','ru':'Минимум $30 (у вас','en':'Minimum $30 (you have','tr':'Minimum $30 (bakiyeniz','de':'Mindest $30 (Sie haben','pt':'Mínimo $30 (você tem','pl':'Minimum $30 (masz'})[lang]||'Minim $30 (ai'} $${D.bal.available})`  :({'ro':'Solicită plata →','ru':'Запросить выплату →','en':'Request payment →','tr':'Ödeme talep et →','de':'Zahlung anfordern →','pt':'Solicitar pagamento →','pl':'Zażądaj płatności →'})[lang]||'Solicită plata →'}
                 </button>
-                <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowPay(false)}>Anulează</button>
+                <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowPay(false)}>{({'ro':'Anulează','ru':'Отмена','en':'Cancel','tr':'İptal','de':'Abbrechen','pt':'Cancelar','pl':'Anuluj'})[lang]||'Anulează'}</button>
               </>
             )}
           </div>
@@ -1494,7 +1513,7 @@ function DashboardContent({ blogger, onLogout }) {
                 style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6}}>
                 Trimite cererea
               </button>
-              <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCasinoRequest(null)}>Anulează</button>
+              <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCasinoRequest(null)}>{({'ro':'Anulează','ru':'Отмена','en':'Cancel','tr':'İptal','de':'Abbrechen','pt':'Cancelar','pl':'Anuluj'})[lang]||'Anulează'}</button>
             </div>
           </div>
         )
@@ -1538,7 +1557,7 @@ function DashboardContent({ blogger, onLogout }) {
                   onClick={submitCustomRequest}>
                   Trimite cererea
                 </button>
-                <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCustomCode(false)}>Anulează</button>
+                <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCustomCode(false)}>{({'ro':'Anulează','ru':'Отмена','en':'Cancel','tr':'İptal','de':'Abbrechen','pt':'Cancelar','pl':'Anuluj'})[lang]||'Anulează'}</button>
               </>
             )}
           </div>
@@ -1563,7 +1582,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <label style={label}>Codul dorit (ex: IONEL, VLAD20)</label>
                 <input style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:14,textTransform:'uppercase',fontFamily:'monospace',fontSize:14,fontWeight:700}} placeholder="IONEL" value={codeText} onChange={e=>setCodeText(e.target.value.toUpperCase())}/>
                 <button style={{...btnPrimary,width:'100%',padding:'10px',fontSize:14,borderRadius:6}} onClick={()=>codeText&&setCodeSent(true)}>Trimite</button>
-                <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCode(false)}>Anulează</button>
+                <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCode(false)}>{({'ro':'Anulează','ru':'Отмена','en':'Cancel','tr':'İptal','de':'Abbrechen','pt':'Cancelar','pl':'Anuluj'})[lang]||'Anulează'}</button>
               </>
             )}
           </div>
