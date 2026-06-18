@@ -356,19 +356,28 @@ export default function Landing() {
     if (localStorage.getItem('wp_lang')) return // user a ales manual, nu schimba
     const countryToLang = {
       MD:'ro', RO:'ro',  // Moldova, România → RO
-      RU:'ru', BY:'ru', KZ:'ru', UA:'ru', UZ:'ru', // Rusia, Belarus, Kazahstan etc → RU
+      RU:'ru', BY:'ru', KZ:'ru', UA:'ru', UZ:'ru', AM:'ru', AZ:'ru', GE:'ru', TJ:'ru', TM:'ru', KG:'ru', // ex-sovietic → RU
       TR:'tr',           // Turcia → TR
       DE:'de', AT:'de', CH:'de', // Germania, Austria, Elveția → DE
       PT:'pt', BR:'pt',  // Portugalia, Brazilia → PT
       PL:'pl',           // Polonia → PL
     }
-    fetch('https://ipapi.co/json/')
-      .then(r => r.json())
-      .then(d => {
+    const detectLang = async () => {
+      try {
+        const r = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) })
+        const d = await r.json()
         const detectedLang = countryToLang[d.country_code]
-        if (detectedLang) setLang(detectedLang)
-      })
-      .catch(() => {}) // dacă API-ul pică, rămâne RO
+        if (detectedLang) { setLang(detectedLang); localStorage.setItem('wp_lang', detectedLang) }
+      } catch {
+        try {
+          const r2 = await fetch('https://api.country.is/', { signal: AbortSignal.timeout(3000) })
+          const d2 = await r2.json()
+          const detectedLang = countryToLang[d2.country]
+          if (detectedLang) { setLang(detectedLang); localStorage.setItem('wp_lang', detectedLang) }
+        } catch { /* rămâne ro */ }
+      }
+    }
+    detectLang()
   }, [])
 
   const benefits = [
