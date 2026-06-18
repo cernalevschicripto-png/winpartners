@@ -5,6 +5,7 @@ import {
   getCasinoStats, subscribeCasinoStats,
   getNextAvailableCode, subscribePromoCodes, updateBloggerFields,
   addCustomRequest, subscribeCustomRequests,
+  addNotification,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -300,6 +301,34 @@ function DashboardContent({ blogger, onLogout }) {
   const [passNew, setPassNew] = useState('')
   const [passNew2, setPassNew2] = useState('')
   const [passMsg, setPassMsg] = useState('')
+
+  const changePassword = async () => {
+    if (!passOld.trim() || !passNew.trim() || !passNew2.trim()) {
+      setPassMsg('❌ Completați toate câmpurile.')
+      return
+    }
+    if (passNew !== passNew2) {
+      setPassMsg('❌ Parolele noi nu coincid.')
+      return
+    }
+    if (passNew.length < 6) {
+      setPassMsg('❌ Parola trebuie să aibă cel puțin 6 caractere.')
+      return
+    }
+    if (passOld !== blogger.password) {
+      setPassMsg('❌ Parola veche este incorectă.')
+      return
+    }
+    try {
+      await updateBloggerFields(blogger.username, { password: passNew })
+      setPassMsg('✅ Parola a fost schimbată cu succes!')
+      setPassOld(''); setPassNew(''); setPassNew2('')
+      sessionStorage.setItem('wp_blogger', JSON.stringify({ ...blogger, password: passNew }))
+    } catch(e) {
+      setPassMsg('❌ Eroare la salvare. Încearcă din nou.')
+    }
+  }
+
   const [selectedCasino, setSelectedCasino] = useState(null)
   const [generatedCode, setGeneratedCode] = useState(null)
   const [codeGenerating, setCodeGenerating] = useState(false)
@@ -461,7 +490,7 @@ function DashboardContent({ blogger, onLogout }) {
             <div style={{fontSize:12,fontWeight:600,color:'#fff'}}>{D.name}</div>
             <div style={{fontSize:10,color:'rgba(255,255,255,0.4)'}}>@{D.username}</div>
           </div>
-          <button style={{...btnOutline('rgba(255,255,255,0.35)'),color:'rgba(255,255,255,0.6)',fontSize:11,padding:'4px 10px',borderRadius:4}} onClick={()=>nav('/')}>Logout</button>
+          <button style={{...btnOutline('rgba(255,255,255,0.35)'),color:'rgba(255,255,255,0.6)',fontSize:11,padding:'4px 10px',borderRadius:4}} onClick={()=>{ if(window.confirm('Ești sigur că vrei să ieși?')) { sessionStorage.removeItem('wp_blogger'); onLogout() } }}>Logout</button>
         </div>
       </div>
 
@@ -733,7 +762,7 @@ function DashboardContent({ blogger, onLogout }) {
                     <div><label style={label}>Limbă notificări</label><select style={{...inp,width:'100%',boxSizing:'border-box'}}><option>Română</option></select></div>
                   </div>
                   <div style={{fontSize:11,color:txtSub,marginBottom:10}}>pentru a modifica datele de contact, contactați managerul dvs.</div>
-                  <button style={btnPrimary}>SALVAȚI MODIFICĂRILE</button>
+                  <button style={btnPrimary} onClick={()=>setPassMsg('ℹ️ Pentru a modifica datele de contact, contactați managerul.')}>SALVAȚI MODIFICĂRILE</button>
                 </div>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Detaliile plății</div>
@@ -1385,14 +1414,19 @@ function DashboardContent({ blogger, onLogout }) {
                   </div>
                 </div>
                 <div style={{fontSize:10,color:'rgba(255,255,255,0.25)',marginBottom:10}}>
-                  Se aplică o taxă de procesare de 5% pentru acoperirea costurilor de transfer. Detalii în <span style={{color:gold,cursor:'pointer'}} onClick={()=>{}}>Termeni și Condiții</span>.
+                  Se aplică o taxă de procesare de 5% pentru acoperirea costurilor de transfer. Detalii în <span style={{color:gold,cursor:'pointer'}} onClick={()=>window.open('/terms','_blank')}>Termeni și Condiții</span>.
                 </div>
                 <div style={{fontSize:11,color:txtSub,marginBottom:10}}>
                   Verifică adresa cu atenție. Tranzacțiile crypto sunt ireversibile.
                 </div>
                 <button style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6,opacity:(!payAddr||D.bal.available<30)?0.5:1}}
                   disabled={!payAddr||D.bal.available<30}
-                  onClick={()=>payAddr&&D.bal.available>=30&&setPaySent(true)}>
+                  onClick={async ()=>{
+                    if(payAddr&&D.bal.available>=30){
+                      await addNotification({type:'pay_request',blogger:D.username,bloggerName:D.name,amount:D.bal.available,address:payAddr,method:payMethod,detail:`Cerere plată \$${D.bal.available} → ${payAddr}`})
+                      setPaySent(true)
+                    }
+                  }}>
                   {D.bal.available<30?`Minim $30 (ai $${D.bal.available})`:'Solicită plata →'}
                 </button>
                 <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowPay(false)}>Anulează</button>

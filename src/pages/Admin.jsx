@@ -111,7 +111,7 @@ export default function Admin() {
 
   const totalRevenue = bloggers.reduce((s,b) => s+(b.revenue||0), 0)
   const totalPaid    = bloggers.reduce((s,b) => s+(b.paid||0), 0)
-  const totalPending = bloggers.reduce((s,b) => s+((b.revenue||0)*((b.commission||20)/100)-(b.paid||0)), 0)
+  const totalPending = bloggers.reduce((s,b) => s+((b.revenue||0)*((b.commission||25)/100)-(b.paid||0)), 0)
   const unreadCount  = notifications.filter(n => !n.read).length
   const pendingApps  = applications.filter(a => a.status==='pending').length
 
@@ -428,7 +428,7 @@ winpartners.pro`
                         <td style={td}>
                           <div style={{display:'flex',gap:6}}>
                             <button onClick={()=>{setEditId(b.username);setEditData({...b})}} style={{padding:'4px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(245,166,35,0.3)',borderRadius:4,background:'none',color:gold}}>✏️</button>
-                            <button onClick={()=>{setPayModal(b);setPayAmount(Math.max(0,Math.round((b.revenue||0)*((b.commission||20)/100)-(b.paid||0))).toString())}} style={{padding:'4px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(16,185,129,0.3)',borderRadius:4,background:'none',color:'#10b981'}}>💰</button>
+                            <button onClick={()=>{setPayModal(b);setPayAmount(Math.max(0,Math.round((b.revenue||0)*((b.commission||25)/100)-(b.paid||0))).toString())}} style={{padding:'4px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(16,185,129,0.3)',borderRadius:4,background:'none',color:'#10b981'}}>💰</button>
                           </div>
                         </td>
                       </>
@@ -605,8 +605,8 @@ winpartners.pro`
           <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:12,padding:'1.25rem',marginBottom:'1rem'}}>
             <p style={{fontWeight:700,marginBottom:12}}>Bloggeri cu sold de plătit</p>
             <div style={{display:'flex',flexDirection:'column',gap:8}}>
-              {bloggers.filter(b => Math.round((b.revenue||0)*((b.commission||20)/100)-(b.paid||0))>0).map(b => {
-                const datorat = Math.round((b.revenue||0)*((b.commission||20)/100)-(b.paid||0))
+              {bloggers.filter(b => Math.round((b.revenue||0)*((b.commission||25)/100)-(b.paid||0))>0).map(b => {
+                const datorat = Math.round((b.revenue||0)*((b.commission||25)/100)-(b.paid||0))
                 return (
                   <div key={b.username} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
                     <div>
@@ -621,7 +621,7 @@ winpartners.pro`
                   </div>
                 )
               })}
-              {bloggers.filter(b => Math.round((b.revenue||0)*((b.commission||20)/100)-(b.paid||0))>0).length===0 && (
+              {bloggers.filter(b => Math.round((b.revenue||0)*((b.commission||25)/100)-(b.paid||0))>0).length===0 && (
                 <p style={{color:'rgba(255,255,255,0.3)',fontSize:13}}>Toți bloggerii sunt plătiți la zi ✓</p>
               )}
             </div>
