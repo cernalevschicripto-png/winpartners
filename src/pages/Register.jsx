@@ -314,6 +314,11 @@ export default function Register() {
     const saved = localStorage.getItem('wp_lang')
     return ['ro','ru','en','tr','de','pt','pl'].includes(saved) ? saved : 'ro'
   })
+  useEffect(() => {
+    if (localStorage.getItem('wp_lang')) return
+    const m = {MD:'ro',RO:'ro',RU:'ru',BY:'ru',KZ:'ru',UA:'ru',UZ:'ru',AM:'ru',AZ:'ru',GE:'ru',TJ:'ru',TM:'ru',KG:'ru',TR:'tr',DE:'de',AT:'de',CH:'de',PT:'pt',BR:'pt',PL:'pl'}
+    fetch('https://ipapi.co/json/',{signal:AbortSignal.timeout(3000)}).then(r=>r.json()).then(d=>{const l=m[d.country_code];if(l){setLang(l);localStorage.setItem('wp_lang',l)}}).catch(()=>{})
+  }, [])
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [step, setStep] = useState(1)
   const [form, setForm] = useState({
