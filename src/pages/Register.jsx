@@ -11,7 +11,7 @@ const LANGS = ['ro','ru','en','tr','de','pt','pl']
 const T = {
   ro: {
     title:'Aplică pentru parteneriat',
-    sub:'Completează formularul. Echipa noastră va analiza profilul tău și te va contacta în ',
+    sub:'Completează formularul — durează 2 minute. Verificăm că profilul e activ și public, apoi îți trimitem codul Melbet în ',
     sub2:'24-48 de ore', sub3:'.',
     invited:'✓ Ai fost invitat cu codul', invited2:'. Cererea ta va fi procesată prioritar.',
     sec1:'1. Date personale',
@@ -43,15 +43,15 @@ const T = {
     thanks1:'Mulțumim, ', thanks2:'! Cererea ta a fost primită și va fi analizată de echipa noastră.',
     nextTitle:'Ce urmează:',
     st1t:'Acum', st1d:'Cererea ta a fost înregistrată și trimisă echipei noastre',
-    st2t:'24-48 ore', st2d:'Echipa noastră analizează profilul tău',
+    st2t:'24-48 ore', st2d:'Verificăm că profilul tău e activ și public (min. 500 urmăritori). 95% din cereri sunt aprobate.',
     st3t:'După aprobare', st3d:'Primești email cu datele de acces și codul tău Melbet',
     st4t:'Start', st4d:'Intri în dashboard și începi să câștigi',
-    contact:'💬 Ai întrebări? Contactează-ne pe WhatsApp sau Telegram @winpartners',
+    contact:'💬 Întrebări? Scrie-ne direct pe Telegram',
     back:'← Înapoi la pagina principală',
   },
   ru: {
     title:'Подать заявку на партнёрство',
-    sub:'Заполните форму. Наша команда рассмотрит ваш профиль и свяжется с вами в течение ',
+    sub:'Заполните форму — займёт 2 минуты. Проверяем что профиль активен и публичен, затем отправляем код Melbet в течение ',
     sub2:'24-48 часов', sub3:'.',
     invited:'✓ Вы приглашены с кодом', invited2:'. Ваша заявка будет обработана приоритетно.',
     sec1:'1. Личные данные',
@@ -85,12 +85,12 @@ const T = {
     st2t:'24-48 часов', st2d:'Наша команда анализирует ваш профиль',
     st3t:'После одобрения', st3d:'Получите email с данными для входа и вашим кодом Melbet',
     st4t:'Старт', st4d:'Войдите в личный кабинет и начните зарабатывать',
-    contact:'💬 Есть вопросы? Свяжитесь с нами в WhatsApp или Telegram @winpartners',
+    contact:'💬 Вопросы? Напишите нам в Telegram',
     back:'← Вернуться на главную',
   },
   en: {
     title:'Apply for Partnership',
-    sub:'Fill in the form. Our team will review your profile and contact you within ',
+    sub:'Fill in the form — takes 2 minutes. We verify your profile is active and public, then send your Melbet code within ',
     sub2:'24-48 hours', sub3:'.',
     invited:'✓ You were invited with code', invited2:'. Your application will be processed with priority.',
     sec1:'1. Personal Details',
@@ -413,8 +413,12 @@ export default function Register() {
               </div>
             ))}
           </div>
-          <div style={{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:8,padding:'12px 16px',marginBottom:24,fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.6}}>
-            {t.contact}
+          <div style={{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:8,padding:'14px 18px',marginBottom:24,fontSize:13,lineHeight:1.6}}>
+            <div style={{color:'rgba(255,255,255,0.5)',marginBottom:10}}>{t.contact}</div>
+            <a href="https://t.me/winpartners_manager" target="_blank" rel="noopener noreferrer"
+              style={{display:'inline-flex',alignItems:'center',gap:8,background:'#229ED9',color:'#fff',padding:'9px 18px',borderRadius:8,fontSize:13,fontWeight:700,textDecoration:'none'}}>
+              ✈️ @winpartners_manager
+            </a>
           </div>
           <button onClick={() => navigate('/')} style={{padding:'12px 32px',fontSize:14,fontWeight:700,cursor:'pointer',border:'1px solid rgba(255,255,255,0.15)',borderRadius:6,background:'none',color:'rgba(255,255,255,0.6)',fontFamily:'inherit'}}>
             {t.back}
