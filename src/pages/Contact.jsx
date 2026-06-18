@@ -61,7 +61,7 @@ export default function Contact() {
             <a href="https://t.me/winpartners_support" target="_blank" rel="noreferrer" style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'11px',borderRadius:8,background:'#229ED9',color:'#fff',textDecoration:'none',fontWeight:700,fontSize:14,width:'100%',boxSizing:'border-box'}}>{t.tg}</a>
           </div>
           <div style={{display:'flex',flexDirection:'column',gap:10}}>
-            {[['✈️','TELEGRAM','@winpartners_support','https://t.me/winpartners_support'],['✉️','EMAIL','support@winpartners.partners','mailto:support@winpartners.partners'],['🕐',t.prog,t.progVal,null],['⚡',t.resp,t.respVal,null]].map(([icon,label,val,href])=>(
+            {[['✈️','TELEGRAM','@winpartners_support','https://t.me/winpartners_support'],['✉️','EMAIL','support@winpartners.pro','mailto:support@winpartners.pro'],['🕐',t.prog,t.progVal,null],['⚡',t.resp,t.respVal,null]].map(([icon,label,val,href])=>(
               <div key={label} style={{display:'flex',alignItems:'center',gap:14,padding:'12px 14px',background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:10}}>
                 <div style={{fontSize:20,flexShrink:0}}>{icon}</div>
                 <div><div style={{fontSize:10,color:'rgba(255,255,255,0.35)',fontWeight:600,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{label}</div>{href?<a href={href} style={{fontSize:13,fontWeight:600,color:gold,textDecoration:'none'}}>{val}</a>:<div style={{fontSize:13,fontWeight:600}}>{val}</div>}</div>

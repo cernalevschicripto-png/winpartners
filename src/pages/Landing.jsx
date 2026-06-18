@@ -700,7 +700,7 @@ export default function Landing() {
                 ['terms', t.f_terms],
                 ['terms', t.f_priv]],
               ['Contact',
-                ['','support@winpartners.partners'],
+                ['','support@winpartners.pro'],
                 ['','Telegram: @winpartners_support'],
                 ['',t.f_wa],
                 ['','24/7']],

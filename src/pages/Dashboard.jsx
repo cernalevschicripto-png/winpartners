@@ -406,7 +406,7 @@ function DashboardContent({ blogger, onLogout }) {
   }
 
   const copy=(t,k)=>{navigator.clipboard.writeText(t).then(()=>{setCopied(k);setTimeout(()=>setCopied(''),2000)})}
-  const refLink=`https://winpartners.partners/register?ref=${D.refCode}`
+  const refLink=`https://winpartners.pro/register?ref=${D.refCode}`
 
   const totCl=D.daily.reduce((a,r)=>a+r.cl,0)
   const totRg=D.daily.reduce((a,r)=>a+r.rg,0)
@@ -739,7 +739,7 @@ function DashboardContent({ blogger, onLogout }) {
             <div>
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>Site web</span>
-                <select style={{...inp,width:190}}><option>winpartners.partners</option></select>
+                <select style={{...inp,width:190}}><option>winpartners.pro</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Valută</span>
                 <select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Campanie</span>
@@ -763,7 +763,7 @@ function DashboardContent({ blogger, onLogout }) {
                     {linkTab==='created'&&D.links.map((l,i)=>(
                       <tr key={i} style={{background:i%2===0?'#fff':'#fafafa'}}>
                         <td style={TD}>{l.id}</td>
-                        <td style={TD}>winpartners.partners</td>
+                        <td style={TD}>winpartners.pro</td>
                         <td style={TD}><span style={{background:'#d1fae5',color:'#065f46',padding:'2px 8px',borderRadius:12,fontSize:11,fontWeight:600}}>Arată</span></td>
                         <td style={TD}>{l.page}</td>
                         <td style={TD}>{l.subid||'—'}</td>
@@ -798,7 +798,7 @@ function DashboardContent({ blogger, onLogout }) {
               </div>
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>Site web</span>
-                <select style={{...inp,width:190}}><option>winpartners.partners</option></select>
+                <select style={{...inp,width:190}}><option>winpartners.pro</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Valută</span>
                 <select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Campanie</span>
@@ -812,7 +812,7 @@ function DashboardContent({ blogger, onLogout }) {
                   <tbody>
                     <tr>
                       <td style={TD}>11035387</td>
-                      <td style={TD}>winpartners.partners</td>
+                      <td style={TD}>winpartners.pro</td>
                       <td style={TD}>USD</td>
                       <td style={{...TD,fontWeight:700,color:'#1a1a2e',fontFamily:'monospace',fontSize:14}}>{D.promoCode.toLowerCase()}</td>
                       <td style={{...TD,fontFamily:'monospace',fontSize:10,color:txtSub}}>d_5666408m_2170c_{D.promoCode.toLowerCase()}</td>
@@ -1272,7 +1272,7 @@ function DashboardContent({ blogger, onLogout }) {
 
           {page==='contact'&&(
             <div style={{...card,maxWidth:440}}>
-              {[['Email','support@winpartners.partners'],['Telegram','@winpartners_support'],['WhatsApp','+373 XX XXX XXX'],['Program','24/7, 365 zile/an']].map(([l,v])=>(
+              {[['Email','support@winpartners.pro'],['Telegram','@winpartners_support'],['WhatsApp','+373 XX XXX XXX'],['Program','24/7, 365 zile/an']].map(([l,v])=>(
                 <div key={l} style={{display:'flex',justifyContent:'space-between',padding:'10px 0',borderBottom:`1px solid ${bdr}`}}>
                   <span style={{fontSize:13,color:txtSub,fontWeight:500}}>{l}</span>
                   <span style={{fontSize:13,color:gold,fontWeight:600}}>{v}</span>
@@ -1288,7 +1288,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <thead><tr>{['Site web','Status','Data adăugării'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                 <tbody>
                   <tr>
-                    <td style={TD}>winpartners.partners</td>
+                    <td style={TD}>winpartners.pro</td>
                     <td style={TD}><span style={{background:'#d1fae5',color:'#065f46',padding:'2px 10px',borderRadius:12,fontSize:11,fontWeight:600}}>Activ</span></td>
                     <td style={TD}>2026-06-13</td>
                   </tr>
