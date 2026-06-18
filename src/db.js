@@ -55,8 +55,8 @@ function lsSet(key, val) {
 
 // ─── DATE INIȚIALE ───────────────────────────────────────────
 const INIT_BLOGGERS = {
-  ionpopescu: { id:'ionpopescu', name:'Ion Popescu', username:'ionpopescu', platform:'TikTok', country:'Moldova', phone:'+373601234', status:'active', commission:25, clicks:1247, regs:89, deposits:34, revenue:1840, paid:920, email:'ion@gmail.com', pass:'ion2026', payMethod:'Bitcoin', payAddress:'bc1qxxx' },
-  alexmarin:  { id:'alexmarin',  name:'Alex Marin',  username:'alexmarin',  platform:'Instagram', country:'România', phone:'+40721234', status:'active', commission:25, clicks:856, regs:52, deposits:18, revenue:1120, paid:560, email:'alex@gmail.com', pass:'alex2026', payMethod:'Bitcoin', payAddress:'bc1qyyy' },
+  ionpopescu: { id:'ionpopescu', name:'Ion Popescu', username:'ionpopescu', platform:'TikTok', country:'Moldova', phone:'+373601234', status:'active', commission:25, clicks:1247, regs:89, deposits:34, revenue:1840, paid:230, email:'ion@gmail.com', pass:'ion2026', payMethod:'Bitcoin', payAddress:'bc1qxxx' },
+  alexmarin:  { id:'alexmarin',  name:'Alex Marin',  username:'alexmarin',  platform:'Instagram', country:'România', phone:'+40721234', status:'active', commission:25, clicks:856, regs:52, deposits:18, revenue:1120, paid:140, email:'alex@gmail.com', pass:'alex2026', payMethod:'Bitcoin', payAddress:'bc1qyyy' },
   vladgaming:  { id:'vladgaming',  name:'Vlad Gaming',  username:'vladgaming',  platform:'YouTube', country:'Ucraina', phone:'+380671234', status:'pending', commission:25, clicks:234, regs:12, deposits:3, revenue:180, paid:0, email:'vlad@gmail.com', pass:'vlad2026', payMethod:'Skrill', payAddress:'' },
 }
 
