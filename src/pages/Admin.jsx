@@ -8,7 +8,7 @@ import {
   getApplications, updateApplication, subscribeApplications,
   getNotifications, markRead, addNotification, subscribeNotifications,
   getCustomRequests, updateCustomRequest, subscribeCustomRequests,
-  seedDatabase, forceReseedDatabase, isFirebaseEnabled,
+  seedDatabase, forceReseedDatabase, isFirebaseEnabled, sendTelegramNotif,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -211,6 +211,13 @@ winpartners.pro`
       blogger: app.name,
       detail:`Aprobat · user: ${app.username} · pass: ${pass} · email trimis la ${app.email||'N/A'}`
     })
+    await sendTelegramNotif(
+      `✅ <b>Blogger aprobat!</b>\n` +
+      `👤 ${app.name} (@${app.username})\n` +
+      `📱 ${app.platform} · ${app.country || '—'}\n` +
+      `🔑 Parolă: <code>${pass}</code>\n` +
+      `📧 Email: ${app.email || '—'}`
+    )
     getBloggers().then(setBloggers)
   }
 

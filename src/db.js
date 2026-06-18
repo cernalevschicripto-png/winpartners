@@ -344,6 +344,21 @@ export async function seedDatabase() {
 
 export const isFirebaseEnabled = USE_FIREBASE
 
+
+// ─── TELEGRAM NOTIFICATIONS ──────────────────────────────────
+const TG_TOKEN = import.meta.env.VITE_TG_TOKEN || ''
+const TG_CHAT  = import.meta.env.VITE_TG_CHAT  || ''
+
+export async function sendTelegramNotif(text) {
+  if (!TG_TOKEN || !TG_CHAT) return
+  try {
+    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'HTML' })
+    })
+  } catch(e) {}
+}
 // ─── FORCE RESEED (resetează seeded și repopulează) ───────────
 export async function forceReseedDatabase() {
   if (USE_FIREBASE) {

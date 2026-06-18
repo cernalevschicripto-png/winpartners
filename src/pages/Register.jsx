@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { addApplication } from '../db.js'
+import { addApplication, sendTelegramNotif } from '../db.js'
 
 const gold = '#f5a623'
 const PLATFORMS = ['TikTok','Instagram','YouTube','Telegram','Facebook','Twitter/X','Other']
@@ -303,6 +303,15 @@ async function saveApplication(data) {
       })
     })
   } catch(e) {}
+  // Notificare Telegram la cerere nouă
+  await sendTelegramNotif(
+    `🆕 <b>Cerere nouă WinPartners!</b>\n` +
+    `👤 ${data.name} (@${data.username})\n` +
+    `📱 ${data.platform} · ${Number(data.followers||0).toLocaleString()} urmăritori\n` +
+    `🌍 ${data.country || '—'} · ${data.email}\n` +
+    `🔗 <a href="${data.profileLink || '#'}">${data.profileLink || '—'}</a>\n` +
+    `📋 Admin: https://winpartners.pro/sys/ctrl/p8x4`
+  )
 }
 
 export default function Register() {
