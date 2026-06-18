@@ -351,6 +351,26 @@ export default function Landing() {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  // Auto-detect limba după locație (doar dacă nu a ales manual)
+  useEffect(() => {
+    if (localStorage.getItem('wp_lang')) return // user a ales manual, nu schimba
+    const countryToLang = {
+      MD:'ro', RO:'ro',  // Moldova, România → RO
+      RU:'ru', BY:'ru', KZ:'ru', UA:'ru', UZ:'ru', // Rusia, Belarus, Kazahstan etc → RU
+      TR:'tr',           // Turcia → TR
+      DE:'de', AT:'de', CH:'de', // Germania, Austria, Elveția → DE
+      PT:'pt', BR:'pt',  // Portugalia, Brazilia → PT
+      PL:'pl',           // Polonia → PL
+    }
+    fetch('https://ipapi.co/json/')
+      .then(r => r.json())
+      .then(d => {
+        const detectedLang = countryToLang[d.country_code]
+        if (detectedLang) setLang(detectedLang)
+      })
+      .catch(() => {}) // dacă API-ul pică, rămâne RO
+  }, [])
+
   const benefits = [
     ['💰',t.b1t,t.b1d],['📊',t.b2t,t.b2d],['🎯',t.b3t,t.b3d],
     ['⚡',t.b4t,t.b4d],['👥',t.b5t,t.b5d],['💬',t.b6t,t.b6d]

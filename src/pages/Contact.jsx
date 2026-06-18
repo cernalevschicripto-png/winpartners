@@ -16,6 +16,22 @@ export default function Contact() {
   const nav = useNavigate()
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 700)
   const [lang, setLang] = useState(() => { const s = localStorage.getItem('wp_lang'); return LANGS.includes(s) ? s : 'ro' })
+  // Auto-detect limba după locație (doar dacă nu a ales manual)
+  useEffect(() => {
+    if (localStorage.getItem('wp_lang')) return
+    const countryToLang = {
+      MD:'ro', RO:'ro',
+      RU:'ru', BY:'ru', KZ:'ru', UA:'ru', UZ:'ru',
+      TR:'tr',
+      DE:'de', AT:'de', CH:'de',
+      PT:'pt', BR:'pt',
+      PL:'pl',
+    }
+    fetch('https://ipapi.co/json/')
+      .then(r => r.json())
+      .then(d => { const l = countryToLang[d.country_code]; if (l) setLang(l) })
+      .catch(() => {})
+  }, [])
   const t = T[lang] || T.ro
   const setL = l => { setLang(l); localStorage.setItem('wp_lang', l) }
   const [form, setForm] = useState({name:'',email:'',subject:'',message:''})
