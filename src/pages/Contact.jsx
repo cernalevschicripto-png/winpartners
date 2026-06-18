@@ -74,10 +74,10 @@ export default function Contact() {
                 <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',marginTop:2,display:'flex',alignItems:'center',gap:6}}><span style={{width:7,height:7,borderRadius:'50%',background:'#10b981',display:'inline-block'}}/>{t.online}</div>
               </div>
             </div>
-            <a href="https://t.me/winpartners_support" target="_blank" rel="noreferrer" style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'11px',borderRadius:8,background:'#229ED9',color:'#fff',textDecoration:'none',fontWeight:700,fontSize:14,width:'100%',boxSizing:'border-box'}}>{t.tg}</a>
+            <a href="https://t.me/winpartners_support_bot" target="_blank" rel="noreferrer" style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'11px',borderRadius:8,background:'#229ED9',color:'#fff',textDecoration:'none',fontWeight:700,fontSize:14,width:'100%',boxSizing:'border-box'}}>{t.tg}</a>
           </div>
           <div style={{display:'flex',flexDirection:'column',gap:10}}>
-            {[['✈️','TELEGRAM','@winpartners_support','https://t.me/winpartners_support'],['✉️','EMAIL','support@winpartners.pro','mailto:support@winpartners.pro'],['🕐',t.prog,t.progVal,null],['⚡',t.resp,t.respVal,null]].map(([icon,label,val,href])=>(
+            {[['✈️','TELEGRAM','@winpartners_support_bot','https://t.me/winpartners_support_bot'],['✉️','EMAIL','support@winpartners.pro','mailto:support@winpartners.pro'],['🕐',t.prog,t.progVal,null],['⚡',t.resp,t.respVal,null]].map(([icon,label,val,href])=>(
               <div key={label} style={{display:'flex',alignItems:'center',gap:14,padding:'12px 14px',background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:10}}>
                 <div style={{fontSize:20,flexShrink:0}}>{icon}</div>
                 <div><div style={{fontSize:10,color:'rgba(255,255,255,0.35)',fontWeight:600,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{label}</div>{href?<a href={href} style={{fontSize:13,fontWeight:600,color:gold,textDecoration:'none'}}>{val}</a>:<div style={{fontSize:13,fontWeight:600}}>{val}</div>}</div>
@@ -91,7 +91,7 @@ export default function Contact() {
             <div style={{textAlign:'center',padding:'3rem 2rem',background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:14}}>
               <div style={{fontSize:48,marginBottom:16}}>✅</div>
               <div style={{fontSize:18,fontWeight:700,marginBottom:8}}>{t.sentTitle}</div>
-              <div style={{fontSize:13,color:'rgba(255,255,255,0.45)',lineHeight:1.7}}>{t.sentSub}<br/>{t.sentTg} <a href="https://t.me/winpartners_support" style={{color:gold}}>Telegram</a>.</div>
+              <div style={{fontSize:13,color:'rgba(255,255,255,0.45)',lineHeight:1.7}}>{t.sentSub}<br/>{t.sentTg} <a href="https://t.me/winpartners_support_bot" style={{color:gold}}>Telegram</a>.</div>
             </div>
           ):(
             <div style={{display:'flex',flexDirection:'column',gap:14}}>
@@ -101,9 +101,9 @@ export default function Contact() {
               </div>
               <div><label style={lbl}>{t.lSubject}</label><input style={inp} placeholder={t.phSubject} value={form.subject} onChange={set('subject')}/></div>
               <div><label style={lbl}>{t.lMsg}</label><textarea style={{...inp,height:140,resize:'vertical'}} placeholder={t.phMsg} value={form.message} onChange={set('message')}/></div>
-              {status==='error'&&<div style={{background:'rgba(239,68,68,0.08)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:6,padding:'10px 14px',fontSize:13,color:'#ef4444'}}>{t.errMsg} <a href="https://t.me/winpartners_support" style={{color:gold}}>Telegram</a>.</div>}
+              {status==='error'&&<div style={{background:'rgba(239,68,68,0.08)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:6,padding:'10px 14px',fontSize:13,color:'#ef4444'}}>{t.errMsg} <a href="https://t.me/winpartners_support_bot" style={{color:gold}}>Telegram</a>.</div>}
               <button onClick={send} disabled={status==='sending'} style={{padding:'13px',fontSize:14,fontWeight:700,cursor:status==='sending'?'wait':'pointer',border:'none',borderRadius:8,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.05em',fontFamily:'inherit',opacity:status==='sending'?0.7:1}}>{status==='sending'?t.sending:t.send}</button>
-              <p style={{textAlign:'center',fontSize:11,color:'rgba(255,255,255,0.2)',margin:0}}>{t.orWrite} <a href="https://t.me/winpartners_support" style={{color:gold}}>@winpartners_support</a> {t.orWrite2}</p>
+              <p style={{textAlign:'center',fontSize:11,color:'rgba(255,255,255,0.2)',margin:0}}>{t.orWrite} <a href="https://t.me/winpartners_support_bot" style={{color:gold}}>@winpartners_support_bot</a> {t.orWrite2}</p>
             </div>
           )}
         </div>
