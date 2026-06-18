@@ -1272,7 +1272,7 @@ function DashboardContent({ blogger, onLogout }) {
 
           {page==='contact'&&(
             <div style={{...card,maxWidth:440}}>
-              {[['Email','support@winpartners.pro'],['Telegram','@winpartners_support_bot'],['WhatsApp','+373 XX XXX XXX'],['Program','24/7, 365 zile/an']].map(([l,v])=>(
+              {[['Email','support@winpartners.pro'],['Telegram','@winpartners_manager'],['WhatsApp','+373 XX XXX XXX'],['Program','24/7, 365 zile/an']].map(([l,v])=>(
                 <div key={l} style={{display:'flex',justifyContent:'space-between',padding:'10px 0',borderBottom:`1px solid ${bdr}`}}>
                   <span style={{fontSize:13,color:txtSub,fontWeight:500}}>{l}</span>
                   <span style={{fontSize:13,color:gold,fontWeight:600}}>{v}</span>

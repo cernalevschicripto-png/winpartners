@@ -612,7 +612,7 @@ export default function Landing() {
               <div style={{fontSize:13,color:gold,fontWeight:600,marginBottom:14,letterSpacing:'.05em'}}>{t.mgr_role}</div>
               <p style={{fontSize:14,color:'rgba(255,255,255,0.65)',lineHeight:1.75,marginBottom:20}}>{t.mgr_text}</p>
               <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
-                <a href="https://t.me/winpartners_support_bot" target="_blank" rel="noreferrer" style={{display:'inline-flex',alignItems:'center',gap:8,padding:'11px 22px',background:gold,color:'#000',border:'none',borderRadius:8,fontSize:14,fontWeight:700,cursor:'pointer',textDecoration:'none'}}>
+                <a href="https://t.me/winpartners_manager" target="_blank" rel="noreferrer" style={{display:'inline-flex',alignItems:'center',gap:8,padding:'11px 22px',background:gold,color:'#000',border:'none',borderRadius:8,fontSize:14,fontWeight:700,cursor:'pointer',textDecoration:'none'}}>
                   <span>✈️</span> {t.mgr_btn}
                 </a>
                 <div style={{display:'flex',alignItems:'center',gap:6,padding:'11px 16px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8}}>
@@ -721,7 +721,7 @@ export default function Landing() {
                 ['terms', t.f_priv]],
               ['Contact',
                 ['','support@winpartners.pro'],
-                ['','Telegram: @winpartners_support_bot'],
+                ['','Telegram: @winpartners_manager'],
                 ['',t.f_wa],
                 ['','24/7']],
             ].map(([title,...links])=>(
