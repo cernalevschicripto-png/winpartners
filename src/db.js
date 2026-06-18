@@ -73,13 +73,13 @@ const INIT_PROMO = {
     c8:{code:'ml_2796945',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180423'},
     c9:{code:'ml_2796946',status:'disponibil',bloggerUsername:null,generatedAt:null,melbetId:'11180424'},
   },
-  winbet:{}, spinmax:{}, luckydeal:{},
+  xbet:{}, mostbet:{}, spinbetter:{}, pinup:{},
 }
 
 const INIT_CASINO_STATS = {
-  ionpopescu: { melbet:{clicks:1247,regs:89,deposits:34,revenue:1840,commission:460}, winbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinmax:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, luckydeal:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
-  alexmarin:  { melbet:{clicks:856,regs:52,deposits:18,revenue:1120,commission:280}, winbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinmax:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, luckydeal:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
-  vladgaming:  { melbet:{clicks:234,regs:12,deposits:3,revenue:180,commission:45}, winbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinmax:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, luckydeal:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
+  ionpopescu: { melbet:{clicks:1247,regs:89,deposits:34,revenue:1840,commission:460}, xbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, mostbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinbetter:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, pinup:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
+  alexmarin:  { melbet:{clicks:856,regs:52,deposits:18,revenue:1120,commission:280}, xbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, mostbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinbetter:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, pinup:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
+  vladgaming:  { melbet:{clicks:234,regs:12,deposits:3,revenue:180,commission:45}, xbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, mostbet:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, spinbetter:{clicks:0,regs:0,deposits:0,revenue:0,commission:0}, pinup:{clicks:0,regs:0,deposits:0,revenue:0,commission:0} },
 }
 
 // ─── SEED automat la prima rulare ────────────────────────────

@@ -41,9 +41,10 @@ const CODE_QUEUE = {
     'ml_2796946',  // ID Melbet: 11180424
   ],
   // Alte cazinouri — coduri de adăugat după înregistrare
-  winbet:    [],
-  spinmax:   [],
-  luckydeal: [],
+  xbet:        [],
+  mostbet:     [],
+  spinbetter:  [],
+  pinup:       [],
 }
 
 // getNextCode — înlocuit cu Firebase (async) în generatePromoCode
@@ -77,46 +78,68 @@ const CASINOS_BASE = [
     color: '#f5a623',
     commissionPct: 25,
     commission: '25% Revenue Share',
-    description: 'Casino + sporturi · cel mai popular în Moldova și România',
+    description: 'Casino + sporturi · lider în Moldova și România · cod promo numeric',
     minPayout: '$30',
     payFreq: 'Săptămânal',
     affLink: 'https://melbetpartners.com',
     affId: '5666408',
+    geo: 'RO, MD, RU, EU',
+    active: true,
   },
   {
-    id: 'winbet',
-    name: 'WinBet',
-    logo: '🎰',
-    color: '#e63946',
-    commissionPct: 25,
-    commission: '25% Revenue Share',
-    description: 'În curând — înregistrare în progres',
-    minPayout: '$30',
-    payFreq: 'Săptămânal',
-    comingSoon: true,
-  },
-  {
-    id: 'spinmax',
+    id: 'xbet',
     name: '1xBet',
     logo: '🎲',
-    color: '#3b82f6',
-    commissionPct: 25,
-    commission: '25% Revenue Share',
-    description: 'În curând — înregistrare în progres',
+    color: '#1565c0',
+    commissionPct: 40,
+    commission: 'până la 40% Revenue Share',
+    description: 'Cel mai mare bookmaker global · 500K+ parteneri · 61 limbi',
     minPayout: '$30',
     payFreq: 'Săptămânal',
+    affLink: 'https://1xpartners.com',
+    geo: 'Global · RO, MD, RU',
     comingSoon: true,
   },
   {
-    id: 'luckydeal',
+    id: 'mostbet',
     name: 'Mostbet',
-    logo: '🃏',
+    logo: '🎯',
     color: '#10b981',
-    commissionPct: 25,
-    commission: '25% Revenue Share',
-    description: 'În curând — înregistrare în progres',
+    commissionPct: 60,
+    commission: 'până la 60% Revenue Share',
+    description: 'Perfect pentru Moldova și CIS · RevShare pe viață · 90+ țări',
+    minPayout: '$50',
+    payFreq: 'Lunar',
+    affLink: 'https://mostbet.partners',
+    geo: 'MD, RU, UA, KZ, EU',
+    comingSoon: true,
+  },
+  {
+    id: 'spinbetter',
+    name: 'SpinBetter',
+    logo: '🌀',
+    color: '#7c3aed',
+    commissionPct: 50,
+    commission: 'până la 60% Revenue Share',
+    description: 'Casino + pariuri sportive · 8000+ jocuri · creștere 45% în 2024',
+    minPayout: '$30',
+    payFreq: 'Săptămânal',
+    affLink: 'https://spinbetterpartners.com',
+    geo: 'RO, MD, EU, CIS',
+    comingSoon: true,
+  },
+  {
+    id: 'pinup',
+    name: 'PIN-UP Casino',
+    logo: '📌',
+    color: '#e91e63',
+    commissionPct: 50,
+    commission: 'până la 50% Revenue Share',
+    description: 'Câștigător Affiliate of the Year 2025 · 25000+ parteneri activi',
     minPayout: '$30',
     payFreq: 'Lunar',
+    affLink: 'https://pin-up.partners',
+    geo: 'MD, RU, CIS, LATAM',
     comingSoon: true,
   },
 ]
@@ -133,9 +156,10 @@ function getMelbetPlayerLink(promoCode) {
 
 // Promcoduri demo per casino (în producție vin din admin)
 const DEMO_CODES = {
-  winbet:    ['WIN001','WIN002','WIN003','WIN004','WIN005','WIN006','WIN007','WIN008','WIN009','WIN010'],
-  spinmax:   ['SPX001','SPX002','SPX003','SPX004','SPX005','SPX006','SPX007','SPX008','SPX009','SPX010'],
-  luckydeal: ['LKD001','LKD002','LKD003','LKD004','LKD005','LKD006','LKD007','LKD008','LKD009','LKD010'],
+  xbet:       ['1X001','1X002','1X003','1X004','1X005'],
+  mostbet:    ['MB001','MB002','MB003','MB004','MB005'],
+  spinbetter: ['SB001','SB002','SB003','SB004','SB005'],
+  pinup:      ['PU001','PU002','PU003','PU004','PU005'],
 }
 
 
@@ -374,7 +398,7 @@ function DashboardContent({ blogger, onLogout }) {
   // Cerere cod personalizat
   const [showCustomCode, setShowCustomCode] = useState(false)
   const [customCodeText, setCustomCodeText] = useState('')
-  const [customCasinoId, setCustomCasinoId] = useState('winbet')
+  const [customCasinoId, setCustomCasinoId] = useState('xbet')
   const [customCodeSent, setCustomCodeSent] = useState(false)
   const [customRequests, setCustomRequests] = useState([])
 

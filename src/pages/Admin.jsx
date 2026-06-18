@@ -15,10 +15,11 @@ const gold = '#f5a623'
 const PASS = _p
 
 const CASINOS_LIST = [
-  { id: 'melbet',    name: 'Melbet',    color: '#f5a623' },
-  { id: 'winbet',    name: '1xBet',     color: '#3b82f6' },
-  { id: 'spinmax',   name: 'Mostbet',   color: '#10b981' },
-  { id: 'luckydeal', name: 'WinBet',    color: '#e63946' },
+  { id: 'melbet',     name: 'Melbet',        color: '#f5a623' },
+  { id: 'xbet',       name: '1xBet',         color: '#1565c0' },
+  { id: 'mostbet',    name: 'Mostbet',       color: '#10b981' },
+  { id: 'spinbetter', name: 'SpinBetter',    color: '#7c3aed' },
+  { id: 'pinup',      name: 'PIN-UP Casino', color: '#e91e63' },
 ]
 
 export default function Admin() {
@@ -31,7 +32,7 @@ export default function Admin() {
 
   // Date din Firebase
   const [bloggers, setBloggers]         = useState([])
-  const [promoCodes, setPromoCodes]     = useState({ melbet:[], winbet:[], spinmax:[], luckydeal:[] })
+  const [promoCodes, setPromoCodes]     = useState({ melbet:[], xbet:[], mostbet:[], spinbetter:[], pinup:[] })
   const [applications, setApplications] = useState([])
   const [notifications, setNotifications] = useState([])
   const [customRequests, setCustomRequests] = useState([])
@@ -223,7 +224,7 @@ winpartners.pro`
 
   const saveCasinoStats = async (casinoId) => {
     if (!updateBlogger) return
-    const commPct = { melbet:25, winbet:25, spinmax:25, luckydeal:20 }[casinoId] || 25
+    const commPct = { melbet:25, xbet:40, mostbet:60, spinbetter:50, pinup:50 }[casinoId] || 25
     const s = casinoStatsEdit[casinoId] || {}
     if (!s.commission && s.revenue) s.commission = Math.round(s.revenue * commPct / 100)
     await setCasinoStats(updateBlogger.username, casinoId, s)
@@ -575,7 +576,7 @@ winpartners.pro`
               <div style={{display:'flex',flexDirection:'column',gap:14}}>
                 {CASINOS_LIST.map(casino => {
                   const s = casinoStatsEdit[casino.id] || {clicks:0,regs:0,deposits:0,revenue:0,commission:0}
-                  const commPct = casino.id==='luckydeal'?20:25
+                  const commPct = { melbet:25, xbet:40, mostbet:60, spinbetter:50, pinup:50 }[casino.id] || 25
                   return (
                     <div key={casino.id} style={{background:'rgba(255,255,255,0.02)',border:`1px solid ${casino.color}25`,borderRadius:12,padding:'1rem',borderLeft:`3px solid ${casino.color}`}}>
                       <div style={{fontSize:13,fontWeight:700,color:casino.color,marginBottom:12}}>{casino.name} · {commPct}% RevShare</div>
