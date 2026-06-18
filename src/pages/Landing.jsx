@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const gold = '#f5a623'
 const dark = '#0a0a0f'
@@ -344,6 +344,8 @@ export default function Landing() {
   const t = T[lang]
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [menuOpen, setMenuOpen] = useState(false)
+  const location = useLocation()
+  useEffect(() => { setMenuOpen(false) }, [location.pathname])
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768)
