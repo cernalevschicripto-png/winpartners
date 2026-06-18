@@ -262,6 +262,11 @@ winpartners.pro`
             🔔 {unreadCount > 0 && <span style={{ background:'#ef4444', color:'#fff', borderRadius:10, fontSize:10, padding:'1px 5px', position:'absolute', top:-6, right:-6 }}>{unreadCount}</span>}
           </button>
           {loading && <span style={{ fontSize:11, color:'rgba(255,255,255,0.3)' }}>⏳</span>}
+          <span style={{ fontSize:11, padding:'2px 8px', borderRadius:4, fontWeight:600,
+            background: isFirebaseEnabled ? 'rgba(16,185,129,0.12)' : 'rgba(245,166,35,0.12)',
+            color: isFirebaseEnabled ? '#10b981' : '#f59e0b' }}>
+            {isFirebaseEnabled ? '🔥 Firebase' : '💾 Local'}
+          </span>
         </div>
       </div>
 
