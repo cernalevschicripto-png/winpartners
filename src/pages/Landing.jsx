@@ -34,7 +34,7 @@ const T = {
     cta_title:'DEVINO PARTENER OFICIAL', cta_sub:'Acces la Melbet, 1xBet, Mostbet și alte cazinouri de top — dintr-un singur loc.', cta_btn:'APLICĂ ACUM',
     f_prog:'Program', f_comp:'Companie', f_terms:'Termeni', f_priv:'Confidențialitate', f_wa:'WhatsApp disponibil',
     f_copy:'© 2026 WinPartners. Toate drepturile rezervate.',
-    f_lic:'✓ Licențiat', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Verificat', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   ru: {
     nav_login:'Войти', nav_reg:'Регистрация',
@@ -65,7 +65,7 @@ const T = {
     cta_title:'СТАТЬ ОФИЦИАЛЬНЫМ ПАРТНЁРОМ', cta_sub:'Доступ к Melbet, 1xBet, Mostbet и другим топ-казино — из одного места.', cta_btn:'ПОДАТЬ ЗАЯВКУ',
     f_prog:'Программа', f_comp:'Компания', f_terms:'Условия', f_priv:'Конфиденциальность', f_wa:'WhatsApp доступен',
     f_copy:'© 2026 WinPartners. Все права защищены.',
-    f_lic:'✓ Лицензировано', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Проверено', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   en: {
     nav_login:'Login', nav_reg:'Register',
@@ -96,7 +96,7 @@ const T = {
     cta_title:'BECOME AN OFFICIAL PARTNER', cta_sub:'Access Melbet, 1xBet, Mostbet and other top casinos — from one place.', cta_btn:'APPLY NOW',
     f_prog:'Program', f_comp:'Company', f_terms:'Terms', f_priv:'Privacy', f_wa:'WhatsApp available',
     f_copy:'© 2026 WinPartners. All rights reserved.',
-    f_lic:'✓ Licensed', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Verified', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   tr: {
     nav_login:'Giriş', nav_reg:'Kayıt',
@@ -127,7 +127,7 @@ const T = {
     cta_title:'RESMİ ORTAK OLUN', cta_sub:'Melbet, 1xBet, Mostbet ve diğer en iyi kumarhanelere tek yerden erişin.', cta_btn:'HEMEN BAŞVUR',
     f_prog:'Program', f_comp:'Şirket', f_terms:'Şartlar', f_priv:'Gizlilik', f_wa:'WhatsApp mevcut',
     f_copy:'© 2026 WinPartners. Tüm haklar saklıdır.',
-    f_lic:'✓ Lisanslı', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Doğrulandı', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   de: {
     nav_login:'Anmelden', nav_reg:'Registrieren',
@@ -158,7 +158,7 @@ const T = {
     cta_title:'OFFIZIELLER PARTNER WERDEN', cta_sub:'Zugang zu Melbet, 1xBet, Mostbet und anderen Top-Casinos — von einem Ort.', cta_btn:'JETZT BEWERBEN',
     f_prog:'Programm', f_comp:'Unternehmen', f_terms:'Bedingungen', f_priv:'Datenschutz', f_wa:'WhatsApp verfügbar',
     f_copy:'© 2026 WinPartners. Alle Rechte vorbehalten.',
-    f_lic:'✓ Lizenziert', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Verifiziert', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   pt: {
     nav_login:'Entrar', nav_reg:'Registrar',
@@ -189,7 +189,7 @@ const T = {
     cta_title:'TORNE-SE PARCEIRO OFICIAL', cta_sub:'Acesso a Melbet, 1xBet, Mostbet e outros cassinos top — de um lugar.', cta_btn:'CANDIDATAR-SE AGORA',
     f_prog:'Programa', f_comp:'Empresa', f_terms:'Termos', f_priv:'Privacidade', f_wa:'WhatsApp disponível',
     f_copy:'© 2026 WinPartners. Todos os direitos reservados.',
-    f_lic:'✓ Licenciado', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Verificado', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
   pl: {
     nav_login:'Zaloguj się', nav_reg:'Rejestracja',
@@ -220,7 +220,7 @@ const T = {
     cta_title:'ZOSTAŃ OFICJALNYM PARTNEREM', cta_sub:'Dostęp do Melbet, 1xBet, Mostbet i innych top kasyn — z jednego miejsca.', cta_btn:'APLIKUJ TERAZ',
     f_prog:'Program', f_comp:'Firma', f_terms:'Warunki', f_priv:'Prywatność', f_wa:'WhatsApp dostępny',
     f_copy:'© 2026 WinPartners. Wszelkie prawa zastrzeżone.',
-    f_lic:'✓ Licencjonowany', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Zweryfikowany', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
   },
 }
 
