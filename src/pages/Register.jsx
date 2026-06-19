@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { addApplication } from '../db.js'
+import { addApplication, sendTelegramNotif } from '../db.js'
 
 const gold = '#f5a623'
 const PLATFORMS = ['TikTok','Instagram','YouTube','Telegram','Facebook','Twitter/X','Other']
@@ -321,6 +321,15 @@ async function saveApplication(data) {
       })
     })
   } catch(e) {}
+  // Notificare Telegram
+  await sendTelegramNotif(
+    `🆕 <b>Cerere nouă!</b>\n` +
+    `👤 ${data.name} (@${data.username})\n` +
+    `📱 ${data.platform} · ${Number(data.followers||0).toLocaleString()} urmăritori\n` +
+    `🌍 ${data.country||'—'} · ${data.email}\n` +
+    `🔗 ${data.profileLink||'—'}\n` +
+    `📋 Admin: https://winpartners.pro/sys/ctrl/p8x4`
+  )
 }
 
 // Inline styles
