@@ -13,7 +13,7 @@ const T = {
     hbtn:'ÎNCEPEȚI ACUM', hbtn2:'Cum funcționează',
     trust1:'Plăți garantate', trust2:'SSL Securizat', trust3:'Suport 24/7', trust4:'Parteneri verificați',
     s1v:'25%', s1l:'Comision Revenue Share', s2v:'+3%', s2l:'Bonus referral bloggeri', s3v:'48h', s3l:'Procesare plăți', s4v:'$30', s4l:'Plată minimă/săptămână',
-    hex1v:'3', hex1l:'Cazinouri partenere', hex2v:'25%', hex2l:'RevShare pe viață', hex3v:'$30+', hex3l:'Plată minimă/săptămână',
+    hex1v:'5', hex1l:'Cazinouri partenere', hex2v:'25%', hex2l:'RevShare pe viață', hex3v:'$30+', hex3l:'Plată minimă/săptămână',
     mgr_title:'MANAGERUL TĂU PERSONAL', mgr_name:'Manager WinPartners', mgr_role:'Parteneriat & Suport', mgr_text:'Îmi ocup personal de contul tău — de la primul cod până la prima plată. Scrie-mi direct pe Telegram.',mgr_btn:'Scrie pe Telegram',
     mgr_verify:'Verifică că vorbești cu managerul oficial',
     ben_title:'DE CE WINPARTNERS',
@@ -168,7 +168,7 @@ const T = {
     hbtn:'COMEÇAR AGORA', hbtn2:'Como funciona',
     trust1:'Pagamentos garantidos', trust2:'SSL Seguro', trust3:'Suporte 24/7', trust4:'Parceiros verificados',
     s1v:'25%', s1l:'Comissão RevShare', s2v:'+3%', s2l:'Bônus de indicação', s3v:'48h', s3l:'Processamento', s4v:'$30', s4l:'Pagamento mín./semana',
-    hex1v:'3', hex1l:'Cassinos parceiros', hex2v:'25%', hex2l:'RevShare vitalício', hex3v:'$30+', hex3l:'Pagamento mín. semanal',
+    hex1v:'5', hex1l:'Cassinos parceiros', hex2v:'25%', hex2l:'RevShare vitalício', hex3v:'$30+', hex3l:'Pagamento mín. semanal',
     mgr_title:'SEU GERENTE PESSOAL', mgr_name:'Gerente WinPartners', mgr_role:'Parceria & Suporte', mgr_text:'Cuido pessoalmente da sua conta — do primeiro código ao primeiro pagamento. Escreva-me diretamente no Telegram.', mgr_btn:'Escrever no Telegram',
     mgr_verify:'Verifique que está falando com o gerente oficial',
     ben_title:'POR QUE WINPARTNERS',
@@ -414,9 +414,11 @@ export default function Landing() {
   ]
 
   const casinos = [
-    {name:'Melbet', color:'#f5a623', bg:'rgba(245,166,35,0.12)', icon:'M'},
-    {name:'1xBet',  color:'#60a5fa', bg:'rgba(96,165,250,0.10)', icon:'1'},
-    {name:'Mostbet',color:'#f87171', bg:'rgba(248,113,113,0.10)', icon:'M'},
+    {name:'Melbet',     color:'#f5a623', bg:'rgba(245,166,35,0.12)', icon:'M'},
+    {name:'1xBet',      color:'#60a5fa', bg:'rgba(96,165,250,0.10)', icon:'1'},
+    {name:'Mostbet',    color:'#f87171', bg:'rgba(248,113,113,0.10)', icon:'M'},
+    {name:'SpinBetter', color:'#a78bfa', bg:'rgba(167,139,250,0.10)', icon:'S'},
+    {name:'PIN-UP',     color:'#34d399', bg:'rgba(52,211,153,0.10)',  icon:'P'},
   ]
 
   return (
@@ -510,10 +512,9 @@ export default function Landing() {
           </div>
 
           {/* Headline */}
-          <div style={{fontSize:'clamp(2rem,4.5vw,4.2rem)',fontWeight:900,lineHeight:1.05,letterSpacing:'-0.02em',textTransform:'uppercase',marginBottom:22}}>
-            <div style={{color:'rgba(255,255,255,0.9)'}}>{t.h1}</div>
-            <div style={{color:'rgba(255,255,255,0.9)'}}>{t.h2}</div>
-            <div style={{color:gold,textShadow:`0 0 48px rgba(245,166,35,0.25)`}}>{t.h3}</div>
+          <div style={{fontSize:'clamp(2.2rem,4.2vw,4.8rem)',fontWeight:900,lineHeight:1.0,letterSpacing:'-0.02em',textTransform:'uppercase',marginBottom:22,maxWidth:620}}>
+            <span style={{color:'rgba(255,255,255,0.95)'}}>{t.h1} {t.h2} </span>
+            <span style={{color:gold,textShadow:`0 0 60px rgba(245,166,35,0.3)`}}>{t.h3}</span>
           </div>
 
           <p style={{fontSize:15,color:'rgba(255,255,255,0.55)',lineHeight:1.75,maxWidth:480,marginBottom:36}}>{t.hsub}</p>
@@ -542,8 +543,8 @@ export default function Landing() {
 
         {/* Hero illustration — dreapta */}
         {!isMobile && (
-          <div style={{position:'relative',zIndex:1,flex:'0 0 420px',height:500,display:'flex',alignItems:'center',justifyContent:'center',paddingRight:'3rem',marginTop:60}}>
-            <svg viewBox="0 0 400 400" width="380" height="380" style={{filter:'drop-shadow(0 0 80px rgba(245,166,35,0.12))'}}>
+          <div style={{position:'relative',zIndex:1,flex:'0 0 480px',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',paddingRight:'2rem'}}>
+            <svg viewBox="0 0 400 400" width="440" height="440" style={{filter:'drop-shadow(0 0 100px rgba(245,166,35,0.15))'}}>
               <circle cx="200" cy="200" r="170" fill="none" stroke="rgba(245,166,35,0.06)" strokeWidth="1"/>
               <polygon points="200,70 298,122 298,228 200,280 102,228 102,122" fill="rgba(245,166,35,0.04)" stroke="rgba(245,166,35,0.18)" strokeWidth="1.5"/>
               <circle cx="200" cy="175" r="68" fill="rgba(245,166,35,0.10)" stroke="rgba(245,166,35,0.35)" strokeWidth="2"/>
