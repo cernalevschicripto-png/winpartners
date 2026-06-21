@@ -833,6 +833,12 @@ export default function Landing() {
             ))}
           </div>
           <div style={{borderTop:'1px solid rgba(255,255,255,0.05)',paddingTop:18,textAlign:'center',fontSize:12,color:'rgba(255,255,255,0.18)'}}>{t.f_copy}</div>
+            {/* Casino partners */}
+            <div style={{display:'flex',gap:10,marginTop:14,justifyContent:'center',flexWrap:'wrap'}}>
+              {[['Melbet','#f5a623'],['1xBet','#60a5fa'],['Mostbet','#10b981'],['SpinBetter','#a78bfa'],['PIN-UP','#f87171']].map(([name,color])=>(
+                <span key={name} style={{padding:'3px 12px',border:`1px solid ${color}30`,borderRadius:4,fontSize:10,fontWeight:700,color:`${color}70`,letterSpacing:'.04em'}}>{name}</span>
+              ))}
+            </div>
         </div>
       </footer>
     </div>
