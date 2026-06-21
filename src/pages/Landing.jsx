@@ -833,6 +833,19 @@ export default function Landing() {
             ))}
           </div>
           <div style={{borderTop:'1px solid rgba(255,255,255,0.05)',paddingTop:18,textAlign:'center',fontSize:12,color:'rgba(255,255,255,0.18)'}}>{t.f_copy}</div>
+            {/* Social media */}
+            <div style={{display:'flex',gap:10,marginBottom:12,justifyContent:'center'}}>
+              {[
+                ['https://t.me/winpartners_manager','TG','#229ED9'],
+                ['https://instagram.com','IG','#E1306C'],
+                ['https://youtube.com','YT','#FF0000'],
+              ].map(([href,lbl,color])=>(
+                <a key={lbl} href={href} target="_blank" rel="noopener noreferrer"
+                  style={{width:32,height:32,borderRadius:'50%',background:`${color}18`,border:`1px solid ${color}40`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:800,color,textDecoration:'none'}}>
+                  {lbl}
+                </a>
+              ))}
+            </div>
             {/* Casino partners */}
             <div style={{display:'flex',gap:10,marginTop:14,justifyContent:'center',flexWrap:'wrap'}}>
               {[['Melbet','#f5a623'],['1xBet','#60a5fa'],['Mostbet','#10b981'],['SpinBetter','#a78bfa'],['PIN-UP','#f87171']].map(([name,color])=>(
