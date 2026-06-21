@@ -9,7 +9,7 @@ const T = {
     nav_login:'Conectați-vă', nav_reg:'Înregistrare',
     nav_about:'Despre noi', nav_ben:'Beneficii', nav_how:'Instrucțiuni', nav_faq:'FAQ', nav_contact:'Contact',
     h1:'CONECTAȚI-VĂ ȘI', h2:'CÂȘTIGAȚI PENTRU', h3:'FIECARE CLIENT RECOMANDAT',
-    hsub:'Program oficial de afiliere Melbet — câștigați 25% Revenue Share din pierderile jucătorilor recomandați, pe viață.',
+    hsub:'Platformă multi-cazinou — Melbet, 1xBet, Mostbet și altele. Câștigați 25% Revenue Share din pierderile jucătorilor recomandați, pe viață.',
     hbtn:'ÎNCEPEȚI ACUM', hbtn2:'Cum funcționează',
     trust1:'Plăți garantate', trust2:'SSL Securizat', trust3:'Suport 24/7', trust4:'Parteneri verificați',
     s1v:'25%', s1l:'Comision Revenue Share', s2v:'+3%', s2l:'Bonus referral bloggeri', s3v:'48h', s3l:'Procesare plăți', s4v:'$30', s4l:'Plată minimă/săptămână',
@@ -30,7 +30,7 @@ const T = {
     t2n:'Un singur dashboard', t2p:'Toate cazinourile într-un loc', t2t:'Statistici unificate, un singur loc de retragere, un singur manager. Nu mai gestionezi 5 conturi separate la 5 cazinouri diferite.',
     t3n:'Transparență totală', t3p:'Fiecare jucător, fiecare comision', t3t:'Știi exact câți jucători ai adus, la ce cazinou, cât au depus și cât câștig. Statistici actualizate zilnic direct din sistemele Melbet.',
     cas_title:'CAZINOURI PARTENERE',
-    badge:'PROGRAM OFICIAL DE AFILIERE · MELBET · 1XBET · MOSTBET',
+    badge:'PROGRAM MULTI-CAZINOU · MELBET · 1XBET · MOSTBET',
     cta_title:'DEVINO PARTENER OFICIAL', cta_sub:'Acces la Melbet, 1xBet, Mostbet și alte cazinouri de top — dintr-un singur loc.', cta_btn:'APLICĂ ACUM',
     f_prog:'Program', f_comp:'Companie', f_terms:'Termeni', f_priv:'Confidențialitate', f_wa:'WhatsApp disponibil',
     f_copy:'© 2026 WinPartners. Toate drepturile rezervate.',
@@ -40,7 +40,7 @@ const T = {
     nav_login:'Войти', nav_reg:'Регистрация',
     nav_about:'О нас', nav_ben:'Преимущества', nav_how:'Инструкции', nav_faq:'FAQ', nav_contact:'Контакты',
     h1:'ПОДКЛЮЧАЙТЕСЬ И', h2:'ЗАРАБАТЫВАЙТЕ НА', h3:'КАЖДОМ ПРИВЛЕЧЕННОМ КЛИЕНТЕ',
-    hsub:'Официальная партнёрская программа Melbet — зарабатывайте 25% Revenue Share от потерь рекомендованных игроков, пожизненно.',
+    hsub:'Мультиказино платформа — Melbet, 1xBet, Mostbet и другие. Зарабатывайте 25% Revenue Share от потерь рекомендованных игроков, пожизненно.',
     hbtn:'НАЧАТЬ СЕЙЧАС', hbtn2:'Как это работает',
     trust1:'Гарантированные выплаты', trust2:'SSL Защита', trust3:'Поддержка 24/7', trust4:'Проверенные партнеры',
     s1v:'25%', s1l:'Комиссия Revenue Share', s2v:'+3%', s2l:'Реферальный бонус', s3v:'48h', s3l:'Обработка выплат', s4v:'$30', s4l:'Мин. выплата/неделя',
@@ -61,7 +61,7 @@ const T = {
     t2n:'@gaming_ro · YouTube 85K', t2p:'Румыния · с мая 2026', t2t:'Пробовал 3 партнёрских программы казино. WinPartners — единственная, где выплаты приходят вовремя каждую неделю. Статистика в дашборде чёткая и достоверная.',
     t3n:'@kazino_expert · Telegram 45K', t3p:'Россия · RevShare 25%', t3t:'Работаю с Melbet 4 года. WinPartners упростил всё — один дашборд, один менеджер, прямая выплата в Bitcoin. Рекомендую всем создателям контента.',
     cas_title:'КАЗИНО-ПАРТНЕРЫ',
-    badge:'ОФИЦИАЛЬНАЯ ПАРТНЁРСКАЯ ПРОГРАММА · MELBET · 1XBET · MOSTBET',
+    badge:'МУЛЬТИ-КАЗИНО ПЛАТФОРМА · MELBET · 1XBET · MOSTBET',
     cta_title:'СТАТЬ ОФИЦИАЛЬНЫМ ПАРТНЁРОМ', cta_sub:'Доступ к Melbet, 1xBet, Mostbet и другим топ-казино — из одного места.', cta_btn:'ПОДАТЬ ЗАЯВКУ',
     f_prog:'Программа', f_comp:'Компания', f_terms:'Условия', f_priv:'Конфиденциальность', f_wa:'WhatsApp доступен',
     f_copy:'© 2026 WinPartners. Все права защищены.',
@@ -92,7 +92,7 @@ const T = {
     t2n:'Single dashboard', t2p:'All casinos in one place', t2t:'Unified statistics, one withdrawal point, one manager. No more managing 5 separate accounts at 5 different casinos.',
     t3n:'Full transparency', t3p:'Every player, every commission', t3t:'You know exactly how many players you brought, to which casino, how much they deposited and how much you earn. Data updated daily.',
     cas_title:'CASINO PARTNERS',
-    badge:'OFFICIAL AFFILIATE PROGRAM · MELBET · 1XBET · MOSTBET',
+    badge:'MULTI-CASINO PLATFORM · MELBET · 1XBET · MOSTBET',
     cta_title:'BECOME AN OFFICIAL PARTNER', cta_sub:'Access Melbet, 1xBet, Mostbet and other top casinos — from one place.', cta_btn:'APPLY NOW',
     f_prog:'Program', f_comp:'Company', f_terms:'Terms', f_priv:'Privacy', f_wa:'WhatsApp available',
     f_copy:'© 2026 WinPartners. All rights reserved.',
@@ -102,7 +102,7 @@ const T = {
     nav_login:'Giriş', nav_reg:'Kayıt',
     nav_about:'Hakkımızda', nav_ben:'Avantajlar', nav_how:'Nasıl çalışır', nav_faq:'SSS', nav_contact:'İletişim',
     h1:'BAĞLANIN VE', h2:'HER ÖNERİLEN', h3:'MÜŞTERİ İÇİN KAZANIN',
-    hsub:'Resmi Melbet ortaklık programı — önerdiğiniz oyuncuların kayıplarından ömür boyu %25 Revenue Share kazanın.',
+    hsub:'Çoklu kumarhane platformu — Melbet, 1xBet, Mostbet ve daha fazlası. Önerilen oyuncuların kayıplarından ömür boyu %25 Revenue Share kazanın.',
     hbtn:'HEMEN BAŞLA', hbtn2:'Nasıl çalışır',
     trust1:'Garantili ödemeler', trust2:'SSL Güvenli', trust3:'7/24 Destek', trust4:'Doğrulanmış ortaklar',
     s1v:'%25', s1l:'RevShare komisyon', s2v:'+%3', s2l:'Blogger referans bonusu', s3v:'48s', s3l:'Ödeme işleme', s4v:'$30', s4l:'Min. haftalık ödeme',
@@ -123,7 +123,7 @@ const T = {
     t2n:'Tek kontrol paneli', t2p:'Tüm kumarhaneler tek yerde', t2t:'Birleştirilmiş istatistikler, tek çekim noktası, tek yönetici. 5 farklı kumarhanede 5 ayrı hesabı yönetmek yok.',
     t3n:'Tam şeffaflık', t3p:'Her oyuncu, her komisyon', t3t:'Kaç oyuncu getirdiğinizi, hangi kumarhanede, ne kadar yatırdıklarını ve ne kazandığınızı tam olarak bilirsiniz. Veriler her gün güncellenir.',
     cas_title:'CASINO ORTAKLARI',
-    badge:'RESMİ ORTAKLIK PROGRAMI · MELBET · 1XBET · MOSTBET',
+    badge:'ÇOKLU KUMARHANe PLATFORMU · MELBET · 1XBET · MOSTBET',
     cta_title:'RESMİ ORTAK OLUN', cta_sub:'Melbet, 1xBet, Mostbet ve diğer en iyi kumarhanelere tek yerden erişin.', cta_btn:'HEMEN BAŞVUR',
     f_prog:'Program', f_comp:'Şirket', f_terms:'Şartlar', f_priv:'Gizlilik', f_wa:'WhatsApp mevcut',
     f_copy:'© 2026 WinPartners. Tüm haklar saklıdır.',
@@ -133,7 +133,7 @@ const T = {
     nav_login:'Anmelden', nav_reg:'Registrieren',
     nav_about:'Über uns', nav_ben:'Vorteile', nav_how:'So funktioniert es', nav_faq:'FAQ', nav_contact:'Kontakt',
     h1:'VERBINDEN SIE SICH UND', h2:'VERDIENEN SIE FÜR JEDEN', h3:'EMPFOHLENEN KUNDEN',
-    hsub:'Offizielles Melbet-Partnerprogramm — verdienen Sie 25% Revenue Share aus den Verlusten empfohlener Spieler, lebenslang.',
+    hsub:'Multi-Casino-Plattform — Melbet, 1xBet, Mostbet und mehr. Verdienen Sie 25% Revenue Share aus den Verlusten empfohlener Spieler, lebenslang.',
     hbtn:'JETZT STARTEN', hbtn2:'So funktioniert es',
     trust1:'Garantierte Auszahlungen', trust2:'SSL-Gesichert', trust3:'24/7 Support', trust4:'Geprüfte Partner',
     s1v:'25%', s1l:'RevShare-Provision', s2v:'+3%', s2l:'Blogger-Empfehlungsbonus', s3v:'48h', s3l:'Zahlungsabwicklung', s4v:'$30', s4l:'Min. Auszahlung/Woche',
@@ -154,7 +154,7 @@ const T = {
     t2n:'Einzelnes Dashboard', t2p:'Alle Casinos an einem Ort', t2t:'Einheitliche Statistiken, ein Auszahlungspunkt, ein Manager. Kein Verwalten von 5 separaten Konten mehr.',
     t3n:'Volle Transparenz', t3p:'Jeder Spieler, jede Provision', t3t:'Sie wissen genau, wie viele Spieler Sie gebracht haben und wie viel Sie verdienen. Daten täglich aktualisiert.',
     cas_title:'CASINO-PARTNER',
-    badge:'OFFIZIELLES PARTNERPROGRAMM · MELBET · 1XBET · MOSTBET',
+    badge:'MULTI-CASINO PLATTFORM · MELBET · 1XBET · MOSTBET',
     cta_title:'OFFIZIELLER PARTNER WERDEN', cta_sub:'Zugang zu Melbet, 1xBet, Mostbet und anderen Top-Casinos — von einem Ort.', cta_btn:'JETZT BEWERBEN',
     f_prog:'Programm', f_comp:'Unternehmen', f_terms:'Bedingungen', f_priv:'Datenschutz', f_wa:'WhatsApp verfügbar',
     f_copy:'© 2026 WinPartners. Alle Rechte vorbehalten.',
@@ -164,7 +164,7 @@ const T = {
     nav_login:'Entrar', nav_reg:'Registrar',
     nav_about:'Sobre nós', nav_ben:'Benefícios', nav_how:'Como funciona', nav_faq:'FAQ', nav_contact:'Contato',
     h1:'CONECTE-SE E', h2:'GANHE POR CADA', h3:'CLIENTE RECOMENDADO',
-    hsub:'Programa oficial de afiliados Melbet — ganhe 25% Revenue Share das perdas dos jogadores indicados, para sempre.',
+    hsub:'Plataforma multi-casino — Melbet, 1xBet, Mostbet e mais. Ganhe 25% Revenue Share das perdas dos jogadores indicados, para sempre.',
     hbtn:'COMEÇAR AGORA', hbtn2:'Como funciona',
     trust1:'Pagamentos garantidos', trust2:'SSL Seguro', trust3:'Suporte 24/7', trust4:'Parceiros verificados',
     s1v:'25%', s1l:'Comissão RevShare', s2v:'+3%', s2l:'Bônus de indicação', s3v:'48h', s3l:'Processamento', s4v:'$30', s4l:'Pagamento mín./semana',
@@ -185,7 +185,7 @@ const T = {
     t2n:'Dashboard único', t2p:'Todos os cassinos em um lugar', t2t:'Estatísticas unificadas, um ponto de saque, um gerente. Sem gerenciar 5 contas separadas.',
     t3n:'Transparência total', t3p:'Cada jogador, cada comissão', t3t:'Você sabe exatamente quantos jogadores trouxe, para qual cassino e quanto ganha. Dados atualizados diariamente.',
     cas_title:'CASSINOS PARCEIROS',
-    badge:'PROGRAMA OFICIAL DE AFILIADOS · MELBET · 1XBET · MOSTBET',
+    badge:'PLATAFORMA MULTI-CASINO · MELBET · 1XBET · MOSTBET',
     cta_title:'TORNE-SE PARCEIRO OFICIAL', cta_sub:'Acesso a Melbet, 1xBet, Mostbet e outros cassinos top — de um lugar.', cta_btn:'CANDIDATAR-SE AGORA',
     f_prog:'Programa', f_comp:'Empresa', f_terms:'Termos', f_priv:'Privacidade', f_wa:'WhatsApp disponível',
     f_copy:'© 2026 WinPartners. Todos os direitos reservados.',
@@ -216,7 +216,7 @@ const T = {
     t2n:'Jeden panel', t2p:'Wszystkie kasyna w jednym miejscu', t2t:'Ujednolicone statystyki, jeden punkt wypłat, jeden menedżer. Koniec z zarządzaniem 5 osobnymi kontami.',
     t3n:'Pełna przejrzystość', t3p:'Każdy gracz, każda prowizja', t3t:'Wiesz dokładnie, ilu graczy przyprowadziłeś, do którego kasyna i ile zarabiasz. Dane aktualizowane codziennie.',
     cas_title:'PARTNERZY CASINO',
-    badge:'OFICJALNY PROGRAM PARTNERSKI · MELBET · 1XBET · MOSTBET',
+    badge:'PLATFORMA MULTI-KASYNO · MELBET · 1XBET · MOSTBET',
     cta_title:'ZOSTAŃ OFICJALNYM PARTNEREM', cta_sub:'Dostęp do Melbet, 1xBet, Mostbet i innych top kasyn — z jednego miejsca.', cta_btn:'APLIKUJ TERAZ',
     f_prog:'Program', f_comp:'Firma', f_terms:'Warunki', f_priv:'Prywatność', f_wa:'WhatsApp dostępny',
     f_copy:'© 2026 WinPartners. Wszelkie prawa zastrzeżone.',
@@ -489,7 +489,7 @@ export default function Landing() {
       </nav>
 
       {/* ─── HERO ─── */}
-      <div style={{minHeight:'100vh',display:'flex',alignItems:'center',position:'relative',overflow:'hidden',paddingTop:60}}>
+      <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'space-between',position:'relative',overflow:'hidden',paddingTop:60}}>
         {/* Hex grid bg */}
         <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none'}} preserveAspectRatio="xMidYMid slice">
           {[...Array(6)].map((_,i)=>[...Array(5)].map((_,j)=>{
@@ -539,6 +539,42 @@ export default function Landing() {
             ))}
           </div>
         </div>
+
+        {/* Hero illustration — dreapta */}
+        {!isMobile && (
+          <div style={{position:'relative',zIndex:1,flex:'0 0 420px',height:500,display:'flex',alignItems:'center',justifyContent:'center',paddingRight:'3rem',marginTop:60}}>
+            <svg viewBox="0 0 400 400" width="380" height="380" style={{filter:'drop-shadow(0 0 80px rgba(245,166,35,0.12))'}}>
+              <circle cx="200" cy="200" r="170" fill="none" stroke="rgba(245,166,35,0.06)" strokeWidth="1"/>
+              <polygon points="200,70 298,122 298,228 200,280 102,228 102,122" fill="rgba(245,166,35,0.04)" stroke="rgba(245,166,35,0.18)" strokeWidth="1.5"/>
+              <circle cx="200" cy="175" r="68" fill="rgba(245,166,35,0.10)" stroke="rgba(245,166,35,0.35)" strokeWidth="2"/>
+              <circle cx="200" cy="175" r="54" fill="none" stroke="rgba(245,166,35,0.18)" strokeWidth="8" strokeDasharray="9 6"/>
+              <circle cx="200" cy="175" r="38" fill="rgba(245,166,35,0.13)" stroke="rgba(245,166,35,0.45)" strokeWidth="1.5"/>
+              <text x="200" y="184" textAnchor="middle" fontSize="34" fontWeight="900" fill="rgba(245,166,35,0.92)" fontFamily="Inter,sans-serif">$</text>
+              <circle cx="318" cy="122" r="30" fill="rgba(245,166,35,0.09)" stroke="rgba(245,166,35,0.30)" strokeWidth="1.5"/>
+              <text x="318" y="119" textAnchor="middle" fontSize="11" fontWeight="800" fill="rgba(245,166,35,0.75)" fontFamily="Inter,sans-serif">25%</text>
+              <text x="318" y="133" textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.35)" fontFamily="Inter,sans-serif">RevShare</text>
+              <circle cx="82" cy="248" r="24" fill="rgba(96,165,250,0.09)" stroke="rgba(96,165,250,0.28)" strokeWidth="1.5"/>
+              <text x="82" y="245" textAnchor="middle" fontSize="9" fontWeight="700" fill="rgba(96,165,250,0.7)" fontFamily="Inter,sans-serif">+3%</text>
+              <text x="82" y="257" textAnchor="middle" fontSize="8" fill="rgba(255,255,255,0.35)" fontFamily="Inter,sans-serif">Referral</text>
+              <circle cx="315" cy="270" r="22" fill="rgba(16,185,129,0.09)" stroke="rgba(16,185,129,0.28)" strokeWidth="1.5"/>
+              <text x="315" y="267" textAnchor="middle" fontSize="9" fontWeight="700" fill="rgba(16,185,129,0.7)" fontFamily="Inter,sans-serif">$30</text>
+              <text x="315" y="279" textAnchor="middle" fontSize="8" fill="rgba(255,255,255,0.35)" fontFamily="Inter,sans-serif">min/week</text>
+              <circle cx="85" cy="112" r="20" fill="rgba(168,85,247,0.09)" stroke="rgba(168,85,247,0.28)" strokeWidth="1.5"/>
+              <text x="85" y="117" textAnchor="middle" fontSize="10" fontWeight="700" fill="rgba(168,85,247,0.7)" fontFamily="Inter,sans-serif">∞</text>
+              <line x1="200" y1="175" x2="318" y2="122" stroke="rgba(245,166,35,0.08)" strokeWidth="1" strokeDasharray="4 5"/>
+              <line x1="200" y1="175" x2="82" y2="248" stroke="rgba(96,165,250,0.08)" strokeWidth="1" strokeDasharray="4 5"/>
+              <line x1="200" y1="175" x2="315" y2="270" stroke="rgba(16,185,129,0.08)" strokeWidth="1" strokeDasharray="4 5"/>
+              <line x1="200" y1="175" x2="85" y2="112" stroke="rgba(168,85,247,0.08)" strokeWidth="1" strokeDasharray="4 5"/>
+              <rect x="148" y="298" width="14" height="45" rx="3" fill="rgba(245,166,35,0.12)" stroke="rgba(245,166,35,0.18)" strokeWidth="1"/>
+              <rect x="168" y="282" width="14" height="61" rx="3" fill="rgba(245,166,35,0.22)" stroke="rgba(245,166,35,0.30)" strokeWidth="1"/>
+              <rect x="188" y="270" width="14" height="73" rx="3" fill="rgba(245,166,35,0.32)" stroke="rgba(245,166,35,0.40)" strokeWidth="1"/>
+              <rect x="208" y="256" width="14" height="87" rx="3" fill="rgba(245,166,35,0.42)" stroke="rgba(245,166,35,0.55)" strokeWidth="1"/>
+              <rect x="228" y="244" width="14" height="99" rx="3" fill="rgba(245,166,35,0.55)" stroke="rgba(245,166,35,0.70)" strokeWidth="1"/>
+              <polyline points="148,310 168,295 188,280 208,262 232,247" fill="none" stroke="rgba(16,185,129,0.55)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="232" cy="247" r="4" fill="rgba(16,185,129,0.8)"/>
+            </svg>
+          </div>
+        )}
       </div>
 
       {/* ─── STATS BAR ─── */}
