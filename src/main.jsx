@@ -17,6 +17,7 @@ const Terms        = lazy(() => import('./pages/Terms.jsx'))
 const Admin        = lazy(() => import('./pages/Admin.jsx'))
 const AdminMobile  = lazy(() => import('./pages/AdminMobile.jsx'))
 const NotFound     = lazy(() => import('./pages/NotFound.jsx'))
+const Media        = lazy(() => import('./pages/Media.jsx'))
 
 const PageLoader = () => (
   <div style={{minHeight:'100vh',background:'#0a0a0f',display:'flex',alignItems:'center',justifyContent:'center'}}>
@@ -40,6 +41,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/media" element={<Media />} />
         <Route path={_r} element={<Admin />} />
         <Route path={_rm} element={<AdminMobile />} />
         <Route path="*" element={<NotFound />} />

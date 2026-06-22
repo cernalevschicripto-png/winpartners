@@ -34,7 +34,7 @@ const T = {
     cta_title:'DEVINO PARTENER OFICIAL', cta_sub:'Acces la Melbet, 1xBet, Mostbet și alte cazinouri de top — dintr-un singur loc.', cta_btn:'APLICĂ ACUM',
     f_prog:'Program', f_comp:'Companie', f_terms:'Termeni', f_priv:'Confidențialitate', f_wa:'WhatsApp disponibil',
     f_copy:'© 2026 WinPartners. Toate drepturile rezervate.',
-    f_lic:'✓ Verificat', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Parteneri verificați', f_ssl:'🔒 SSL',
   },
   ru: {
     nav_login:'Войти', nav_reg:'Регистрация',
@@ -65,7 +65,7 @@ const T = {
     cta_title:'СТАТЬ ОФИЦИАЛЬНЫМ ПАРТНЁРОМ', cta_sub:'Доступ к Melbet, 1xBet, Mostbet и другим топ-казино — из одного места.', cta_btn:'ПОДАТЬ ЗАЯВКУ',
     f_prog:'Программа', f_comp:'Компания', f_terms:'Условия', f_priv:'Конфиденциальность', f_wa:'WhatsApp доступен',
     f_copy:'© 2026 WinPartners. Все права защищены.',
-    f_lic:'✓ Проверено', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Проверенные партнёры', f_ssl:'🔒 SSL',
   },
   en: {
     nav_login:'Login', nav_reg:'Register',
@@ -96,7 +96,7 @@ const T = {
     cta_title:'BECOME AN OFFICIAL PARTNER', cta_sub:'Access Melbet, 1xBet, Mostbet and other top casinos — from one place.', cta_btn:'APPLY NOW',
     f_prog:'Program', f_comp:'Company', f_terms:'Terms', f_priv:'Privacy', f_wa:'WhatsApp available',
     f_copy:'© 2026 WinPartners. All rights reserved.',
-    f_lic:'✓ Verified', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Verified partners', f_ssl:'🔒 SSL',
   },
   tr: {
     nav_login:'Giriş', nav_reg:'Kayıt',
@@ -127,7 +127,7 @@ const T = {
     cta_title:'RESMİ ORTAK OLUN', cta_sub:'Melbet, 1xBet, Mostbet ve diğer en iyi kumarhanelere tek yerden erişin.', cta_btn:'HEMEN BAŞVUR',
     f_prog:'Program', f_comp:'Şirket', f_terms:'Şartlar', f_priv:'Gizlilik', f_wa:'WhatsApp mevcut',
     f_copy:'© 2026 WinPartners. Tüm haklar saklıdır.',
-    f_lic:'✓ Doğrulandı', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Doğrulanmış ortaklar', f_ssl:'🔒 SSL',
   },
   de: {
     nav_login:'Anmelden', nav_reg:'Registrieren',
@@ -158,7 +158,7 @@ const T = {
     cta_title:'OFFIZIELLER PARTNER WERDEN', cta_sub:'Zugang zu Melbet, 1xBet, Mostbet und anderen Top-Casinos — von einem Ort.', cta_btn:'JETZT BEWERBEN',
     f_prog:'Programm', f_comp:'Unternehmen', f_terms:'Bedingungen', f_priv:'Datenschutz', f_wa:'WhatsApp verfügbar',
     f_copy:'© 2026 WinPartners. Alle Rechte vorbehalten.',
-    f_lic:'✓ Verifiziert', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Verifizierte Partner', f_ssl:'🔒 SSL',
   },
   pt: {
     nav_login:'Entrar', nav_reg:'Registrar',
@@ -189,7 +189,7 @@ const T = {
     cta_title:'TORNE-SE PARCEIRO OFICIAL', cta_sub:'Acesso a Melbet, 1xBet, Mostbet e outros cassinos top — de um lugar.', cta_btn:'CANDIDATAR-SE AGORA',
     f_prog:'Programa', f_comp:'Empresa', f_terms:'Termos', f_priv:'Privacidade', f_wa:'WhatsApp disponível',
     f_copy:'© 2026 WinPartners. Todos os direitos reservados.',
-    f_lic:'✓ Verificado', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Parceiros verificados', f_ssl:'🔒 SSL',
   },
   pl: {
     nav_login:'Zaloguj się', nav_reg:'Rejestracja',
@@ -220,7 +220,7 @@ const T = {
     cta_title:'ZOSTAŃ OFICJALNYM PARTNEREM', cta_sub:'Dostęp do Melbet, 1xBet, Mostbet i innych top kasyn — z jednego miejsca.', cta_btn:'APLIKUJ TERAZ',
     f_prog:'Program', f_comp:'Firma', f_terms:'Warunki', f_priv:'Prywatność', f_wa:'WhatsApp dostępny',
     f_copy:'© 2026 WinPartners. Wszelkie prawa zastrzeżone.',
-    f_lic:'✓ Zweryfikowany', f_ssl:'🔒 SSL', f_rating:'⭐ 4.9/5',
+    f_lic:'✓ Zweryfikowani partnerzy', f_ssl:'🔒 SSL',
   },
 }
 
@@ -773,28 +773,60 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* ─── TESTIMONIALS ─── */}
-      <div style={{background:'rgba(0,0,0,0.4)',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.07)`}}>
+      {/* ─── DE CE NOI — 3 USP-uri cheie ─── */}
+      <div style={{background:'rgba(0,0,0,0.35)',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',borderTop:'1px solid rgba(245,166,35,0.07)'}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
-          <div style={{textAlign:'center',marginBottom:'3rem'}}>
-            <h2 style={{fontSize:'clamp(1.5rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.test_title}</h2>
+          <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
+            <h2 style={{fontSize:'clamp(1.4rem,2.8vw,2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em',color:'#fff'}}>
+              {lang==='ru'?'ПОЧЕМУ БЛОГЕРЫ ВЫБИРАЮТ WINPARTNERS':lang==='en'?'WHY BLOGGERS CHOOSE WINPARTNERS':lang==='tr'?'NEDEN WINPARTNERS SEÇILIYOR':lang==='de'?'WARUM WINPARTNERS WÄHLEN':lang==='pt'?'POR QUE ESCOLHER WINPARTNERS':lang==='pl'?'DLACZEGO WINPARTNERS':'DE CE BLOGGERII ALEG WINPARTNERS'}
+            </h2>
             <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
           </div>
-          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(auto-fit,minmax(260px,1fr))',gap:20}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:isMobile?16:24}}>
             {[
-              [t.t1n, t.t1p, t.t1t, gold],
-              [t.t2n, t.t2p, t.t2t, '#60a5fa'],
-              [t.t3n, t.t3p, t.t3t, '#10b981'],
-            ].map(([name, platform, text, accentColor])=>(
-              <div key={name} style={{background:'rgba(255,255,255,0.025)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:14,padding:'1.75rem',position:'relative',overflow:'hidden'}}>
-                {/* Decorative quote mark */}
-                <div style={{position:'absolute',top:12,right:16,fontSize:64,color:`${accentColor}10`,fontFamily:'Georgia,serif',lineHeight:1,pointerEvents:'none',userSelect:'none'}}>"</div>
-                <StarRating/>
-                <p style={{fontSize:13,color:'rgba(255,255,255,0.6)',lineHeight:1.8,marginBottom:16,position:'relative'}}>{text}</p>
-                <div style={{borderTop:'1px solid rgba(255,255,255,0.07)',paddingTop:12}}>
-                  <div style={{fontSize:13,fontWeight:700,color:'rgba(255,255,255,0.85)'}}>{name}</div>
-                  <div style={{fontSize:11,color:accentColor,fontWeight:600,marginTop:2,textTransform:'uppercase',letterSpacing:'.05em'}}>{platform}</div>
-                </div>
+              {
+                icon:'$', color:'#f5a623', bg:'rgba(245,166,35,0.12)',
+                title: lang==='ru'?'25% RevShare навсегда':lang==='en'?'25% RevShare for life':lang==='tr'?'Ömür boyu %25':lang==='de'?'25% lebenslang':lang==='pt'?'25% vitalício':lang==='pl'?'25% dożywotnio':'25% RevShare pe viață',
+                items: lang==='ru'?['Игрок навсегда закреплён за тобой','Комиссия идёт, даже если не постишь','Еженедельные выплаты от $30']:
+                       lang==='en'?['Player stays yours permanently','Commission comes even if you stop posting','Weekly guaranteed payout from $30']:
+                       lang==='tr'?['Oyuncu sonsuza dek senindir','Paylaşım yapmassan da komisyon gelir','Haftada 30 dolardan garantili ödeme']:
+                       lang==='de'?['Spieler bleibt permanent deiner','Provision auch wenn du nicht postest','Wöchentliche Zahlung ab $30']:
+                       lang==='pt'?['Jogador fica seu permanentemente','Comissão vem mesmo sem postar','Pagamento semanal garantido a partir de $30']:
+                       lang==='pl'?['Gracz zostaje twój na zawsze','Prowizja płynie nawet gdy nie postujesz','Tygodniowa wypłata gwarantowana od $30']:
+                       ['Jucătorul rămâne al tău permanent','Comisionul vine chiar dacă nu mai postezi','Plată săptămânală garantată de la $30'],
+              },
+              {
+                icon:'≡', color:'#60a5fa', bg:'rgba(96,165,250,0.12)',
+                title: lang==='ru'?'5 казино, 1 аккаунт':lang==='en'?'5 casinos, 1 account':lang==='tr'?'5 kumarhane, 1 hesap':lang==='de'?'5 Casinos, 1 Konto':lang==='pt'?'5 cassinos, 1 conta':lang==='pl'?'5 kasyn, 1 konto':'5 cazinouri, 1 cont',
+                items: lang==='ru'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Единая статистика в одном дашборде','Один менеджер, одна выплата']:
+                       lang==='en'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Unified stats in a single dashboard','One manager, one payout']:
+                       lang==='tr'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Tek panelde birleşik istatistikler','Tek yönetici, tek ödeme']:
+                       lang==='de'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Einheitliche Statistiken im Dashboard','Ein Manager, eine Auszahlung']:
+                       lang==='pt'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Estatísticas unificadas num painel','Um gestor, um pagamento']:
+                       lang==='pl'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Ujednolicone statystyki w jednym panelu','Jeden menedżer, jedna wypłata']:
+                       ['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Statistici unificate într-un singur dashboard','Un singur manager, o singură plată'],
+              },
+              {
+                icon:'⚡', color:'#10b981', bg:'rgba(16,185,129,0.12)',
+                title: lang==='ru'?'Одобрение за 24-48ч':lang==='en'?'Approval in 24-48h':lang==='tr'?'24-48 saatte onay':lang==='de'?'Genehmigung in 24-48h':lang==='pt'?'Aprovação em 24-48h':lang==='pl'?'Zatwierdzenie w 24-48h':'Aprobare în 24-48h',
+                items: lang==='ru'?['Простая форма, без лишних документов','Промокод сразу после одобрения','Личный менеджер в Telegram с первого дня']:
+                       lang==='en'?['Simple form, no heavy paperwork','Promo code immediately after approval','Personal manager on Telegram from day 1']:
+                       lang==='tr'?['Basit form, evrak yok','Onaydan hemen promosyon kodu','Telegram da 1. günden kişisel yönetici']:
+                       lang==='de'?['Einfaches Formular, keine Dokumente','Promo-Code direkt nach Genehmigung','Persönlicher Manager auf Telegram ab Tag 1']:
+                       lang==='pt'?['Formulário simples, sem papelada','Código promo imediatamente após aprovação','Gestor pessoal no Telegram desde o dia 1']:
+                       lang==='pl'?['Prosty formularz, bez dokumentów','Kod promo natychmiast po zatwierdzeniu','Osobisty menedżer na Telegram od dnia 1']:
+                       ['Formular simplu, fără documente grele','Codul promoțional imediat după aprobare','Manager personal pe Telegram de la ziua 1'],
+              },
+            ].map((usp,i)=>(
+              <div key={i} style={{background:'rgba(255,255,255,0.025)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:14,padding:'1.75rem'}}>
+                <div style={{width:48,height:48,borderRadius:12,background:usp.bg,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,color:usp.color,marginBottom:16}}>{usp.icon}</div>
+                <div style={{fontSize:16,fontWeight:800,color:'#fff',marginBottom:14}}>{usp.title}</div>
+                {usp.items.map((line,j)=>(
+                  <div key={j} style={{display:'flex',gap:10,alignItems:'flex-start',marginBottom:8}}>
+                    <span style={{color:usp.color,fontSize:14,lineHeight:'20px',flexShrink:0}}>✓</span>
+                    <span style={{fontSize:13,color:'rgba(255,255,255,0.6)',lineHeight:1.55}}>{line}</span>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
@@ -881,7 +913,7 @@ export default function Landing() {
               <div style={{fontSize:18,fontWeight:900,marginBottom:10}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div>
               <div style={{fontSize:13,color:'rgba(255,255,255,0.28)',lineHeight:1.7,maxWidth:240}}>{lang==='ru'?'Профессиональная партнёрская платформа для блогеров и инфлюенсеров.':lang==='en'?'Professional affiliate platform for bloggers and influencers worldwide.':lang==='tr'?'Blogger ve içerik üreticileri için profesyonel ortaklık platformu.':lang==='de'?'Professionelle Affiliate-Plattform für Blogger und Influencer.':lang==='pt'?'Plataforma profissional de afiliados para bloggers e influenciadores.':lang==='pl'?'Profesjonalna platforma partnerska dla blogerów i influencerów.':'Platformă profesională de afiliere pentru bloggeri și influenceri.'}</div>
               <div style={{display:'flex',gap:6,marginTop:14,flexWrap:'wrap'}}>
-                {[t.f_ssl, t.f_lic, t.f_rating].map(b=><span key={b} style={{fontSize:11,color:'rgba(255,255,255,0.3)',background:'rgba(255,255,255,0.04)',padding:'3px 8px',borderRadius:4}}>{b}</span>)}
+                {[t.f_ssl, t.f_lic].map(b=><span key={b} style={{fontSize:11,color:'rgba(255,255,255,0.3)',background:'rgba(255,255,255,0.04)',padding:'3px 8px',borderRadius:4}}>{b}</span>)}
               </div>
             </div>
             {[
