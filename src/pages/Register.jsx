@@ -406,9 +406,9 @@ export default function Register() {
         <img src="/icons/logo.png" width="24" height="24" alt="W" style={{borderRadius:3}}/>
         <span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span>
       </div>
-      <div style={{display:'flex',gap:3,flexWrap:'wrap',justifyContent:'flex-end'}}>
+      <div style={{display:'flex',gap:3,overflowX:'auto',scrollbarWidth:'none',maxWidth:isMobile?200:'none',flexShrink:0}}>
         {LANGS.map(l => (
-          <button key={l} onClick={() => { setLang(l); localStorage.setItem('wp_lang', l) }} style={{padding:'3px 7px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.12)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.12)':'transparent',color:lang===l?gold:'rgba(255,255,255,0.4)',transition:'all .15s'}}>
+          <button key={l} onClick={() => { setLang(l); localStorage.setItem('wp_lang', l) }} style={{padding:'3px 6px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.12)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.12)':'transparent',color:lang===l?gold:'rgba(255,255,255,0.4)',transition:'all .15s',flexShrink:0}}>
             {l.toUpperCase()}
           </button>
         ))}

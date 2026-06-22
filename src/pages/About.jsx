@@ -29,7 +29,7 @@ function PageNav({ lang, setL, t, nav }) {
         <img src="/icons/logo.png" width="26" height="26" alt="W" style={{borderRadius:3}}/>
         <span style={{fontSize:16,fontWeight:900}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></span>
       </div>
-      <div style={{display:'flex',alignItems:'center',gap:6}}>
+      <div style={{display:'flex',alignItems:'center',gap:4,minWidth:0,overflowX:'auto',scrollbarWidth:'none'}}>
         <div style={{display:'flex',gap:2,background:'rgba(255,255,255,0.04)',borderRadius:6,padding:'2px 3px',border:'1px solid rgba(255,255,255,0.07)'}}>
           {LANGS.map(l=>(
             <button key={l} onClick={()=>setL(l)} style={{padding:'3px 7px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'transparent'}`,borderRadius:4,background:lang===l?gold:'transparent',color:lang===l?'#000':'rgba(255,255,255,0.45)',transition:'all .15s'}}>{l.toUpperCase()}</button>
