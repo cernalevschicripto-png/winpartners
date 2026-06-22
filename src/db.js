@@ -343,6 +343,7 @@ export async function seedDatabase() {
 }
 
 export const isFirebaseEnabled = USE_FIREBASE
+export const firebaseDebug = USE_FIREBASE ? FB_URL.slice(0,40) : 'NOT_CONFIGURED'
 
 
 // ─── TELEGRAM NOTIFICATIONS ──────────────────────────────────

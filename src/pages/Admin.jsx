@@ -8,7 +8,7 @@ import {
   getApplications, updateApplication, subscribeApplications,
   getNotifications, markRead, addNotification, subscribeNotifications,
   getCustomRequests, updateCustomRequest, subscribeCustomRequests,
-  seedDatabase, forceReseedDatabase, isFirebaseEnabled, sendTelegramNotif,
+  seedDatabase, forceReseedDatabase, isFirebaseEnabled, firebaseDebug, sendTelegramNotif,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -273,7 +273,7 @@ winpartners.pro`
           <span style={{ fontSize:11, padding:'2px 8px', borderRadius:4, fontWeight:600,
             background: isFirebaseEnabled ? 'rgba(16,185,129,0.12)' : 'rgba(245,166,35,0.12)',
             color: isFirebaseEnabled ? '#10b981' : '#f59e0b' }}>
-            {isFirebaseEnabled ? '🔥 Firebase' : '💾 Local'}
+            {isFirebaseEnabled ? '🔥 Firebase' : '💾 Local' + (firebaseDebug === 'NOT_CONFIGURED' ? '' : ': '+firebaseDebug.slice(0,15))}
           </span>
         </div>
       </div>
