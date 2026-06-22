@@ -414,11 +414,11 @@ export default function Landing() {
   ]
 
   const casinos = [
-    {name:'Melbet',     color:'#f5a623', bg:'rgba(245,166,35,0.12)', icon:'M'},
-    {name:'1xBet',      color:'#60a5fa', bg:'rgba(96,165,250,0.10)', icon:'1'},
-    {name:'Mostbet',    color:'#f87171', bg:'rgba(248,113,113,0.10)', icon:'M'},
-    {name:'SpinBetter', color:'#a78bfa', bg:'rgba(167,139,250,0.10)', icon:'S'},
-    {name:'PIN-UP',     color:'#34d399', bg:'rgba(52,211,153,0.10)',  icon:'P'},
+    {name:'Melbet',     color:'#f5a623', bg:'rgba(245,166,35,0.12)', icon:'M', rs:'25%', geo:'40+ GEO', since:'2012', badge:'Top Pick'},
+    {name:'1xBet',      color:'#60a5fa', bg:'rgba(96,165,250,0.10)', icon:'1', rs:'25%', geo:'62+ GEO', since:'2007', badge:'Global'},
+    {name:'Mostbet',    color:'#f87171', bg:'rgba(248,113,113,0.10)', icon:'M', rs:'25%', geo:'90+ GEO', since:'2016', badge:'Fast Pay'},
+    {name:'SpinBetter', color:'#a78bfa', bg:'rgba(167,139,250,0.10)', icon:'S', rs:'25%', geo:'100+ GEO', since:'2019', badge:'New'},
+    {name:'PIN-UP',     color:'#34d399', bg:'rgba(52,211,153,0.10)',  icon:'P', rs:'25%', geo:'50+ GEO', since:'2016', badge:'Casino'},
   ]
 
   return (
@@ -748,9 +748,26 @@ export default function Landing() {
         </div>
         <div style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap'}}>
           {casinos.map(c=>(
-            <div key={c.name} style={{background:c.bg,border:`1px solid ${c.color}25`,borderRadius:12,padding:'1rem 1.75rem',display:'flex',alignItems:'center',gap:12,minWidth:150,transition:'border-color .2s,transform .15s'}} onMouseOver={e=>{e.currentTarget.style.borderColor=`${c.color}55`;e.currentTarget.style.transform='translateY(-2px)'}} onMouseOut={e=>{e.currentTarget.style.borderColor=`${c.color}25`;e.currentTarget.style.transform='translateY(0)'}}>
-              <div style={{width:36,height:36,borderRadius:8,background:c.color,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:900,color:'#fff'}}>{c.icon}</div>
-              <span style={{fontSize:16,fontWeight:700,color:'#fff'}}>{c.name}</span>
+            <div key={c.name} style={{background:c.bg,border:`1px solid ${c.color}22`,borderRadius:16,padding:'1.25rem 1.5rem',minWidth:isMobile?'calc(50% - 8px)':180,maxWidth:220,flex:'1 1 180px',transition:'border-color .2s,transform .2s,box-shadow .2s',position:'relative',overflow:'hidden'}}
+              onMouseOver={e=>{e.currentTarget.style.borderColor=`${c.color}55`;e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow=`0 12px 32px ${c.color}18`}}
+              onMouseOut={e=>{e.currentTarget.style.borderColor=`${c.color}22`;e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='none'}}>
+              {c.badge && <div style={{position:'absolute',top:10,right:10,background:`${c.color}20`,border:`1px solid ${c.color}40`,borderRadius:4,padding:'2px 6px',fontSize:9,fontWeight:700,color:c.color,letterSpacing:'.04em'}}>{c.badge}</div>}
+              <div style={{width:44,height:44,borderRadius:10,background:`${c.color}20`,border:`2px solid ${c.color}40`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,fontWeight:900,color:c.color,marginBottom:12}}>{c.icon}</div>
+              <div style={{fontSize:17,fontWeight:800,color:'#fff',marginBottom:8}}>{c.name}</div>
+              <div style={{display:'flex',flexDirection:'column',gap:4}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <span style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.05em'}}>RevShare</span>
+                  <span style={{fontSize:12,fontWeight:700,color:c.color}}>{c.rs}</span>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <span style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.05em'}}>Piețe</span>
+                  <span style={{fontSize:11,fontWeight:600,color:'rgba(255,255,255,0.55)'}}>{c.geo}</span>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <span style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.05em'}}>Din</span>
+                  <span style={{fontSize:11,fontWeight:600,color:'rgba(255,255,255,0.45)'}}>{c.since}</span>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -785,6 +802,66 @@ export default function Landing() {
       </div>
 
       {/* ─── CALCULATOR ─── eliminat, continut mutat in EXEMPLU VENITURI */}
+
+      {/* ─── DE CE WINPARTNERS vs DIRECT ─── */}
+      <div style={{background:'rgba(245,166,35,0.03)',borderTop:'1px solid rgba(245,166,35,0.08)',borderBottom:'1px solid rgba(245,166,35,0.08)',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem'}}>
+        <div style={{maxWidth:900,margin:'0 auto'}}>
+          <div style={{textAlign:'center',marginBottom:'2rem'}}>
+            <h2 style={{fontSize:'clamp(1.25rem,2.5vw,1.9rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em'}}>
+              {t.lang==='ru' ? 'ПОЧЕМУ WINPARTNERS, А НЕ НАПРЯМУЮ?' :
+               t.lang==='en' ? 'WHY WINPARTNERS VS. DIRECT?' :
+               t.lang==='tr' ? 'NEDEN WİNPARTNERS?' :
+               t.lang==='de' ? 'WARUM WINPARTNERS?' :
+               t.lang==='pt' ? 'POR QUE WINPARTNERS?' :
+               t.lang==='pl' ? 'DLACZEGO WINPARTNERS?' :
+               'DE CE WINPARTNERS ȘI NU DIRECT?'}
+            </h2>
+            <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:16}}>
+            {/* WinPartners */}
+            <div style={{background:'rgba(245,166,35,0.06)',border:'1px solid rgba(245,166,35,0.2)',borderRadius:14,padding:'1.5rem'}}>
+              <div style={{fontSize:14,fontWeight:800,color:gold,marginBottom:16,display:'flex',alignItems:'center',gap:8}}>
+                <span style={{width:28,height:28,borderRadius:6,background:'rgba(245,166,35,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14}}>W</span>
+                WinPartners
+              </div>
+              {[
+                ['✅','5 cazinouri dintr-un singur cont'],
+                ['✅','Statistici unificate în dashboard'],
+                ['✅','Manager personal dedicat'],
+                ['✅','Plată săptămânală de la $30'],
+                ['✅','Suport 24/7 pe Telegram'],
+                ['✅','Aprobare în 24-48 ore'],
+              ].map(([icon,text])=>(
+                <div key={text} style={{display:'flex',gap:10,alignItems:'flex-start',marginBottom:10}}>
+                  <span style={{fontSize:14,lineHeight:1.4}}>{icon}</span>
+                  <span style={{fontSize:13,color:'rgba(255,255,255,0.8)',lineHeight:1.4}}>{text}</span>
+                </div>
+              ))}
+            </div>
+            {/* Direct */}
+            <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:14,padding:'1.5rem'}}>
+              <div style={{fontSize:14,fontWeight:800,color:'rgba(255,255,255,0.4)',marginBottom:16,display:'flex',alignItems:'center',gap:8}}>
+                <span style={{width:28,height:28,borderRadius:6,background:'rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}}>5x</span>
+                {t.lang==='ru'?'Напрямую с казино':t.lang==='en'?'Direct with casinos':t.lang==='de'?'Direkt mit Casinos':t.lang==='pt'?'Diretamente':'Direct cu cazinourile'}
+              </div>
+              {[
+                ['❌','5 conturi separate de gestionat'],
+                ['❌','Statistici izolate per platformă'],
+                ['❌','Negocieri separate cu fiecare'],
+                ['❌','Plăți minime diferite (30-200$)'],
+                ['❌','5 manageri diferiți'],
+                ['❌','Aprobare 2-7 zile la fiecare'],
+              ].map(([icon,text])=>(
+                <div key={text} style={{display:'flex',gap:10,alignItems:'flex-start',marginBottom:10}}>
+                  <span style={{fontSize:14,lineHeight:1.4}}>{icon}</span>
+                  <span style={{fontSize:13,color:'rgba(255,255,255,0.4)',lineHeight:1.4}}>{text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* ─── CTA ─── */}
       <div style={{padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
