@@ -144,9 +144,16 @@ export default function FAQ() {
           <button onClick={()=>nav('/register')} style={{padding:'5px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',flexShrink:0,whiteSpace:'nowrap'}}>{t.reg}</button>
         </div>
       </nav>
+      {/* Hero banner */}
+      <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.07) 0%,rgba(245,166,35,0.02) 50%,transparent 100%)',borderBottom:'1px solid rgba(245,166,35,0.1)',padding:'3rem 1.25rem 2.5rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',width:400,height:400,background:'radial-gradient(ellipse,rgba(245,166,35,0.06) 0%,transparent 65%)',pointerEvents:'none'}}/>
+        <div style={{position:'relative',zIndex:1}}>
+          <h1 style={{fontSize:'clamp(2rem,4vw,3.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.04em',marginBottom:12}}>{t.title} <span style={{color:gold}}>{t.title2}</span></h1>
+          <p style={{fontSize:15,color:'rgba(255,255,255,0.45)',maxWidth:560,margin:'0 auto'}}>{t.sub}</p>
+        </div>
+      </div>
       <div style={{maxWidth:800,margin:'0 auto',padding:'3rem 1.25rem'}}>
-        <h1 style={{fontSize:'clamp(2rem,4vw,3rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.05em',marginBottom:8}}>{t.title} <span style={{color:gold}}>{t.title2}</span></h1>
-        <p style={{fontSize:15,color:'rgba(255,255,255,0.5)',marginBottom:40}}>{t.sub}</p>
+        <div style={{marginBottom:40}}/>
         <div style={{display:'flex',flexDirection:'column',gap:8}}>
           {t.faqs.map(([q,a],i)=>(
             <div key={i} style={{background:'rgba(255,255,255,0.03)',border:`1px solid ${open===i?'rgba(245,166,35,0.3)':'rgba(255,255,255,0.07)'}`,borderRadius:10,overflow:'hidden',cursor:'pointer'}} onClick={()=>setOpen(open===i?null:i)}>
