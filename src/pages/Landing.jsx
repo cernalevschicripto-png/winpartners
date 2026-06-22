@@ -334,7 +334,7 @@ function CalcSection({ isMobile, lang, navigate, gold }) {
             </div>
           </div>
         </div>
-        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)',gap:12,marginBottom:24}}>
+        <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:isMobile?8:12,marginBottom:24}}>
           {[
             [L.play, fmt(players), 'rgba(255,255,255,0.55)'],
             [L.dep, fmt(depositors), '#3b82f6'],
@@ -491,7 +491,7 @@ export default function Landing() {
       </nav>
 
       {/* ─── HERO ─── */}
-      <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'space-between',position:'relative',overflow:'hidden',paddingTop:60}}>
+      <div style={{minHeight:'100vh',display:'flex',alignItems:isMobile?'flex-start':'center',justifyContent:'space-between',flexDirection:isMobile?'column':'row',position:'relative',overflow:'hidden',paddingTop:isMobile?70:60}}>
         {/* Hex grid bg */}
         <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none'}} preserveAspectRatio="xMidYMid slice">
           {[...Array(6)].map((_,i)=>[...Array(5)].map((_,j)=>{
@@ -500,13 +500,13 @@ export default function Landing() {
           }))}
         </svg>
         {/* Radial glow right */}
-        <div style={{position:'absolute',right:'-8%',top:'8%',width:'60%',height:'85%',background:`radial-gradient(ellipse at center, rgba(245,166,35,0.08) 0%, transparent 62%)`,pointerEvents:'none'}}/>
+        <div style={{position:'absolute',right:0,top:'8%',width:'50%',height:'85%',background:`radial-gradient(ellipse at center, rgba(245,166,35,0.08) 0%, transparent 62%)`,pointerEvents:'none'}}/>
         {/* Subtle glow bottom-left */}
         <div style={{position:'absolute',left:'-5%',bottom:'5%',width:'35%',height:'40%',background:`radial-gradient(ellipse at center, rgba(96,165,250,0.05) 0%, transparent 65%)`,pointerEvents:'none'}}/>
 
-        <div style={{position:'relative',zIndex:1,padding:isMobile?'0 1.25rem 2rem':'0 5rem 0 4rem',maxWidth:720}}>
+        <div style={{position:'relative',zIndex:1,padding:isMobile?'1.5rem 1.25rem 2rem':'0 5rem 0 4rem',maxWidth:isMobile?'100%':720,width:isMobile?'100%':'auto'}}>
           {/* Badge */}
-          <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(245,166,35,0.08)',border:`1px solid rgba(245,166,35,0.2)`,borderRadius:20,padding:'5px 14px',marginBottom:28}}>
+          <div style={{display:'flex',flexWrap:'wrap',alignItems:'center',gap:6,background:'rgba(245,166,35,0.08)',border:'1px solid rgba(245,166,35,0.2)',borderRadius:20,padding:'5px 12px',marginBottom:24,maxWidth:isMobile?'calc(100vw - 2.5rem)':'none'}}>
             <span style={{width:6,height:6,borderRadius:'50%',background:'#10b981',display:'inline-block',boxShadow:'0 0 6px #10b981'}}/>
             <span style={{fontSize:11,color:gold,fontWeight:700,letterSpacing:'.06em'}}>{t.badge}</span>
           </div>
@@ -592,7 +592,7 @@ export default function Landing() {
 
       {/* ─── HEXAGON STATS ─── */}
       <div style={{background:'linear-gradient(180deg,rgba(0,0,0,0.6) 0%,rgba(10,10,15,0.85) 100%)',padding:isMobile?'1.5rem 0.25rem':'4rem 2rem',borderBottom:`1px solid rgba(245,166,35,0.07)`}}>
-        <div style={{maxWidth:800,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:isMobile?4:0}}>
+        <div style={{maxWidth:800,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:isMobile?8:0}}>
           {[[t.hex1v,t.hex1l,gold],[t.hex2v,t.hex2l,'#10b981'],[t.hex3v,t.hex3l,'#a78bfa']].map(([v,l,c],idx)=>(
             <div key={l} style={{textAlign:'center',padding:'0 2px'}}>
               <div style={{position:'relative',width:isMobile?'100%':200,height:isMobile?'auto':180,margin:'0 auto'}}>
@@ -728,7 +728,7 @@ export default function Landing() {
             <h2 style={{fontSize:'clamp(1.5rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.how_title}</h2>
             <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
           </div>
-          <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:0,position:'relative'}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:isMobile?8:0,position:'relative'}}>
             {!isMobile && <div style={{position:'absolute',top:27,left:'12.5%',right:'12.5%',height:1,background:`linear-gradient(90deg,${gold},rgba(245,166,35,0.15))`,zIndex:0}}/>}
             {[[t.hw1,'01'],[t.hw2,'02'],[t.hw3,'03'],[t.hw4,'04']].map(([title,num])=>(
               <div key={num} style={{textAlign:'center',padding:'1.5rem 1rem',position:'relative',zIndex:1}}>
