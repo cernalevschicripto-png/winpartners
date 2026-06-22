@@ -664,6 +664,15 @@ export default function Register() {
           </div>
         )}
       </div>
+      {/* Footer */}
+      <footer style={{background:'#050508',borderTop:'1px solid rgba(245,166,35,0.07)',padding:'1.25rem 1.5rem',textAlign:'center'}}>
+        <div style={{display:'flex',flexWrap:'wrap',gap:16,justifyContent:'center',alignItems:'center',marginBottom:8}}>
+          {[['/',t.nav_home||'Home'],['/about',t.nav_about||'About'],['/faq','FAQ'],['/contact','Contact'],['/terms',t.nav_terms||'Terms']].map(([p,l])=>(
+            <span key={p} onClick={()=>navigate(p)} style={{fontSize:12,color:'rgba(255,255,255,0.3)',cursor:'pointer'}} onMouseOver={e=>e.target.style.color='#f5a623'} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.3)'}>{l}</span>
+          ))}
+        </div>
+        <div style={{fontSize:11,color:'rgba(255,255,255,0.15)'}}>© 2026 WinPartners · <a href="https://winpartners.pro" style={{color:'rgba(255,255,255,0.15)',textDecoration:'none'}}>winpartners.pro</a></div>
+      </footer>
     </div>
   )
 }

@@ -846,7 +846,7 @@ function DashboardContent({ blogger, onLogout }) {
                   </div>
                 </div>
                 <div style={card}>
-                  <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Modificați parola</div>
+                  <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>{({'ro':'Modificați parola','ru':'Изменить пароль','en':'Change password','tr':'Şifreyi değiştir','de':'Passwort ändern','pt':'Alterar senha','pl':'Zmień hasło'})[lang]||'Modificați parola'}</div>
                   <div style={{marginBottom:8}}><label style={label}>{dt.oldPass}</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passOld} onChange={e=>setPassOld(e.target.value)}/></div>
                   <div style={{marginBottom:8}}><label style={label}>{dt.newPass}</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passNew} onChange={e=>setPassNew(e.target.value)}/></div>
                   <div style={{marginBottom:12}}><label style={label}>{dt.confirmPass}</label><input type="password" style={{...inp,width:'100%',boxSizing:'border-box'}} placeholder="••••••••" value={passNew2} onChange={e=>setPassNew2(e.target.value)}/></div>
@@ -1341,7 +1341,7 @@ function DashboardContent({ blogger, onLogout }) {
               <div style={{...card,marginBottom:'1rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:12}}>
                 <div>
                   <div style={{fontWeight:700,fontSize:14,color:txt,marginBottom:3}}>Vrei un cod personalizat? (ex: IONEL23)</div>
-                  <div style={{fontSize:12,color:txtSub}}>Trimite o cerere — managerul tău îl activează în 24-48h</div>
+                  <div style={{fontSize:12,color:txtSub}}>{({'ro':'Trimite o cerere — managerul tău îl activează în 24-48h','ru':'Отправить запрос — ваш менеджер активирует в течение 24-48 часов','en':'Submit request — your manager activates it within 24-48 hours','tr':'İstek gönder — yöneticiniz 24-48 saat içinde etkinleştirir','de':'Anfrage senden — Ihr Manager aktiviert es in 24-48 Stunden','pt':'Enviar pedido — o seu gestor ativa em 24-48 horas','pl':'Wyślij prośbę — menedżer aktywuje w ciągu 24-48 godzin'})[lang]||'Trimite o cerere'}</div>
                 </div>
                 <button onClick={()=>setShowCustomCode(true)} style={{...btnPrimary,padding:'9px 20px',fontSize:13,flexShrink:0}}>
                   ✨ Solicită cod special
@@ -1447,7 +1447,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <div style={{background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,padding:'8px 12px',fontSize:12,color:'#854d0e',marginBottom:16}}>
                   💡 Primești notificare pe WhatsApp când plata e confirmată.
                 </div>
-                <button style={btnPrimary} onClick={()=>{setShowPay(false);setPaySent(false)}}>Închide</button>
+                <button style={btnPrimary} onClick={()=>{setShowPay(false);setPaySent(false)}}>{({'ro':'Închide','ru':'Закрыть','en':'Close','tr':'Kapat','de':'Schließen','pt':'Fechar','pl':'Zamknij'})[lang]||'Închide'}</button>
               </div>
             ):(
               <>
@@ -1553,7 +1553,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>Cerere trimisă!</h3>
                 <p style={{color:txtSub,fontSize:13,marginBottom:4}}>Managerul tău va procesa cererea pentru <strong style={{color:gold,fontFamily:'monospace'}}>{customCodeText||'codul tău'}</strong> în 24-48 ore.</p>
                 <p style={{color:txtSub,fontSize:12,marginBottom:16}}>Vei fi notificat când codul este activat.</p>
-                <button style={btnPrimary} onClick={()=>{setShowCustomCode(false);setCustomCodeSent(false)}}>Închide</button>
+                <button style={btnPrimary} onClick={()=>{setShowCustomCode(false);setCustomCodeSent(false)}}>{({'ro':'Închide','ru':'Закрыть','en':'Close','tr':'Kapat','de':'Schließen','pt':'Fechar','pl':'Zamknij'})[lang]||'Închide'}</button>
               </div>
             ):(
               <>
@@ -1597,15 +1597,15 @@ function DashboardContent({ blogger, onLogout }) {
                 <div style={{fontSize:40,marginBottom:10}}>✅</div>
                 <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>Cerere trimisă!</h3>
                 <p style={{color:txtSub,fontSize:13,marginBottom:16}}>Codul personalizat va fi activat în 24-48 ore.</p>
-                <button style={btnPrimary} onClick={()=>{setShowCode(false);setCodeSent(false)}}>Închide</button>
+                <button style={btnPrimary} onClick={()=>{setShowCode(false);setCodeSent(false)}}>{({'ro':'Închide','ru':'Закрыть','en':'Close','tr':'Kapat','de':'Schließen','pt':'Fechar','pl':'Zamknij'})[lang]||'Închide'}</button>
               </div>
             ):(
               <>
-                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>Cere cod personalizat</div>
-                <p style={{color:txtSub,fontSize:13,marginBottom:14}}>Procesare în 24-48 ore. Discutați cu managerul pentru bonusuri speciale.</p>
+                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>{({'ro':'Cere cod personalizat','ru':'Запросить персональный код','en':'Request custom code','tr':'Özel kod talep et','de':'Benutzerdefinierten Code anfordern','pt':'Solicitar código personalizado','pl':'Poproś o niestandardowy kod'})[lang]||'Cere cod personalizat'}</div>
+                <p style={{color:txtSub,fontSize:13,marginBottom:14}}>{({'ro':'Procesare în 24-48 ore. Discutați cu managerul pentru bonusuri speciale.','ru':'Обработка 24-48 часов. Обсудите с менеджером специальные бонусы.','en':'Processing in 24-48 hours. Discuss special bonuses with your manager.','tr':'24-48 saat içinde işlem. Özel bonuslar için yöneticinizle görüşün.','de':'Bearbeitung in 24-48 Stunden. Besprechen Sie Sonderboni mit Ihrem Manager.','pt':'Processamento em 24-48 horas. Discuta bônus especiais com o seu gestor.','pl':'Przetwarzanie w ciągu 24-48 godzin. Omów specjalne bonusy z menedżerem.'})[lang]||'Procesare în 24-48 ore.'}</p>
                 <label style={label}>Codul dorit (ex: IONEL, VLAD20)</label>
                 <input style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:14,textTransform:'uppercase',fontFamily:'monospace',fontSize:14,fontWeight:700}} placeholder="IONEL" value={codeText} onChange={e=>setCodeText(e.target.value.toUpperCase())}/>
-                <button style={{...btnPrimary,width:'100%',padding:'10px',fontSize:14,borderRadius:6}} onClick={()=>codeText&&setCodeSent(true)}>Trimite</button>
+                <button style={{...btnPrimary,width:'100%',padding:'10px',fontSize:14,borderRadius:6}} onClick={()=>codeText&&setCodeSent(true)}>{({'ro':'Trimite','ru':'Отправить','en':'Send','tr':'Gönder','de':'Senden','pt':'Enviar','pl':'Wyślij'})[lang]||'Trimite'}</button>
                 <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCode(false)}>{({'ro':'Anulează','ru':'Отмена','en':'Cancel','tr':'İptal','de':'Abbrechen','pt':'Cancelar','pl':'Anuluj'})[lang]||'Anulează'}</button>
               </>
             )}
