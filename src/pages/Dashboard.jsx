@@ -325,13 +325,13 @@ function DashboardContent({ blogger, onLogout }) {
     ro: { oldPass:'Parola veche', newPass:'Parolă nouă', confirmPass:'Reintroduceți noua parolă', changeBtn:'MODIFICAȚI PAROLA', saveBtn:'SALVAȚI MODIFICĂRILE', passWrongOld:'❌ Parola veche este incorectă.', passNoMatch:'❌ Parolele noi nu coincid.', passShort:'❌ Parola trebuie să aibă cel puțin 6 caractere.', passFill:'❌ Completați toate câmpurile.', passOk:'✅ Parola a fost schimbată cu succes!', passErr:'❌ Eroare la salvare. Încearcă din nou.', contactInfo:'pentru a modifica datele de contact, contactați managerul dvs.',
       balAvail:'DISPONIBIL PENTRU RETRAGERE', balYest:'IERI', balMonth:'LUNA CURENTĂ', bal30:'30 DE ZILE', balTotal:'TOTAL',
       chartConv:'Statistici conversii', chartReg:'Statistici înregistrare', chartSummary:'Sumarul statisticilor',
-      lViews:'Vizualizări', lClicks:'Clickuri', lDirect:'Linkuri directe', lRegs:'Înregistrări', lDep:'Depunători noi', lComm:'Suma comisionului' },
-    ru: { oldPass:'Старый пароль', newPass:'Новый пароль', confirmPass:'Повторите новый пароль', changeBtn:'ИЗМЕНИТЬ ПАРОЛЬ', saveBtn:'СОХРАНИТЬ ИЗМЕНЕНИЯ', passWrongOld:'❌ Неверный старый пароль.', passNoMatch:'❌ Новые пароли не совпадают.', passShort:'❌ Пароль должен содержать не менее 6 символов.', passFill:'❌ Заполните все поля.', passOk:'✅ Пароль успешно изменён!', passErr:'❌ Ошибка сохранения. Попробуйте снова.', contactInfo:'для изменения контактных данных обратитесь к вашему менеджеру.', balAvail:'ДОСТУПНО ДЛЯ ВЫВОДА', balYest:'ВЧЕРА', balMonth:'ТЕКУЩИЙ МЕСЯЦ', bal30:'30 ДНЕЙ', balTotal:'ИТОГО', chartConv:'Статистика конверсий', chartReg:'Статистика регистраций', chartSummary:'Сводка статистики', lViews:'Просмотры', lClicks:'Клики', lDirect:'Прямые ссылки', lRegs:'Регистрации', lDep:'Новые депозиторы', lComm:'Сумма комиссии'},
-    en: { oldPass:'Old password', newPass:'New password', confirmPass:'Confirm new password', changeBtn:'CHANGE PASSWORD', saveBtn:'SAVE CHANGES', passWrongOld:'❌ Old password is incorrect.', passNoMatch:'❌ New passwords do not match.', passShort:'❌ Password must be at least 6 characters.', passFill:'❌ Please fill in all fields.', passOk:'✅ Password changed successfully!', passErr:'❌ Save error. Please try again.', contactInfo:'to modify contact details, contact your manager.', balAvail:'AVAILABLE FOR WITHDRAWAL', balYest:'YESTERDAY', balMonth:'CURRENT MONTH', bal30:'30 DAYS', balTotal:'TOTAL', chartConv:'Conversion stats', chartReg:'Registration stats', chartSummary:'Statistics summary', lViews:'Views', lClicks:'Clicks', lDirect:'Direct links', lRegs:'Registrations', lDep:'New depositors', lComm:'Commission amount'},
-    tr: { oldPass:'Eski şifre', newPass:'Yeni şifre', confirmPass:'Yeni şifreyi onaylayın', changeBtn:'ŞİFREYİ DEĞİŞTİR', saveBtn:'DEĞİŞİKLİKLERİ KAYDET', passWrongOld:'❌ Eski şifre yanlış.', passNoMatch:'❌ Yeni şifreler uyuşmuyor.', passShort:'❌ Şifre en az 6 karakter olmalıdır.', passFill:'❌ Lütfen tüm alanları doldurun.', passOk:'✅ Şifre başarıyla değiştirildi!', passErr:'❌ Kaydetme hatası. Tekrar deneyin.', contactInfo:'iletişim bilgilerini değiştirmek için yöneticinizle iletişime geçin.', balAvail:'ÇEKİLEBİLİR BAKİYE', balYest:'DÜN', balMonth:'MEVCUT AY', bal30:'30 GÜN', balTotal:'TOPLAM', chartConv:'Dönüşüm istatistikleri', chartReg:'Kayıt istatistikleri', chartSummary:'İstatistik özeti', lViews:'Görüntülemeler', lClicks:'Tıklamalar', lDirect:'Direkt linkler', lRegs:'Kayıtlar', lDep:'Yeni yatırımcılar', lComm:'Komisyon tutarı'},
-    de: { oldPass:'Altes Passwort', newPass:'Neues Passwort', confirmPass:'Neues Passwort bestätigen', changeBtn:'PASSWORT ÄNDERN', saveBtn:'ÄNDERUNGEN SPEICHERN', passWrongOld:'❌ Altes Passwort ist falsch.', passNoMatch:'❌ Neue Passwörter stimmen nicht überein.', passShort:'❌ Passwort muss mindestens 6 Zeichen lang sein.', passFill:'❌ Bitte alle Felder ausfüllen.', passOk:'✅ Passwort erfolgreich geändert!', passErr:'❌ Speicherfehler. Bitte erneut versuchen.', contactInfo:'um Kontaktdaten zu ändern, wenden Sie sich an Ihren Manager.', balAvail:'VERFÜGBAR ZUM ABHEBEN', balYest:'GESTERN', balMonth:'AKTUELLER MONAT', bal30:'30 TAGE', balTotal:'GESAMT', chartConv:'Konversionsstatistik', chartReg:'Registrierungsstatistik', chartSummary:'Statistikübersicht', lViews:'Aufrufe', lClicks:'Klicks', lDirect:'Direkte Links', lRegs:'Registrierungen', lDep:'Neue Einzahler', lComm:'Provisionsbetrag'},
-    pt: { oldPass:'Senha antiga', newPass:'Nova senha', confirmPass:'Confirmar nova senha', changeBtn:'ALTERAR SENHA', saveBtn:'GUARDAR ALTERAÇÕES', passWrongOld:'❌ Senha antiga incorreta.', passNoMatch:'❌ As novas senhas não coincidem.', passShort:'❌ A senha deve ter pelo menos 6 caracteres.', passFill:'❌ Por favor preencha todos os campos.', passOk:'✅ Senha alterada com sucesso!', passErr:'❌ Erro ao guardar. Tente novamente.', contactInfo:'para modificar os dados de contacto, contacte o seu gestor.', balAvail:'DISPONÍVEL PARA SAQUE', balYest:'ONTEM', balMonth:'MÊS ATUAL', bal30:'30 DIAS', balTotal:'TOTAL', chartConv:'Estatísticas de conversão', chartReg:'Estatísticas de registro', chartSummary:'Resumo de estatísticas', lViews:'Visualizações', lClicks:'Cliques', lDirect:'Links diretos', lRegs:'Registros', lDep:'Novos depositantes', lComm:'Valor de comissão'},
-    pl: { oldPass:'Stare hasło', newPass:'Nowe hasło', confirmPass:'Potwierdź nowe hasło', changeBtn:'ZMIEŃ HASŁO', saveBtn:'ZAPISZ ZMIANY', passWrongOld:'❌ Stare hasło jest nieprawidłowe.', passNoMatch:'❌ Nowe hasła nie są zgodne.', passShort:'❌ Hasło musi mieć co najmniej 6 znaków.', passFill:'❌ Proszę wypełnić wszystkie pola.', passOk:'✅ Hasło zostało zmienione pomyślnie!', passErr:'❌ Błąd zapisu. Spróbuj ponownie.', contactInfo:'aby zmienić dane kontaktowe, skontaktuj się z menedżerem.', balAvail:'DOSTĘPNE DO WYPŁATY', balYest:'WCZORAJ', balMonth:'BIEŻĄCY MIESIĄC', bal30:'30 DNI', balTotal:'ŁĄCZNIE', chartConv:'Statystyki konwersji', chartReg:'Statystyki rejestracji', chartSummary:'Podsumowanie statystyk', lViews:'Wyświetlenia', lClicks:'Kliknięcia', lDirect:'Linki bezpośrednie', lRegs:'Rejestracje', lDep:'Nowi deponenci', lComm:'Kwota prowizji'},
+      lViews:'Vizualizări', lClicks:'Clickuri', lDirect:'Linkuri directe', lRegs:'Înregistrări', lDep:'Depunători noi', lComm:'Suma comisionului', tblShow:'Înregistrări de la 1 la', tblTotal:'în total', thCur:'Valută',thViews:'Vizualizări',thClicks:'Clickuri',thDirect:'Linkuri directe',thRegs:'Înregistrări',thDep:'Depunători noi',thProfit:'Profit',thComm:'Comision',thStruct:'Structura comisionului',thGroup:'Numele grupei',thStart:'Data de început',thDesc:'Descriere',thEnd:'Dată de sfârșit',thDate:'Data',thPay:'Plata',thRev:'Venituri',thBal:'Sold',thStatus:'Status',thNr:'Nr.',thSite:'Site web',thToggle:'Arată/Ascunde',thLanding:'Pagină destinație',thSubid:'SubID',thCampaign:'Campanie',thLink:'Link generat',thId:'ID',thPromo:'Cod promoțional',thBtag:'BTAG',exactPeriod:'Perioada exactă',commLabel:'Comision RS25% + REF3%',thBlogger:'Blogger',thPlatform:'Platformă',thRegDate:'Data înregistrării',thRegsBrought:'Înregistrări aduse',thHisEarnings:'Câștigurile lui',thMyComm:'Comisionul meu (3%)',thCasino:'Casino',thCode:'Cod',thGenDate:'Data generării',reqAccessTitle:'Solicită acces',reqCustomTitle:'Solicită cod personalizat' },
+    ru: { oldPass:'Старый пароль', newPass:'Новый пароль', confirmPass:'Повторите новый пароль', changeBtn:'ИЗМЕНИТЬ ПАРОЛЬ', saveBtn:'СОХРАНИТЬ ИЗМЕНЕНИЯ', passWrongOld:'❌ Неверный старый пароль.', passNoMatch:'❌ Новые пароли не совпадают.', passShort:'❌ Пароль должен содержать не менее 6 символов.', passFill:'❌ Заполните все поля.', passOk:'✅ Пароль успешно изменён!', passErr:'❌ Ошибка сохранения. Попробуйте снова.', contactInfo:'для изменения контактных данных обратитесь к вашему менеджеру.', balAvail:'ДОСТУПНО ДЛЯ ВЫВОДА', balYest:'ВЧЕРА', balMonth:'ТЕКУЩИЙ МЕСЯЦ', bal30:'30 ДНЕЙ', balTotal:'ИТОГО', chartConv:'Статистика конверсий', chartReg:'Статистика регистраций', chartSummary:'Сводка статистики', lViews:'Просмотры', lClicks:'Клики', lDirect:'Прямые ссылки', lRegs:'Регистрации', lDep:'Новые депозиторы', lComm:'Сумма комиссии', tblShow:'Записи с 1 по', tblTotal:'всего', thCur:'Валюта',thViews:'Просмотры',thClicks:'Клики',thDirect:'Прямые ссылки',thRegs:'Регистрации',thDep:'Новые депозиторы',thProfit:'Прибыль',thComm:'Комиссия',thStruct:'Структура комиссии',thGroup:'Название группы',thStart:'Дата начала',thDesc:'Описание',thEnd:'Дата окончания',thDate:'Дата',thPay:'Выплата',thRev:'Доход',thBal:'Баланс',thStatus:'Статус',thNr:'№',thSite:'Сайт',thToggle:'Показать/Скрыть',thLanding:'Целевая страница',thSubid:'SubID',thCampaign:'Кампания',thLink:'Сген. ссылка',thId:'ID',thPromo:'Промокод',thBtag:'BTAG',exactPeriod:'Точный период',commLabel:'Комиссия RS25% + REF3%',thBlogger:'Блогер',thPlatform:'Платформа',thRegDate:'Дата регистрации',thRegsBrought:'Привлечено регистраций',thHisEarnings:'Его доход',thMyComm:'Моя комиссия (3%)',thCasino:'Казино',thCode:'Код',thGenDate:'Дата генерации',reqAccessTitle:'Запросить доступ',reqCustomTitle:'Запросить персональный код'},
+    en: { oldPass:'Old password', newPass:'New password', confirmPass:'Confirm new password', changeBtn:'CHANGE PASSWORD', saveBtn:'SAVE CHANGES', passWrongOld:'❌ Old password is incorrect.', passNoMatch:'❌ New passwords do not match.', passShort:'❌ Password must be at least 6 characters.', passFill:'❌ Please fill in all fields.', passOk:'✅ Password changed successfully!', passErr:'❌ Save error. Please try again.', contactInfo:'to modify contact details, contact your manager.', balAvail:'AVAILABLE FOR WITHDRAWAL', balYest:'YESTERDAY', balMonth:'CURRENT MONTH', bal30:'30 DAYS', balTotal:'TOTAL', chartConv:'Conversion stats', chartReg:'Registration stats', chartSummary:'Statistics summary', lViews:'Views', lClicks:'Clicks', lDirect:'Direct links', lRegs:'Registrations', lDep:'New depositors', lComm:'Commission amount', tblShow:'Records from 1 to', tblTotal:'total', thCur:'Currency',thViews:'Views',thClicks:'Clicks',thDirect:'Direct links',thRegs:'Registrations',thDep:'New depositors',thProfit:'Profit',thComm:'Commission',thStruct:'Commission structure',thGroup:'Group name',thStart:'Start date',thDesc:'Description',thEnd:'End date',thDate:'Date',thPay:'Payment',thRev:'Revenue',thBal:'Balance',thStatus:'Status',thNr:'No.',thSite:'Website',thToggle:'Show/Hide',thLanding:'Landing page',thSubid:'SubID',thCampaign:'Campaign',thLink:'Generated link',thId:'ID',thPromo:'Promo code',thBtag:'BTAG',exactPeriod:'Exact period',commLabel:'Commission RS25% + REF3%',thBlogger:'Blogger',thPlatform:'Platform',thRegDate:'Registration date',thRegsBrought:'Registrations brought',thHisEarnings:'Their earnings',thMyComm:'My commission (3%)',thCasino:'Casino',thCode:'Code',thGenDate:'Generation date',reqAccessTitle:'Request access',reqCustomTitle:'Request custom code'},
+    tr: { oldPass:'Eski şifre', newPass:'Yeni şifre', confirmPass:'Yeni şifreyi onaylayın', changeBtn:'ŞİFREYİ DEĞİŞTİR', saveBtn:'DEĞİŞİKLİKLERİ KAYDET', passWrongOld:'❌ Eski şifre yanlış.', passNoMatch:'❌ Yeni şifreler uyuşmuyor.', passShort:'❌ Şifre en az 6 karakter olmalıdır.', passFill:'❌ Lütfen tüm alanları doldurun.', passOk:'✅ Şifre başarıyla değiştirildi!', passErr:'❌ Kaydetme hatası. Tekrar deneyin.', contactInfo:'iletişim bilgilerini değiştirmek için yöneticinizle iletişime geçin.', balAvail:'ÇEKİLEBİLİR BAKİYE', balYest:'DÜN', balMonth:'MEVCUT AY', bal30:'30 GÜN', balTotal:'TOPLAM', chartConv:'Dönüşüm istatistikleri', chartReg:'Kayıt istatistikleri', chartSummary:'İstatistik özeti', lViews:'Görüntülemeler', lClicks:'Tıklamalar', lDirect:'Direkt linkler', lRegs:'Kayıtlar', lDep:'Yeni yatırımcılar', lComm:'Komisyon tutarı', tblShow:'1 - ', tblTotal:'toplam kayıt',thCur:'Para birimi',thViews:'Görüntülemeler',thClicks:'Tıklamalar',thDirect:'Direkt linkler',thRegs:'Kayıtlar',thDep:'Yeni yatırımcılar',thProfit:'Kâr',thComm:'Komisyon',thStruct:'Komisyon yapısı',thGroup:'Grup adı',thStart:'Başlangıç tarihi',thDesc:'Açıklama',thEnd:'Bitiş tarihi',thDate:'Tarih',thPay:'Ödeme',thRev:'Gelir',thBal:'Bakiye',thStatus:'Durum',thNr:'No.',thSite:'Web sitesi',thToggle:'Göster/Gizle',thLanding:'Hedef sayfa',thSubid:'SubID',thCampaign:'Kampanya',thLink:'Oluşturulan link',thId:'ID',thPromo:'Promosyon kodu',thBtag:'BTAG',exactPeriod:'Tam dönem',commLabel:'Komisyon RS25% + REF3%',thBlogger:'Blogger',thPlatform:'Platform',thRegDate:'Kayıt tarihi',thRegsBrought:'Getirilen kayıtlar',thHisEarnings:'Kazançları',thMyComm:'Komisyonum (3%)',thCasino:'Casino',thCode:'Kod',thGenDate:'Oluşturma tarihi',reqAccessTitle:'Erişim talep et',reqCustomTitle:'Özel kod talep et'},
+    de: { oldPass:'Altes Passwort', newPass:'Neues Passwort', confirmPass:'Neues Passwort bestätigen', changeBtn:'PASSWORT ÄNDERN', saveBtn:'ÄNDERUNGEN SPEICHERN', passWrongOld:'❌ Altes Passwort ist falsch.', passNoMatch:'❌ Neue Passwörter stimmen nicht überein.', passShort:'❌ Passwort muss mindestens 6 Zeichen lang sein.', passFill:'❌ Bitte alle Felder ausfüllen.', passOk:'✅ Passwort erfolgreich geändert!', passErr:'❌ Speicherfehler. Bitte erneut versuchen.', contactInfo:'um Kontaktdaten zu ändern, wenden Sie sich an Ihren Manager.', balAvail:'VERFÜGBAR ZUM ABHEBEN', balYest:'GESTERN', balMonth:'AKTUELLER MONAT', bal30:'30 TAGE', balTotal:'GESAMT', chartConv:'Konversionsstatistik', chartReg:'Registrierungsstatistik', chartSummary:'Statistikübersicht', lViews:'Aufrufe', lClicks:'Klicks', lDirect:'Direkte Links', lRegs:'Registrierungen', lDep:'Neue Einzahler', lComm:'Provisionsbetrag', tblShow:'Einträge 1 bis', tblTotal:'gesamt',thCur:'Währung',thViews:'Aufrufe',thClicks:'Klicks',thDirect:'Direkte Links',thRegs:'Registrierungen',thDep:'Neue Einzahler',thProfit:'Gewinn',thComm:'Provision',thStruct:'Provisionsstruktur',thGroup:'Gruppenname',thStart:'Startdatum',thDesc:'Beschreibung',thEnd:'Enddatum',thDate:'Datum',thPay:'Zahlung',thRev:'Einnahmen',thBal:'Saldo',thStatus:'Status',thNr:'Nr.',thSite:'Webseite',thToggle:'Anzeigen/Verbergen',thLanding:'Zielseite',thSubid:'SubID',thCampaign:'Kampagne',thLink:'Generierter Link',thId:'ID',thPromo:'Promo-Code',thBtag:'BTAG',exactPeriod:'Genauer Zeitraum',commLabel:'Provision RS25% + REF3%',thBlogger:'Blogger',thPlatform:'Plattform',thRegDate:'Registrierungsdatum',thRegsBrought:'Gebrachte Registrierungen',thHisEarnings:'Ihre Einnahmen',thMyComm:'Meine Provision (3%)',thCasino:'Casino',thCode:'Code',thGenDate:'Erstellungsdatum',reqAccessTitle:'Zugang anfordern',reqCustomTitle:'Benutzerdefinierten Code anfordern'},
+    pt: { oldPass:'Senha antiga', newPass:'Nova senha', confirmPass:'Confirmar nova senha', changeBtn:'ALTERAR SENHA', saveBtn:'GUARDAR ALTERAÇÕES', passWrongOld:'❌ Senha antiga incorreta.', passNoMatch:'❌ As novas senhas não coincidem.', passShort:'❌ A senha deve ter pelo menos 6 caracteres.', passFill:'❌ Por favor preencha todos os campos.', passOk:'✅ Senha alterada com sucesso!', passErr:'❌ Erro ao guardar. Tente novamente.', contactInfo:'para modificar os dados de contacto, contacte o seu gestor.', balAvail:'DISPONÍVEL PARA SAQUE', balYest:'ONTEM', balMonth:'MÊS ATUAL', bal30:'30 DIAS', balTotal:'TOTAL', chartConv:'Estatísticas de conversão', chartReg:'Estatísticas de registro', chartSummary:'Resumo de estatísticas', lViews:'Visualizações', lClicks:'Cliques', lDirect:'Links diretos', lRegs:'Registros', lDep:'Novos depositantes', lComm:'Valor de comissão', tblShow:'Registros de 1 a', tblTotal:'no total',thCur:'Moeda',thViews:'Visualizações',thClicks:'Cliques',thDirect:'Links diretos',thRegs:'Registros',thDep:'Novos depositantes',thProfit:'Lucro',thComm:'Comissão',thStruct:'Estrutura de comissão',thGroup:'Nome do grupo',thStart:'Data de início',thDesc:'Descrição',thEnd:'Data de fim',thDate:'Data',thPay:'Pagamento',thRev:'Receita',thBal:'Saldo',thStatus:'Status',thNr:'Nr.',thSite:'Website',thToggle:'Mostrar/Ocultar',thLanding:'Página de destino',thSubid:'SubID',thCampaign:'Campanha',thLink:'Link gerado',thId:'ID',thPromo:'Código promo',thBtag:'BTAG',exactPeriod:'Período exato',commLabel:'Comissão RS25% + REF3%',thBlogger:'Blogger',thPlatform:'Plataforma',thRegDate:'Data de registro',thRegsBrought:'Registros trazidos',thHisEarnings:'Ganhos dele',thMyComm:'Minha comissão (3%)',thCasino:'Casino',thCode:'Código',thGenDate:'Data de geração',reqAccessTitle:'Solicitar acesso',reqCustomTitle:'Solicitar código personalizado'},
+    pl: { oldPass:'Stare hasło', newPass:'Nowe hasło', confirmPass:'Potwierdź nowe hasło', changeBtn:'ZMIEŃ HASŁO', saveBtn:'ZAPISZ ZMIANY', passWrongOld:'❌ Stare hasło jest nieprawidłowe.', passNoMatch:'❌ Nowe hasła nie są zgodne.', passShort:'❌ Hasło musi mieć co najmniej 6 znaków.', passFill:'❌ Proszę wypełnić wszystkie pola.', passOk:'✅ Hasło zostało zmienione pomyślnie!', passErr:'❌ Błąd zapisu. Spróbuj ponownie.', contactInfo:'aby zmienić dane kontaktowe, skontaktuj się z menedżerem.', balAvail:'DOSTĘPNE DO WYPŁATY', balYest:'WCZORAJ', balMonth:'BIEŻĄCY MIESIĄC', bal30:'30 DNI', balTotal:'ŁĄCZNIE', chartConv:'Statystyki konwersji', chartReg:'Statystyki rejestracji', chartSummary:'Podsumowanie statystyk', lViews:'Wyświetlenia', lClicks:'Kliknięcia', lDirect:'Linki bezpośrednie', lRegs:'Rejestracje', lDep:'Nowi deponenci', lComm:'Kwota prowizji', tblShow:'Wpisy od 1 do', tblTotal:'łącznie',thCur:'Waluta',thViews:'Wyświetlenia',thClicks:'Kliknięcia',thDirect:'Linki bezpośrednie',thRegs:'Rejestracje',thDep:'Nowi deponenci',thProfit:'Zysk',thComm:'Prowizja',thStruct:'Struktura prowizji',thGroup:'Nazwa grupy',thStart:'Data rozpoczęcia',thDesc:'Opis',thEnd:'Data zakończenia',thDate:'Data',thPay:'Wypłata',thRev:'Przychód',thBal:'Saldo',thStatus:'Status',thNr:'Nr.',thSite:'Strona',thToggle:'Pokaż/Ukryj',thLanding:'Strona docelowa',thSubid:'SubID',thCampaign:'Kampania',thLink:'Wygenerowany link',thId:'ID',thPromo:'Kod promo',thBtag:'BTAG',exactPeriod:'Dokładny okres',commLabel:'Prowizja RS25% + REF3%',thBlogger:'Bloger',thPlatform:'Platforma',thRegDate:'Data rejestracji',thRegsBrought:'Przyniesione rejestracje',thHisEarnings:'Jego zarobki',thMyComm:'Moja prowizja (3%)',thCasino:'Kasyno',thCode:'Kod',thGenDate:'Data wygenerowania',reqAccessTitle:'Zażądaj dostępu',reqCustomTitle:'Zażądaj własnego kodu'},
   }
   const dt = dashT[lang] || dashT.ro
 
@@ -515,7 +515,7 @@ function DashboardContent({ blogger, onLogout }) {
   const tabInactive = {padding:'8px 20px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderBottom:'none',background:bgCard,color:txtSub,fontWeight:400,fontFamily:'inherit',borderRadius:'4px 4px 0 0'}
 
   return (
-    <div style={{background:bg,minHeight:'100vh',color:txt,fontFamily:'"Inter",-apple-system,sans-serif',display:'flex',flexDirection:'column',fontSize:13,position:'relative'}}>
+    <div style={{background:bg,minHeight:'100vh',color:txt,fontFamily:'"Inter",-apple-system,sans-serif',display:'flex',flexDirection:'column',fontSize:13,position:'relative',overflowX:'hidden'}}>
       {/* Mobile overlay */}
       {isMobile && sidebarOpen && (
         <div onClick={()=>setSidebarOpen(false)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.5)',zIndex:40}} />
@@ -718,7 +718,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <div style={{overflowX:'auto'}}>
                   <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
-                    <thead><tr>{['Valută ↕','Structura comisionului ↕','Numele grupei ↕','Data de început ↕','Descriere ↕','Dată de sfârșit ↕'].map(h=><th key={h} style={{...TH,cursor:'pointer'}}>{h}</th>)}</tr></thead>
+                    <thead><tr>{[dt.thCur+' ↕',dt.thStruct+' ↕',dt.thGroup+' ↕',dt.thStart+' ↕',dt.thDesc+' ↕',dt.thEnd+' ↕'].map(h=><th key={h} style={{...TH,cursor:'pointer'}}>{h}</th>)}</tr></thead>
                     <tbody>{D.commStructure.map((r,i)=>(
                       <tr key={i} style={{background:i%2===0?'#fff':'#fafafa'}}>
                         <td style={TD}>{r.val}</td>
@@ -731,7 +731,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     ))}</tbody>
                   </table>
                 </div>
-                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>Înregistrări de la 1 la {D.commStructure.length} ({D.commStructure.length} înregistrări în total)</div>
+                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} {D.commStructure.length} ({D.commStructure.length} {dt.tblTotal})</div>
               </div>
             </div>
           )}
@@ -744,7 +744,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <div style={{background:'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(16,185,129,0.04))',border:'1px solid rgba(16,185,129,0.3)',borderRadius:10,padding:'14px 18px',display:'flex',gap:12,alignItems:'flex-start'}}>
                   <div style={{fontSize:24,flexShrink:0}}>💰</div>
                   <div>
-                    <div style={{fontSize:13,fontWeight:700,color:'#10b981',marginBottom:4}}>Comision RS25% + REF3%</div>
+                    <div style={{fontSize:13,fontWeight:700,color:'#10b981',marginBottom:4}}>{dt.commLabel}</div>
                     <div style={{fontSize:12,color:txtSub,lineHeight:1.6}}>Primești <b style={{color:txt}}>25%</b> din pierderile jucătorilor tăi + <b style={{color:'#10b981'}}>3% bonus</b> din câștigurile oricărui blogger pe care îl inviți tu în program — pe viață.</div>
                   </div>
                 </div>
@@ -776,7 +776,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>6 articole selectate ▼</option></select></div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:500}}>
-                  <thead><tr>{['Valută ↕','Data ↕','Plata ↕','Venituri ↕','Sold ↕','Status ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                  <thead><tr>{[dt.thCur+' ↕',dt.thDate+' ↕',dt.thPay+' ↕',dt.thRev+' ↕',dt.thBal+' ↕',dt.thStatus+' ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>
                     {payTab==='history'&&D.pays.map((p,i)=>(
                       <tr key={i} style={{background:i%2===0?'#fff':'#fafafa'}}>
@@ -791,7 +791,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     {payTab==='status'&&<tr><td colSpan={6} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>Fără solicitări active</td></tr>}
                   </tbody>
                 </table>
-                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>Înregistrări de la 1 la {D.pays.length}</div>
+                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} {D.pays.length}</div>
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
                 <div style={card}>
@@ -885,7 +885,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>8 articole selectate ▼</option></select></div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:700}}>
-                  <thead><tr>{['Nr. ↕','Site web ↕','Arată/Ascunde ↕','Pagină destinație ↕','SubID ↕','Campanie ↕','Link generat ↕','Valută ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                  <thead><tr>{[dt.thNr+' ↕',dt.thSite+' ↕',dt.thToggle+' ↕',dt.thLanding+' ↕',dt.thSubid+' ↕',dt.thCampaign+' ↕',dt.thLink+' ↕',dt.thCur+' ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>
                     {linkTab==='created'&&D.links.map((l,i)=>(
                       <tr key={i} style={{background:i%2===0?'#fff':'#fafafa'}}>
@@ -905,7 +905,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     {linkTab==='hidden'&&<tr><td colSpan={8} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>Fără informații</td></tr>}
                   </tbody>
                 </table>
-                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>Înregistrări de la 1 la {D.links.length}</div>
+                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} {D.links.length}</div>
               </div>
             </div>
           )}
@@ -935,7 +935,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>5 articole selectate ▼</option></select></div>
               <div style={{...card,padding:0,overflowX:'auto',marginBottom:'1.25rem'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
-                  <thead><tr>{['ID ↕','Site web ↕','Valută ↕','Cod promoțional ↕','BTAG ↕',''].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                  <thead><tr>{[dt.thId+' ↕',dt.thSite+' ↕',dt.thCur+' ↕',dt.thPromo+' ↕',dt.thBtag+' ↕',''].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>
                     <tr>
                       <td style={TD}>11035387</td>
@@ -950,7 +950,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     </tr>
                   </tbody>
                 </table>
-                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>Înregistrări de la 1 la 1 (1 înregistrare în total)</div>
+                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} 1 (1 {dt.tblTotal})</div>
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
                 <div style={card}>
@@ -1082,7 +1082,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               </div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
-                  <thead><tr>{['Blogger','Platformă','Data înregistrării','Înregistrări aduse','Câștigurile lui','Comisionul meu (3%)'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                  <thead><tr>{[dt.thBlogger,dt.thPlatform,dt.thRegDate,dt.thRegsBrought,dt.thHisEarnings,dt.thMyComm].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>{myReferrals.length===0?(
                     <tr><td colSpan={6} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>
                       Niciun blogger invitat încă. Copiază linkul de referral și trimite-l colegilor tăi bloggeri!
@@ -1376,7 +1376,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,fontSize:14,fontWeight:700,color:txt}}>Toate codurile mele active</div>
                   <div style={{overflowX:'auto'}}>
                     <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
-                      <thead><tr>{['Casino','Cod','Data generării','Înregistrări','Comision'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                      <thead><tr>{[dt.thCasino,dt.thCode,dt.thGenDate,dt.thRegs,dt.thComm].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                       <tbody>{myCodes.map((c,i)=>(
                         <tr key={c.code} style={{background:i%2===0?'#fff':'#fafafa'}}>
                           <td style={TD}>
@@ -1401,7 +1401,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
 
           {page==='contact'&&(
             <div style={{...card,maxWidth:440}}>
-              {[['Email','support@winpartners.pro'],['Telegram','@winpartners_manager'],['WhatsApp','+373 XX XXX XXX'],['Program','24/7, 365 zile/an']].map(([l,v])=>(
+              {[['Email','support@winpartners.pro'],['Telegram','@winpartners_manager'],['Program','24/7, 365 zile/an']].map(([l,v])=>(
                 <div key={l} style={{display:'flex',justifyContent:'space-between',padding:'10px 0',borderBottom:`1px solid ${bdr}`}}>
                   <span style={{fontSize:13,color:txtSub,fontWeight:500}}>{l}</span>
                   <span style={{fontSize:13,color:gold,fontWeight:600}}>{v}</span>
@@ -1509,7 +1509,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
         return (
           <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.6)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:200,padding:'1rem'}} onClick={()=>setShowCasinoRequest(null)}>
             <div style={{...card,width:'100%',maxWidth:420,boxShadow:'0 20px 60px rgba(0,0,0,0.4)'}} onClick={e=>e.stopPropagation()}>
-              <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>Solicită acces — {casino?.name}</div>
+              <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>{dt.reqAccessTitle} — {casino?.name}</div>
               <p style={{color:txtSub,fontSize:13,marginBottom:20,lineHeight:1.6}}>
                 Trimite o cerere pentru a promova <strong>{casino?.name}</strong>. Echipa noastră îți va activa accesul și îți va aloca un cod promoțional dedicat.
               </p>
@@ -1553,7 +1553,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               </div>
             ):(
               <>
-                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>Solicită cod personalizat</div>
+                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>{dt.reqCustomTitle}</div>
                 <p style={{color:txtSub,fontSize:13,marginBottom:16,lineHeight:1.5}}>
                   Vrei un cod cu numele tău? (ex: <span style={{fontFamily:'monospace',color:gold,fontWeight:700}}>IONEL23</span>, <span style={{fontFamily:'monospace',color:gold,fontWeight:700}}>VLAD_WIN</span>)<br/>
                   Managerul va face cererea la cazinou și îl activează în 24-48h.
