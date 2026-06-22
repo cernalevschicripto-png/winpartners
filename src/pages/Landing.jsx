@@ -13,7 +13,7 @@ const T = {
     hbtn:'ÎNCEPEȚI ACUM', hbtn2:'Cum funcționează',
     trust1:'Plăți garantate', trust2:'SSL Securizat', trust3:'Suport 24/7', trust4:'Parteneri verificați',
     s1v:'25%', s1l:'Comision Revenue Share', s2v:'+3%', s2l:'Bonus referral bloggeri', s3v:'48h', s3l:'Procesare plăți', s4v:'$30', s4l:'Plată minimă/săptămână',
-    hex1v:'5', hex1l:'Cazinouri partenere', hex2v:'25%', hex2l:'RevShare pe viață', hex3v:'$30+', hex3l:'Plată minimă/săptămână',
+    hex1v:'5', hex1l:'Cazinouri partenere', hex2v:'25%', hex2l:'RevShare pe viață', hex3v:'$30+', hex3l:'Min. $30/săpt.',
     mgr_title:'MANAGERUL TĂU PERSONAL', mgr_name:'Manager WinPartners', mgr_role:'Parteneriat & Suport', mgr_text:'Îmi ocup personal de contul tău — de la primul cod până la prima plată. Scrie-mi direct pe Telegram.',mgr_btn:'Scrie pe Telegram',
     mgr_verify:'Verifică că vorbești cu managerul oficial',
     ben_title:'DE CE WINPARTNERS',
@@ -44,7 +44,7 @@ const T = {
     hbtn:'НАЧАТЬ СЕЙЧАС', hbtn2:'Как это работает',
     trust1:'Гарантированные выплаты', trust2:'SSL Защита', trust3:'Поддержка 24/7', trust4:'Проверенные партнеры',
     s1v:'25%', s1l:'Комиссия Revenue Share', s2v:'+3%', s2l:'Реферальный бонус', s3v:'48h', s3l:'Обработка выплат', s4v:'$30', s4l:'Мин. выплата/неделя',
-    hex1v:'5', hex1l:'Казино-партнёров', hex2v:'25%', hex2l:'RevShare навсегда', hex3v:'$30+', hex3l:'Мин. выплата/неделю',
+    hex1v:'5', hex1l:'Казино-партнёров', hex2v:'25%', hex2l:'RevShare навсегда', hex3v:'$30+', hex3l:'Min. $30/săpt.',
     mgr_title:'ВАШ ЛИЧНЫЙ МЕНЕДЖЕР', mgr_name:'Менеджер WinPartners', mgr_role:'Партнёрство и поддержка', mgr_text:'Я лично веду ваш аккаунт — от первого кода до первой выплаты. Пишите мне напрямую в Telegram.',mgr_btn:'Написать в Telegram',
     mgr_verify:'Проверьте, что вы общаетесь с официальным менеджером',
     ben_title:'ПОЧЕМУ WINPARTNERS',
@@ -75,7 +75,7 @@ const T = {
     hbtn:'GET STARTED', hbtn2:'How it works',
     trust1:'Guaranteed payments', trust2:'SSL Secured', trust3:'24/7 Support', trust4:'Verified partners',
     s1v:'25%', s1l:'Revenue Share commission', s2v:'+3%', s2l:'Blogger referral bonus', s3v:'48h', s3l:'Payment processing', s4v:'$30', s4l:'Min. payout/week',
-    hex1v:'5', hex1l:'Casino partners', hex2v:'25%', hex2l:'RevShare for life', hex3v:'$30+', hex3l:'Min. weekly payout',
+    hex1v:'5', hex1l:'Casino partners', hex2v:'25%', hex2l:'RevShare for life', hex3v:'$30+', hex3l:'Min. $30/week',
     mgr_title:'YOUR PERSONAL MANAGER', mgr_name:'WinPartners Manager', mgr_role:'Partnership & Support', mgr_text:'I personally manage your account — from your first code to your first payment. Message me directly on Telegram.',mgr_btn:'Message on Telegram',
     mgr_verify:'Verify you are speaking with the official manager',
     ben_title:'WHY WINPARTNERS',
@@ -106,7 +106,7 @@ const T = {
     hbtn:'HEMEN BAŞLA', hbtn2:'Nasıl çalışır',
     trust1:'Garantili ödemeler', trust2:'SSL Güvenli', trust3:'7/24 Destek', trust4:'Doğrulanmış ortaklar',
     s1v:'%25', s1l:'RevShare komisyon', s2v:'+%3', s2l:'Blogger referans bonusu', s3v:'48s', s3l:'Ödeme işleme', s4v:'$30', s4l:'Min. haftalık ödeme',
-    hex1v:'5', hex1l:'Casino ortakları', hex2v:'25%', hex2l:'Ömür boyu RevShare', hex3v:'$30+', hex3l:'Min. haftalık ödeme',
+    hex1v:'5', hex1l:'Casino ortakları', hex2v:'25%', hex2l:'Ömür boyu RevShare', hex3v:'$30+', hex3l:'Min. $30/hafta',
     mgr_title:'KİŞİSEL YÖNETİCİNİZ', mgr_name:'WinPartners Yöneticisi', mgr_role:'Ortaklık ve Destek', mgr_text:'Hesabınızı kişisel olarak yönetiyorum — ilk kodunuzdan ilk ödemenize kadar. Telegram üzerinden doğrudan mesaj atın.', mgr_btn:'Telegram üzerinden Yaz',
     mgr_verify:'Resmi yöneticiyle konuştuğunuzu doğrulayın',
     ben_title:'NEDEN WINPARTNERS',
@@ -137,7 +137,7 @@ const T = {
     hbtn:'JETZT STARTEN', hbtn2:'So funktioniert es',
     trust1:'Garantierte Auszahlungen', trust2:'SSL-Gesichert', trust3:'24/7 Support', trust4:'Geprüfte Partner',
     s1v:'25%', s1l:'RevShare-Provision', s2v:'+3%', s2l:'Blogger-Empfehlungsbonus', s3v:'48h', s3l:'Zahlungsabwicklung', s4v:'$30', s4l:'Min. Auszahlung/Woche',
-    hex1v:'5', hex1l:'Casino-Partner', hex2v:'25%', hex2l:'RevShare lebenslang', hex3v:'$30+', hex3l:'Min. wöchentliche Auszahlung',
+    hex1v:'5', hex1l:'Casino-Partner', hex2v:'25%', hex2l:'RevShare lebenslang', hex3v:'$30+', hex3l:'Min. $30/Woche',
     mgr_title:'IHR PERSÖNLICHER MANAGER', mgr_name:'WinPartners Manager', mgr_role:'Partnerschaft & Support', mgr_text:'Ich betreue Ihr Konto persönlich — vom ersten Code bis zur ersten Auszahlung. Schreiben Sie mir direkt auf Telegram.', mgr_btn:'Auf Telegram schreiben',
     mgr_verify:'Überprüfen Sie, ob Sie mit dem offiziellen Manager sprechen',
     ben_title:'WARUM WINPARTNERS',
@@ -168,7 +168,7 @@ const T = {
     hbtn:'COMEÇAR AGORA', hbtn2:'Como funciona',
     trust1:'Pagamentos garantidos', trust2:'SSL Seguro', trust3:'Suporte 24/7', trust4:'Parceiros verificados',
     s1v:'25%', s1l:'Comissão RevShare', s2v:'+3%', s2l:'Bônus de indicação', s3v:'48h', s3l:'Processamento', s4v:'$30', s4l:'Pagamento mín./semana',
-    hex1v:'5', hex1l:'Cassinos parceiros', hex2v:'25%', hex2l:'RevShare vitalício', hex3v:'$30+', hex3l:'Pagamento mín. semanal',
+    hex1v:'5', hex1l:'Cassinos parceiros', hex2v:'25%', hex2l:'RevShare vitalício', hex3v:'$30+', hex3l:'Mín. $30/sem.',
     mgr_title:'SEU GERENTE PESSOAL', mgr_name:'Gerente WinPartners', mgr_role:'Parceria & Suporte', mgr_text:'Cuido pessoalmente da sua conta — do primeiro código ao primeiro pagamento. Escreva-me diretamente no Telegram.', mgr_btn:'Escrever no Telegram',
     mgr_verify:'Verifique que está falando com o gerente oficial',
     ben_title:'POR QUE WINPARTNERS',
@@ -199,7 +199,7 @@ const T = {
     hbtn:'ZACZNIJ TERAZ', hbtn2:'Jak to działa',
     trust1:'Gwarantowane wypłaty', trust2:'SSL Zabezpieczony', trust3:'Wsparcie 24/7', trust4:'Zweryfikowani partnerzy',
     s1v:'25%', s1l:'Prowizja RevShare', s2v:'+3%', s2l:'Bonus polecenia bloggera', s3v:'48h', s3l:'Realizacja płatności', s4v:'$30', s4l:'Min. wypłata/tydzień',
-    hex1v:'5', hex1l:'Partnerzy casino', hex2v:'25%', hex2l:'RevShare dożywotnio', hex3v:'$30+', hex3l:'Min. tygodniowa wypłata',
+    hex1v:'5', hex1l:'Partnerzy casino', hex2v:'25%', hex2l:'RevShare dożywotnio', hex3v:'$30+', hex3l:'Min. $30/tydz.',
     mgr_title:'TWÓJ OSOBISTY MENEDŻER', mgr_name:'Menedżer WinPartners', mgr_role:'Partnerstwo & Wsparcie', mgr_text:'Osobiście zarządzam Twoim kontem — od pierwszego kodu do pierwszej wypłaty. Napisz do mnie bezpośrednio na Telegramie.', mgr_btn:'Napisz na Telegramie',
     mgr_verify:'Zweryfikuj, że rozmawiasz z oficjalnym menedżerem',
     ben_title:'DLACZEGO WINPARTNERS',
@@ -595,7 +595,7 @@ export default function Landing() {
         <div style={{maxWidth:800,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:isMobile?8:0}}>
           {[[t.hex1v,t.hex1l,gold],[t.hex2v,t.hex2l,'#10b981'],[t.hex3v,t.hex3l,'#a78bfa']].map(([v,l,c],idx)=>(
             <div key={l} style={{textAlign:'center',padding:'0 2px'}}>
-              <div style={{position:'relative',width:isMobile?'100%':200,height:isMobile?'auto':180,margin:'0 auto'}}>
+              <div style={{position:'relative',width:isMobile?'100%':200,height:isMobile?120:180,margin:'0 auto'}}>
                 <svg viewBox="0 0 200 180" style={{width:'100%',height:'100%'}}>
                   <defs>
                     <linearGradient id={`hgrad${idx}`} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -607,8 +607,8 @@ export default function Landing() {
                   <polygon points="100,22 174,63 174,117 100,158 26,117 26,63" fill="none" stroke={c} strokeWidth="0.4" opacity="0.3"/>
                 </svg>
                 <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-52%)',textAlign:'center',pointerEvents:'none'}}>
-                  <div style={{fontSize:isMobile?20:36,fontWeight:900,color:c,lineHeight:1,textShadow:`0 0 24px ${c}66`}}>{v}</div>
-                  <div style={{fontSize:isMobile?9:10,color:'rgba(255,255,255,0.5)',marginTop:4,textTransform:'uppercase',letterSpacing:isMobile?'.04em':'.1em',fontWeight:700,maxWidth:isMobile?75:90,margin:'4px auto 0',lineHeight:1.2}}>{l}</div>
+                  <div style={{fontSize:isMobile?16:36,fontWeight:900,color:c,lineHeight:1,textShadow:`0 0 24px ${c}66`}}>{v}</div>
+                  <div style={{fontSize:isMobile?8:9,color:'rgba(255,255,255,0.5)',marginTop:3,textTransform:'uppercase',letterSpacing:isMobile?'.02em':'.06em',fontWeight:700,maxWidth:isMobile?65:110,margin:'3px auto 0',lineHeight:1.15}}>{l}</div>
                 </div>
               </div>
             </div>
