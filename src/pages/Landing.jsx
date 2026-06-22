@@ -841,7 +841,7 @@ export default function Landing() {
           <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
             <h2 style={{fontSize:'clamp(1.25rem,2.5vw,1.9rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em'}}>
               {lang==='ru'?'ПОЧЕМУ КАЗИНО НЕ ПРИНИМАЮТ ВСЕХ НАПРЯМУЮ':
-               lang==='en'?'WHY CASINOS DON'T ACCEPT EVERYONE DIRECTLY':
+               lang==='en'?'WHY CASINOS REJECT MOST BLOGGERS':
                lang==='tr'?'KUMARHANE DOĞRUDAN HERKES ALMİYOR':
                lang==='de'?'WARUM CASINOS NICHT JEDEN DIREKT ANNEHMEN':
                lang==='pt'?'POR QUE OS CASSINOS NÃO ACEITAM TODOS':
