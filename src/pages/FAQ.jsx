@@ -1,185 +1,59 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-const gold = '#f5a623'
-const LANGS = ['ro','ru','en','tr','de','pt','pl']
-
-const T = {
-  ro:{ login:'Conectați-vă', reg:'Înregistrare', title:'ÎNTREBĂRI', title2:'FRECVENTE', sub:'Răspunsuri la cele mai comune întrebări',
-    faqs:[
-      ['Cât costă înregistrarea?','Înregistrarea este complet gratuită. Nu există costuri ascunse, taxe de aderare sau investiții minime.',
-      ['Cu ce cazinouri lucrați?','WinPartners colaborează cu Melbet, 1xBet, Mostbet, SpinBetter și PIN-UP Casino. Fiecare cazinou are propriul cod promoțional — le gestionați pe toate dintr-un singur dashboard.'],
-      ['Pot promova mai multe cazinouri simultan?','Da! Puteți avea coduri active la mai multe cazinouri în același timp. Statisticile și câștigurile sunt separate per cazinou în dashboard-ul dvs.']],
-      ['Cât timp durează aprobarea?','Contul dvs. va fi verificat și aprobat în maxim 24-48 ore lucrătoare de la înregistrare.'],
-      ['Care este comisionul meu?','Primiți 25% din pierderile nete generate de jucătorii pe care îi recomandați, pe toată durata activității lor.'],
-      ['Când și cum primesc plata?','Plățile se procesează săptămânal. Suma minimă pentru retragere este $30. Plătim prin Bitcoin, USDT, Ethereum, Skrill, Neteller sau Binance Pay.'],
-      ['Pot solicita un cod promoțional personalizat?','Da! Din dashboard puteți trimite o cerere pentru un cod personalizat. Cererea se procesează în 24-48 ore.'],
-      ['Cum funcționează programul de referrali?','Când invitați alt blogger în program, câștigați 3% din toate comisioanele lui pe viață.'],
-      ['Pe ce platforme pot promova?','Puteți promova pe orice platformă: TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, site-uri web etc.'],
-      ['Statisticile sunt în timp real?','Statisticile se actualizează zilnic. Puteți vedea click-uri, înregistrări, depunători și comisioane.'],
-      ['Ce se întâmplă dacă un jucător pierde bani?','Primiți 25% din pierderile nete ale jucătorilor. Cu cât joacă mai mult, cu atât câștigați mai mult.'],
-      ['Pot să am mai multe coduri promoționale?','Da, puteți genera mai multe coduri pentru campanii sau platforme diferite. Fiecare cod este urmărit separat.'],
-    ]},
-  ru:{ login:'Войти', reg:'Регистрация', title:'ЧАСТО ЗАДАВАЕМЫЕ', title2:'ВОПРОСЫ', sub:'Ответы на самые распространённые вопросы',
-    faqs:[
-      ['Сколько стоит регистрация?','Регистрация полностью бесплатна. Нет скрытых платежей, вступительных взносов или минимальных инвестиций.',
-      ['С какими казино вы работаете?','WinPartners сотрудничает с Melbet, 1xBet, Mostbet, SpinBetter и PIN-UP Casino. У каждого казино свой промокод — управляйте всеми из одного дашборда.'],
-      ['Могу ли я продвигать несколько казино одновременно?','Да! У вас могут быть активные коды сразу в нескольких казино. Статистика и доходы отображаются отдельно по каждому казино.']],
-      ['Сколько времени занимает одобрение?','Ваш аккаунт будет проверен и одобрен в течение 24-48 рабочих часов с момента регистрации.'],
-      ['Какова моя комиссия?','Вы получаете 25% от чистых проигрышей привлечённых игроков на протяжении всего времени их активности.'],
-      ['Когда и как я получаю выплату?','Выплаты еженедельно. Минимум $30. Bitcoin, USDT, Ethereum, Skrill, Neteller или Binance Pay.'],
-      ['Могу запросить персональный промокод?','Да! Из дашборда можно отправить запрос на персональный код. Обрабатывается за 24-48 часов.'],
-      ['Как работает реферальная программа?','Приглашая другого блогера, вы получаете 3% от всех его комиссий пожизненно.'],
-      ['На каких платформах можно продвигать?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, сайты, блоги и т.д.'],
-      ['Статистика в реальном времени?','Статистика обновляется ежедневно: клики, регистрации, депозитчики и комиссии.'],
-      ['Что если игрок проигрывает?','Вы получаете 25% чистых проигрышей. Чем больше играют — тем больше вы зарабатываете.'],
-      ['Могу иметь несколько промокодов?','Да, несколько кодов для разных кампаний. Каждый отслеживается отдельно.'],
-    ]},
-  en:{ login:'Login', reg:'Register', title:'FREQUENTLY ASKED', title2:'QUESTIONS', sub:'Answers to the most common questions',
-    faqs:[
-      ['How much does registration cost?','Registration is completely free. No hidden costs, membership fees, or minimum investments.',
-      ['Which casinos do you work with?','WinPartners works with Melbet, 1xBet, Mostbet, SpinBetter and PIN-UP Casino. Each casino has its own promo code — manage them all from one dashboard.'],
-      ['Can I promote multiple casinos at once?','Yes! You can have active codes at multiple casinos simultaneously. Statistics and earnings are shown separately per casino in your dashboard.']],
-      ['How long does approval take?','Your account will be reviewed and approved within 24-48 working hours of registration.'],
-      ['What is my commission?','You receive 25% of referred players net losses throughout their activity. Lifetime commission.'],
-      ['When and how do I get paid?','Payments weekly. Minimum $30. Bitcoin, USDT, Ethereum, Skrill, Neteller, or Binance Pay.'],
-      ['Can I request a custom promo code?','Yes! From the dashboard submit a request for a custom code. Processed in 24-48 hours.'],
-      ['How does the referral program work?','When you invite another blogger with your referral link, you earn 3% of all their commissions for life.'],
-      ['On which platforms can I promote?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, websites, blogs, etc.'],
-      ['Are statistics real-time?','Statistics updated daily: clicks, registrations, depositors, and commissions for each day.'],
-      ['What if a player loses money?','You receive 25% of players net losses. The more they play, the more you earn.'],
-      ['Can I have multiple promo codes?','Yes, multiple codes for different campaigns or platforms. Each tracked separately.'],
-    ]},
-  tr:{ login:'Giriş', reg:'Kayıt', title:'SIK SORULAN', title2:'SORULAR', sub:'En yaygın soruların cevapları',
-    faqs:[
-      ['Kayıt ücreti nedir?','Kayıt tamamen ücretsizdir. Gizli ücretler, üyelik bedelleri veya minimum yatırım yoktur.',
-      ['Hangi kumarhanelerle çalışıyorsunuz?','WinPartners, Melbet, 1xBet, Mostbet, SpinBetter ve PIN-UP Casino ile çalışmaktadır. Her kumarhanenin kendi promosyon kodu vardır.'],
-      ['Aynı anda birden fazla kumarhaneyi tanıtabilir miyim?','Evet! Birden fazla kumarhanede aynı anda aktif kodlarınız olabilir.']],
-      ['Onay ne kadar sürer?','Hesabınız kayıttan itibaren 24-48 iş saati içinde incelenip onaylanacaktır.'],
-      ['Komisyonum nedir?','Yönlendirilen oyuncuların net kayıplarının %25 ini alırsınız. Ömür boyu komisyon.'],
-      ['Ne zaman ve nasıl ödeme alırım?','Ödemeler haftalık. Minimum 30$. Bitcoin, USDT, Ethereum, Skrill, Neteller veya Binance Pay.'],
-      ['Kişisel promosyon kodu talep edebilir miyim?','Evet! Panodan adınızla kişisel kod talebi gönderin. 24-48 saat içinde işlenir.'],
-      ['Referans programı nasıl çalışır?','Başka bir blogger davet ettiğinizde, komisyonlarının %3 ünü ömür boyu kazanırsınız.'],
-      ['Hangi platformlarda tanıtım yapabilirim?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, web siteleri, bloglar vb.'],
-      ['İstatistikler anlık mı?','İstatistikler günlük güncellenir: tıklamalar, kayıtlar, para yatıranlar ve komisyonlar.'],
-      ['Oyuncu para kaybederse ne olur?','Oyuncuların net kayıplarının %25 ini alırsınız. Ne kadar çok oynarlarsa, o kadar çok kazanırsınız.'],
-      ['Birden fazla promosyon kodum olabilir mi?','Evet, farklı kampanyalar için birden fazla kod. Her biri ayrı takip edilir.'],
-    ]},
-  de:{ login:'Anmelden', reg:'Registrieren', title:'HÄUFIG GESTELLTE', title2:'FRAGEN', sub:'Antworten auf die häufigsten Fragen',
-    faqs:[
-      ['Was kostet die Registrierung?','Die Registrierung ist völlig kostenlos. Keine versteckten Kosten oder Mindestinvestitionen.',
-      ['Mit welchen Casinos arbeiten Sie?','WinPartners arbeitet mit Melbet, 1xBet, Mostbet, SpinBetter und PIN-UP Casino. Jedes Casino hat seinen eigenen Promo-Code — alles in einem Dashboard verwalten.'],
-      ['Kann ich mehrere Casinos gleichzeitig bewerben?','Ja! Sie können gleichzeitig aktive Codes bei mehreren Casinos haben.']],
-      ['Wie lange dauert die Genehmigung?','Ihr Konto wird innerhalb von 24-48 Arbeitsstunden nach der Registrierung genehmigt.'],
-      ['Wie hoch ist meine Provision?','Sie erhalten 25% der Nettoverluste der geworbenen Spieler. Lebenslange Provision.'],
-      ['Wann und wie werde ich bezahlt?','Zahlungen wöchentlich. Mindestens $30. Bitcoin, USDT, Ethereum, Skrill, Neteller oder Binance Pay.'],
-      ['Kann ich einen benutzerdefinierten Promo-Code anfordern?','Ja! Über das Dashboard beantragen Sie einen personalisierten Code. Bearbeitung in 24-48 Stunden.'],
-      ['Wie funktioniert das Empfehlungsprogramm?','Wenn Sie einen anderen Blogger einladen, verdienen Sie lebenslang 3% seiner Provisionen.'],
-      ['Auf welchen Plattformen kann ich werben?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, Websites, Blogs usw.'],
-      ['Sind die Statistiken in Echtzeit?','Statistiken täglich aktualisiert: Klicks, Registrierungen, Einzahler und Provisionen.'],
-      ['Was passiert wenn ein Spieler verliert?','Sie erhalten 25% der Nettoverluste der Spieler. Je mehr sie spielen, desto mehr verdienen Sie.'],
-      ['Kann ich mehrere Promo-Codes haben?','Ja, mehrere Codes für verschiedene Kampagnen. Jeder Code separat verfolgt.'],
-    ]},
-  pt:{ login:'Entrar', reg:'Registrar', title:'PERGUNTAS', title2:'FREQUENTES', sub:'Respostas às perguntas mais comuns',
-    faqs:[
-      ['Quanto custa o registo?','O registo é completamente gratuito. Sem custos ocultos, taxas de adesão ou investimentos mínimos.',
-      ['Com quais cassinos vocês trabalham?','A WinPartners trabalha com Melbet, 1xBet, Mostbet, SpinBetter e PIN-UP Casino. Cada cassino tem seu próprio código promocional.'],
-      ['Posso promover vários cassinos ao mesmo tempo?','Sim! Você pode ter códigos ativos em vários cassinos simultaneamente.']],
-      ['Quanto tempo demora a aprovação?','A sua conta será aprovada no prazo de 24-48 horas úteis após o registo.'],
-      ['Qual é a minha comissão?','Recebe 25% das perdas líquidas dos jogadores indicados. Comissão vitalícia.'],
-      ['Quando e como recebo o pagamento?','Pagamentos semanais. Mínimo $30. Bitcoin, USDT, Ethereum, Skrill, Neteller ou Binance Pay.'],
-      ['Posso solicitar um código personalizado?','Sim! No painel envie um pedido de código personalizado. Processado em 24-48 horas.'],
-      ['Como funciona o programa de referência?','Ao convidar outro blogger, ganha 3% de todas as comissões dele para sempre.'],
-      ['Em que plataformas posso promover?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, websites, blogs, etc.'],
-      ['As estatísticas são em tempo real?','Estatísticas atualizadas diariamente: cliques, registos, depositantes e comissões.'],
-      ['O que acontece se um jogador perder?','Recebe 25% das perdas líquidas dos jogadores. Quanto mais jogarem, mais ganha.'],
-      ['Posso ter vários códigos?','Sim, vários códigos para diferentes campanhas. Cada um rastreado separadamente.'],
-    ]},
-  pl:{ login:'Zaloguj się', reg:'Rejestracja', title:'CZĘSTO ZADAWANE', title2:'PYTANIA', sub:'Odpowiedzi na najczęstsze pytania',
-    faqs:[
-      ['Ile kosztuje rejestracja?','Rejestracja jest całkowicie bezpłatna. Brak ukrytych kosztów, opłat członkowskich lub minimalnych inwestycji.',
-      ['Z jakimi kasynami współpracujecie?','WinPartners współpracuje z Melbet, 1xBet, Mostbet, SpinBetter i PIN-UP Casino. Każde kasyno ma własny kod promocyjny.'],
-      ['Czy mogę promować kilka kasyn jednocześnie?','Tak! Możesz mieć aktywne kody w kilku kasynach jednocześnie.']],
-      ['Jak długo trwa zatwierdzenie?','Twoje konto zostanie zatwierdzone w ciągu 24-48 godzin roboczych od rejestracji.'],
-      ['Jaka jest moja prowizja?','Otrzymujesz 25% strat netto poleconych graczy. Prowizja dożywotnia.'],
-      ['Kiedy i jak otrzymuję płatność?','Płatności tygodniowe. Minimum $30. Bitcoin, USDT, Ethereum, Skrill, Neteller lub Binance Pay.'],
-      ['Czy mogę poprosić o spersonalizowany kod?','Tak! Z panelu wyślij prośbę o spersonalizowany kod. Przetwarzane w 24-48 godzin.'],
-      ['Jak działa program poleceń?','Zapraszając innego bloggera, zarabiasz 3% wszystkich jego prowizji dożywotnio.'],
-      ['Na jakich platformach mogę promować?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, strony internetowe, blogi itp.'],
-      ['Czy statystyki są w czasie rzeczywistym?','Statystyki aktualizowane codziennie: kliknięcia, rejestracje, deponenci i prowizje.'],
-      ['Co się dzieje gdy gracz przegrywa?','Otrzymujesz 25% strat netto graczy. Im więcej grają, tym więcej zarabiasz.'],
-      ['Czy mogę mieć wiele kodów?','Tak, wiele kodów dla różnych kampanii. Każdy śledzony oddzielnie.'],
-    ]},
+const gold='#f5a623'
+const LANGS=['ro','ru','en','tr','de','pt','pl']
+const CMAP={MD:'ro',RO:'ro',RU:'ru',BY:'ru',KZ:'ru',UA:'ru',UZ:'ru',AM:'ru',AZ:'ru',GE:'ru',TJ:'ru',TM:'ru',KG:'ru',TR:'tr',DE:'de',AT:'de',CH:'de',PT:'pt',BR:'pt',PL:'pl'}
+function useLang(){const[lang,setLang]=useState(()=>{const s=localStorage.getItem('wp_lang');return LANGS.includes(s)?s:'ro'});useEffect(()=>{if(localStorage.getItem('wp_lang'))return;const d=async()=>{try{const r=await fetch('https://ipapi.co/json/',{signal:AbortSignal.timeout(3000)});const j=await r.json();const l=CMAP[j.country_code];if(l){setLang(l);localStorage.setItem('wp_lang',l)}}catch{try{const r2=await fetch('https://api.country.is/',{signal:AbortSignal.timeout(3000)});const j2=await r2.json();const l2=CMAP[j2.country];if(l2){setLang(l2);localStorage.setItem('wp_lang',l2)}}catch{}}};d()},[]);return[lang,l=>{setLang(l);localStorage.setItem('wp_lang',l)}]}
+function Nav({lang,setL,t,nav}){return(<nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:60,position:'sticky',top:0,zIndex:100,backdropFilter:'blur(12px)'}}><div onClick={()=>nav('/')} style={{cursor:'pointer',display:'flex',alignItems:'center',gap:8}}><img src="/icons/logo.png" width="26" height="26" alt="W" style={{borderRadius:3}}/><span style={{fontSize:16,fontWeight:900}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></span></div><div style={{display:'flex',alignItems:'center',gap:6}}><div style={{display:'flex',gap:2,background:'rgba(255,255,255,0.04)',borderRadius:6,padding:'2px 3px',border:'1px solid rgba(255,255,255,0.07)'}}>{LANGS.map(l=>(<button key={l} onClick={()=>setL(l)} style={{padding:'3px 7px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'transparent'}`,borderRadius:4,background:lang===l?gold:'transparent',color:lang===l?'#000':'rgba(255,255,255,0.45)'}}>{l.toUpperCase()}</button>))}</div><button onClick={()=>nav('/dashboard')} style={{padding:'6px 12px',fontSize:12,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.12)',borderRadius:5,background:'transparent',color:'rgba(255,255,255,0.6)'}}>{t.login}</button><button onClick={()=>nav('/register')} style={{padding:'6px 14px',fontSize:12,fontWeight:800,cursor:'pointer',border:'none',borderRadius:5,background:gold,color:'#000',textTransform:'uppercase'}}>{t.reg}</button></div></nav>)}
+function Footer({nav}){return(<footer style={{background:'#050508',borderTop:'1px solid rgba(245,166,35,0.08)',padding:'1.75rem 1.25rem'}}><div style={{maxWidth:900,margin:'0 auto',display:'flex',flexDirection:'column',alignItems:'center',gap:12,textAlign:'center'}}><div style={{fontSize:16,fontWeight:900}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div><div style={{display:'flex',gap:16,flexWrap:'wrap',justifyContent:'center'}}>{[['/',''],['/about','About'],['/benefits','Benefits'],['/faq','FAQ'],['/contact','Contact']].map(([p,l])=>(<span key={p} onClick={()=>nav(p)} style={{fontSize:12,color:'rgba(255,255,255,0.3)',cursor:'pointer'}} onMouseOver={e=>e.target.style.color=gold} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.3)'}>{l||'Home'}</span>))}</div><div style={{fontSize:11,color:'rgba(255,255,255,0.15)'}}>© 2026 WinPartners</div></div></footer>)}
+const T={
+  ro:{login:'Conectați-vă',reg:'Înregistrare',title:'ÎNTREBĂRI',title2:'FRECVENTE',sub:'Răspunsuri la cele mai comune întrebări',cta:'Nu ai găsit răspunsul? Scrie-ne pe Telegram',ctaBtn:'@winpartners_manager',faqs:[['Cât costă înregistrarea?','Înregistrarea este complet gratuită. Nu există costuri ascunse, taxe de aderare sau investiții minime.'],['Cu ce cazinouri lucrați?','WinPartners colaborează cu Melbet, 1xBet, Mostbet, SpinBetter și PIN-UP Casino. Fiecare cazinou are propriul cod promoțional — le gestionați pe toate dintr-un singur dashboard.'],['Pot promova mai multe cazinouri simultan?','Da! Puteți avea coduri active la mai multe cazinouri în același timp. Statisticile și câștigurile sunt separate per cazinou.'],['Cât timp durează aprobarea?','Contul dvs. va fi verificat și aprobat în maxim 24-48 ore lucrătoare de la înregistrare.'],['Care este comisionul meu?','Primiți 25% din pierderile nete generate de jucătorii pe care îi recomandați, pe toată durata activității lor.'],['Când și cum primesc plata?','Plățile se procesează săptămânal. Suma minimă pentru retragere este $30. Plătim prin Bitcoin, USDT, Ethereum, Skrill, Neteller sau Binance Pay.'],['Pot solicita un cod promoțional personalizat?','Da! Din dashboard puteți trimite o cerere pentru un cod personalizat. Cererea se procesează în 24-48 ore.'],['Cum funcționează programul de referrali?','Când invitați alt blogger în program, câștigați 3% din toate comisioanele lui pe viață.'],['Pe ce platforme pot promova?','Puteți promova pe orice platformă: TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, site-uri web etc.'],['Statisticile sunt în timp real?','Statisticile se actualizează zilnic. Puteți vedea click-uri, înregistrări, depunători și comisioane.'],['Ce se întâmplă dacă un jucător pierde bani?','Primiți 25% din pierderile nete ale jucătorilor. Cu cât joacă mai mult, cu atât câștigați mai mult.'],['Pot să am mai multe coduri promoționale?','Da, puteți genera mai multe coduri pentru campanii sau platforme diferite. Fiecare cod este urmărit separat.']]},
+  ru:{login:'Войти',reg:'Регистрация',title:'ЧАСТО ЗАДАВАЕМЫЕ',title2:'ВОПРОСЫ',sub:'Ответы на самые распространённые вопросы',cta:'Не нашли ответ? Напишите нам в Telegram',ctaBtn:'@winpartners_manager',faqs:[['Сколько стоит регистрация?','Регистрация полностью бесплатна. Нет скрытых платежей, вступительных взносов или минимальных инвестиций.'],['С какими казино вы работаете?','WinPartners сотрудничает с Melbet, 1xBet, Mostbet, SpinBetter и PIN-UP Casino. У каждого казино свой промокод — управляйте всеми из одного дашборда.'],['Могу ли я продвигать несколько казино одновременно?','Да! У вас могут быть активные коды сразу в нескольких казино. Статистика и доходы отображаются отдельно по каждому казино.'],['Сколько времени занимает одобрение?','Ваш аккаунт будет проверен и одобрен в течение 24-48 рабочих часов с момента регистрации.'],['Какова моя комиссия?','Вы получаете 25% от чистых проигрышей привлечённых игроков на протяжении всего времени их активности.'],['Когда и как я получаю выплату?','Выплаты еженедельно. Минимум $30. Bitcoin, USDT, Ethereum, Skrill, Neteller или Binance Pay.'],['Могу запросить персональный промокод?','Да! Из дашборда можно отправить запрос на персональный код. Обрабатывается за 24-48 часов.'],['Как работает реферальная программа?','Приглашая другого блогера, вы получаете 3% от всех его комиссий пожизненно.'],['На каких платформах можно продвигать?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, сайты, блоги и т.д.'],['Статистика в реальном времени?','Статистика обновляется ежедневно: клики, регистрации, депозитчики и комиссии.'],['Что если игрок проигрывает?','Вы получаете 25% чистых проигрышей. Чем больше играют — тем больше вы зарабатываете.'],['Могу иметь несколько промокодов?','Да, несколько кодов для разных кампаний. Каждый отслеживается отдельно.']]},
+  en:{login:'Login',reg:'Register',title:'FREQUENTLY ASKED',title2:'QUESTIONS',sub:'Answers to the most common questions',cta:"Didn't find your answer? Message us on Telegram",ctaBtn:'@winpartners_manager',faqs:[['How much does registration cost?','Registration is completely free. No hidden costs, membership fees, or minimum investments.'],['Which casinos do you work with?','WinPartners works with Melbet, 1xBet, Mostbet, SpinBetter and PIN-UP Casino. Each casino has its own promo code — manage them all from one dashboard.'],['Can I promote multiple casinos at once?','Yes! You can have active codes at multiple casinos simultaneously. Statistics and earnings are shown separately per casino in your dashboard.'],['How long does approval take?','Your account will be reviewed and approved within 24-48 working hours of registration.'],['What is my commission?','You receive 25% of referred players net losses throughout their activity. Lifetime commission.'],['When and how do I get paid?','Payments weekly. Minimum $30. Bitcoin, USDT, Ethereum, Skrill, Neteller, or Binance Pay.'],['Can I request a custom promo code?','Yes! From the dashboard submit a request for a custom code. Processed in 24-48 hours.'],['How does the referral program work?','When you invite another blogger with your referral link, you earn 3% of all their commissions for life.'],['On which platforms can I promote?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, websites, blogs, etc.'],['Are statistics real-time?','Statistics updated daily: clicks, registrations, depositors, and commissions for each day.'],['What if a player loses money?','You receive 25% of players net losses. The more they play, the more you earn.'],['Can I have multiple promo codes?','Yes, multiple codes for different campaigns or platforms. Each tracked separately.']]},
+  tr:{login:'Giriş',reg:'Kayıt',title:'SIK SORULAN',title2:'SORULAR',sub:'En yaygın soruların cevapları',cta:'Cevabı bulamadınız mı? Telegramdan yazın',ctaBtn:'@winpartners_manager',faqs:[['Kayıt ücreti nedir?','Kayıt tamamen ücretsizdir. Gizli ücretler, üyelik bedelleri veya minimum yatırım yoktur.'],['Hangi kumarhanelerle çalışıyorsunuz?','WinPartners, Melbet, 1xBet, Mostbet, SpinBetter ve PIN-UP Casino ile çalışmaktadır.'],['Aynı anda birden fazla kumarhaneyi tanıtabilir miyim?','Evet! Birden fazla kumarhanede aynı anda aktif kodlarınız olabilir.'],['Onay ne kadar sürer?','Hesabınız kayıttan itibaren 24-48 iş saati içinde incelenip onaylanacaktır.'],['Komisyonum nedir?','Yönlendirilen oyuncuların net kayıplarının %25 ini alırsınız. Ömür boyu komisyon.'],['Ne zaman ve nasıl ödeme alırım?','Ödemeler haftalık. Minimum 30$. Bitcoin, USDT, Ethereum, Skrill, Neteller veya Binance Pay.'],['Kişisel promosyon kodu talep edebilir miyim?','Evet! Panodan adınızla kişisel kod talebi gönderin. 24-48 saat içinde işlenir.'],['Referans programı nasıl çalışır?','Başka bir blogger davet ettiğinizde, komisyonlarının %3ünü ömür boyu kazanırsınız.'],['Hangi platformlarda tanıtım yapabilirim?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, web siteleri, bloglar vb.'],['İstatistikler anlık mı?','İstatistikler günlük güncellenir: tıklamalar, kayıtlar, para yatıranlar ve komisyonlar.'],['Oyuncu para kaybederse ne olur?','Oyuncuların net kayıplarının %25ini alırsınız. Ne kadar çok oynarlarsa, o kadar çok kazanırsınız.'],['Birden fazla promosyon kodum olabilir mi?','Evet, farklı kampanyalar için birden fazla kod. Her biri ayrı takip edilir.']]},
+  de:{login:'Anmelden',reg:'Registrieren',title:'HÄUFIG GESTELLTE',title2:'FRAGEN',sub:'Antworten auf die häufigsten Fragen',cta:'Antwort nicht gefunden? Schreiben Sie uns auf Telegram',ctaBtn:'@winpartners_manager',faqs:[['Was kostet die Registrierung?','Die Registrierung ist völlig kostenlos. Keine versteckten Kosten oder Mindestinvestitionen.'],['Mit welchen Casinos arbeiten Sie?','WinPartners arbeitet mit Melbet, 1xBet, Mostbet, SpinBetter und PIN-UP Casino. Jedes Casino hat seinen eigenen Promo-Code.'],['Kann ich mehrere Casinos gleichzeitig bewerben?','Ja! Sie können gleichzeitig aktive Codes bei mehreren Casinos haben.'],['Wie lange dauert die Genehmigung?','Ihr Konto wird innerhalb von 24-48 Arbeitsstunden nach der Registrierung genehmigt.'],['Wie hoch ist meine Provision?','Sie erhalten 25% der Nettoverluste der geworbenen Spieler. Lebenslange Provision.'],['Wann und wie werde ich bezahlt?','Zahlungen wöchentlich. Mindestens $30. Bitcoin, USDT, Ethereum, Skrill, Neteller oder Binance Pay.'],['Kann ich einen benutzerdefinierten Promo-Code anfordern?','Ja! Über das Dashboard beantragen Sie einen personalisierten Code. Bearbeitung in 24-48 Stunden.'],['Wie funktioniert das Empfehlungsprogramm?','Wenn Sie einen anderen Blogger einladen, verdienen Sie lebenslang 3% seiner Provisionen.'],['Auf welchen Plattformen kann ich werben?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, Websites, Blogs usw.'],['Sind die Statistiken in Echtzeit?','Statistiken täglich aktualisiert: Klicks, Registrierungen, Einzahler und Provisionen.'],['Was passiert wenn ein Spieler verliert?','Sie erhalten 25% der Nettoverluste der Spieler. Je mehr sie spielen, desto mehr verdienen Sie.'],['Kann ich mehrere Promo-Codes haben?','Ja, mehrere Codes für verschiedene Kampagnen. Jeder Code separat verfolgt.']]},
+  pt:{login:'Entrar',reg:'Registrar',title:'PERGUNTAS',title2:'FREQUENTES',sub:'Respostas às perguntas mais comuns',cta:'Não encontrou a resposta? Escreva-nos no Telegram',ctaBtn:'@winpartners_manager',faqs:[['Quanto custa o registo?','O registo é completamente gratuito. Sem custos ocultos, taxas de adesão ou investimentos mínimos.'],['Com quais cassinos vocês trabalham?','A WinPartners trabalha com Melbet, 1xBet, Mostbet, SpinBetter e PIN-UP Casino.'],['Posso promover vários cassinos ao mesmo tempo?','Sim! Pode ter códigos ativos em vários cassinos simultaneamente.'],['Quanto tempo demora a aprovação?','A sua conta será aprovada no prazo de 24-48 horas úteis após o registo.'],['Qual é a minha comissão?','Recebe 25% das perdas líquidas dos jogadores indicados. Comissão vitalícia.'],['Quando e como recebo o pagamento?','Pagamentos semanais. Mínimo $30. Bitcoin, USDT, Ethereum, Skrill, Neteller ou Binance Pay.'],['Posso solicitar um código personalizado?','Sim! No painel envie um pedido de código personalizado. Processado em 24-48 horas.'],['Como funciona o programa de referência?','Ao convidar outro blogger, ganha 3% de todas as comissões dele para sempre.'],['Em que plataformas posso promover?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, websites, blogs, etc.'],['As estatísticas são em tempo real?','Estatísticas atualizadas diariamente: cliques, registos, depositantes e comissões.'],['O que acontece se um jogador perder?','Recebe 25% das perdas líquidas dos jogadores. Quanto mais jogarem, mais ganha.'],['Posso ter vários códigos?','Sim, vários códigos para diferentes campanhas. Cada um rastreado separadamente.']]},
+  pl:{login:'Zaloguj się',reg:'Rejestracja',title:'CZĘSTO ZADAWANE',title2:'PYTANIA',sub:'Odpowiedzi na najczęstsze pytania',cta:'Nie znalazłeś odpowiedzi? Napisz do nas na Telegramie',ctaBtn:'@winpartners_manager',faqs:[['Ile kosztuje rejestracja?','Rejestracja jest całkowicie bezpłatna. Brak ukrytych kosztów, opłat członkowskich lub minimalnych inwestycji.'],['Z jakimi kasynami współpracujecie?','WinPartners współpracuje z Melbet, 1xBet, Mostbet, SpinBetter i PIN-UP Casino.'],['Czy mogę promować kilka kasyn jednocześnie?','Tak! Możesz mieć aktywne kody w kilku kasynach jednocześnie.'],['Jak długo trwa zatwierdzenie?','Twoje konto zostanie zatwierdzone w ciągu 24-48 godzin roboczych od rejestracji.'],['Jaka jest moja prowizja?','Otrzymujesz 25% strat netto poleconych graczy. Prowizja dożywotnia.'],['Kiedy i jak otrzymuję płatność?','Płatności tygodniowe. Minimum $30. Bitcoin, USDT, Ethereum, Skrill, Neteller lub Binance Pay.'],['Czy mogę poprosić o spersonalizowany kod?','Tak! Z panelu wyślij prośbę o spersonalizowany kod. Przetwarzane w 24-48 godzin.'],['Jak działa program poleceń?','Zapraszając innego bloggera, zarabiasz 3% wszystkich jego prowizji dożywotnio.'],['Na jakich platformach mogę promować?','TikTok, Instagram, YouTube, Telegram, Facebook, Twitter, strony internetowe, blogi itp.'],['Czy statystyki są w czasie rzeczywistym?','Statystyki aktualizowane codziennie: kliknięcia, rejestracje, deponenci i prowizje.'],['Co się dzieje gdy gracz przegrywa?','Otrzymujesz 25% strat netto graczy. Im więcej grają, tym więcej zarabiasz.'],['Czy mogę mieć wiele kodów?','Tak, wiele kodów dla różnych kampanii. Każdy śledzony oddzielnie.']]},
 }
-export default function FAQ() {
-  const [open, setOpen] = useState(null)
-  const nav = useNavigate()
-  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768)
-  React.useEffect(()=>{ const fn=()=>setIsMobile(window.innerWidth<768); window.addEventListener('resize',fn); return()=>window.removeEventListener('resize',fn) },[])
-  const [lang, setLang] = useState(() => { const s = localStorage.getItem('wp_lang'); return LANGS.includes(s) ? s : 'ro' })
-  // Auto-detect limba după locație (doar dacă nu a ales manual)
-  useEffect(() => {
-    if (localStorage.getItem('wp_lang')) return
-    const countryToLang = {
-      MD:'ro', RO:'ro',
-      RU:'ru', BY:'ru', KZ:'ru', UA:'ru', UZ:'ru', AM:'ru', AZ:'ru', GE:'ru', TJ:'ru', TM:'ru', KG:'ru',
-      TR:'tr',
-      DE:'de', AT:'de', CH:'de',
-      PT:'pt', BR:'pt',
-      PL:'pl',
-    }
-    const detect = async () => {
-      try {
-        // Încercăm 2 API-uri pentru robustețe
-        const r = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) })
-        const d = await r.json()
-        const l = countryToLang[d.country_code]
-        if (l) { setLang(l); localStorage.setItem('wp_lang', l) }
-      } catch {
-        try {
-          const r2 = await fetch('https://api.country.is/', { signal: AbortSignal.timeout(3000) })
-          const d2 = await r2.json()
-          const l2 = countryToLang[d2.country]
-          if (l2) { setLang(l2); localStorage.setItem('wp_lang', l2) }
-        } catch { /* rămâne ro */ }
-      }
-    }
-    detect()
-  }, [])
-  const t = T[lang] || T.ro
-  const setL = l => { setLang(l); localStorage.setItem('wp_lang', l) }
-  return (
-    <div style={{background:'#0a0a0f',minHeight:'100vh',color:'#fff',fontFamily:"'Inter',sans-serif",overflowX:'hidden'}}>
-            <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 0.75rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:52,position:'sticky',top:0,zIndex:50,gap:8}}>
-        <div onClick={()=>nav('/')} style={{fontSize:16,fontWeight:900,cursor:'pointer',flexShrink:0,whiteSpace:'nowrap'}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></div>
-        <div style={{display:'flex',gap:4,alignItems:'center',minWidth:0}}>
-          <div style={{display:'flex',gap:3,overflowX:'auto',scrollbarWidth:'none',WebkitOverflowScrolling:'touch'}}>
-            {LANGS.map(l=>(<button key={l} onClick={()=>setL(l)} style={{padding:'3px 5px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.4)',flexShrink:0}}>{l.toUpperCase()}</button>))}
-          </div>
-          <button onClick={()=>nav('/register')} style={{padding:'5px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:gold,color:'#000',flexShrink:0,whiteSpace:'nowrap'}}>{t.reg}</button>
-        </div>
-      </nav>
-      {/* Hero banner */}
-      <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.07) 0%,rgba(245,166,35,0.02) 50%,transparent 100%)',borderBottom:'1px solid rgba(245,166,35,0.1)',padding:'3rem 1.25rem 2.5rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
-        <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',width:400,height:400,background:'radial-gradient(ellipse,rgba(245,166,35,0.06) 0%,transparent 65%)',pointerEvents:'none'}}/>
+export default function FAQ(){
+  const[open,setOpen]=useState(null)
+  const nav=useNavigate()
+  const[lang,setL]=useLang()
+  const t=T[lang]||T.ro
+  const isMobile=window.innerWidth<768
+  return(
+    <div style={{background:'#0a0a0f',minHeight:'100vh',color:'#fff',fontFamily:"'Inter',sans-serif",overflowX:'hidden',display:'flex',flexDirection:'column'}}>
+      <Nav lang={lang} setL={setL} t={t} nav={nav}/>
+      <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.07) 0%,transparent 65%)',borderBottom:'1px solid rgba(245,166,35,0.08)',padding:isMobile?'2.5rem 1.25rem 2rem':'4rem 2rem 3rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',width:500,height:400,background:'radial-gradient(ellipse,rgba(245,166,35,0.05) 0%,transparent 65%)',pointerEvents:'none'}}/>
         <div style={{position:'relative',zIndex:1}}>
-          <h1 style={{fontSize:'clamp(2rem,4vw,3.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.04em',marginBottom:12}}>{t.title} <span style={{color:gold}}>{t.title2}</span></h1>
-          <p style={{fontSize:15,color:'rgba(255,255,255,0.45)',maxWidth:560,margin:'0 auto'}}>{t.sub}</p>
+          <h1 style={{fontSize:'clamp(2rem,4.5vw,3.5rem)',fontWeight:900,letterSpacing:'.02em',lineHeight:1.05,marginBottom:12}}>{t.title} <span style={{color:gold}}>{t.title2}</span></h1>
+          <div style={{width:40,height:3,background:gold,margin:'0 auto 14px',borderRadius:2}}/>
+          <p style={{fontSize:15,color:'rgba(255,255,255,0.4)',maxWidth:520,margin:'0 auto'}}>{t.sub}</p>
         </div>
       </div>
-      <div style={{maxWidth:800,margin:'0 auto',padding:'3rem 1.25rem'}}>
-        <div style={{marginBottom:40}}/>
+      <div style={{maxWidth:820,margin:'0 auto',padding:isMobile?'2rem 1.25rem':'3.5rem 2rem',flex:1}}>
         <div style={{display:'flex',flexDirection:'column',gap:8}}>
           {t.faqs.map(([q,a],i)=>(
-            <div key={i} style={{background:'rgba(255,255,255,0.03)',border:`1px solid ${open===i?'rgba(245,166,35,0.3)':'rgba(255,255,255,0.07)'}`,borderRadius:10,overflow:'hidden',cursor:'pointer'}} onClick={()=>setOpen(open===i?null:i)}>
-              <div style={{padding:'1.1rem 1.25rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                <span style={{fontSize:15,fontWeight:600,color:open===i?gold:'#fff'}}>{q}</span>
-                <span style={{fontSize:20,color:open===i?gold:'rgba(255,255,255,0.3)',flexShrink:0,marginLeft:12,display:'inline-block',transition:'transform .2s',transform:open===i?'rotate(45deg)':'none'}}>+</span>
+            <div key={i} style={{background:'rgba(255,255,255,0.02)',border:`1px solid ${open===i?'rgba(245,166,35,0.25)':'rgba(255,255,255,0.07)'}`,borderRadius:10,overflow:'hidden',cursor:'pointer',transition:'border-color .2s'}} onClick={()=>setOpen(open===i?null:i)}>
+              <div style={{padding:'1.1rem 1.25rem',display:'flex',justifyContent:'space-between',alignItems:'center',gap:12}}>
+                <span style={{fontSize:14,fontWeight:600,color:open===i?gold:'rgba(255,255,255,0.85)',lineHeight:1.4}}>{q}</span>
+                <div style={{width:24,height:24,borderRadius:'50%',background:open===i?'rgba(245,166,35,0.15)':'rgba(255,255,255,0.04)',border:`1px solid ${open===i?'rgba(245,166,35,0.4)':'rgba(255,255,255,0.1)'}`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,transition:'all .2s'}}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={open===i?gold:'rgba(255,255,255,0.4)'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{transform:open===i?'rotate(45deg)':'none',transition:'transform .2s'}}>
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </div>
               </div>
-              {open===i&&<div style={{padding:'0 1.25rem 1.1rem',fontSize:14,color:'rgba(255,255,255,0.6)',lineHeight:1.7,borderTop:'1px solid rgba(245,166,35,0.1)'}}>{a}</div>}
+              {open===i && <div style={{padding:'0 1.25rem 1.1rem',fontSize:13,color:'rgba(255,255,255,0.55)',lineHeight:1.75,borderTop:'1px solid rgba(245,166,35,0.08)'}}>{a}</div>}
             </div>
           ))}
         </div>
+        <div style={{marginTop:36,background:'rgba(34,158,217,0.06)',border:'1px solid rgba(34,158,217,0.18)',borderRadius:12,padding:'1.25rem 1.5rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:12}}>
+          <span style={{fontSize:14,color:'rgba(255,255,255,0.5)'}}>{t.cta}</span>
+          <a href="https://t.me/winpartners_manager" target="_blank" rel="noreferrer" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#229ED9',color:'#fff',padding:'9px 18px',borderRadius:7,fontSize:13,fontWeight:700,textDecoration:'none'}}>✈️ {t.ctaBtn}</a>
+        </div>
       </div>
+      <Footer nav={nav}/>
     </div>
   )
 }
