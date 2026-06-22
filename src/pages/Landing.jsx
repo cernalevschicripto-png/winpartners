@@ -1,8 +1,39 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 const gold = '#f5a623'
 const dark = '#0a0a0f'
+
+// Hook pentru animație counter la scroll
+function useCountUp(target, duration=1800, startOnMount=false) {
+  const [count, setCount] = useState(0)
+  const ref = useRef(null)
+  const started = useRef(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true
+        const start = performance.now()
+        const tick = (now) => {
+          const p = Math.min((now - start) / duration, 1)
+          const ease = 1 - Math.pow(1 - p, 3)
+          setCount(Math.round(ease * target))
+          if (p < 1) requestAnimationFrame(tick)
+        }
+        requestAnimationFrame(tick)
+      }
+    }, {threshold: 0.3})
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [target, duration])
+
+  return [count, ref]
+}
+
+
 
 const T = {
   ro: {
@@ -578,6 +609,26 @@ export default function Landing() {
         )}
       </div>
 
+
+      {/* ─── COUNTER STATS ANIMAT (stil Melbet) ─── */}
+      <div style={{background:'rgba(245,166,35,0.04)',borderTop:'1px solid rgba(245,166,35,0.12)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:isMobile?'2rem 1.25rem':'2.5rem 2rem'}}>
+        <div style={{maxWidth:900,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:0}}>
+          {[
+            {val:'5',suffix:'',label:lang==='ru'?'Казино-партнёров':lang==='en'?'Casino partners':lang==='tr'?'Casino ortağı':lang==='de'?'Casino-Partner':lang==='pt'?'Cassinos parceiros':lang==='pl'?'Kasyn partnerskich':'Cazinouri partenere',color:gold},
+            {val:'25',suffix:'%',label:lang==='ru'?'RevShare комиссия':lang==='en'?'RevShare commission':lang==='tr'?'RevShare komisyon':lang==='de'?'RevShare-Provision':lang==='pt'?'Comissão RevShare':lang==='pl'?'Prowizja RevShare':'Comision RevShare',color:'#10b981'},
+            {val:'40',suffix:'+',label:lang==='ru'?'Стран охвата':lang==='en'?'Countries covered':lang==='tr'?'Ülke kapsamı':lang==='de'?'Länder abgedeckt':lang==='pt'?'Países cobertos':lang==='pl'?'Krajów zasięgu':'Țări acoperite',color:'#60a5fa'},
+            {val:'48',suffix:'h',label:lang==='ru'?'Обработка выплат':lang==='en'?'Payment processing':lang==='tr'?'Ödeme işleme':lang==='de'?'Zahlungsabwicklung':lang==='pt'?'Processamento':lang==='pl'?'Realizacja płatności':'Procesare plăți',color:'#a78bfa'},
+          ].map(({val,suffix,label,color},i)=>(
+            <div key={label} style={{textAlign:'center',padding:isMobile?'0.75rem 0':'0 1rem',borderRight:i<3?'1px solid rgba(255,255,255,0.06)':'none'}}>
+              <div style={{fontSize:isMobile?'2rem':'3rem',fontWeight:900,color,lineHeight:1,marginBottom:6,fontVariantNumeric:'tabular-nums'}}>
+                {val}<span style={{fontSize:isMobile?'1.2rem':'1.8rem'}}>{suffix}</span>
+              </div>
+              <div style={{fontSize:isMobile?10:12,color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.1em',fontWeight:600}}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* ─── STATS BAR ─── */}
       <div style={{background:'rgba(0,0,0,0.55)',borderTop:`1px solid rgba(245,166,35,0.1)`,borderBottom:`1px solid rgba(245,166,35,0.1)`,padding:'1.75rem 1rem'}}>
         <div style={{maxWidth:1000,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:0}}>
@@ -651,16 +702,19 @@ export default function Landing() {
           <h2 style={{fontSize:'clamp(1.5rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.ben_title}</h2>
           <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
         </div>
-        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(auto-fit,minmax(280px,1fr))',gap:16}}>
-          {benefits.map(([Icon,title,desc,iconColor])=>(
-            <div key={title} style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:12,padding:'1.4rem 1.5rem',display:'flex',gap:16,transition:'border-color .2s,background .2s',cursor:'default',borderLeft:`3px solid ${iconColor}30`}} onMouseOver={e=>{e.currentTarget.style.borderColor=`${iconColor}40`;e.currentTarget.style.background='rgba(255,255,255,0.03)'}} onMouseOut={e=>{e.currentTarget.style.borderColor='rgba(255,255,255,0.07)';e.currentTarget.style.background='rgba(255,255,255,0.02)'}}>
-              <div style={{width:44,height:44,background:`${iconColor}12`,border:`1px solid ${iconColor}25`,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
-                <Icon/>
+        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(3,1fr)',gap:isMobile?12:20}}>
+          {benefits.map(([Icon,title,desc,iconColor],bi)=>(
+            <div key={title} className='wp-benefit-card' style={{background:'rgba(255,255,255,0.025)',border:`1px solid ${iconColor}18`,borderRadius:16,padding:isMobile?'1.25rem':'1.75rem',display:'flex',flexDirection:'column',gap:0,cursor:'default',animationDelay:`${bi*0.08}s`,position:'relative',overflow:'hidden'}}>
+              {/* Glow corner */}
+              <div style={{position:'absolute',top:-30,right:-30,width:100,height:100,borderRadius:'50%',background:`radial-gradient(circle,${iconColor}15 0%,transparent 70%)`,pointerEvents:'none'}}/>
+              {/* Icon mare */}
+              <div className='wp-icon-bg' style={{width:isMobile?52:64,height:isMobile?52:64,background:`linear-gradient(135deg,${iconColor}20,${iconColor}08)`,border:`1px solid ${iconColor}30`,borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16,flexShrink:0}}>
+                <div style={{transform:'scale(1.4)'}}><Icon/></div>
               </div>
-              <div>
-                <div style={{fontSize:14,fontWeight:700,color:'rgba(255,255,255,0.9)',marginBottom:5}}>{title}</div>
-                <div style={{fontSize:13,color:'rgba(255,255,255,0.45)',lineHeight:1.65}}>{desc}</div>
-              </div>
+              <div style={{fontSize:isMobile?13:15,fontWeight:800,color:'#fff',marginBottom:8,lineHeight:1.3}}>{title}</div>
+              <div style={{fontSize:isMobile?11:13,color:'rgba(255,255,255,0.4)',lineHeight:1.65,flex:1}}>{desc}</div>
+              {/* Bottom accent */}
+              <div style={{marginTop:16,height:2,borderRadius:1,background:`linear-gradient(90deg,${iconColor}60,${iconColor}10)`}}/>
             </div>
           ))}
         </div>
@@ -748,11 +802,9 @@ export default function Landing() {
         </div>
         <div style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap'}}>
           {casinos.map(c=>(
-            <div key={c.name} style={{background:c.bg,border:`1px solid ${c.color}22`,borderRadius:16,padding:'1.25rem 1.5rem',minWidth:isMobile?'calc(50% - 8px)':180,maxWidth:220,flex:'1 1 180px',transition:'border-color .2s,transform .2s,box-shadow .2s',position:'relative',overflow:'hidden'}}
-              onMouseOver={e=>{e.currentTarget.style.borderColor=`${c.color}55`;e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow=`0 12px 32px ${c.color}18`}}
-              onMouseOut={e=>{e.currentTarget.style.borderColor=`${c.color}22`;e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='none'}}>
+            <div key={c.name} className='wp-casino-card' style={{background:c.bg,border:`1px solid ${c.color}30`,borderRadius:16,padding:'1.25rem 1.5rem',minWidth:isMobile?'calc(50% - 8px)':180,maxWidth:220,flex:'1 1 180px',position:'relative',overflow:'hidden'}}>
               {c.badge && <div style={{position:'absolute',top:10,right:10,background:`${c.color}20`,border:`1px solid ${c.color}40`,borderRadius:4,padding:'2px 6px',fontSize:9,fontWeight:700,color:c.color,letterSpacing:'.04em'}}>{c.badge}</div>}
-              <div style={{width:44,height:44,borderRadius:10,background:`${c.color}20`,border:`2px solid ${c.color}40`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,fontWeight:900,color:c.color,marginBottom:12}}>{c.icon}</div>
+              <div style={{width:56,height:56,borderRadius:12,background:`linear-gradient(135deg,${c.color}25,${c.color}10)`,border:`2px solid ${c.color}50`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,fontWeight:900,color:c.color,marginBottom:14,boxShadow:`0 4px 16px ${c.color}20`}}>{c.icon}</div>
               <div style={{fontSize:17,fontWeight:800,color:'#fff',marginBottom:8}}>{c.name}</div>
               <div style={{display:'flex',flexDirection:'column',gap:4}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
@@ -1059,7 +1111,7 @@ export default function Landing() {
         <div style={{position:'relative',zIndex:1}}>
           <h2 style={{fontSize:'clamp(1.8rem,4vw,2.8rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.03em',marginBottom:12}}>{t.cta_title}</h2>
           <p style={{fontSize:15,color:'rgba(255,255,255,0.45)',marginBottom:36,maxWidth:480,margin:'0 auto 36px'}}>{t.cta_sub}</p>
-          <button onClick={()=>navigate('/register')} style={{padding:'17px 56px',fontSize:15,fontWeight:800,cursor:'pointer',border:`2px solid ${gold}`,borderRadius:6,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.05em',boxShadow:`0 8px 36px rgba(245,166,35,0.28)`,transition:'box-shadow .2s,transform .15s'}} onMouseOver={e=>{e.currentTarget.style.boxShadow='0 12px 48px rgba(245,166,35,0.42)';e.currentTarget.style.transform='translateY(-2px)'}} onMouseOut={e=>{e.currentTarget.style.boxShadow='0 8px 36px rgba(245,166,35,0.28)';e.currentTarget.style.transform='translateY(0)'}}>{t.cta_btn}</button>
+          <button onClick={()=>navigate('/register')} className='wp-btn-primary' style={{padding:'17px 56px',fontSize:15,fontWeight:800,cursor:'pointer',border:`2px solid ${gold}`,borderRadius:6,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.05em',boxShadow:`0 8px 36px rgba(245,166,35,0.28)`}} onMouseOver={e=>{e.currentTarget.style.boxShadow='0 12px 48px rgba(245,166,35,0.42)';e.currentTarget.style.transform='translateY(-2px)'}} onMouseOut={e=>{e.currentTarget.style.boxShadow='0 8px 36px rgba(245,166,35,0.28)';e.currentTarget.style.transform='translateY(0)'}}>{t.cta_btn}</button>
         </div>
       </div>
 
