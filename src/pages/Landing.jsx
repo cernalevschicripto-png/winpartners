@@ -920,7 +920,7 @@ export default function Landing() {
               </div>
               <div style={{fontSize:13,color:'rgba(255,255,255,0.6)',lineHeight:1.7}}>
                 {lang==='ru'?'Мы уже прошли все проверки и получили партнёрский статус у 5 казино. Ты получаешь доступ к нашему аккаунту — 25% RevShare с первого дня, без переговоров, на любом языке, с любым количеством подписчиков.':
-                 lang==='en'?'We've already passed all checks and obtained partner status at 5 casinos. You get access to our account — 25% RevShare from day one, no negotiations, in any language, with any number of followers.':
+                 lang==='en'?'We already passed all checks and obtained partner status at 5 casinos. You get access to our account - 25% RevShare from day one, no negotiations, in any language, with any number of followers.':
                  lang==='tr'?'5 kumarhanede tüm kontrolleri geçtik ve ortak statüsü aldık. Hesabımıza erişim elde edersiniz — ilk günden %25 RevShare, müzakere yok, herhangi bir dilde, herhangi bir takipçi sayısıyla.':
                  lang==='de'?'Wir haben bereits alle Prüfungen bestanden und bei 5 Casinos den Partnerstatus erhalten. Du bekommst Zugang zu unserem Konto — 25% RevShare ab Tag 1, ohne Verhandlungen, in jeder Sprache, mit beliebig vielen Followern.':
                  lang==='pt'?'Já passámos por todas as verificações e obtivemos status de parceiro em 5 cassinos. Tens acesso à nossa conta — 25% RevShare desde o primeiro dia, sem negociações, em qualquer idioma, com qualquer número de seguidores.':
