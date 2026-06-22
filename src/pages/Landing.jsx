@@ -932,7 +932,128 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* ─── CTA ─── */}
+      {/* ─── STRUCTURA COMISION TRANSPARENTĂ ─── */}
+      <div style={{padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',background:'#050508',borderTop:'1px solid rgba(245,166,35,0.08)'}}>
+        <div style={{maxWidth:960,margin:'0 auto'}}>
+          <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
+            <h2 style={{fontSize:'clamp(1.3rem,2.5vw,1.9rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em'}}>
+              {lang==='ru'?'ПРОЗРАЧНАЯ СТРУКТУРА КОМИССИЙ':
+               lang==='en'?'TRANSPARENT COMMISSION STRUCTURE':
+               lang==='tr'?'ŞEFFAF KOMİSYON YAPISI':
+               lang==='de'?'TRANSPARENTE PROVISIONSSTRUKTUR':
+               lang==='pt'?'ESTRUTURA DE COMISSÃO TRANSPARENTE':
+               lang==='pl'?'PRZEJRZYSTA STRUKTURA PROWIZJI':
+               'STRUCTURA COMISIOANELOR — TRANSPARENT'}
+            </h2>
+            <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
+            <p style={{fontSize:14,color:'rgba(255,255,255,0.35)',marginTop:12,maxWidth:500,margin:'12px auto 0'}}>
+              {lang==='ru'?'Мы не берём скрытых комиссий. Казино платит нам, мы платим тебе полностью.':
+               lang==='en'?'We take no hidden fees. The casino pays us, we pay you in full.':
+               lang==='tr'?'Gizli ücret almıyoruz. Kumarhane bize öder, biz sana tam olarak öderiz.':
+               lang==='de'?'Wir nehmen keine versteckten Gebühren. Das Casino zahlt uns, wir zahlen dir vollständig.':
+               lang==='pt'?'Não cobramos taxas ocultas. O cassino paga-nos, nós pagamos-te integralmente.':
+               lang==='pl'?'Nie pobieramy ukrytych opłat. Kasyno płaci nam, my płacimy ci w całości.':
+               'Nu luăm comisioane ascunse. Cazinoul ne plătește pe noi, noi te plătim pe tine integral.'}
+            </p>
+          </div>
+
+          {/* Diagrama flux bani */}
+          <div style={{display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',justifyContent:'center',gap:isMobile?12:0,marginBottom:32}}>
+            {/* Casino */}
+            <div style={{background:'rgba(96,165,250,0.08)',border:'1px solid rgba(96,165,250,0.2)',borderRadius:12,padding:'1rem 1.5rem',textAlign:'center',minWidth:140}}>
+              <div style={{fontSize:22,marginBottom:4}}>🎰</div>
+              <div style={{fontSize:13,fontWeight:800,color:'#60a5fa'}}>
+                {lang==='ru'?'Казино':lang==='en'?'Casino':lang==='tr'?'Kumarhane':lang==='de'?'Casino':lang==='pt'?'Cassino':lang==='pl'?'Kasyno':'Cazinou'}
+              </div>
+              <div style={{fontSize:11,color:'rgba(255,255,255,0.3)',marginTop:4}}>Melbet, 1xBet...</div>
+            </div>
+            {/* Săgeată 1 */}
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',padding:isMobile?'4px 0':'0 12px'}}>
+              <div style={{fontSize:11,color:'rgba(255,255,255,0.3)',marginBottom:2}}>
+                {lang==='ru'?'платит нам':lang==='en'?'pays us':lang==='tr'?'bize öder':lang==='de'?'zahlt uns':lang==='pt'?'paga-nos':lang==='pl'?'płaci nam':'ne plătește'}
+              </div>
+              <div style={{fontSize:isMobile?20:24,color:'rgba(245,166,35,0.5)',transform:isMobile?'rotate(90deg)':'none'}}>→</div>
+            </div>
+            {/* WinPartners */}
+            <div style={{background:'rgba(245,166,35,0.08)',border:'2px solid rgba(245,166,35,0.3)',borderRadius:12,padding:'1rem 1.5rem',textAlign:'center',minWidth:160,position:'relative'}}>
+              <div style={{fontSize:22,marginBottom:4}}>W</div>
+              <div style={{fontSize:13,fontWeight:800,color:gold}}>WinPartners</div>
+              <div style={{fontSize:11,color:'rgba(255,255,255,0.25)',marginTop:4}}>
+                {lang==='ru'?'наша доля: 0% сейчас':lang==='en'?'our cut: 0% now':lang==='tr'?'payımız: şimdi %0':lang==='de'?'unser Anteil: 0% jetzt':lang==='pt'?'nossa parte: 0% agora':lang==='pl'?'nasz udział: 0% teraz':'partea noastră: 0% acum'}
+              </div>
+              <div style={{position:'absolute',top:-10,right:-10,background:'#10b981',borderRadius:20,fontSize:10,fontWeight:800,color:'#fff',padding:'2px 8px'}}>
+                {lang==='ru'?'Сейчас':lang==='en'?'Now':lang==='tr'?'Şimdi':lang==='de'?'Jetzt':lang==='pt'?'Agora':lang==='pl'?'Teraz':'Acum'}
+              </div>
+            </div>
+            {/* Săgeată 2 */}
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',padding:isMobile?'4px 0':'0 12px'}}>
+              <div style={{fontSize:11,color:'rgba(255,255,255,0.3)',marginBottom:2}}>
+                {lang==='ru'?'тебе 100%':lang==='en'?'100% to you':lang==='tr'?'sana %100':lang==='de'?'100% an dich':lang==='pt'?'100% para ti':lang==='pl'?'100% do ciebie':'100% ție'}
+              </div>
+              <div style={{fontSize:isMobile?20:24,color:'#10b981',transform:isMobile?'rotate(90deg)':'none'}}>→</div>
+            </div>
+            {/* Blogger */}
+            <div style={{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)',borderRadius:12,padding:'1rem 1.5rem',textAlign:'center',minWidth:140}}>
+              <div style={{fontSize:22,marginBottom:4}}>📱</div>
+              <div style={{fontSize:13,fontWeight:800,color:'#10b981'}}>
+                {lang==='ru'?'Ты':lang==='en'?'You':lang==='tr'?'Sen':lang==='de'?'Du':lang==='pt'?'Tu':lang==='pl'?'Ty':'Tu'}
+              </div>
+              <div style={{fontSize:16,fontWeight:900,color:'#10b981',marginTop:4}}>25% RevShare</div>
+            </div>
+          </div>
+
+          {/* 3 cazinouri cu comisioane reale */}
+          <div style={{marginBottom:24}}>
+            <div style={{fontSize:13,fontWeight:700,color:'rgba(255,255,255,0.5)',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:14,textAlign:'center'}}>
+              {lang==='ru'?'Реальные комиссии по казино':lang==='en'?'Real commissions per casino':lang==='tr'?'Kumarhane başına gerçek komisyonlar':lang==='de'?'Echte Provisionen pro Casino':lang==='pt'?'Comissões reais por cassino':lang==='pl'?'Rzeczywiste prowizje według kasyna':'Comisioane reale per cazinou'}
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(5,1fr)',gap:10}}>
+              {[
+                {name:'Melbet',  color:'#f5a623', rs:'25%', ref:'3%', geo:'40+ GEO', pay:'Marți'},
+                {name:'1xBet',   color:'#60a5fa', rs:'25%', ref:'3%', geo:'62+ GEO', pay:'Marți'},
+                {name:'Mostbet', color:'#f87171', rs:'25%', ref:'3%', geo:'90+ GEO', pay:'Marți'},
+                {name:'SpinBetter',color:'#a78bfa',rs:'25%',ref:'3%',geo:'100+ GEO',pay:'Marți'},
+                {name:'PIN-UP',  color:'#34d399', rs:'25%', ref:'3%', geo:'50+ GEO', pay:'Marți'},
+              ].map(c=>(
+                <div key={c.name} style={{background:'rgba(255,255,255,0.025)',border:`1px solid ${c.color}25`,borderRadius:10,padding:'0.875rem',textAlign:'center'}}>
+                  <div style={{fontSize:13,fontWeight:800,color:c.color,marginBottom:8}}>{c.name}</div>
+                  <div style={{fontSize:20,fontWeight:900,color:'#fff',marginBottom:2}}>{c.rs}</div>
+                  <div style={{fontSize:10,color:'rgba(255,255,255,0.3)',textTransform:'uppercase',letterSpacing:'.04em',marginBottom:6}}>RevShare</div>
+                  <div style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>+{c.ref} REF</div>
+                  <div style={{fontSize:10,color:'rgba(255,255,255,0.25)',marginTop:4}}>{c.geo}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Nota despre 0% */}
+          <div style={{background:'rgba(16,185,129,0.07)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:10,padding:'1rem 1.25rem',display:'flex',gap:12,alignItems:'flex-start'}}>
+            <span style={{fontSize:20,flexShrink:0}}>💚</span>
+            <div>
+              <div style={{fontSize:13,fontWeight:800,color:'#10b981',marginBottom:4}}>
+                {lang==='ru'?'В начальный период: 0% комиссии платформы':
+                 lang==='en'?'Launch period: 0% platform fee':
+                 lang==='tr'?'Başlangıç dönemi: %0 platform ücreti':
+                 lang==='de'?'Startphase: 0% Plattformgebühr':
+                 lang==='pt'?'Período inicial: 0% taxa de plataforma':
+                 lang==='pl'?'Okres początkowy: 0% opłata platformy':
+                 'Perioada de lansare: 0% comision platformă'}
+              </div>
+              <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.6}}>
+                {lang==='ru'?'Сейчас мы не берём никакой доли. Все 25% от казино идут напрямую тебе. Как у крупных партнёров — с первого дня, даже если у тебя маленькая аудитория.':
+                 lang==='en'?'Right now we take no share at all. All 25% from the casino goes directly to you. Like big partners get — from day one, even with a small audience.':
+                 lang==='tr'?'Şu anda hiçbir pay almıyoruz. Kumarhaneden gelen 25%in tamamı doğrudan sana gidiyor. Büyük ortaklar gibi — ilk günden, küçük bir kitleyle bile.':
+                 lang==='de'?'Derzeit nehmen wir keinen Anteil. Alle 25% vom Casino gehen direkt an dich. Wie Großpartner bekommen — ab Tag 1, auch mit kleinem Publikum.':
+                 lang==='pt'?'De momento não ficamos com nenhuma parte. Todos os 25% do cassino vão diretamente para ti. Como os grandes parceiros — desde o primeiro dia, mesmo com uma audiência pequena.':
+                 lang==='pl'?'Teraz nie bierzemy żadnej części. Całe 25% z kasyna trafia bezpośrednio do ciebie. Jak duzi partnerzy — od pierwszego dnia, nawet z małą publicznością.':
+                 'Acum nu luăm nicio parte. Toți cei 25% de la cazinou merg direct la tine. Ca partenerii mari — din prima zi, chiar dacă ai o audiență mică.'}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+            {/* ─── CTA ─── */}
       <div style={{padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
         <div style={{position:'absolute',inset:0,background:`radial-gradient(ellipse 65% 75% at 50% 50%, rgba(245,166,35,0.07) 0%, transparent 68%)`,pointerEvents:'none'}}/>
         <div style={{position:'relative',zIndex:1}}>
