@@ -18,10 +18,11 @@ const green = '#10b981'
 const red = '#ef4444'
 
 const CASINOS = [
-  { id:'melbet', name:'Melbet', color:gold },
-  { id:'winbet', name:'1xBet', color:'#3b82f6' },
-  { id:'spinmax', name:'Mostbet', color:green },
-  { id:'luckydeal', name:'WinBet', color:red },
+  { id:'melbet',     name:'Melbet',        color:gold },
+  { id:'xbet',       name:'1xBet',         color:'#1565c0' },
+  { id:'mostbet',    name:'Mostbet',       color:green },
+  { id:'spinbetter', name:'SpinBetter',    color:'#7c3aed' },
+  { id:'pinup',      name:'PIN-UP Casino', color:red },
 ]
 
 // ── Butoane mari pentru touch ──
@@ -71,7 +72,7 @@ export default function AdminMobile() {
   const [apps, setApps] = useState([])
   const [bloggers, setBloggers] = useState([])
   const [notifications, setNotifications] = useState([])
-  const [promoCodes, setPromoCodes] = useState({ melbet:[], winbet:[], spinmax:[], luckydeal:[] })
+  const [promoCodes, setPromoCodes] = useState({ melbet:[], xbet:[], mostbet:[], spinbetter:[], pinup:[] })
 
   // UI state
   const [selBlogger, setSelBlogger] = useState(null)
