@@ -149,14 +149,23 @@ export default function AdminMobile() {
   // ── Salvează stats ──
   const saveStats = async () => {
     if (!selBlogger) return
+    const commPct = { melbet:25, xbet:40, mostbet:60, spinbetter:50, pinup:50 }[selCasino] || 25
     const s = {
       clicks: Number(statsForm.clicks) || 0,
       regs: Number(statsForm.regs) || 0,
       deposits: Number(statsForm.deposits) || 0,
       revenue: Number(statsForm.revenue) || 0,
-      commission: Number(statsForm.commission) || Math.round((Number(statsForm.revenue)||0) * 0.25),
+      commission: Number(statsForm.commission) || Math.round((Number(statsForm.revenue)||0) * commPct / 100),
     }
     await setCasinoStats(selBlogger.username, selCasino, s)
+    // Sursă unică de adevăr: comisionul total al bloggerului = suma comisioanelor pe toate cazinourile
+    const allStats = (await getCasinoStats(selBlogger.username)) || {}
+    const merged = { ...allStats, [selCasino]: s }
+    const earned = Math.round(Object.values(merged).reduce((a,cs)=>a+(Number(cs&&cs.commission)||0),0))
+    const revenueTotal = Math.round(Object.values(merged).reduce((a,cs)=>a+(Number(cs&&cs.revenue)||0),0))
+    await updateBloggerFields(selBlogger.username, { earned, revenue: revenueTotal })
+    setSelBlogger({ ...selBlogger, earned, revenue: revenueTotal })
+    setBloggers(prev => prev.map(b => b.username===selBlogger.username ? { ...b, earned, revenue: revenueTotal } : b))
     await addNotification({ type:'stats_update', blogger: selBlogger.username, detail: CASINOS.find(c=>c.id===selCasino)?.name + ' actualizat' })
     showToast('✅ Stats salvate în Firebase!')
   }
@@ -359,7 +368,7 @@ export default function AdminMobile() {
                 <Input
                   type="number" value={statsForm.commission}
                   onChange={e => setStatsForm(p => ({...p, commission: e.target.value}))}
-                  placeholder={Math.round((Number(statsForm.revenue)||0)*0.25) || '0'}
+                  placeholder={Math.round((Number(statsForm.revenue)||0)*(({melbet:25,xbet:40,mostbet:60,spinbetter:50,pinup:50}[selCasino]||25)/100)) || '0'}
                 />
               </div>
               <Btn label="💾 Salvează în Firebase" color={gold} textColor="#000" onClick={saveStats} />
