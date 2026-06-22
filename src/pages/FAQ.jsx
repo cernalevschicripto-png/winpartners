@@ -6,7 +6,9 @@ const LANGS = ['ro','ru','en','tr','de','pt','pl']
 const T = {
   ro:{ login:'Conectați-vă', reg:'Înregistrare', title:'ÎNTREBĂRI', title2:'FRECVENTE', sub:'Răspunsuri la cele mai comune întrebări',
     faqs:[
-      ['Cât costă înregistrarea?','Înregistrarea este complet gratuită. Nu există costuri ascunse, taxe de aderare sau investiții minime.'],
+      ['Cât costă înregistrarea?','Înregistrarea este complet gratuită. Nu există costuri ascunse, taxe de aderare sau investiții minime.',
+      ['Cu ce cazinouri lucrați?','WinPartners colaborează cu Melbet, 1xBet, Mostbet, SpinBetter și PIN-UP Casino. Fiecare cazinou are propriul cod promoțional — le gestionați pe toate dintr-un singur dashboard.'],
+      ['Pot promova mai multe cazinouri simultan?','Da! Puteți avea coduri active la mai multe cazinouri în același timp. Statisticile și câștigurile sunt separate per cazinou în dashboard-ul dvs.']],
       ['Cât timp durează aprobarea?','Contul dvs. va fi verificat și aprobat în maxim 24-48 ore lucrătoare de la înregistrare.'],
       ['Care este comisionul meu?','Primiți 25% din pierderile nete generate de jucătorii pe care îi recomandați, pe toată durata activității lor.'],
       ['Când și cum primesc plata?','Plățile se procesează săptămânal. Suma minimă pentru retragere este $30. Plătim prin Bitcoin, USDT, Ethereum, Skrill, Neteller sau Binance Pay.'],
@@ -19,7 +21,9 @@ const T = {
     ]},
   ru:{ login:'Войти', reg:'Регистрация', title:'ЧАСТО ЗАДАВАЕМЫЕ', title2:'ВОПРОСЫ', sub:'Ответы на самые распространённые вопросы',
     faqs:[
-      ['Сколько стоит регистрация?','Регистрация полностью бесплатна. Нет скрытых платежей, вступительных взносов или минимальных инвестиций.'],
+      ['Сколько стоит регистрация?','Регистрация полностью бесплатна. Нет скрытых платежей, вступительных взносов или минимальных инвестиций.',
+      ['С какими казино вы работаете?','WinPartners сотрудничает с Melbet, 1xBet, Mostbet, SpinBetter и PIN-UP Casino. У каждого казино свой промокод — управляйте всеми из одного дашборда.'],
+      ['Могу ли я продвигать несколько казино одновременно?','Да! У вас могут быть активные коды сразу в нескольких казино. Статистика и доходы отображаются отдельно по каждому казино.']],
       ['Сколько времени занимает одобрение?','Ваш аккаунт будет проверен и одобрен в течение 24-48 рабочих часов с момента регистрации.'],
       ['Какова моя комиссия?','Вы получаете 25% от чистых проигрышей привлечённых игроков на протяжении всего времени их активности.'],
       ['Когда и как я получаю выплату?','Выплаты еженедельно. Минимум $30. Bitcoin, USDT, Ethereum, Skrill, Neteller или Binance Pay.'],
@@ -32,7 +36,9 @@ const T = {
     ]},
   en:{ login:'Login', reg:'Register', title:'FREQUENTLY ASKED', title2:'QUESTIONS', sub:'Answers to the most common questions',
     faqs:[
-      ['How much does registration cost?','Registration is completely free. No hidden costs, membership fees, or minimum investments.'],
+      ['How much does registration cost?','Registration is completely free. No hidden costs, membership fees, or minimum investments.',
+      ['Which casinos do you work with?','WinPartners works with Melbet, 1xBet, Mostbet, SpinBetter and PIN-UP Casino. Each casino has its own promo code — manage them all from one dashboard.'],
+      ['Can I promote multiple casinos at once?','Yes! You can have active codes at multiple casinos simultaneously. Statistics and earnings are shown separately per casino in your dashboard.']],
       ['How long does approval take?','Your account will be reviewed and approved within 24-48 working hours of registration.'],
       ['What is my commission?','You receive 25% of referred players net losses throughout their activity. Lifetime commission.'],
       ['When and how do I get paid?','Payments weekly. Minimum $30. Bitcoin, USDT, Ethereum, Skrill, Neteller, or Binance Pay.'],
@@ -45,7 +51,9 @@ const T = {
     ]},
   tr:{ login:'Giriş', reg:'Kayıt', title:'SIK SORULAN', title2:'SORULAR', sub:'En yaygın soruların cevapları',
     faqs:[
-      ['Kayıt ücreti nedir?','Kayıt tamamen ücretsizdir. Gizli ücretler, üyelik bedelleri veya minimum yatırım yoktur.'],
+      ['Kayıt ücreti nedir?','Kayıt tamamen ücretsizdir. Gizli ücretler, üyelik bedelleri veya minimum yatırım yoktur.',
+      ['Hangi kumarhanelerle çalışıyorsunuz?','WinPartners, Melbet, 1xBet, Mostbet, SpinBetter ve PIN-UP Casino ile çalışmaktadır. Her kumarhanenin kendi promosyon kodu vardır.'],
+      ['Aynı anda birden fazla kumarhaneyi tanıtabilir miyim?','Evet! Birden fazla kumarhanede aynı anda aktif kodlarınız olabilir.']],
       ['Onay ne kadar sürer?','Hesabınız kayıttan itibaren 24-48 iş saati içinde incelenip onaylanacaktır.'],
       ['Komisyonum nedir?','Yönlendirilen oyuncuların net kayıplarının %25 ini alırsınız. Ömür boyu komisyon.'],
       ['Ne zaman ve nasıl ödeme alırım?','Ödemeler haftalık. Minimum 30$. Bitcoin, USDT, Ethereum, Skrill, Neteller veya Binance Pay.'],
@@ -58,7 +66,9 @@ const T = {
     ]},
   de:{ login:'Anmelden', reg:'Registrieren', title:'HÄUFIG GESTELLTE', title2:'FRAGEN', sub:'Antworten auf die häufigsten Fragen',
     faqs:[
-      ['Was kostet die Registrierung?','Die Registrierung ist völlig kostenlos. Keine versteckten Kosten oder Mindestinvestitionen.'],
+      ['Was kostet die Registrierung?','Die Registrierung ist völlig kostenlos. Keine versteckten Kosten oder Mindestinvestitionen.',
+      ['Mit welchen Casinos arbeiten Sie?','WinPartners arbeitet mit Melbet, 1xBet, Mostbet, SpinBetter und PIN-UP Casino. Jedes Casino hat seinen eigenen Promo-Code — alles in einem Dashboard verwalten.'],
+      ['Kann ich mehrere Casinos gleichzeitig bewerben?','Ja! Sie können gleichzeitig aktive Codes bei mehreren Casinos haben.']],
       ['Wie lange dauert die Genehmigung?','Ihr Konto wird innerhalb von 24-48 Arbeitsstunden nach der Registrierung genehmigt.'],
       ['Wie hoch ist meine Provision?','Sie erhalten 25% der Nettoverluste der geworbenen Spieler. Lebenslange Provision.'],
       ['Wann und wie werde ich bezahlt?','Zahlungen wöchentlich. Mindestens $30. Bitcoin, USDT, Ethereum, Skrill, Neteller oder Binance Pay.'],
@@ -71,7 +81,9 @@ const T = {
     ]},
   pt:{ login:'Entrar', reg:'Registrar', title:'PERGUNTAS', title2:'FREQUENTES', sub:'Respostas às perguntas mais comuns',
     faqs:[
-      ['Quanto custa o registo?','O registo é completamente gratuito. Sem custos ocultos, taxas de adesão ou investimentos mínimos.'],
+      ['Quanto custa o registo?','O registo é completamente gratuito. Sem custos ocultos, taxas de adesão ou investimentos mínimos.',
+      ['Com quais cassinos vocês trabalham?','A WinPartners trabalha com Melbet, 1xBet, Mostbet, SpinBetter e PIN-UP Casino. Cada cassino tem seu próprio código promocional.'],
+      ['Posso promover vários cassinos ao mesmo tempo?','Sim! Você pode ter códigos ativos em vários cassinos simultaneamente.']],
       ['Quanto tempo demora a aprovação?','A sua conta será aprovada no prazo de 24-48 horas úteis após o registo.'],
       ['Qual é a minha comissão?','Recebe 25% das perdas líquidas dos jogadores indicados. Comissão vitalícia.'],
       ['Quando e como recebo o pagamento?','Pagamentos semanais. Mínimo $30. Bitcoin, USDT, Ethereum, Skrill, Neteller ou Binance Pay.'],
@@ -84,7 +96,9 @@ const T = {
     ]},
   pl:{ login:'Zaloguj się', reg:'Rejestracja', title:'CZĘSTO ZADAWANE', title2:'PYTANIA', sub:'Odpowiedzi na najczęstsze pytania',
     faqs:[
-      ['Ile kosztuje rejestracja?','Rejestracja jest całkowicie bezpłatna. Brak ukrytych kosztów, opłat członkowskich lub minimalnych inwestycji.'],
+      ['Ile kosztuje rejestracja?','Rejestracja jest całkowicie bezpłatna. Brak ukrytych kosztów, opłat członkowskich lub minimalnych inwestycji.',
+      ['Z jakimi kasynami współpracujecie?','WinPartners współpracuje z Melbet, 1xBet, Mostbet, SpinBetter i PIN-UP Casino. Każde kasyno ma własny kod promocyjny.'],
+      ['Czy mogę promować kilka kasyn jednocześnie?','Tak! Możesz mieć aktywne kody w kilku kasynach jednocześnie.']],
       ['Jak długo trwa zatwierdzenie?','Twoje konto zostanie zatwierdzone w ciągu 24-48 godzin roboczych od rejestracji.'],
       ['Jaka jest moja prowizja?','Otrzymujesz 25% strat netto poleconych graczy. Prowizja dożywotnia.'],
       ['Kiedy i jak otrzymuję płatność?','Płatności tygodniowe. Minimum $30. Bitcoin, USDT, Ethereum, Skrill, Neteller lub Binance Pay.'],
