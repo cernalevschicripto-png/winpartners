@@ -524,13 +524,16 @@ winpartners.pro`
             : (
               <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:12,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',fontSize:13}}>
-                  <thead><tr>{['Data','Blogger','Casino','Cod solicitat','Status','Acțiuni'].map(h=><th key={h} style={th}>{h}</th>)}</tr></thead>
+                  <thead><tr>{['Data','Blogger','Casino','Tip','Cod solicitat','Status','Acțiuni'].map(h=><th key={h} style={th}>{h}</th>)}</tr></thead>
                   <tbody>
                     {customRequests.map(r => (
                       <tr key={r.id}>
                         <td style={{...td,fontSize:11,color:'rgba(255,255,255,0.4)'}}>{r.timestamp}</td>
                         <td style={td}>{r.blogger}</td>
                         <td style={td}>{r.casinoName}</td>
+                        <td style={td}>{(r.type==='casino_access'||r.requestedCode==='ACCES')
+                          ? <span style={{background:'#3b82f622',color:'#3b82f6',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>🔓 Acces cazino</span>
+                          : <span style={{background:'#f5a62322',color:'#f5a623',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>✨ Cod personalizat</span>}</td>
                         <td style={{...td,fontFamily:'monospace',color:gold,fontWeight:700}}>{r.requestedCode}</td>
                         <td style={td}><span style={{background:r.status==='pending'?'#f59e0b22':r.status==='approved'?'#10b98122':'#ef444422',color:r.status==='pending'?'#f59e0b':r.status==='approved'?'#10b981':'#ef4444',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>{r.status}</span></td>
                         <td style={td}>

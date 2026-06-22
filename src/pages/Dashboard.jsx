@@ -314,7 +314,7 @@ function DashboardContent({ blogger, onLogout }) {
   }
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [page,setPage]=useState('main')
+  const [page,setPage]=useState('casino')
   const [lang, setLang] = useState(() => {
     const s = localStorage.getItem('wp_lang')
     return ['ro','ru','en','tr','de','pt','pl'].includes(s) ? s : 'ro'
@@ -364,7 +364,7 @@ function DashboardContent({ blogger, onLogout }) {
     }
   }
 
-  const [selectedCasino, setSelectedCasino] = useState(null)
+  const [selectedCasino, setSelectedCasino] = useState('melbet')
   const [generatedCode, setGeneratedCode] = useState(null)
   const [codeGenerating, setCodeGenerating] = useState(false)
   // Codurile mele atribuite — din Firebase
@@ -455,21 +455,22 @@ function DashboardContent({ blogger, onLogout }) {
   const [period,setPeriod]=useState('1 lună')
   const [toast, setToast] = useState('')
   const mt = MENU_T[lang] || MENU_T.ro
+  const secCas = ({ro:'CAZINOURILE MELE',ru:'МОИ КАЗИНО',en:'MY CASINOS',tr:'KUMARHANELERİM',de:'MEINE CASINOS',pt:'OS MEUS CASINOS',pl:'MOJE KASYNA'})[lang]||'CAZINOURILE MELE'
+  const secAcc = ({ro:'CONTUL MEU',ru:'МОЙ АККАУНТ',en:'MY ACCOUNT',tr:'HESABIM',de:'MEIN KONTO',pt:'A MINHA CONTA',pl:'MOJE KONTO'})[lang]||'CONTUL MEU'
   const MENU = [
-    {id:'main',label:mt.main,section:mt.s1,icon:'🏠'},
-    {id:'sites',label:mt.sites,section:'',icon:'🌐'},
+    // Cazinouri — navigația principală (fiecare deschide workspace-ul cazinoului)
+    ...CASINOS_BASE.map((c,i)=>({ id:'cas_'+c.id, casinoId:c.id, label:c.name, section: i===0?secCas:'', icon:c.logo, comingSoon:!!c.comingSoon })),
+    // Contul meu
+    {id:'main',label:mt.main,section:secAcc,icon:'🏠'},
     {id:'comm',label:mt.comm,section:'',icon:'💲'},
     {id:'pays',label:mt.pays,section:'',icon:'💳'},
     {id:'account',label:mt.account,section:'',icon:'👤'},
     {id:'contact',label:mt.contact,section:'',icon:'✉️'},
-    {id:'links',label:mt.links,section:mt.s2,icon:'🔗'},
-    {id:'promo',label:mt.promo,section:'',icon:'🎟'},
-    {id:'media',label:mt.media,section:'',icon:'📢'},
-    {id:'cazinouri',label:mt.cazinouri,section:'',icon:'🎰'},
+    // Rapoarte detaliate
     {id:'summary',label:mt.summary,section:mt.s3,icon:'📊'},
     {id:'report',label:mt.report,section:'',icon:'📋'},
-    {id:'mkttools',label:mt.mkttools,section:'',icon:'🛠'},
     {id:'players',label:mt.players,section:'',icon:'👥'},
+    {id:'media',label:mt.media,section:'',icon:'📢'},
     {id:'subaff',label:mt.subaff,section:'',icon:'🌿'},
   ]
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500) }
@@ -558,15 +559,19 @@ function DashboardContent({ blogger, onLogout }) {
 
         {/* SIDEBAR - responsive */}
         <div style={Object.assign({},{width:220,background:bgSide,flexShrink:0,overflowY:'auto',paddingBottom:20,borderRight:'1px solid rgba(255,255,255,0.05)'},isMobile?{position:'fixed',top:52,left:sidebarOpen?0:-220,height:'calc(100vh - 52px)',zIndex:50,transition:'left .25s ease',boxShadow:sidebarOpen?'4px 0 20px rgba(0,0,0,0.4)':'none'}:{})}>
-          {MENU.map((m)=>(
+          {MENU.map((m)=>{
+            const isActiveItem = m.casinoId ? (page==='casino' && selectedCasino===m.casinoId) : page===m.id
+            return (
             <div key={m.id}>
               {m.section&&<div style={{padding:'12px 14px 4px',fontSize:9,color:'rgba(255,255,255,0.25)',textTransform:'uppercase',letterSpacing:'.12em',fontWeight:600}}>{m.section}</div>}
-              <div onClick={()=>setPage(m.id)} style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px 9px 16px',cursor:'pointer',fontSize:13,color:page===m.id?gold:'rgba(255,255,255,0.55)',background:page===m.id?'rgba(245,166,35,0.1)':'none',borderLeft:page===m.id?`3px solid ${gold}`:'3px solid transparent',transition:'all .12s'}}>
+              <div onClick={()=>{ if(m.casinoId){setSelectedCasino(m.casinoId);setPage('casino');setGeneratedCode(null)} else {setPage(m.id)} ; if(isMobile) setSidebarOpen(false) }} style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px 9px 16px',cursor:'pointer',fontSize:13,color:isActiveItem?gold:'rgba(255,255,255,0.55)',background:isActiveItem?'rgba(245,166,35,0.1)':'none',borderLeft:isActiveItem?`3px solid ${gold}`:'3px solid transparent',transition:'all .12s'}}>
                 <span style={{fontSize:14}}>{m.icon}</span>
-                <span>{m.label}</span>
+                <span style={{flex:1}}>{m.label}</span>
+                {m.comingSoon&&<span style={{fontSize:8,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.04em'}}>curând</span>}
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* MAIN CONTENT - light white background like Melbet */}
@@ -574,11 +579,13 @@ function DashboardContent({ blogger, onLogout }) {
 
           {/* PAGE TITLE */}
           {/* Page title bar - like Melbet's yellow title */}
+          {page!=='casino' && (
           <div style={{display:'flex',alignItems:'center',gap:0,marginBottom:'1.5rem',borderBottom:`2px solid #e5e7eb`}}>
             <div style={{padding:'0 0 12px',fontSize:18,fontWeight:700,color:gold,borderBottom:`3px solid ${gold}`,marginBottom:-2}}>
               {MENU.find(m=>m.id===page)?.label||'Dashboard'}
             </div>
           </div>
+          )}
 
           {/* === PAGINA PRINCIPALA === */}
           {page==='main'&&(
@@ -592,7 +599,7 @@ function DashboardContent({ blogger, onLogout }) {
                   </div>
                   <div style={{display:'flex',flexDirection:'column',gap:10}}>
                     {[
-                      {n:'1',t:'Ia-ți codul promoțional Melbet',d:'Mergi la "Coduri Promoționale" → generează codul tău unic',p:'promo',btn:'Generează cod →'},
+                      {n:'1',t:'Ia-ți codul promoțional Melbet',d:'Deschide secțiunea Melbet → generează codul tău unic',p:'casino',btn:'Generează cod →'},
                       {n:'2',t:'Promovează pe platforma ta',d:'Include codul în videoclipuri, descrieri și story-uri',p:null,btn:null},
                       {n:'3',t:'Urmărește câștigurile',d:'Statisticile se actualizează săptămânal de echipa WinPartners',p:null,btn:null},
                     ].map(s=>(
@@ -602,7 +609,7 @@ function DashboardContent({ blogger, onLogout }) {
                           <div style={{fontSize:13,fontWeight:700,color:'#fff',marginBottom:2}}>{s.t}</div>
                           <div style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>{s.d}</div>
                         </div>
-                        {s.btn && <button onClick={()=>setPage(s.p)} style={{padding:'5px 12px',fontSize:11,fontWeight:700,cursor:'pointer',border:'1px solid #f5a623',borderRadius:6,background:'none',color:'#f5a623',whiteSpace:'nowrap'}}>{s.btn}</button>}
+                        {s.btn && <button onClick={()=>{ if(s.p==='casino'){setSelectedCasino('melbet');setPage('casino')} else if(s.p){setPage(s.p)} }} style={{padding:'5px 12px',fontSize:11,fontWeight:700,cursor:'pointer',border:'1px solid #f5a623',borderRadius:6,background:'none',color:'#f5a623',whiteSpace:'nowrap'}}>{s.btn}</button>}
                       </div>
                     ))}
                   </div>
@@ -700,6 +707,152 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               </div>
             </div>
           )}
+
+          {/* === WORKSPACE CAZINO (per-cazino, brandat) === */}
+          {page==='casino'&&(()=>{
+            const cid = selectedCasino || 'melbet'
+            const c = CASINOS.find(x=>x.id===cid) || CASINOS[0]
+            const accent = c.color
+            const myCode = myCodes.find(x=>x.casinoId===cid)
+            const gen = (generatedCode && generatedCode.casinoId===cid) ? generatedCode : null
+            const reqSent = customRequests.find(r=>r.casinoId===cid && r.type==='casino_access')
+            const theCode = (myCode||gen) ? (myCode?myCode.code:gen.code) : null
+            return (
+            <div>
+              {/* Strip taburi cazinouri — comutare rapidă */}
+              <div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:6,marginBottom:'1.25rem',WebkitOverflowScrolling:'touch'}}>
+                {CASINOS.map(x=>{
+                  const sel = x.id===cid
+                  return (
+                    <button key={x.id} onClick={()=>{setSelectedCasino(x.id);setGeneratedCode(null)}}
+                      style={{display:'flex',alignItems:'center',gap:7,padding:'8px 14px',borderRadius:9,cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,whiteSpace:'nowrap',flexShrink:0,
+                        border: sel?('2px solid '+x.color):('1px solid '+bdr),
+                        background: sel?(x.color+'15'):'#fff',
+                        color: sel?x.color:txt}}>
+                      <span style={{fontSize:16}}>{x.logo}</span>{x.name}
+                      {x.comingSoon && <span style={{fontSize:9,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'#f1f5f9',color:'#94a3b8'}}>curând</span>}
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Header brand cazino */}
+              <div style={{background:('linear-gradient(135deg,'+accent+'1f,'+accent+'08)'),border:('1px solid '+accent+'44'),borderLeft:('5px solid '+accent),borderRadius:12,padding:isMobile?'16px':'20px 24px',marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:16,flexWrap:'wrap'}}>
+                <div style={{width:56,height:56,borderRadius:14,background:(accent+'22'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:30,flexShrink:0}}>{c.logo}</div>
+                <div style={{flex:1,minWidth:180}}>
+                  <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
+                    <div style={{fontSize:22,fontWeight:900,color:txt}}>{c.name}</div>
+                    {c.comingSoon
+                      ? <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'#fef3c7',color:'#92400e'}}>În curând</span>
+                      : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'#dcfce7',color:'#16a34a'}}>Activ</span>}
+                  </div>
+                  <div style={{fontSize:13,color:accent,fontWeight:700,marginTop:3}}>{c.commission}</div>
+                  <div style={{fontSize:12,color:txtSub,marginTop:4}}>{c.description}</div>
+                </div>
+                <div style={{textAlign:'right',fontSize:12,color:txtSub,lineHeight:1.7}}>
+                  <div>Plată: <b style={{color:txt}}>{c.payFreq}</b></div>
+                  <div>Min: <b style={{color:txt}}>{c.minPayout}</b></div>
+                  <div>Geo: <b style={{color:txt}}>{c.geo}</b></div>
+                </div>
+              </div>
+
+              {/* Statistici cazino */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:12,marginBottom:'1.5rem'}}>
+                {[
+                  ['Înregistrări', c.stats.regs||0, txt],
+                  ['Depunători', c.stats.deposits||0, '#3b82f6'],
+                  ['Venit generat', '$'+(c.stats.revenue||0).toLocaleString(), '#8b5cf6'],
+                  ['Comisionul meu', '$'+(c.stats.commission||0).toLocaleString(), '#10b981'],
+                ].map(([l,v,col])=>(
+                  <div key={l} style={{...card,borderBottom:('3px solid '+accent),textAlign:'center',padding:'16px 10px'}}>
+                    <div style={{fontSize:isMobile?22:26,fontWeight:900,color:col}}>{v}</div>
+                    <div style={{fontSize:10,color:txtSub,textTransform:'uppercase',letterSpacing:'.05em',marginTop:4}}>{l}</div>
+                  </div>
+                ))}
+              </div>
+
+              {c.comingSoon ? (
+                /* Cazino neaprobat încă — cerere de acces */
+                <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
+                  <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Vrei să promovezi {c.name}?</div>
+                  <div style={{padding:'20px 24px'}}>
+                    <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:16}}>
+                      Lucrăm la activarea afilierii cu <b style={{color:txt}}>{c.name}</b>. Trimite o cerere acum — apari pe lista de așteptare și ești printre primii care primesc cod imediat ce afilierea e aprobată. Te anunțăm pe Telegram.
+                    </p>
+                    {reqSent ? (
+                      <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#15803d',fontWeight:600}}>
+                        ✓ Cerere trimisă{reqSent.date?(' pe '+reqSent.date):''} — ești pe lista de așteptare
+                      </div>
+                    ) : (
+                      <button onClick={()=>setShowCasinoRequest(cid)} style={{...btnPrimary,padding:'12px 26px',fontSize:14,background:accent,borderColor:accent}}>
+                        📩 Vreau să lucrez cu {c.name}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ) : myCode ? (
+                /* Are cod — afișează cod + link */
+                <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
+                  <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Codul tău {c.name}</div>
+                  <div style={{padding:'20px 24px'}}>
+                    <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                      <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Cod promoțional — spune-l în video</div>
+                      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
+                        <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{myCode.code}</div>
+                        <button onClick={()=>copy(myCode.code,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază'}</button>
+                      </div>
+                      <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
+                    </div>
+                    {c.id==='melbet' && (
+                      <div style={{background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                        <div style={{fontSize:11,color:'#1d4ed8',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🔗 Link de afiliat — pune în bio, stories, descriere</div>
+                        <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
+                          <div style={{flex:1,minWidth:200,fontFamily:'monospace',fontSize:12,color:'#1d4ed8',background:'#dbeafe',padding:'8px 10px',borderRadius:6,wordBreak:'break-all',lineHeight:1.5}}>{getMelbetPlayerLink(myCode.code)}</div>
+                          <button onClick={()=>copy(getMelbetPlayerLink(myCode.code),'cw_link')} style={{...btnPrimary,padding:'8px 16px',fontSize:13,background:'#2563eb'}}>{copied==='cw_link'?'✓':'📋 Copiază'}</button>
+                        </div>
+                      </div>
+                    )}
+                    <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(accent),padding:'9px 20px',fontSize:13}}>✨ Vreau cod personalizat cu numele meu</button>
+                  </div>
+                </div>
+              ) : gen ? (
+                gen.error ? (
+                  <div style={{...card,textAlign:'center',padding:'24px',marginBottom:'1.5rem'}}>
+                    <div style={{fontSize:14,color:'#dc2626',fontWeight:600,marginBottom:4}}>⚠️ Momentan nu sunt coduri disponibile</div>
+                    <div style={{fontSize:12,color:txtSub}}>Contactează managerul pentru alocare manuală.</div>
+                  </div>
+                ) : (
+                  <div style={{...card,textAlign:'center',padding:'24px',marginBottom:'1.5rem'}}>
+                    <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.08em'}}>✅ Codul tău {c.name}</div>
+                    <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:4,marginBottom:8}}>{gen.code}</div>
+                    <div style={{fontSize:12,color:'#16a34a',marginBottom:12}}>@{gen.bloggerUsername}</div>
+                    <button onClick={()=>copy(gen.code,'cw_code')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază codul'}</button>
+                  </div>
+                )
+              ) : (
+                /* Activ fără cod — generează */
+                <div style={{...card,padding:'24px',marginBottom:'1.5rem'}}>
+                  <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:8}}>Generează-ți codul {c.name}</div>
+                  <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>Codul va fi asociat contului <b>@{D.username}</b> și câștigi <b style={{color:accent}}>{c.commissionPct}%</b> din pierderile jucătorilor care îl folosesc.</p>
+                  <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                    <button onClick={()=>generatePromoCode(cid)} disabled={codeGenerating} style={{...btnPrimary,padding:'12px 28px',fontSize:14,background:accent,borderColor:accent,opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>{codeGenerating?'⏳ Se atribuie...':'🎁 Generează Cod Promoțional'}</button>
+                    <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(accent),padding:'12px 20px',fontSize:13}}>✨ Cod personalizat</button>
+                  </div>
+                </div>
+              )}
+
+              {/* Cum promovezi — doar pentru active cu cod */}
+              {!c.comingSoon && theCode && (
+                <div style={{background:'#fefce8',border:'1px solid #fde047',borderRadius:8,padding:'14px 18px',fontSize:12.5,color:'#854d0e',lineHeight:1.8}}>
+                  <strong>💡 Cum promovezi {c.name}:</strong><br/>
+                  • <strong>Bio TikTok/Instagram:</strong> pune linkul/codul → „Înregistrează-te pe {c.name}"<br/>
+                  • <strong>În video/stories:</strong> „Folosiți codul <strong>{theCode}</strong> la înregistrare"<br/>
+                  • <strong>Descriere YouTube:</strong> link + cod în descriere
+                </div>
+              )}
+            </div>
+            )
+          })()}
 
           {/* === STRUCTURA COMISIONULUI === */}
           {page==='comm'&&(
@@ -1595,18 +1748,18 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 ⏱ Procesare în 24-48 ore. Vei fi notificat pe email și WhatsApp.
               </div>
               <button
-                onClick={()=>{
-                  const reqs = loadCustomRequests()
-                  const already = reqs.find(r=>r.blogger===D.username && r.casinoId===showCasinoRequest && r.type==='casino_access')
-                  if (!already) {
-                    saveCustomRequests([...reqs, {
-                      id: Date.now(), blogger: D.username, bloggerName: D.name,
+                onClick={async ()=>{
+                  const exists = customRequests.find(r=>r.casinoId===showCasinoRequest && r.type==='casino_access')
+                  if (!exists) {
+                    await addCustomRequest({
+                      blogger: D.username, bloggerName: D.name,
                       casinoId: showCasinoRequest, casinoName: casino?.name,
-                      type: 'casino_access', requestedCode: 'ACCES', date: new Date().toLocaleDateString('ro-RO'), status: 'pending'
-                    }])
+                      type: 'casino_access', requestedCode: 'ACCES',
+                      date: new Date().toLocaleDateString('ro-RO')
+                    })
                   }
                   setShowCasinoRequest(null)
-                  alert('✅ Cererea a fost trimisă! Vei fi notificat în 24-48 ore.')
+                  showToast('✅ Cererea a fost trimisă! Te anunțăm în 24-48 ore.')
                 }}
                 style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6}}>
                 Trimite cererea
