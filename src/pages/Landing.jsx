@@ -784,8 +784,7 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* ─── CALCULATOR ─── */}
-      <CalcSection isMobile={isMobile} lang={lang} navigate={navigate} gold={gold} />
+      {/* ─── CALCULATOR ─── eliminat, continut mutat in EXEMPLU VENITURI */}
 
       {/* ─── CTA ─── */}
       <div style={{padding:isMobile?'3rem 1rem':'6rem 2rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
