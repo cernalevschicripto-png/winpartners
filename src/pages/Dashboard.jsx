@@ -304,20 +304,7 @@ function DashboardContent({ blogger, onLogout }) {
       available: Math.max(0, Math.round((blogger.revenue||0)*((blogger.commission||25)/100)-(blogger.paid||0))),
       yesterday: 0, month: 0, days30: Math.round((blogger.revenue||0)*((blogger.commission||25)/100)), total: Math.round((blogger.revenue||0)*((blogger.commission||25)/100)),
     },
-    daily: (() => {
-      // Date demo pentru grafic pana cand admin actualizeaza statistici reale
-      const base = casinoStats?.melbet || {}
-      const total = base.clicks || 0
-      if (total === 0) return []
-      // Distribuie clickurile pe 7 zile
-      const days = ['Lun','Mar','Mie','Joi','Vin','Sam','Dum']
-      return days.map((d, i) => ({
-        d, cl: Math.round(total/7 * (0.8 + Math.random()*0.4)),
-        rg: Math.round((base.regs||0)/7 * (0.8 + Math.random()*0.4)),
-        dp: Math.round((base.deposits||0)/7),
-        rv: Math.round((base.revenue||0)/7)
-      }))
-    })(),
+    daily: [],
     refs: [],
     pays: [],
     links:[{id:1,camp:'English',subid:'',page:'/live',link:'https://melbet.com/go/WP'+blogger.affId,shown:true}],
