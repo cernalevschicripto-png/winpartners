@@ -4,7 +4,7 @@
 // ============================================================
 
 const FB_URL = import.meta.env.VITE_FB_URL || ''
-const USE_FIREBASE = FB_URL && FB_URL !== 'PLACEHOLDER_DB_URL' && FB_URL.includes('firebasedatabase')
+const USE_FIREBASE = FB_URL && FB_URL !== 'PLACEHOLDER_DB_URL' && (FB_URL.includes('firebasedatabase') || FB_URL.includes('firebaseio'))
 
 // ─── FIREBASE REST HELPERS ───────────────────────────────────
 async function fbGet(path) {
