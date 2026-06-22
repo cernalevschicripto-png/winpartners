@@ -296,10 +296,12 @@ export default function Dashboard() {
 
 function DashboardContent({ blogger, onLogout }) {
   // Înlocuiește D cu datele reale ale bloggerului
+  const _affId = blogger.affId || 'WP-' + (Math.abs([...(blogger.username||blogger.id||'wp')].reduce((a,c)=>((a<<5)-a+c.charCodeAt(0))|0,0))%9000000+1000000)
   const D = {
     ...blogger,
     refCode: blogger.refCode || 'REF_' + blogger.username.toUpperCase(),
-    affId: blogger.affId || 'WP-' + Math.floor(Math.random()*9000000+1000000),
+    affId: _affId,
+    promoCode: blogger.promoCode || (blogger.username||blogger.id||'wp').toUpperCase(),
     bal: {
       available: Math.max(0, Math.round((blogger.revenue||0)*((blogger.commission||25)/100)-(blogger.paid||0))),
       yesterday: 0, month: 0, days30: Math.round((blogger.revenue||0)*((blogger.commission||25)/100)), total: Math.round((blogger.revenue||0)*((blogger.commission||25)/100)),
@@ -307,7 +309,7 @@ function DashboardContent({ blogger, onLogout }) {
     daily: [],
     refs: [],
     pays: [],
-    links:[{id:1,camp:'English',subid:'',page:'/live',link:'https://melbet.com/go/WP'+blogger.affId,shown:true}],
+    links:[{id:1,camp:'English',subid:'',page:'/live',link:'https://melbet.com/go/'+_affId,shown:true}],
     commStructure:[{val:'USD',struct:'Revenue Share',group:'RS25% REF3%',start:'2026-06-02',desc:'Procent comision: 25%; Comision negativ: Da; Administrator: 0%',end:''}],
   }
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
