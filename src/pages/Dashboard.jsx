@@ -627,15 +627,15 @@ function DashboardContent({ blogger, onLogout }) {
 
               {/* Filters */}
               <div style={filterRow}>
-                <span style={{fontSize:13,color:txtSub}}>Perioada</span>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Perioada','ru':'Период','en':'Period','tr':'Dönem','de':'Zeitraum','pt':'Período','pl':'Okres'})[lang]||'Perioada'}</span>
                 <select style={{...inp,width:110}} value={period} onChange={e=>setPeriod(e.target.value)}>
-                  {['1 zi','7 zile','1 lună','3 luni','6 luni','1 an'].map(p=><option key={p}>{p}</option>)}
+                  {({'ro':['1 zi','7 zile','1 lună','3 luni','6 luni','1 an'],'ru':['1 день','7 дней','1 месяц','3 месяца','6 месяцев','1 год'],'en':['1 day','7 days','1 month','3 months','6 months','1 year'],'tr':['1 gün','7 gün','1 ay','3 ay','6 ay','1 yıl'],'de':['1 Tag','7 Tage','1 Monat','3 Monate','6 Monate','1 Jahr'],'pt':['1 dia','7 dias','1 mês','3 meses','6 meses','1 ano'],'pl':['1 dzień','7 dni','1 miesiąc','3 miesiące','6 miesięcy','1 rok']})[lang]?.map(p=><option key={p}>{p}</option>)||['1 lună'].map(p=><option key={p}>{p}</option>)}
                 </select>
-                <span style={{fontSize:13,color:txtSub}}>Valută</span>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span>
                 <select style={{...inp,width:75}} value={currency} onChange={e=>setCurrency(e.target.value)}>
                   {['USD','EUR','MDL'].map(c=><option key={c}>{c}</option>)}
                 </select>
-                <button style={btnPrimary} onClick={()=>{const el=document.getElementById('apply-toast');if(el){el.style.opacity='1';setTimeout(()=>el.style.opacity='0',1500)}}}>APLICAȚI</button>
+                <button style={btnPrimary} onClick={()=>{const el=document.getElementById('apply-toast');if(el){el.style.opacity='1';setTimeout(()=>el.style.opacity='0',1500)}}}>{({'ro':'APLICAȚI','ru':'ПРИМЕНИТЬ','en':'APPLY','tr':'UYGULA','de':'ANWENDEN','pt':'APLICAR','pl':'ZASTOSUJ'})[lang]||'APLICAȚI'}</button>
                 <span id="apply-toast" style={{fontSize:11,color:'#10b981',transition:'opacity .3s',opacity:0}}>✓ Aplicat</span>
               </div>
 
@@ -670,7 +670,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,display:'flex',justifyContent:'space-between',alignItems:'center',background:'#fafafa'}}>
                   <span style={{fontSize:13,fontWeight:600,color:txt}}>{dt.chartSummary||'Sumar statistici'}</span>
                   <select style={{...inp,fontSize:12}}>
-                    <option>Ieri</option><option>Azi</option><option>Săptămâna</option>
+                    <option>{({'ro':'Ieri','ru':'Вчера','en':'Yesterday','tr':'Dün','de':'Gestern','pt':'Ontem','pl':'Wczoraj'})[lang]||'Ieri'}</option><option>Azi</option><option>Săptămâna</option>
                   </select>
                 </div>
                 <div style={{overflowX:'auto'}}>
@@ -757,10 +757,10 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 </div>
               </div>
               <div style={filterRow}>
-                <span style={{fontSize:13,color:txtSub}}>Valută</span>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span>
                 <select style={inp}><option>USD</option></select>
-                <span style={{fontSize:13,color:txtSub}}>Perioada</span>
-                <select style={inp}><option>Perioada exactă</option></select>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Perioada','ru':'Период','en':'Period','tr':'Dönem','de':'Zeitraum','pt':'Período','pl':'Okres'})[lang]||'Perioada'}</span>
+                <select style={inp}><option>{({'ro':'Perioada exactă','ru':'Точный период','en':'Exact period','tr':'Tam dönem','de':'Genauer Zeitraum','pt':'Período exato','pl':'Dokładny okres'})[lang]||'Perioada exactă'}</option></select>
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
                 <span style={{color:txtSub}}>→</span>
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
@@ -867,7 +867,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>Site web</span>
                 <select style={{...inp,width:190}}><option>winpartners.pro</option></select>
-                <span style={{fontSize:13,color:txtSub}}>Valută</span>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span>
                 <select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Campanie</span>
                 <select style={{...inp,width:120}} value={linkCamp} onChange={e=>setLinkCamp(e.target.value)}><option>English</option><option>Romanian</option><option>Russian</option></select>
@@ -926,7 +926,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>Site web</span>
                 <select style={{...inp,width:190}}><option>winpartners.pro</option></select>
-                <span style={{fontSize:13,color:txtSub}}>Valută</span>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span>
                 <select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Campanie</span>
                 <select style={{...inp,width:120}}><option>English</option></select>
@@ -995,13 +995,13 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           {(page==='summary'||page==='report')&&(
             <div>
               <div style={filterRow}>
-                <span style={{fontSize:13,color:txtSub}}>Valută</span>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span>
                 <select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Site web</span>
                 <select style={{...inp,width:150}}><option>Toate</option></select>
                 {page==='summary'&&<><span style={{fontSize:13,color:txtSub}}>ID instrument</span><input style={{...inp,width:120}} placeholder=""/></>}
-                <span style={{fontSize:13,color:txtSub}}>Perioada</span>
-                <select style={{...inp,width:130}}><option>Perioada exactă</option></select>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Perioada','ru':'Период','en':'Period','tr':'Dönem','de':'Zeitraum','pt':'Período','pl':'Okres'})[lang]||'Perioada'}</span>
+                <select style={{...inp,width:130}}><option>{({'ro':'Perioada exactă','ru':'Точный период','en':'Exact period','tr':'Tam dönem','de':'Genauer Zeitraum','pt':'Período exato','pl':'Dokładny okres'})[lang]||'Perioada exactă'}</option></select>
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
                 <span style={{color:txtSub}}>→</span>
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
@@ -1044,7 +1044,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           {page==='players'&&(
             <div>
               <div style={filterRow}>
-                <span style={{fontSize:13,color:txtSub}}>Valută</span><select style={inp}><option>USD</option></select>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span><select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Site web</span><select style={{...inp,width:150}}><option>Toate</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Jucător</span><input style={{...inp,width:120}} placeholder="ID jucător"/>
                 <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
@@ -1076,7 +1076,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 ))}
               </div>
               <div style={filterRow}>
-                <span style={{fontSize:13,color:txtSub}}>Valută</span><select style={inp}><option>USD</option></select>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span><select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
                 <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
