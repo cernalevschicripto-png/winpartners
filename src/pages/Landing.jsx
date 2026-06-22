@@ -297,7 +297,7 @@ function CalcSection({ isMobile, lang, navigate, gold }) {
   const fmt = (n) => n >= 1000 ? (n/1000).toFixed(1).replace('.0','') + 'K' : n
 
   return (
-    <div style={{background:'rgba(0,0,0,0.5)',padding:isMobile?'3rem 1.25rem':'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.08)`}}>
+    <div style={{background:'rgba(0,0,0,0.5)',padding:isMobile?'2.5rem 1.25rem':'3.5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.08)`}}>
       <div style={{maxWidth:780,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
           <h2 style={{fontSize:'clamp(1.4rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:8}}>{L.title}</h2>
@@ -646,7 +646,7 @@ export default function Landing() {
       </div>
 
       {/* ─── BENEFITS ─── */}
-      <div style={{maxWidth:1200,margin:'0 auto',padding:isMobile?'2.5rem 1rem':'5rem 2rem'}}>
+      <div style={{maxWidth:1200,margin:'0 auto',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem'}}>
         <div style={{textAlign:'center',marginBottom:'3rem'}}>
           <h2 style={{fontSize:'clamp(1.5rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.ben_title}</h2>
           <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
@@ -741,7 +741,7 @@ export default function Landing() {
       </div>
 
       {/* ─── CASINO PARTNERS ─── */}
-      <div style={{maxWidth:1100,margin:'0 auto',padding:isMobile?'2.5rem 1rem':'5rem 2rem'}}>
+      <div style={{maxWidth:1100,margin:'0 auto',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem'}}>
         <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
           <h2 style={{fontSize:'clamp(1.5rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.cas_title}</h2>
           <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
@@ -757,7 +757,7 @@ export default function Landing() {
       </div>
 
       {/* ─── TESTIMONIALS ─── */}
-      <div style={{background:'rgba(0,0,0,0.4)',padding:isMobile?'2.5rem 1rem':'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.07)`}}>
+      <div style={{background:'rgba(0,0,0,0.4)',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.07)`}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
           <div style={{textAlign:'center',marginBottom:'3rem'}}>
             <h2 style={{fontSize:'clamp(1.5rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.test_title}</h2>
