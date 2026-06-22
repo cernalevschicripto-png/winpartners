@@ -979,10 +979,10 @@ export default function Landing() {
               <div style={{fontSize:22,marginBottom:4}}>W</div>
               <div style={{fontSize:13,fontWeight:800,color:gold}}>WinPartners</div>
               <div style={{fontSize:11,color:'rgba(255,255,255,0.25)',marginTop:4}}>
-                {lang==='ru'?'наша доля: 0% сейчас':lang==='en'?'our cut: 0% now':lang==='tr'?'payımız: şimdi %0':lang==='de'?'unser Anteil: 0% jetzt':lang==='pt'?'nossa parte: 0% agora':lang==='pl'?'nasz udział: 0% teraz':'partea noastră: 0% acum'}
+                {lang==='ru'?'наша доля: 0%':lang==='en'?'our cut: 0%':lang==='tr'?'payımız: %0':lang==='de'?'unser Anteil: 0%':lang==='pt'?'nossa parte: 0%':lang==='pl'?'nasz udział: 0%':'partea noastră: 0%'}
               </div>
               <div style={{position:'absolute',top:-10,right:-10,background:'#10b981',borderRadius:20,fontSize:10,fontWeight:800,color:'#fff',padding:'2px 8px'}}>
-                {lang==='ru'?'Сейчас':lang==='en'?'Now':lang==='tr'?'Şimdi':lang==='de'?'Jetzt':lang==='pt'?'Agora':lang==='pl'?'Teraz':'Acum'}
+                {lang==='ru'?'Стандарт':lang==='en'?'Standard':lang==='tr'?'Standart':lang==='de'?'Standard':lang==='pt'?'Padrão':lang==='pl'?'Standard':'Standard'}
               </div>
             </div>
             {/* Săgeată 2 */}
@@ -1031,22 +1031,22 @@ export default function Landing() {
             <span style={{fontSize:20,flexShrink:0}}>💚</span>
             <div>
               <div style={{fontSize:13,fontWeight:800,color:'#10b981',marginBottom:4}}>
-                {lang==='ru'?'В начальный период: 0% комиссии платформы':
-                 lang==='en'?'Launch period: 0% platform fee':
-                 lang==='tr'?'Başlangıç dönemi: %0 platform ücreti':
-                 lang==='de'?'Startphase: 0% Plattformgebühr':
-                 lang==='pt'?'Período inicial: 0% taxa de plataforma':
-                 lang==='pl'?'Okres początkowy: 0% opłata platformy':
-                 'Perioada de lansare: 0% comision platformă'}
+                {lang==='ru'?'Мы не берём комиссию с твоего заработка':
+                 lang==='en'?'We take 0% from your earnings':
+                 lang==='tr'?'Kazancından %0 alıyoruz':
+                 lang==='de'?'Wir behalten 0% deiner Einnahmen':
+                 lang==='pt'?'Ficamos com 0% dos teus ganhos':
+                 lang==='pl'?'Pobieramy 0% z twoich zarobków':
+                 'Noi nu reținem nimic din câștigurile tale'}
               </div>
               <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',lineHeight:1.6}}>
-                {lang==='ru'?'Сейчас мы не берём никакой доли. Все 25% от казино идут напрямую тебе. Как у крупных партнёров — с первого дня, даже если у тебя маленькая аудитория.':
-                 lang==='en'?'Right now we take no share at all. All 25% from the casino goes directly to you. Like big partners get — from day one, even with a small audience.':
-                 lang==='tr'?'Şu anda hiçbir pay almıyoruz. Kumarhaneden gelen 25%in tamamı doğrudan sana gidiyor. Büyük ortaklar gibi — ilk günden, küçük bir kitleyle bile.':
-                 lang==='de'?'Derzeit nehmen wir keinen Anteil. Alle 25% vom Casino gehen direkt an dich. Wie Großpartner bekommen — ab Tag 1, auch mit kleinem Publikum.':
-                 lang==='pt'?'De momento não ficamos com nenhuma parte. Todos os 25% do cassino vão diretamente para ti. Como os grandes parceiros — desde o primeiro dia, mesmo com uma audiência pequena.':
-                 lang==='pl'?'Teraz nie bierzemy żadnej części. Całe 25% z kasyna trafia bezpośrednio do ciebie. Jak duzi partnerzy — od pierwszego dnia, nawet z małą publicznością.':
-                 'Acum nu luăm nicio parte. Toți cei 25% de la cazinou merg direct la tine. Ca partenerii mari — din prima zi, chiar dacă ai o audiență mică.'}
+                {lang==='ru'?'WinPartners зарабатывает на объёме партнёров, а не на твоей комиссии. Все 25% от казино идут напрямую тебе. Наш успех зависит от твоего — поэтому мы заинтересованы в том, чтобы ты зарабатывал максимально.':
+                 lang==='en'?'WinPartners earns from partner volume, not from your commission. All 25% from the casino goes directly to you. Our success depends on yours — that\'s why we are committed to maximizing your earnings.':
+                 lang==='tr'?'WinPartners ortak hacminden kazanır, senin komisyonundan değil. Kumarhaneden gelen 25%in tamamı doğrudan sana gidiyor. Başarımız seninkilere bağlı — bu yüzden kazancını maksimize etmeye kararlıyız.':
+                 lang==='de'?'WinPartners verdient am Partnervolumen, nicht an deiner Provision. Alle 25% vom Casino gehen direkt an dich. Unser Erfolg hängt von deinem ab — deshalb sind wir darauf ausgerichtet, deine Einnahmen zu maximieren.':
+                 lang==='pt'?'A WinPartners ganha com o volume de parceiros, não com a tua comissão. Todos os 25% do cassino vão diretamente para ti. O nosso sucesso depende do teu — é por isso que nos dedicamos a maximizar os teus ganhos.':
+                 lang==='pl'?'WinPartners zarabia na wolumenie partnerów, nie na twojej prowizji. Całe 25% z kasyna trafia bezpośrednio do ciebie. Nasz sukces zależy od twojego — dlatego jesteśmy zdeterminowani maksymalizować twoje zarobki.':
+                 'WinPartners câștigă din volumul partenerilor, nu din comisionul tău. Toți cei 25% de la cazinou merg direct la tine. Succesul nostru depinde de al tău — de aceea suntem dedicați să îți maximizăm câștigurile.'}
               </div>
             </div>
           </div>
