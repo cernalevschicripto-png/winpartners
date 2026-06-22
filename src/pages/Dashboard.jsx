@@ -913,67 +913,143 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           )}
 
           {/* === CODURI PROMO === */}
-          {page==='promo'&&(
+          {page==='promo'&&(()=>{
+            const promoSel = selectedCasino || 'melbet'
+            const pc = CASINOS.find(c=>c.id===promoSel) || CASINOS[0]
+            const pcCode = myCodes.find(c=>c.casinoId===promoSel)
+            const gen = (generatedCode && generatedCode.casinoId===promoSel) ? generatedCode : null
+            return (
             <div>
-              {/* Banner important — cod numeric Melbet */}
+              {/* Banner — coduri per cazino */}
               <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.12),rgba(245,166,35,0.03))',border:'1px solid rgba(245,166,35,0.35)',borderRadius:10,padding:'14px 18px',marginBottom:'1.25rem',display:'flex',gap:14,alignItems:'flex-start'}}>
                 <div style={{fontSize:22,flexShrink:0}}>🎟️</div>
                 <div>
-                  <div style={{fontSize:13,fontWeight:700,color:gold,marginBottom:5}}>Codul tău promoțional Melbet — cum funcționează</div>
+                  <div style={{fontSize:13,fontWeight:700,color:gold,marginBottom:5}}>Fiecare cazino are propriul cod promoțional</div>
                   <div style={{fontSize:12,color:txtSub,lineHeight:1.7}}>
-                    Codul tău numeric (ex: <span style={{fontFamily:'monospace',color:txt,fontWeight:700}}>11035387</span>) e codul promoțional oficial generat de Melbet. Jucătorii îl introduc la înregistrare pe Melbet.com și sunt legați automat de tine — fără link de referral. <b style={{color:txt}}>Spune-le bloggerilor tăi să-l includă în videoclipuri și descrieri.</b>
+                    Alege mai jos cazinoul pe care îl promovezi. Pentru <b style={{color:txt}}>Melbet</b> primești un cod numeric instant. Pentru celelalte cazinouri trimiți o cerere de acces — managerul te anunță imediat ce codurile devin active. Jucătorii introduc codul la înregistrare și sunt legați automat de tine.
                   </div>
                 </div>
               </div>
-              <div style={filterRow}>
-                <span style={{fontSize:13,color:txtSub}}>Site web</span>
-                <select style={{...inp,width:190}}><option>winpartners.pro</option></select>
-                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span>
-                <select style={inp}><option>USD</option></select>
-                <span style={{fontSize:13,color:txtSub}}>Campanie</span>
-                <select style={{...inp,width:120}}><option>English</option></select>
-                <button style={btnPrimary} onClick={()=>setPage("promo")}>GENERAȚI COD PROMOȚIONAL</button>
+
+              {/* Selector cazino */}
+              <div style={{...filterRow,flexWrap:'wrap',alignItems:'center'}}>
+                <span style={{fontSize:13,color:txtSub,fontWeight:600}}>Alege cazinoul:</span>
+                {CASINOS.map(c=>{
+                  const sel = promoSel===c.id
+                  const ready = !c.comingSoon
+                  return (
+                    <button key={c.id}
+                      onClick={()=>{setSelectedCasino(c.id);setGeneratedCode(null)}}
+                      style={{display:'flex',alignItems:'center',gap:7,padding:'7px 13px',borderRadius:8,cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:600,
+                        border: sel?('2px solid '+c.color):('1px solid '+bdr),
+                        background: sel?(c.color+'12'):'#fff',
+                        color: sel?c.color:txt,opacity: ready?1:0.75}}>
+                      <span style={{fontSize:16}}>{c.logo}</span>
+                      {c.name}
+                      <span style={{fontSize:10,fontWeight:700,padding:'2px 7px',borderRadius:10,background: ready?'#dcfce7':'#f1f5f9',color: ready?'#16a34a':'#94a3b8'}}>
+                        {ready?'cod instant':'în curând'}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
-              <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>5 articole selectate ▼</option></select></div>
-              <div style={{...card,padding:0,overflowX:'auto',marginBottom:'1.25rem'}}>
-                <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
-                  <thead><tr>{[dt.thId+' ↕',dt.thSite+' ↕',dt.thCur+' ↕',dt.thPromo+' ↕',dt.thBtag+' ↕',''].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
-                  <tbody>
-                    <tr>
-                      <td style={TD}>11035387</td>
-                      <td style={TD}>winpartners.pro</td>
-                      <td style={TD}>USD</td>
-                      <td style={{...TD,fontWeight:700,color:'#1a1a2e',fontFamily:'monospace',fontSize:14}}>{D.promoCode.toLowerCase()}</td>
-                      <td style={{...TD,fontFamily:'monospace',fontSize:10,color:txtSub}}>d_5666408m_2170c_{D.promoCode.toLowerCase()}</td>
-                      <td style={TD}>
-                        <button style={{...btnOutline(gold),padding:'4px 10px',fontSize:11}} onClick={()=>copy(D.promoCode,'promo')}>{copied==='promo'?'✓ Copiat':'Copiează'}</button>
-                        <button style={{...btnOutline('#6366f1'),padding:'4px 10px',fontSize:11,marginLeft:6}} onClick={()=>setShowCode(true)}>Personalizat</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} 1 (1 {dt.tblTotal})</div>
+
+              {/* Panou cazino selectat */}
+              <div style={{...card,border:('2px solid '+pc.color+'33'),marginBottom:'1.25rem'}}>
+                <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:16}}>
+                  <div style={{width:42,height:42,borderRadius:10,background:(pc.color+'20'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:20}}>{pc.logo}</div>
+                  <div>
+                    <div style={{fontWeight:800,fontSize:16,color:txt}}>{pc.name}</div>
+                    <div style={{fontSize:12,color:pc.color,fontWeight:700}}>{pc.commission}</div>
+                  </div>
+                </div>
+
+                {pc.comingSoon ? (
+                  /* Cazino fără coduri încă — onest */
+                  <div style={{background:'#fffbeb',border:'1px solid #fde68a',borderRadius:8,padding:'18px 20px'}}>
+                    <div style={{fontSize:14,fontWeight:700,color:'#92400e',marginBottom:6}}>🔜 Codurile {pc.name} vor fi disponibile în curând</div>
+                    <p style={{fontSize:13,color:'#a16207',lineHeight:1.7,marginBottom:14}}>
+                      Momentan oferim coduri instant doar pentru Melbet. Pentru {pc.name} poți trimite o cerere de acces anticipat — apare la noi în panou și te anunțăm imediat ce codurile sunt active.
+                    </p>
+                    <button onClick={()=>setShowCasinoRequest(pc.id)} style={{...btnPrimary,padding:'10px 22px',fontSize:13}}>
+                      📩 Aplică pentru acces la {pc.name}
+                    </button>
+                  </div>
+                ) : pcCode ? (
+                  /* Are deja cod */
+                  <div>
+                    <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                      <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Codul tău promoțional {pc.name}</div>
+                      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
+                        <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{pcCode.code}</div>
+                        <button onClick={()=>copy(pcCode.code,'promo_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13,flexShrink:0}}>{copied==='promo_code'?'✓ Copiat!':'📋 Copiază'}</button>
+                      </div>
+                      <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul introduce acest cod la înregistrare pe {pc.name} → tu primești {pc.commissionPct}% din pierderile lui.</div>
+                    </div>
+                    {pc.id==='melbet' && (
+                      <div style={{background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                        <div style={{fontSize:11,color:'#1d4ed8',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🔗 Linkul tău de afiliat — pune în bio, stories, descriere</div>
+                        <div style={{display:'flex',alignItems:'center',gap:10}}>
+                          <div style={{flex:1,fontFamily:'monospace',fontSize:12,color:'#1d4ed8',background:'#dbeafe',padding:'8px 10px',borderRadius:6,wordBreak:'break-all',lineHeight:1.5}}>{getMelbetPlayerLink(pcCode.code)}</div>
+                          <button onClick={()=>copy(getMelbetPlayerLink(pcCode.code),'promo_link')} style={{...btnPrimary,padding:'8px 16px',fontSize:13,flexShrink:0,background:'#2563eb'}}>{copied==='promo_link'?'✓':'📋 Copiază'}</button>
+                        </div>
+                      </div>
+                    )}
+                    <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(pc.color),padding:'9px 20px',fontSize:13}}>✨ Vreau cod personalizat cu numele meu</button>
+                  </div>
+                ) : gen ? (
+                  gen.error ? (
+                    <div style={{background:'#fef2f2',border:'1px solid #fca5a5',borderRadius:8,padding:'16px',textAlign:'center'}}>
+                      <div style={{fontSize:14,color:'#dc2626',fontWeight:600,marginBottom:4}}>⚠️ Momentan nu sunt coduri disponibile</div>
+                      <div style={{fontSize:12,color:'#9ca3af'}}>Contactează managerul pentru alocare manuală.</div>
+                    </div>
+                  ) : (
+                    <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'20px',textAlign:'center'}}>
+                      <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.08em'}}>✅ Codul tău promoțional</div>
+                      <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:4,marginBottom:8}}>{gen.code}</div>
+                      <div style={{fontSize:12,color:'#16a34a',marginBottom:12}}>{pc.name} · @{gen.bloggerUsername}</div>
+                      <button onClick={()=>copy(gen.code,'promo_code')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>{copied==='promo_code'?'✓ Copiat!':'📋 Copiază codul'}</button>
+                    </div>
+                  )
+                ) : (
+                  /* Melbet fără cod — generează */
+                  <div>
+                    <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>
+                      Generează codul tău promoțional unic pentru <strong>{pc.name}</strong>. Va fi asociat contului <strong>@{D.username}</strong> și câștigi <strong style={{color:pc.color}}>{pc.commissionPct}%</strong> din pierderile jucătorilor care îl folosesc.
+                    </p>
+                    <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                      <button onClick={()=>generatePromoCode(pc.id)} disabled={codeGenerating}
+                        style={{...btnPrimary,padding:'12px 28px',fontSize:14,borderRadius:8,opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>
+                        {codeGenerating?'⏳ Se atribuie codul...':'🎁 Generează Cod Promoțional'}
+                      </button>
+                      <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(pc.color),padding:'12px 20px',fontSize:13}}>✨ Vreau cod personalizat</button>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+
+              {/* Carduri educaționale */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:16}}>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:8,color:txt}}>Pentru ce sunt codurile promoționale?</div>
-                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:10}}>Clienții pot introduce codul promoțional în timp ce se înregistrează pe site, care îi leagă automat de dumneavoastră. Nu este necesar ca noii clienți să urmeze un link afiliat la site.</p>
-                  <div style={{fontSize:14,fontWeight:700,marginBottom:6,color:txt}}>Cum să obțineți un cod promoțional?</div>
-                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7}}>Selectați o monedă și o campanie și faceți click pe «Generare Cod Promoțional». Dacă doriți un cod personalizat, <span style={{color:gold,cursor:'pointer',fontWeight:600}} onClick={()=>setShowCode(true)}>contactați Echipa de Asistență</span>.</p>
+                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:10}}>Jucătorii introduc codul promoțional în timp ce se înregistrează pe site-ul cazinoului, ceea ce îi leagă automat de tine. Nu este necesar ca noii jucători să urmeze un link de afiliat.</p>
+                  <div style={{fontSize:14,fontWeight:700,marginBottom:6,color:txt}}>Cum obții un cod?</div>
+                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7}}>Selectează cazinoul de mai sus. La Melbet apeși «Generează Cod Promoțional» și îl primești instant. Pentru un cod personalizat cu numele tău, <span style={{color:gold,cursor:'pointer',fontWeight:600}} onClick={()=>setShowCustomCode(true)}>trimite o cerere</span>.</p>
                 </div>
                 <div style={card}>
-                  <div style={{fontSize:14,fontWeight:700,marginBottom:8,color:txt}}>Un bonus de înregistrare folosind un cod promoțional</div>
-                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:10}}>Discutați cu managerul dumneavoastră pentru a afla mai multe despre bonusurile acordate jucătorilor care se înregistrează cu codul promoțional.</p>
-                  <div style={{fontSize:14,fontWeight:700,marginBottom:6,color:txt}}>Avantajele utilizării unui cod promoțional</div>
+                  <div style={{fontSize:14,fontWeight:700,marginBottom:8,color:txt}}>Cod sau link — ce folosești?</div>
+                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:10}}>Codul funcționează peste tot, inclusiv unde nu poți pune linkuri (ex: în video). Linkul de afiliat e cel mai comod pentru bio și stories — jucătorul dă click și e legat automat, fără să tasteze codul.</p>
+                  <div style={{fontSize:14,fontWeight:700,marginBottom:6,color:txt}}>Avantaje</div>
                   <ul style={{fontSize:13,color:txtSub,lineHeight:1.8,paddingLeft:18}}>
-                    <li>Utilizat când nu puteți plasa un link de afiliat</li>
-                    <li>Clientul este legat de dvs. automat la înregistrare</li>
+                    <li>Folosit când nu poți plasa un link de afiliat</li>
+                    <li>Jucătorul e legat de tine automat la înregistrare</li>
                     <li>Funcționează pe toate platformele sociale</li>
                   </ul>
                 </div>
               </div>
             </div>
-          )}
+            )
+          })()}
 
           {/* === MEDIA === */}
           {page==='media'&&(
