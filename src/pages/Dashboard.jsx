@@ -985,7 +985,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 </table>
                 <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} {D.pays.length}</div>
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12}}>
                 <div style={card}>
                   <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:8}}>{({'ro':'Câștigurile se acumulează automat pe măsură ce jucătorii tăi joacă. Când soldul ajunge la $30, soliciți plata mai jos — o procesăm săptămânal pe metoda ta preferată.','ru':'Доход накапливается автоматически по мере игры ваших игроков. Когда баланс достигнет $30, запросите выплату ниже — мы обрабатываем её еженедельно удобным вам способом.','en':'Earnings accumulate automatically as your players play. When your balance reaches $30, request a payout below — we process it weekly via your preferred method.','tr':'Oyuncularınız oynadıkça kazançlar otomatik birikir. Bakiyeniz $30 olunca aşağıdan ödeme talep edin — tercih ettiğiniz yöntemle haftalık işleriz.','de':'Die Einnahmen sammeln sich automatisch an, während Ihre Spieler spielen. Bei $30 Guthaben fordern Sie unten eine Auszahlung an — wir bearbeiten sie wöchentlich über Ihre bevorzugte Methode.','pt':'Os ganhos acumulam-se automaticamente à medida que os seus jogadores jogam. Quando o saldo atingir $30, solicite o pagamento abaixo — processamos semanalmente pelo método preferido.','pl':'Zarobki kumulują się automatycznie w miarę gry Twoich graczy. Gdy saldo osiągnie $30, poproś o wypłatę poniżej — przetwarzamy ją tygodniowo wybraną metodą.'})[lang]||'Câștigurile se acumulează automat. Când soldul ajunge la $30, soliciți plata mai jos.'}</p>
                   <p style={{fontSize:13,fontWeight:600,color:txt,marginBottom:12}}>{({'ro':'Suma minimă de plată este de $30 pe săptămână','ru':'Минимальная сумма выплаты $30 в неделю','en':'Minimum payment amount is $30 per week','tr':'Minimum ödeme tutarı haftada $30','de':'Mindestauszahlungsbetrag beträgt $30 pro Woche','pt':'O valor mínimo de pagamento é $30 por semana','pl':'Minimalna kwota płatności to $30 tygodniowo'})[lang]}</p>
@@ -1002,29 +1002,24 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           {page==='account'&&(
             <div>
               <div style={{fontSize:13,marginBottom:'1rem',color:txtSub}}>Utilizator: <span style={{color:gold,fontWeight:600}}>@{D.username}</span></div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:16}}>
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr 1fr',gap:16}}>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Informații de contact</div>
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
-                    <div><label style={label}>Prenume *</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue="Ion"/></div>
-                    <div><label style={label}>Prenume *</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue="Popescu"/></div>
+                    <div><label style={label}>Prenume</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={(D.name||'').split(' ')[0]||''} readOnly/></div>
+                    <div><label style={label}>Nume</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={(D.name||'').split(' ').slice(1).join(' ')} readOnly/></div>
                   </div>
-                  <div style={{marginBottom:8}}><label style={label}>Număr de telefon</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue={D.phone}/></div>
-                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
-                    <div><label style={label}>Messenger</label><select style={{...inp,width:'100%',boxSizing:'border-box'}}><option>WhatsApp</option></select></div>
-                    <div><label style={label}>Număr telefon</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue={D.phone}/></div>
-                  </div>
+                  <div style={{marginBottom:8}}><label style={label}>Număr de telefon</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.phone||''} readOnly/></div>
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12}}>
-                    <div><label style={label}>Țară</label><select style={{...inp,width:'100%',boxSizing:'border-box'}}><option>Moldova</option></select></div>
-                    <div><label style={label}>Limbă notificări</label><select style={{...inp,width:'100%',boxSizing:'border-box'}}><option>Română</option></select></div>
+                    <div><label style={label}>Platformă</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.platform||''} readOnly/></div>
+                    <div><label style={label}>Țară</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.country||''} readOnly/></div>
                   </div>
-                  <div style={{fontSize:11,color:txtSub,marginBottom:10}}>pentru a modifica datele de contact, contactați managerul dvs.</div>
-                  <button style={btnPrimary} onClick={()=>setPassMsg('ℹ️ '+dt.contactInfo)}>{dt.saveBtn}</button>
+                  <div style={{fontSize:11,color:txtSub}}>pentru a modifica datele de contact, contactați managerul dvs.</div>
                 </div>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Detaliile plății</div>
-                  <div style={{marginBottom:8}}><label style={label}>{({'ro':'Metoda de plată preferată','ru':'Предпочтительный метод оплаты','en':'Preferred payment method','tr':'Tercih edilen ödeme yöntemi','de':'Bevorzugte Zahlungsmethode','pt':'Método de pagamento preferido','pl':'Preferowana metoda płatności'})[lang]}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue="Bitcoin" readOnly/></div>
-                  <div style={{marginBottom:12}}><label style={label}>Numărul portofelului</label><input style={{...inp,width:'100%',boxSizing:'border-box',fontFamily:'monospace',fontSize:11}} defaultValue={D.payAddress}/></div>
+                  <div style={{marginBottom:8}}><label style={label}>{({'ro':'Metoda de plată preferată','ru':'Предпочтительный метод оплаты','en':'Preferred payment method','tr':'Tercih edilen ödeme yöntemi','de':'Bevorzugte Zahlungsmethode','pt':'Método de pagamento preferido','pl':'Preferowana metoda płatności'})[lang]}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.payMethod||'Bitcoin'} readOnly/></div>
+                  <div style={{marginBottom:12}}><label style={label}>Numărul portofelului</label><input style={{...inp,width:'100%',boxSizing:'border-box',fontFamily:'monospace',fontSize:11}} value={D.payAddress||''} readOnly placeholder={({'ro':'necompletat','ru':'не указан','en':'not set','tr':'belirtilmemiş','de':'nicht angegeben','pt':'não definido','pl':'nie ustawiono'})[lang]||'necompletat'}/></div>
                   <div style={{fontSize:11,color:txtSub,marginBottom:16}}>* pentru a modifica detaliile de plată, contactați Asistența Pentru Parteneri.</div>
                   <div style={{borderTop:`1px solid ${bdr}`,paddingTop:12}}>
                     <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:8}}>Abonamente</div>
