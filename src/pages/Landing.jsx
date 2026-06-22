@@ -787,7 +787,7 @@ export default function Landing() {
       {/* ─── CALCULATOR ─── eliminat, continut mutat in EXEMPLU VENITURI */}
 
       {/* ─── CTA ─── */}
-      <div style={{padding:isMobile?'3rem 1rem':'6rem 2rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
+      <div style={{padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
         <div style={{position:'absolute',inset:0,background:`radial-gradient(ellipse 65% 75% at 50% 50%, rgba(245,166,35,0.07) 0%, transparent 68%)`,pointerEvents:'none'}}/>
         <div style={{position:'relative',zIndex:1}}>
           <h2 style={{fontSize:'clamp(1.8rem,4vw,2.8rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.03em',marginBottom:12}}>{t.cta_title}</h2>
