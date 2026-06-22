@@ -667,7 +667,7 @@ export default function Landing() {
       </div>
 
       {/* ─── MANAGER PERSONAL ─── */}
-      <div style={{background:'rgba(0,0,0,0.45)',padding:isMobile?'3rem 1.25rem':'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.07)`,borderBottom:`1px solid rgba(245,166,35,0.07)`}}>
+      <div style={{background:'rgba(0,0,0,0.45)',padding:isMobile?'3rem 1.25rem':'3.5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.07)`,borderBottom:`1px solid rgba(245,166,35,0.07)`}}>
         <div style={{maxWidth:800,margin:'0 auto'}}>
           <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
             <h2 style={{fontSize:'clamp(1.3rem,3vw,2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.mgr_title}</h2>
@@ -722,7 +722,7 @@ export default function Landing() {
       </div>
 
       {/* ─── HOW IT WORKS ─── */}
-      <div style={{background:'rgba(0,0,0,0.3)',padding:isMobile?'2.5rem 1rem':'5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.07)`}}>
+      <div style={{background:'rgba(0,0,0,0.3)',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.07)`}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
           <div style={{textAlign:'center',marginBottom:'3rem'}}>
             <h2 style={{fontSize:'clamp(1.5rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.how_title}</h2>
