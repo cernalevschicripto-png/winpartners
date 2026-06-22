@@ -110,9 +110,12 @@ export default function Admin() {
     )
   }
 
+  // Comisionul de plată: dacă există suma pe cazinouri (earned) o folosim; altfel fallback pe vechiul calcul
+  const earnedOf = (b) => (b.earned != null ? b.earned : (b.revenue||0)*((b.commission||25)/100))
+  const payableOf = (b) => Math.max(0, Math.round(earnedOf(b) - (b.paid||0)))
   const totalRevenue = bloggers.reduce((s,b) => s+(b.revenue||0), 0)
   const totalPaid    = bloggers.reduce((s,b) => s+(b.paid||0), 0)
-  const totalPending = bloggers.reduce((s,b) => s+((b.revenue||0)*((b.commission||25)/100)-(b.paid||0)), 0)
+  const totalPending = bloggers.reduce((s,b) => s+payableOf(b), 0)
   const unreadCount  = notifications.filter(n => !n.read).length
   const pendingApps  = applications.filter(a => a.status==='pending').length
 
@@ -228,6 +231,14 @@ winpartners.pro`
     const s = casinoStatsEdit[casinoId] || {}
     if (!s.commission && s.revenue) s.commission = Math.round(s.revenue * commPct / 100)
     await setCasinoStats(updateBlogger.username, casinoId, s)
+    // Sursă unică de adevăr: comisionul total al bloggerului = suma comisioanelor pe toate cazinourile
+    const merged = { ...casinoStatsEdit, [casinoId]: s }
+    setCasinoStatsEdit(merged)
+    const earned = Math.round(Object.values(merged).reduce((acc,cs)=>acc+(Number(cs && cs.commission)||0),0))
+    const revenueTotal = Math.round(Object.values(merged).reduce((acc,cs)=>acc+(Number(cs && cs.revenue)||0),0))
+    await updateBloggerFields(updateBlogger.username, { earned, revenue: revenueTotal })
+    setUpdateBlogger({ ...updateBlogger, earned, revenue: revenueTotal })
+    setBloggers(prev => prev.map(b => b.username===updateBlogger.username ? { ...b, earned, revenue: revenueTotal } : b))
     await addNotification({ type:'stats_update', blogger: updateBlogger.username, detail: CASINOS_LIST.find(c=>c.id===casinoId)?.name + ' · statistici actualizate' })
     setSaveMsg('✅ Salvat!')
     setTimeout(() => setSaveMsg(''), 3000)
@@ -441,7 +452,7 @@ winpartners.pro`
                         <td style={td}>
                           <div style={{display:'flex',gap:6}}>
                             <button onClick={()=>{setEditId(b.username);setEditData({...b})}} style={{padding:'4px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(245,166,35,0.3)',borderRadius:4,background:'none',color:gold}}>✏️</button>
-                            <button onClick={()=>{setPayModal(b);setPayAmount(Math.max(0,Math.round((b.revenue||0)*((b.commission||25)/100)-(b.paid||0))).toString())}} style={{padding:'4px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(16,185,129,0.3)',borderRadius:4,background:'none',color:'#10b981'}}>💰</button>
+                            <button onClick={()=>{setPayModal(b);setPayAmount(payableOf(b).toString())}} style={{padding:'4px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(16,185,129,0.3)',borderRadius:4,background:'none',color:'#10b981'}}>💰</button>
                           </div>
                         </td>
                       </>
@@ -621,8 +632,8 @@ winpartners.pro`
           <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:12,padding:'1.25rem',marginBottom:'1rem'}}>
             <p style={{fontWeight:700,marginBottom:12}}>Bloggeri cu sold de plătit</p>
             <div style={{display:'flex',flexDirection:'column',gap:8}}>
-              {bloggers.filter(b => Math.round((b.revenue||0)*((b.commission||25)/100)-(b.paid||0))>0).map(b => {
-                const datorat = Math.round((b.revenue||0)*((b.commission||25)/100)-(b.paid||0))
+              {bloggers.filter(b => payableOf(b)>0).map(b => {
+                const datorat = payableOf(b)
                 return (
                   <div key={b.username} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
                     <div>
@@ -637,7 +648,7 @@ winpartners.pro`
                   </div>
                 )
               })}
-              {bloggers.filter(b => Math.round((b.revenue||0)*((b.commission||25)/100)-(b.paid||0))>0).length===0 && (
+              {bloggers.filter(b => payableOf(b)>0).length===0 && (
                 <p style={{color:'rgba(255,255,255,0.3)',fontSize:13}}>Toți bloggerii sunt plătiți la zi ✓</p>
               )}
             </div>

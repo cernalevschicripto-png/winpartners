@@ -407,6 +407,23 @@ function DashboardContent({ blogger, onLogout }) {
   const [casinoStats, setCasinoStatsState] = useState({})
   const CASINOS = CASINOS_BASE.map(c => ({ ...c, stats: casinoStats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
 
+  // Sursă unică de adevăr: soldul derivă din suma comisioanelor pe cazinouri (actualizate de admin).
+  // Fallback pe câmpul global blogger.revenue până se încarcă statisticile (anti-pâlpâire la $0).
+  {
+    const hasCasinoData = Object.keys(casinoStats).length > 0
+    if (hasCasinoData) {
+      const earned = CASINOS.reduce((s,c)=>s+(Number(c.stats.commission)||0),0)
+      D.bal.total = Math.round(earned)
+      D.bal.days30 = Math.round(earned)
+      D.bal.available = Math.max(0, Math.round(earned - (blogger.paid||0)))
+      D.bal.byCasino = CASINOS
+        .filter(c=>(Number(c.stats.commission)||0)>0)
+        .map(c=>({ name:c.name, color:c.color, amount:Math.round(Number(c.stats.commission)||0) }))
+    } else {
+      D.bal.byCasino = []
+    }
+  }
+
   // Subscribe Firebase — polling la 5 secunde
   useEffect(() => {
     const unsub = subscribeCasinoStats(D.username, setCasinoStatsState)
@@ -632,6 +649,27 @@ function DashboardContent({ blogger, onLogout }) {
                   </div>
                 ))}
               </div>
+
+              {/* Câștigurile mele pe cazino — de unde vin banii */}
+              {D.bal.byCasino && D.bal.byCasino.length > 0 && (
+                <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.25rem'}}>
+                  <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,background:'#fafafa',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:6}}>
+                    <span style={{fontSize:13,fontWeight:700,color:txt}}>{({'ro':'Câștigurile mele pe cazino','ru':'Мои доходы по казино','en':'My earnings by casino','tr':'Kumarhaneye göre kazançlarım','de':'Meine Einnahmen pro Casino','pt':'Os meus ganhos por casino','pl':'Moje zarobki według kasyna'})[lang]||'Câștigurile mele pe cazino'}</span>
+                    <span style={{fontSize:12,color:txtSub}}>{({'ro':'comision total','ru':'общая комиссия','en':'total commission','tr':'toplam komisyon','de':'Gesamtprovision','pt':'comissão total','pl':'całkowita prowizja'})[lang]||'comision total'}: <b style={{color:'#10b981'}}>${(D.bal.total||0).toLocaleString()}</b></span>
+                  </div>
+                  <div style={{padding:'4px 16px'}}>
+                    {D.bal.byCasino.map((b,idx,arr)=>(
+                      <div key={b.name} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'9px 0',borderBottom:idx<arr.length-1?`1px solid ${bdr}`:'none'}}>
+                        <div style={{display:'flex',alignItems:'center',gap:9}}>
+                          <span style={{width:10,height:10,borderRadius:3,background:b.color,display:'inline-block'}}/>
+                          <span style={{fontSize:13,color:txt,fontWeight:600}}>{b.name}</span>
+                        </div>
+                        <span style={{fontSize:14,fontWeight:800,color:b.color}}>${b.amount.toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Filters */}
               <div style={filterRow}>
@@ -949,7 +987,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
                 <div style={card}>
-                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:8}}>Pentru a primi plata, vă rugăm să contactați managerul dumneavoastră. Plata automată va fi setată ulterior.</p>
+                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:8}}>{({'ro':'Câștigurile se acumulează automat pe măsură ce jucătorii tăi joacă. Când soldul ajunge la $30, soliciți plata mai jos — o procesăm săptămânal pe metoda ta preferată.','ru':'Доход накапливается автоматически по мере игры ваших игроков. Когда баланс достигнет $30, запросите выплату ниже — мы обрабатываем её еженедельно удобным вам способом.','en':'Earnings accumulate automatically as your players play. When your balance reaches $30, request a payout below — we process it weekly via your preferred method.','tr':'Oyuncularınız oynadıkça kazançlar otomatik birikir. Bakiyeniz $30 olunca aşağıdan ödeme talep edin — tercih ettiğiniz yöntemle haftalık işleriz.','de':'Die Einnahmen sammeln sich automatisch an, während Ihre Spieler spielen. Bei $30 Guthaben fordern Sie unten eine Auszahlung an — wir bearbeiten sie wöchentlich über Ihre bevorzugte Methode.','pt':'Os ganhos acumulam-se automaticamente à medida que os seus jogadores jogam. Quando o saldo atingir $30, solicite o pagamento abaixo — processamos semanalmente pelo método preferido.','pl':'Zarobki kumulują się automatycznie w miarę gry Twoich graczy. Gdy saldo osiągnie $30, poproś o wypłatę poniżej — przetwarzamy ją tygodniowo wybraną metodą.'})[lang]||'Câștigurile se acumulează automat. Când soldul ajunge la $30, soliciți plata mai jos.'}</p>
                   <p style={{fontSize:13,fontWeight:600,color:txt,marginBottom:12}}>{({'ro':'Suma minimă de plată este de $30 pe săptămână','ru':'Минимальная сумма выплаты $30 в неделю','en':'Minimum payment amount is $30 per week','tr':'Minimum ödeme tutarı haftada $30','de':'Mindestauszahlungsbetrag beträgt $30 pro Woche','pt':'O valor mínimo de pagamento é $30 por semana','pl':'Minimalna kwota płatności to $30 tygodniowo'})[lang]}</p>
                   <button style={btnPrimary} onClick={()=>setShowPay(true)}>{({'ro':'Solicită plată','ru':'Запросить выплату','en':'Request payment','tr':'Ödeme talep et','de':'Zahlung anfordern','pt':'Solicitar pagamento','pl':'Zażądaj płatności'})[lang]||'Solicită plată'} → ${D.bal.available}</button>
                 </div>
@@ -1195,22 +1233,12 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <input style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:6,fontFamily:'monospace',fontSize:12}}
                   placeholder={payMethod.includes('Bitcoin')?'bc1q...':payMethod.includes('TRC20')?'T...':payMethod.includes('Binance')?'ID Binance Pay...':'Adresa sau email'}
                   value={payAddr} onChange={e=>setPayAddr(e.target.value)}/>
-                <div style={{background:'rgba(245,166,35,0.06)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:6,padding:'8px 12px',marginBottom:10,fontSize:12,color:txtSub}}>
-                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:3}}>
-                    <span>Sumă solicitată:</span>
-                    <strong style={{color:txt}}>${D.bal.available}</strong>
+                <div style={{background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:6,padding:'10px 12px',marginBottom:10,fontSize:12,color:txtSub}}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                    <strong>{({'ro':'Primești integral:','ru':'Получаете полностью:','en':'You receive in full:','tr':'Tam alırsınız:','de':'Sie erhalten vollständig:','pt':'Recebe na totalidade:','pl':'Otrzymujesz w całości:'})[lang]||'Primești integral:'}</strong>
+                    <strong style={{color:'#10b981',fontSize:16}}>${D.bal.available}</strong>
                   </div>
-                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:3}}>
-                    <span>Taxă procesare (5%):</span>
-                    <span style={{color:'#ef4444'}}>-${(D.bal.available*0.05).toFixed(2)}</span>
-                  </div>
-                  <div style={{display:'flex',justifyContent:'space-between',borderTop:'1px solid rgba(255,255,255,0.08)',paddingTop:4,marginTop:4}}>
-                    <strong>Primești:</strong>
-                    <strong style={{color:'#10b981'}}>${(D.bal.available*0.95).toFixed(2)}</strong>
-                  </div>
-                </div>
-                <div style={{fontSize:10,color:'rgba(255,255,255,0.25)',marginBottom:10}}>
-                  Se aplică o taxă de procesare de 5% pentru acoperirea costurilor de transfer. Detalii în <span style={{color:gold,cursor:'pointer'}} onClick={()=>window.open('/terms','_blank')}>Termeni și Condiții</span>.
+                  <div style={{fontSize:11,color:txtSub,marginTop:4}}>{({'ro':'Fără comisioane de procesare — primești 100% din sold.','ru':'Без комиссий за обработку — вы получаете 100% баланса.','en':'No processing fees — you receive 100% of your balance.','tr':'İşlem ücreti yok — bakiyenizin %100ünü alırsınız.','de':'Keine Bearbeitungsgebühren — Sie erhalten 100% Ihres Guthabens.','pt':'Sem taxas de processamento — recebe 100% do saldo.','pl':'Bez opłat za przetwarzanie — otrzymujesz 100% salda.'})[lang]||'Fără comisioane de procesare — primești 100% din sold.'}</div>
                 </div>
                 <div style={{fontSize:11,color:txtSub,marginBottom:10}}>
                   {({'ro':'Verifică adresa cu atenție. Tranzacțiile crypto sunt ireversibile.','ru':'Проверьте адрес тщательно. Крипто-транзакции необратимы.','en':'Check the address carefully. Crypto transactions are irreversible.','tr':'Adresi dikkatlice kontrol edin. Kripto işlemler geri alınamaz.','de':'Adresse sorgfältig prüfen. Krypto-Transaktionen sind unwiderruflich.','pt':'Verifique o endereço com atenção. Transações cripto são irreversíveis.','pl':'Sprawdź adres uważnie. Transakcje krypto są nieodwracalne.'})[lang]||'Verifică adresa cu atenție.'}

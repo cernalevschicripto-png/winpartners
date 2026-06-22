@@ -16,7 +16,7 @@ const T = {
 
 const TEXTS = {
   ro:{
-    t1:`🎰 Ai auzit de programele de afiliere la cazinouri?\n\nEu câștig 25% din fiecare jucător pe care îl aduc — pe viață. Jucătorul joacă, eu primesc comision săptămânal. Automat.\n\nFolosește codul meu [COD_TAU] la înregistrare pe Melbet.\n\n👉 Link în bio\n#casino #melbet #câștiguri #afiliere #winpartners`,
+    t1:`🎰 Ai auzit de programele de afiliere la cazinouri?\n\nEu câștig 25% din fiecare jucător pe care îl aduc — pe viață. Jucătorul joacă, eu primesc comision săptămânal.\n\nFolosește codul meu [COD_TAU] la înregistrare pe Melbet.\n\n👉 Link în bio\n#casino #melbet #câștiguri #afiliere #winpartners`,
     t2:`💰 Cum câștig bani din casino fără să joc | Program afiliere WinPartners\n\nÎn acest video îți explic exact:\n✅ Ce este RevShare 25% și cum funcționează\n✅ Cât câștig efectiv pe lună\n✅ Cum aplici și primești codul tău promoțional\n\nCodul meu: [COD_TAU]\nÎnregistrează-te pe Melbet cu codul de mai sus și ambii câștigăm.\n\n🔗 Link pentru înregistrare: winpartners.pro\n\n⏱ Timestamps:\n0:00 Intro\n1:00 Ce este programul de afiliere\n2:30 Cât am câștigat\n4:00 Cum aplici tu`,
     t3:`💰 Câștig pasiv din casino | Cod: [COD_TAU] | winpartners.pro`,
   },
@@ -26,7 +26,7 @@ const TEXTS = {
     t3:`💰 Пассивный доход с казино | Код: [КОД] | winpartners.pro`,
   },
   en:{
-    t1:`🎰 Ever heard of casino affiliate programs?\n\nI earn 25% from every player I refer — for life. They play, I get weekly commission. Automatically.\n\nUse my code [CODE] when registering on Melbet.\n\n👉 Link in bio\n#casino #melbet #earnings #affiliate #winpartners`,
+    t1:`🎰 Ever heard of casino affiliate programs?\n\nI earn 25% from every player I refer — for life. They play, I get weekly commission.\n\nUse my code [CODE] when registering on Melbet.\n\n👉 Link in bio\n#casino #melbet #earnings #affiliate #winpartners`,
     t2:`💰 How I earn from casino without playing | WinPartners affiliate\n\nIn this video:\n✅ What RevShare 25% means and how it works\n✅ How much I actually earn per month\n✅ How to apply and get your promo code\n\nMy code: [CODE]\nRegister on Melbet with the code above — we both win.\n\n🔗 Link: winpartners.pro`,
     t3:`💰 Passive casino income | Code: [CODE] | winpartners.pro`,
   },
