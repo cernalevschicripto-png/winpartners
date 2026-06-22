@@ -612,14 +612,15 @@ export default function Landing() {
 
       {/* ─── COUNTER STATS ANIMAT (stil Melbet) ─── */}
       <div style={{background:'rgba(245,166,35,0.04)',borderTop:'1px solid rgba(245,166,35,0.12)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:isMobile?'2rem 1.25rem':'2.5rem 2rem'}}>
-        <div style={{maxWidth:900,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:0}}>
+        <div style={{maxWidth:900,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(5,1fr)',gap:0}}>
           {[
             {val:'5',suffix:'',label:lang==='ru'?'Казино-партнёров':lang==='en'?'Casino partners':lang==='tr'?'Casino ortağı':lang==='de'?'Casino-Partner':lang==='pt'?'Cassinos parceiros':lang==='pl'?'Kasyn partnerskich':'Cazinouri partenere',color:gold},
-            {val:'25',suffix:'%',label:lang==='ru'?'RevShare комиссия':lang==='en'?'RevShare commission':lang==='tr'?'RevShare komisyon':lang==='de'?'RevShare-Provision':lang==='pt'?'Comissão RevShare':lang==='pl'?'Prowizja RevShare':'Comision RevShare',color:'#10b981'},
-            {val:'40',suffix:'+',label:lang==='ru'?'Стран охвата':lang==='en'?'Countries covered':lang==='tr'?'Ülke kapsamı':lang==='de'?'Länder abgedeckt':lang==='pt'?'Países cobertos':lang==='pl'?'Krajów zasięgu':'Țări acoperite',color:'#60a5fa'},
-            {val:'48',suffix:'h',label:lang==='ru'?'Обработка выплат':lang==='en'?'Payment processing':lang==='tr'?'Ödeme işleme':lang==='de'?'Zahlungsabwicklung':lang==='pt'?'Processamento':lang==='pl'?'Realizacja płatności':'Procesare plăți',color:'#a78bfa'},
+            {val:'25',suffix:'%',label:lang==='ru'?'RevShare пожизненно':lang==='en'?'RevShare for life':lang==='tr'?'Ömür boyu RevShare':lang==='de'?'RevShare lebenslang':lang==='pt'?'RevShare vitalício':lang==='pl'?'RevShare dożywotnio':'RevShare pe viață',color:'#10b981'},
+            {val:'40',suffix:'+',label:lang==='ru'?'Стран':lang==='en'?'Countries':lang==='tr'?'Ülke':lang==='de'?'Länder':lang==='pt'?'Países':lang==='pl'?'Krajów':'Țări GEO',color:'#60a5fa'},
+            {val:'48',suffix:'h',label:lang==='ru'?'Выплата':lang==='en'?'Payout':lang==='tr'?'Ödeme':lang==='de'?'Auszahlung':lang==='pt'?'Pagamento':lang==='pl'?'Wypłata':'Procesare',color:'#a78bfa'},
+            {val:'$30',suffix:'',label:lang==='ru'?'Мин. в неделю':lang==='en'?'Min. per week':lang==='tr'?'Haftalık min.':lang==='de'?'Min. pro Woche':lang==='pt'?'Mín. por semana':lang==='pl'?'Min. tygodniowo':'Min. săptămânal',color:'#f59e0b'},
           ].map(({val,suffix,label,color},i)=>(
-            <div key={label} style={{textAlign:'center',padding:isMobile?'0.75rem 0':'0 1rem',borderRight:i<3?'1px solid rgba(255,255,255,0.06)':'none'}}>
+            <div key={label} style={{textAlign:'center',padding:isMobile?'0.75rem 0':'0 1rem',borderRight:i<4?'1px solid rgba(255,255,255,0.06)':'none'}}>
               <div style={{fontSize:isMobile?'2rem':'3rem',fontWeight:900,color,lineHeight:1,marginBottom:6,fontVariantNumeric:'tabular-nums'}}>
                 {val}<span style={{fontSize:isMobile?'1.2rem':'1.8rem'}}>{suffix}</span>
               </div>
@@ -629,43 +630,6 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* ─── STATS BAR ─── */}
-      <div style={{background:'rgba(0,0,0,0.55)',borderTop:`1px solid rgba(245,166,35,0.1)`,borderBottom:`1px solid rgba(245,166,35,0.1)`,padding:'1.75rem 1rem'}}>
-        <div style={{maxWidth:1000,margin:'0 auto',display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:0}}>
-          {[[t.s1v,t.s1l,'#f5a623'],[t.s2v,t.s2l,'#10b981'],[t.s3v,t.s3l,'rgba(255,255,255,0.65)'],[t.s4v,t.s4l,'#a78bfa']].map(([v,l,c],i)=>(
-            <div key={l} style={{textAlign:'center',padding:'.9rem .5rem',borderLeft:(!isMobile&&i>0)||(isMobile&&i%2===1)?`1px solid rgba(245,166,35,0.08)`:'none',borderTop:isMobile&&i>=2?`1px solid rgba(245,166,35,0.08)`:'none'}}>
-              <div style={{fontSize:isMobile?22:36,fontWeight:900,color:c,lineHeight:1,marginBottom:5}}>{v}</div>
-              <div style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.09em'}}>{l}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ─── HEXAGON STATS ─── */}
-      <div style={{background:'linear-gradient(180deg,rgba(0,0,0,0.6) 0%,rgba(10,10,15,0.85) 100%)',padding:isMobile?'1.5rem 0.25rem':'4rem 2rem',borderBottom:`1px solid rgba(245,166,35,0.07)`}}>
-        <div style={{maxWidth:800,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:isMobile?8:0}}>
-          {[[t.hex1v,t.hex1l,gold],[t.hex2v,t.hex2l,'#10b981'],[t.hex3v,t.hex3l,'#a78bfa']].map(([v,l,c],idx)=>(
-            <div key={l} style={{textAlign:'center',padding:'0 2px'}}>
-              <div style={{position:'relative',width:isMobile?'100%':200,height:isMobile?120:180,margin:'0 auto'}}>
-                <svg viewBox="0 0 200 180" style={{width:'100%',height:'100%'}}>
-                  <defs>
-                    <linearGradient id={`hgrad${idx}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor={c} stopOpacity="0.25"/>
-                      <stop offset="100%" stopColor={c} stopOpacity="0.04"/>
-                    </linearGradient>
-                  </defs>
-                  <polygon points="100,8 188,54 188,126 100,172 12,126 12,54" fill={`url(#hgrad${idx})`} stroke={c} strokeWidth="1.2" opacity="0.9"/>
-                  <polygon points="100,22 174,63 174,117 100,158 26,117 26,63" fill="none" stroke={c} strokeWidth="0.4" opacity="0.3"/>
-                </svg>
-                <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-52%)',textAlign:'center',pointerEvents:'none'}}>
-                  <div style={{fontSize:isMobile?16:36,fontWeight:900,color:c,lineHeight:1,textShadow:`0 0 24px ${c}66`}}>{v}</div>
-                  <div style={{fontSize:isMobile?8:9,color:'rgba(255,255,255,0.5)',marginTop:3,textTransform:'uppercase',letterSpacing:isMobile?'.02em':'.06em',fontWeight:700,maxWidth:isMobile?65:110,margin:'3px auto 0',lineHeight:1.15}}>{l}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* ─── EXEMPLU VENITURI ─── */}
       <div style={{background:'rgba(245,166,35,0.03)',borderTop:'1px solid rgba(245,166,35,0.08)',borderBottom:'1px solid rgba(245,166,35,0.08)',padding:isMobile?'2rem 1rem':'4rem 2rem'}}>
@@ -708,10 +672,10 @@ export default function Landing() {
               {/* Glow corner */}
               <div style={{position:'absolute',top:-30,right:-30,width:100,height:100,borderRadius:'50%',background:`radial-gradient(circle,${iconColor}15 0%,transparent 70%)`,pointerEvents:'none'}}/>
               {/* Icon mare */}
-              <div className='wp-icon-bg' style={{width:isMobile?52:64,height:isMobile?52:64,background:`linear-gradient(135deg,${iconColor}20,${iconColor}08)`,border:`1px solid ${iconColor}30`,borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16,flexShrink:0}}>
-                <div style={{transform:'scale(1.4)'}}><Icon/></div>
+              <div className='wp-icon-bg' style={{width:isMobile?48:60,height:isMobile?48:60,background:`linear-gradient(135deg,${iconColor}20,${iconColor}08)`,border:`1px solid ${iconColor}30`,borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14,flexShrink:0}}>
+                <div style={{transform:'scale(1.3)'}}><Icon/></div>
               </div>
-              <div style={{fontSize:isMobile?13:15,fontWeight:800,color:'#fff',marginBottom:8,lineHeight:1.3}}>{title}</div>
+              <div style={{fontSize:isMobile?13:15,fontWeight:800,color:'#fff',marginBottom:6,lineHeight:1.3}}>{title}</div>
               <div style={{fontSize:isMobile?11:13,color:'rgba(255,255,255,0.4)',lineHeight:1.65,flex:1}}>{desc}</div>
               {/* Bottom accent */}
               <div style={{marginTop:16,height:2,borderRadius:1,background:`linear-gradient(90deg,${iconColor}60,${iconColor}10)`}}/>
@@ -776,18 +740,28 @@ export default function Landing() {
       </div>
 
       {/* ─── HOW IT WORKS ─── */}
-      <div style={{background:'rgba(0,0,0,0.3)',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',borderTop:`1px solid rgba(245,166,35,0.07)`}}>
+      <div style={{background:'rgba(0,0,0,0.3)',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',borderTop:'1px solid rgba(245,166,35,0.07)'}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
-          <div style={{textAlign:'center',marginBottom:'3rem'}}>
+          <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
             <h2 style={{fontSize:'clamp(1.5rem,3vw,2.2rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em'}}>{t.how_title}</h2>
             <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
           </div>
-          <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:isMobile?8:0,position:'relative'}}>
-            {!isMobile && <div style={{position:'absolute',top:27,left:'12.5%',right:'12.5%',height:1,background:`linear-gradient(90deg,${gold},rgba(245,166,35,0.15))`,zIndex:0}}/>}
-            {[[t.hw1,'01'],[t.hw2,'02'],[t.hw3,'03'],[t.hw4,'04']].map(([title,num])=>(
-              <div key={num} style={{textAlign:'center',padding:'1.5rem 1rem',position:'relative',zIndex:1}}>
-                <div style={{width:54,height:54,borderRadius:'50%',background:dark,border:`2px solid ${gold}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:900,color:gold,margin:'0 auto 14px',boxShadow:`0 0 20px rgba(245,166,35,0.15)`}}>{num}</div>
-                <div style={{fontSize:13,fontWeight:600,color:'rgba(255,255,255,0.8)',lineHeight:1.4}}>{title}</div>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:isMobile?12:20}}>
+            {[
+              {num:'01',icon:'📝',title:t.hw1,desc:lang==='ru'?'Заполни форму за 2 минуты — одобрение за 24-48 часов':lang==='en'?'Fill the form in 2 minutes — approval in 24-48 hours':lang==='tr'?'2 dakikada formu doldur — 24-48 saatte onay':lang==='de'?'Formular in 2 Min. ausfüllen — Genehmigung in 24-48h':lang==='pt'?'Preenche o formulário em 2 min — aprovação em 24-48h':lang==='pl'?'Wypełnij formularz w 2 min — zatwierdzenie w 24-48h':'Completezi formularul în 2 minute — aprobare în 24-48h',color:gold},
+              {num:'02',icon:'🎯',title:t.hw2,desc:lang==='ru'?'Персональный промокод для каждого казино — сразу после одобрения':lang==='en'?'Personal promo code for each casino — right after approval':lang==='tr'?'Her casino için kişisel promosyon kodu — onayın hemen ardından':lang==='de'?'Persönlicher Promo-Code für jedes Casino — direkt nach Genehmigung':lang==='pt'?'Código promo pessoal para cada cassino — logo após aprovação':lang==='pl'?'Osobisty kod promo dla każdego kasyna — zaraz po zatwierdzeniu':'Cod promoțional personal pentru fiecare cazinou — imediat după aprobare',color:'#10b981'},
+              {num:'03',icon:'📱',title:t.hw3,desc:lang==='ru'?'TikTok, Instagram, YouTube, Telegram — любая платформа':lang==='en'?'TikTok, Instagram, YouTube, Telegram — any platform':lang==='tr'?'TikTok, Instagram, YouTube, Telegram — herhangi bir platform':lang==='de'?'TikTok, Instagram, YouTube, Telegram — jede Plattform':lang==='pt'?'TikTok, Instagram, YouTube, Telegram — qualquer plataforma':lang==='pl'?'TikTok, Instagram, YouTube, Telegram — każda platforma':'TikTok, Instagram, YouTube, Telegram — orice platformă',color:'#60a5fa'},
+              {num:'04',icon:'💰',title:t.hw4,desc:lang==='ru'?'25% RevShare еженедельно — пока твои игроки активны':lang==='en'?'25% RevShare weekly — as long as your players are active':lang==='tr'?'Oyuncuların aktif olduğu sürece haftalık %25 RevShare':lang==='de'?'25% RevShare wöchentlich — solange deine Spieler aktiv sind':lang==='pt'?'25% RevShare semanalmente — enquanto os teus jogadores estiverem ativos':lang==='pl'?'25% RevShare tygodniowo — dopóki twoi gracze są aktywni':'25% RevShare săptămânal — cât timp jucătorii tăi sunt activi',color:'#a78bfa'},
+            ].map(({num,icon,title,desc,color},i)=>(
+              <div key={num} className='wp-benefit-card' style={{background:'rgba(255,255,255,0.025)',border:`1px solid ${color}18`,borderRadius:16,padding:isMobile?'1.25rem':'1.75rem',display:'flex',flexDirection:'column',alignItems:'flex-start',position:'relative',overflow:'hidden'}}>
+                <div style={{position:'absolute',top:-20,right:-20,width:80,height:80,borderRadius:'50%',background:`radial-gradient(circle,${color}12 0%,transparent 70%)`,pointerEvents:'none'}}/>
+                <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:14}}>
+                  <div style={{width:48,height:48,borderRadius:12,background:`linear-gradient(135deg,${color}20,${color}08)`,border:`1px solid ${color}30`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>{icon}</div>
+                  <div style={{fontSize:28,fontWeight:900,color:`${color}40`,lineHeight:1,fontVariantNumeric:'tabular-nums'}}>{num}</div>
+                </div>
+                <div style={{fontSize:isMobile?13:15,fontWeight:800,color:'#fff',marginBottom:8,lineHeight:1.3}}>{title}</div>
+                <div style={{fontSize:isMobile?11:12,color:'rgba(255,255,255,0.38)',lineHeight:1.65}}>{desc}</div>
+                <div style={{marginTop:14,height:2,borderRadius:1,width:'100%',background:`linear-gradient(90deg,${color}50,${color}10)`}}/>
               </div>
             ))}
           </div>
@@ -1022,7 +996,7 @@ export default function Landing() {
             {/* Săgeată 1 */}
             <div style={{display:'flex',flexDirection:'column',alignItems:'center',padding:isMobile?'4px 0':'0 12px'}}>
               <div style={{fontSize:11,color:'rgba(255,255,255,0.3)',marginBottom:2}}>
-                {lang==='ru'?'платит нам':lang==='en'?'pays us':lang==='tr'?'bize öder':lang==='de'?'zahlt uns':lang==='pt'?'paga-nos':lang==='pl'?'płaci nam':'ne plătește'}
+                {lang==='ru'?'RevShare %':lang==='en'?'RevShare %':lang==='tr'?'RevShare %':lang==='de'?'RevShare %':lang==='pt'?'RevShare %':lang==='pl'?'RevShare %':'RevShare %'}
               </div>
               <div style={{fontSize:isMobile?20:24,color:'rgba(245,166,35,0.5)',transform:isMobile?'rotate(90deg)':'none'}}>→</div>
             </div>
@@ -1031,16 +1005,14 @@ export default function Landing() {
               <div style={{fontSize:22,marginBottom:4}}>W</div>
               <div style={{fontSize:13,fontWeight:800,color:gold}}>WinPartners</div>
               <div style={{fontSize:11,color:'rgba(255,255,255,0.25)',marginTop:4}}>
-                {lang==='ru'?'наша доля: 0%':lang==='en'?'our cut: 0%':lang==='tr'?'payımız: %0':lang==='de'?'unser Anteil: 0%':lang==='pt'?'nossa parte: 0%':lang==='pl'?'nasz udział: 0%':'partea noastră: 0%'}
+                {lang==='ru'?'комиссия платформы: 0%':lang==='en'?'platform fee: 0%':lang==='tr'?'platform ücreti: %0':lang==='de'?'Plattformgebühr: 0%':lang==='pt'?'taxa da plataforma: 0%':lang==='pl'?'opłata platformy: 0%':'comision platformă: 0%'}
               </div>
-              <div style={{position:'absolute',top:-10,right:-10,background:'#10b981',borderRadius:20,fontSize:10,fontWeight:800,color:'#fff',padding:'2px 8px'}}>
-                {lang==='ru'?'Стандарт':lang==='en'?'Standard':lang==='tr'?'Standart':lang==='de'?'Standard':lang==='pt'?'Padrão':lang==='pl'?'Standard':'Standard'}
-              </div>
+              
             </div>
             {/* Săgeată 2 */}
             <div style={{display:'flex',flexDirection:'column',alignItems:'center',padding:isMobile?'4px 0':'0 12px'}}>
               <div style={{fontSize:11,color:'rgba(255,255,255,0.3)',marginBottom:2}}>
-                {lang==='ru'?'тебе 100%':lang==='en'?'100% to you':lang==='tr'?'sana %100':lang==='de'?'100% an dich':lang==='pt'?'100% para ti':lang==='pl'?'100% do ciebie':'100% ție'}
+                {lang==='ru'?'25% тебе':lang==='en'?'25% to you':lang==='tr'?'%25 sana':lang==='de'?'25% an dich':lang==='pt'?'25% para ti':lang==='pl'?'25% do ciebie':'25% ție'}
               </div>
               <div style={{fontSize:isMobile?20:24,color:'#10b981',transform:isMobile?'rotate(90deg)':'none'}}>→</div>
             </div>
@@ -1131,7 +1103,8 @@ export default function Landing() {
                 ['about', t.nav_about],
                 ['benefits', t.nav_ben],
                 ['instructions', t.nav_how],
-                ['faq', t.nav_faq]],
+                ['faq', t.nav_faq],
+                ['media', lang==='ru'?'Промо-материалы':lang==='en'?'Promo materials':lang==='tr'?'Promo materyaller':lang==='de'?'Promo-Materialien':lang==='pt'?'Materiais promo':lang==='pl'?'Materiały promo':'Materiale promo']],
               [t.f_comp,
                 ['about', t.nav_about],
                 ['contact', t.nav_contact],
