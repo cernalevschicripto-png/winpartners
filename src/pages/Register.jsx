@@ -10,7 +10,7 @@ const LANGS = ['ro','ru','en','tr','de','pt','pl']
 const T = {
   ro: {
     title:'Aplică pentru parteneriat',
-    sub:'Completează formularul — durează 2 minute. Verificăm că profilul e activ și public, apoi îți trimitem codul Melbet în ',
+    sub:'Completează formularul — durează 2 minute. Verificăm că profilul e activ și public, apoi îți trimitem accesul la cazinouri în ',
     sub2:'24-48 de ore', sub3:'.',
     invited:'✓ Ai fost invitat cu codul', invited2:'. Cererea ta va fi procesată prioritar.',
     sec1:'Date personale',
@@ -51,7 +51,7 @@ const T = {
     sideTitle:'De ce WinPartners?',
     side1:'25% RevShare pe viață din fiecare jucător recomandat',
     side2:'Plăți săptămânale garantate — minim $30',
-    side3:'Cod Melbet propriu în 24-48 ore',
+    side3:'Cod promoțional propriu în 24-48 ore',
     side4:'Manager personal pe Telegram',
     side5:'Acces la Melbet, 1xBet, Mostbet dintr-un loc',
   },
@@ -145,7 +145,7 @@ const T = {
     sideTitle:'Why WinPartners?',
     side1:'25% RevShare for life from every referred player',
     side2:'Guaranteed weekly payments — minimum $30',
-    side3:'Personal Melbet code within 24-48 hours',
+    side3:'Personal Casino promo code within 24-48 hours',
     side4:'Personal manager on Telegram',
     side5:'Access to Melbet, 1xBet, Mostbet from one place',
   },
