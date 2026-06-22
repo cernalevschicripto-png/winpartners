@@ -631,6 +631,103 @@ export default function Landing() {
       </div>
 
 
+      {/* ─── DE CE NU POȚI MERGE SINGUR LA CAZINOU ─── */}
+      <div style={{background:'rgba(245,166,35,0.03)',borderTop:'1px solid rgba(245,166,35,0.08)',borderBottom:'1px solid rgba(245,166,35,0.08)',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem'}}>
+        <div style={{maxWidth:960,margin:'0 auto'}}>
+          <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
+            <h2 style={{fontSize:'clamp(1.25rem,2.5vw,1.9rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em'}}>
+              {lang==='ru'?'ПОЧЕМУ КАЗИНО НЕ ПРИНИМАЮТ ВСЕХ НАПРЯМУЮ':
+               lang==='en'?'WHY CASINOS REJECT MOST BLOGGERS':
+               lang==='tr'?'KUMARHANE DOĞRUDAN HERKES ALMİYOR':
+               lang==='de'?'WARUM CASINOS NICHT JEDEN DIREKT ANNEHMEN':
+               lang==='pt'?'POR QUE OS CASSINOS NÃO ACEITAM TODOS':
+               lang==='pl'?'DLACZEGO KASYNA NIE PRZYJMUJĄ WSZYSTKICH':
+               'DE CE CAZINOURILE NU ACCEPTĂ PE ORICINE DIRECT'}
+            </h2>
+            <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
+            <p style={{fontSize:14,color:'rgba(255,255,255,0.35)',marginTop:14,maxWidth:560,margin:'14px auto 0'}}>
+              {lang==='ru'?'Партнёрские программы казино — не публичные. Они работают по приглашению.':
+               lang==='en'?'Casino affiliate programs are not public. They work by invitation only.':
+               lang==='tr'?'Casino ortaklık programları herkese açık değil. Davetiye ile çalışırlar.':
+               lang==='de'?'Casino-Partnerprogramme sind nicht öffentlich. Sie funktionieren auf Einladung.':
+               lang==='pt'?'Os programas de afiliados de cassino não são públicos. Funcionam por convite.':
+               lang==='pl'?'Programy partnerskie kasyn nie są publiczne. Działają tylko na zaproszenie.':
+               'Programele de afiliere casino nu sunt publice. Funcționează pe bază de invitație.'}
+            </p>
+          </div>
+
+          {/* Cele 3 bariere reale */}
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:16,marginBottom:32}}>
+            {[
+              {
+                icon:'🚫',
+                title: lang==='ru'?'Минимум 50 000 подписчиков':lang==='en'?'Min. 50,000 followers':lang==='tr'?'Min. 50.000 takipçi':lang==='de'?'Min. 50.000 Follower':lang==='pt'?'Mín. 50.000 seguidores':lang==='pl'?'Min. 50 000 obserwujących':'Min. 50.000 urmăritori',
+                text: lang==='ru'?'Melbet и другие казино требуют доказуемую аудиторию. Новички и микро-блогеры получают отказ автоматически.':
+                      lang==='en'?'Melbet and other casinos require proven audience. Beginners and micro-bloggers are rejected automatically.':
+                      lang==='tr'?'Melbet ve diğer kumarhaneler kanıtlanmış kitle ister. Yeni başlayanlar otomatik reddedilir.':
+                      lang==='de'?'Melbet und andere Casinos verlangen nachweisbare Reichweite. Anfänger werden automatisch abgelehnt.':
+                      lang==='pt'?'Melbet e outros cassinos exigem audiência comprovada. Iniciantes são rejeitados automaticamente.':
+                      lang==='pl'?'Melbet i inne kasyna wymagają udokumentowanej publiczności. Nowicjusze są odrzucani automatycznie.':
+                      'Melbet și alte cazinouri cer audiență dovedibilă. Bloggerii noi sunt respinși automat.',
+              },
+              {
+                icon:'⏳',
+                title: lang==='ru'?'2–4 недели переговоров':lang==='en'?'2–4 weeks of negotiations':lang==='tr'?'2-4 hafta müzakere':lang==='de'?'2–4 Wochen Verhandlungen':lang==='pt'?'2-4 semanas de negociações':lang==='pl'?'2-4 tygodnie negocjacji':'2–4 săptămâni de negocieri',
+                text: lang==='ru'?'Если тебя приняли — нужно договориться об условиях. На английском. С командой казино. Большинство сдаются на этом этапе.':
+                      lang==='en'?'If accepted, you must negotiate terms. In English. With the casino team. Most people give up at this stage.':
+                      lang==='tr'?'Kabul edilirseniz şartları müzakere etmelisiniz. İngilizce. Casino ekibiyle. Çoğu kişi bu aşamada vazgeçer.':
+                      lang==='de'?'Wenn angenommen, müssen Bedingungen verhandelt werden. Auf Englisch. Mit dem Casino-Team. Die meisten geben hier auf.':
+                      lang==='pt'?'Se aceito, tens de negociar condições. Em inglês. Com a equipa do cassino. A maioria desiste nesta fase.':
+                      lang==='pl'?'Jeśli przyjęty, musisz negocjować warunki. Po angielsku. Z zespołem kasyna. Większość rezygnuje na tym etapie.':
+                      'Dacă ești acceptat, trebuie să negociezi condițiile. În engleză. Cu echipa cazinourillor. Cei mai mulți renunță la acest pas.',
+              },
+              {
+                icon:'💸',
+                title: lang==='ru'?'Комиссия 15-20%, не 25%':lang==='en'?'Commission 15-20%, not 25%':lang==='tr'?'Komisyon %15-20, değil %25':lang==='de'?'Provision 15-20%, nicht 25%':lang==='pt'?'Comissão 15-20%, não 25%':lang==='pl'?'Prowizja 15-20%, nie 25%':'Comision 15-20%, nu 25%',
+                text: lang==='ru'?'Новые партнёры получают минимальную ставку. 25% RevShare — только для топовых партнёров с большим объёмом трафика.':
+                      lang==='en'?'New partners get the minimum rate. 25% RevShare is only for top partners with large traffic volumes.':
+                      lang==='tr'?'Yeni ortaklar minimum oran alır. %25 RevShare yalnızca büyük trafik hacmine sahip en iyi ortaklar içindir.':
+                      lang==='de'?'Neue Partner bekommen den Mindestsatz. 25% RevShare gibt es nur für Top-Partner mit großem Traffic.':
+                      lang==='pt'?'Novos parceiros recebem a taxa mínima. 25% RevShare é apenas para os melhores parceiros com grande volume.':
+                      lang==='pl'?'Nowi partnerzy dostają minimalną stawkę. 25% RevShare jest tylko dla najlepszych partnerów z dużym ruchem.':
+                      'Partenerii noi primesc rata minimă. 25% RevShare e doar pentru parteneri de top cu volume mari de trafic.',
+              },
+            ].map((item,i)=>(
+              <div key={i} style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:12,padding:'1.25rem'}}>
+                <div style={{fontSize:28,marginBottom:10}}>{item.icon}</div>
+                <div style={{fontSize:14,fontWeight:800,color:'rgba(255,255,255,0.85)',marginBottom:8}}>{item.title}</div>
+                <div style={{fontSize:13,color:'rgba(255,255,255,0.4)',lineHeight:1.6}}>{item.text}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Soluția — WinPartners */}
+          <div style={{background:'rgba(245,166,35,0.07)',border:'1px solid rgba(245,166,35,0.25)',borderRadius:14,padding:isMobile?'1.5rem':'2rem',display:'flex',flexDirection:isMobile?'column':'row',gap:24,alignItems:isMobile?'flex-start':'center'}}>
+            <div style={{fontSize:40,flexShrink:0}}>🔑</div>
+            <div>
+              <div style={{fontSize:16,fontWeight:900,color:gold,marginBottom:8}}>
+                {lang==='ru'?'WinPartners — твой пропуск в закрытые программы':
+                 lang==='en'?'WinPartners — your pass to closed affiliate programs':
+                 lang==='tr'?'WinPartners — kapalı programlara pasaportunuz':
+                 lang==='de'?'WinPartners — dein Zugang zu geschlossenen Programmen':
+                 lang==='pt'?'WinPartners — o teu passe para programas fechados':
+                 lang==='pl'?'WinPartners — twój przepustka do zamkniętych programów':
+                 'WinPartners — accesul tău la programele închise'}
+              </div>
+              <div style={{fontSize:13,color:'rgba(255,255,255,0.6)',lineHeight:1.7}}>
+                {lang==='ru'?'Мы уже прошли все проверки и получили партнёрский статус у 5 казино. Ты получаешь доступ к нашему аккаунту — 25% RevShare с первого дня, без переговоров, на любом языке, с любым количеством подписчиков.':
+                 lang==='en'?'We already passed all checks and obtained partner status at 5 casinos. You get access to our account - 25% RevShare from day one, no negotiations, in any language, with any number of followers.':
+                 lang==='tr'?'5 kumarhanede tüm kontrolleri geçtik ve ortak statüsü aldık. Hesabımıza erişim elde edersiniz — ilk günden %25 RevShare, müzakere yok, herhangi bir dilde, herhangi bir takipçi sayısıyla.':
+                 lang==='de'?'Wir haben bereits alle Prüfungen bestanden und bei 5 Casinos den Partnerstatus erhalten. Du bekommst Zugang zu unserem Konto — 25% RevShare ab Tag 1, ohne Verhandlungen, in jeder Sprache, mit beliebig vielen Followern.':
+                 lang==='pt'?'Já passámos por todas as verificações e obtivemos status de parceiro em 5 cassinos. Tens acesso à nossa conta — 25% RevShare desde o primeiro dia, sem negociações, em qualquer idioma, com qualquer número de seguidores.':
+                 lang==='pl'?'Przeszliśmy już wszystkie weryfikacje i uzyskaliśmy status partnera w 5 kasynach. Otrzymujesz dostęp do naszego konta — 25% RevShare od pierwszego dnia, bez negocjacji, w dowolnym języku, z dowolną liczbą obserwujących.':
+                 'Noi am trecut deja toate verificările și am obținut statutul de partener la 5 cazinouri. Tu primești acces la contul nostru — 25% RevShare din prima zi, fără negocieri, în orice limbă, cu orice număr de urmăritori.'}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* ─── EXEMPLU VENITURI ─── */}
       <div style={{background:'rgba(245,166,35,0.03)',borderTop:'1px solid rgba(245,166,35,0.08)',borderBottom:'1px solid rgba(245,166,35,0.08)',padding:isMobile?'2rem 1rem':'4rem 2rem'}}>
         <div style={{maxWidth:900,margin:'0 auto',textAlign:'center'}}>
@@ -861,103 +958,6 @@ export default function Landing() {
 
       {/* ─── CALCULATOR ─── eliminat, continut mutat in EXEMPLU VENITURI */}
 
-      {/* ─── DE CE NU POȚI MERGE SINGUR LA CAZINOU ─── */}
-      <div style={{background:'rgba(245,166,35,0.03)',borderTop:'1px solid rgba(245,166,35,0.08)',borderBottom:'1px solid rgba(245,166,35,0.08)',padding:isMobile?'2.5rem 1rem':'3.5rem 2rem'}}>
-        <div style={{maxWidth:960,margin:'0 auto'}}>
-          <div style={{textAlign:'center',marginBottom:'2.5rem'}}>
-            <h2 style={{fontSize:'clamp(1.25rem,2.5vw,1.9rem)',fontWeight:900,textTransform:'uppercase',letterSpacing:'.06em'}}>
-              {lang==='ru'?'ПОЧЕМУ КАЗИНО НЕ ПРИНИМАЮТ ВСЕХ НАПРЯМУЮ':
-               lang==='en'?'WHY CASINOS REJECT MOST BLOGGERS':
-               lang==='tr'?'KUMARHANE DOĞRUDAN HERKES ALMİYOR':
-               lang==='de'?'WARUM CASINOS NICHT JEDEN DIREKT ANNEHMEN':
-               lang==='pt'?'POR QUE OS CASSINOS NÃO ACEITAM TODOS':
-               lang==='pl'?'DLACZEGO KASYNA NIE PRZYJMUJĄ WSZYSTKICH':
-               'DE CE CAZINOURILE NU ACCEPTĂ PE ORICINE DIRECT'}
-            </h2>
-            <div style={{width:40,height:2,background:gold,margin:'12px auto 0',borderRadius:2}}/>
-            <p style={{fontSize:14,color:'rgba(255,255,255,0.35)',marginTop:14,maxWidth:560,margin:'14px auto 0'}}>
-              {lang==='ru'?'Партнёрские программы казино — не публичные. Они работают по приглашению.':
-               lang==='en'?'Casino affiliate programs are not public. They work by invitation only.':
-               lang==='tr'?'Casino ortaklık programları herkese açık değil. Davetiye ile çalışırlar.':
-               lang==='de'?'Casino-Partnerprogramme sind nicht öffentlich. Sie funktionieren auf Einladung.':
-               lang==='pt'?'Os programas de afiliados de cassino não são públicos. Funcionam por convite.':
-               lang==='pl'?'Programy partnerskie kasyn nie są publiczne. Działają tylko na zaproszenie.':
-               'Programele de afiliere casino nu sunt publice. Funcționează pe bază de invitație.'}
-            </p>
-          </div>
-
-          {/* Cele 3 bariere reale */}
-          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:16,marginBottom:32}}>
-            {[
-              {
-                icon:'🚫',
-                title: lang==='ru'?'Минимум 50 000 подписчиков':lang==='en'?'Min. 50,000 followers':lang==='tr'?'Min. 50.000 takipçi':lang==='de'?'Min. 50.000 Follower':lang==='pt'?'Mín. 50.000 seguidores':lang==='pl'?'Min. 50 000 obserwujących':'Min. 50.000 urmăritori',
-                text: lang==='ru'?'Melbet и другие казино требуют доказуемую аудиторию. Новички и микро-блогеры получают отказ автоматически.':
-                      lang==='en'?'Melbet and other casinos require proven audience. Beginners and micro-bloggers are rejected automatically.':
-                      lang==='tr'?'Melbet ve diğer kumarhaneler kanıtlanmış kitle ister. Yeni başlayanlar otomatik reddedilir.':
-                      lang==='de'?'Melbet und andere Casinos verlangen nachweisbare Reichweite. Anfänger werden automatisch abgelehnt.':
-                      lang==='pt'?'Melbet e outros cassinos exigem audiência comprovada. Iniciantes são rejeitados automaticamente.':
-                      lang==='pl'?'Melbet i inne kasyna wymagają udokumentowanej publiczności. Nowicjusze są odrzucani automatycznie.':
-                      'Melbet și alte cazinouri cer audiență dovedibilă. Bloggerii noi sunt respinși automat.',
-              },
-              {
-                icon:'⏳',
-                title: lang==='ru'?'2–4 недели переговоров':lang==='en'?'2–4 weeks of negotiations':lang==='tr'?'2-4 hafta müzakere':lang==='de'?'2–4 Wochen Verhandlungen':lang==='pt'?'2-4 semanas de negociações':lang==='pl'?'2-4 tygodnie negocjacji':'2–4 săptămâni de negocieri',
-                text: lang==='ru'?'Если тебя приняли — нужно договориться об условиях. На английском. С командой казино. Большинство сдаются на этом этапе.':
-                      lang==='en'?'If accepted, you must negotiate terms. In English. With the casino team. Most people give up at this stage.':
-                      lang==='tr'?'Kabul edilirseniz şartları müzakere etmelisiniz. İngilizce. Casino ekibiyle. Çoğu kişi bu aşamada vazgeçer.':
-                      lang==='de'?'Wenn angenommen, müssen Bedingungen verhandelt werden. Auf Englisch. Mit dem Casino-Team. Die meisten geben hier auf.':
-                      lang==='pt'?'Se aceito, tens de negociar condições. Em inglês. Com a equipa do cassino. A maioria desiste nesta fase.':
-                      lang==='pl'?'Jeśli przyjęty, musisz negocjować warunki. Po angielsku. Z zespołem kasyna. Większość rezygnuje na tym etapie.':
-                      'Dacă ești acceptat, trebuie să negociezi condițiile. În engleză. Cu echipa cazinourillor. Cei mai mulți renunță la acest pas.',
-              },
-              {
-                icon:'💸',
-                title: lang==='ru'?'Комиссия 15-20%, не 25%':lang==='en'?'Commission 15-20%, not 25%':lang==='tr'?'Komisyon %15-20, değil %25':lang==='de'?'Provision 15-20%, nicht 25%':lang==='pt'?'Comissão 15-20%, não 25%':lang==='pl'?'Prowizja 15-20%, nie 25%':'Comision 15-20%, nu 25%',
-                text: lang==='ru'?'Новые партнёры получают минимальную ставку. 25% RevShare — только для топовых партнёров с большим объёмом трафика.':
-                      lang==='en'?'New partners get the minimum rate. 25% RevShare is only for top partners with large traffic volumes.':
-                      lang==='tr'?'Yeni ortaklar minimum oran alır. %25 RevShare yalnızca büyük trafik hacmine sahip en iyi ortaklar içindir.':
-                      lang==='de'?'Neue Partner bekommen den Mindestsatz. 25% RevShare gibt es nur für Top-Partner mit großem Traffic.':
-                      lang==='pt'?'Novos parceiros recebem a taxa mínima. 25% RevShare é apenas para os melhores parceiros com grande volume.':
-                      lang==='pl'?'Nowi partnerzy dostają minimalną stawkę. 25% RevShare jest tylko dla najlepszych partnerów z dużym ruchem.':
-                      'Partenerii noi primesc rata minimă. 25% RevShare e doar pentru parteneri de top cu volume mari de trafic.',
-              },
-            ].map((item,i)=>(
-              <div key={i} style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:12,padding:'1.25rem'}}>
-                <div style={{fontSize:28,marginBottom:10}}>{item.icon}</div>
-                <div style={{fontSize:14,fontWeight:800,color:'rgba(255,255,255,0.85)',marginBottom:8}}>{item.title}</div>
-                <div style={{fontSize:13,color:'rgba(255,255,255,0.4)',lineHeight:1.6}}>{item.text}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Soluția — WinPartners */}
-          <div style={{background:'rgba(245,166,35,0.07)',border:'1px solid rgba(245,166,35,0.25)',borderRadius:14,padding:isMobile?'1.5rem':'2rem',display:'flex',flexDirection:isMobile?'column':'row',gap:24,alignItems:isMobile?'flex-start':'center'}}>
-            <div style={{fontSize:40,flexShrink:0}}>🔑</div>
-            <div>
-              <div style={{fontSize:16,fontWeight:900,color:gold,marginBottom:8}}>
-                {lang==='ru'?'WinPartners — твой пропуск в закрытые программы':
-                 lang==='en'?'WinPartners — your pass to closed affiliate programs':
-                 lang==='tr'?'WinPartners — kapalı programlara pasaportunuz':
-                 lang==='de'?'WinPartners — dein Zugang zu geschlossenen Programmen':
-                 lang==='pt'?'WinPartners — o teu passe para programas fechados':
-                 lang==='pl'?'WinPartners — twój przepustka do zamkniętych programów':
-                 'WinPartners — accesul tău la programele închise'}
-              </div>
-              <div style={{fontSize:13,color:'rgba(255,255,255,0.6)',lineHeight:1.7}}>
-                {lang==='ru'?'Мы уже прошли все проверки и получили партнёрский статус у 5 казино. Ты получаешь доступ к нашему аккаунту — 25% RevShare с первого дня, без переговоров, на любом языке, с любым количеством подписчиков.':
-                 lang==='en'?'We already passed all checks and obtained partner status at 5 casinos. You get access to our account - 25% RevShare from day one, no negotiations, in any language, with any number of followers.':
-                 lang==='tr'?'5 kumarhanede tüm kontrolleri geçtik ve ortak statüsü aldık. Hesabımıza erişim elde edersiniz — ilk günden %25 RevShare, müzakere yok, herhangi bir dilde, herhangi bir takipçi sayısıyla.':
-                 lang==='de'?'Wir haben bereits alle Prüfungen bestanden und bei 5 Casinos den Partnerstatus erhalten. Du bekommst Zugang zu unserem Konto — 25% RevShare ab Tag 1, ohne Verhandlungen, in jeder Sprache, mit beliebig vielen Followern.':
-                 lang==='pt'?'Já passámos por todas as verificações e obtivemos status de parceiro em 5 cassinos. Tens acesso à nossa conta — 25% RevShare desde o primeiro dia, sem negociações, em qualquer idioma, com qualquer número de seguidores.':
-                 lang==='pl'?'Przeszliśmy już wszystkie weryfikacje i uzyskaliśmy status partnera w 5 kasynach. Otrzymujesz dostęp do naszego konta — 25% RevShare od pierwszego dnia, bez negocjacji, w dowolnym języku, z dowolną liczbą obserwujących.':
-                 'Noi am trecut deja toate verificările și am obținut statutul de partener la 5 cazinouri. Tu primești acces la contul nostru — 25% RevShare din prima zi, fără negocieri, în orice limbă, cu orice număr de urmăritori.'}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* ─── STRUCTURA COMISION TRANSPARENTĂ ─── */}
       <div style={{padding:isMobile?'2.5rem 1rem':'3.5rem 2rem',background:'#050508',borderTop:'1px solid rgba(245,166,35,0.08)'}}>
         <div style={{maxWidth:960,margin:'0 auto'}}>
@@ -1125,6 +1125,22 @@ export default function Landing() {
             ))}
           </div>
           <div style={{borderTop:'1px solid rgba(255,255,255,0.05)',paddingTop:18,textAlign:'center',fontSize:12,color:'rgba(255,255,255,0.18)'}}>{t.f_copy}</div>
+          {/* Rând de încredere bazat pe proces */}
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:12,margin:'22px 0 4px'}}>
+            {[
+              {icon:'⚡',title:lang==='ru'?'Код за 48 часов':lang==='en'?'Code in 48 hours':lang==='tr'?'48 saatte kod':lang==='de'?'Code in 48 Stunden':lang==='pt'?'Código em 48h':lang==='pl'?'Kod w 48 godzin':'Cod în 48 de ore',sub:lang==='ru'?'Без документов и переговоров':lang==='en'?'No paperwork, no negotiations':lang==='tr'?'Evrak yok, müzakere yok':lang==='de'?'Keine Dokumente, keine Verhandlung':lang==='pt'?'Sem papelada, sem negociação':lang==='pl'?'Bez dokumentów i negocjacji':'Fără documente, fără negocieri'},
+              {icon:'💬',title:lang==='ru'?'Живой менеджер в Telegram':lang==='en'?'Real manager on Telegram':lang==='tr'?'Telegram\'da gerçek yönetici':lang==='de'?'Echter Manager auf Telegram':lang==='pt'?'Gestor real no Telegram':lang==='pl'?'Prawdziwy menedżer na Telegramie':'Manager real pe Telegram',sub:lang==='ru'?'Ответ в тот же день, с 1-го дня':lang==='en'?'Same-day answers, from day one':lang==='tr'?'Aynı gün yanıt, ilk günden':lang==='de'?'Antwort am selben Tag, ab Tag 1':lang==='pt'?'Resposta no mesmo dia, desde o 1º dia':lang==='pl'?'Odpowiedź tego samego dnia, od 1. dnia':'Răspuns în aceeași zi, din ziua 1'},
+              {icon:'💰',title:lang==='ru'?'Выплата от $30 в неделю':lang==='en'?'Payout from $30 weekly':lang==='tr'?'Haftalık $30\'dan ödeme':lang==='de'?'Auszahlung ab $30 wöchentlich':lang==='pt'?'Pagamento desde $30 semanais':lang==='pl'?'Wypłata od $30 tygodniowo':'Plată de la $30 săptămânal',sub:lang==='ru'?'Даже если перестанешь публиковать':lang==='en'?'Even if you stop posting':lang==='tr'?'Yayını bıraksan bile':lang==='de'?'Auch wenn du aufhörst zu posten':lang==='pt'?'Mesmo se parares de publicar':lang==='pl'?'Nawet jeśli przestaniesz publikować':'Chiar dacă nu mai postezi'},
+            ].map((it,i)=>(
+              <div key={i} style={{display:'flex',alignItems:'flex-start',gap:10,background:'rgba(245,166,35,0.03)',border:'1px solid rgba(245,166,35,0.1)',borderRadius:10,padding:'12px 14px'}}>
+                <div style={{fontSize:20,flexShrink:0,lineHeight:1.2}}>{it.icon}</div>
+                <div>
+                  <div style={{fontSize:13,fontWeight:800,color:'rgba(255,255,255,0.82)',marginBottom:3}}>{it.title}</div>
+                  <div style={{fontSize:11.5,color:'rgba(255,255,255,0.4)',lineHeight:1.5}}>{it.sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
             {/* Social media */}
             <div style={{display:'flex',gap:10,marginBottom:12,justifyContent:'center'}}>
               {[
