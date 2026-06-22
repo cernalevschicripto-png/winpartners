@@ -676,7 +676,13 @@ function DashboardContent({ blogger, onLogout }) {
                 <div style={{overflowX:'auto'}}>
                   <table style={{width:'100%',borderCollapse:'collapse',minWidth:900}}>
                     <thead><tr>
-                      {['Valută','Vizualizări','Clickuri','Linkuri directe','Înregistrări','Depunători noi','Profitul companiei','RP','CPA','Suma comisionului'].map(h=><th key={h} style={TH}>{h}</th>)}
+                      {(({ro:['Valută','Vizualizări','Clickuri','Linkuri directe','Înregistrări','Depunători noi','Profit companie','RP','CPA','Comision'],
+ru:['Валюта','Просмотры','Клики','Прямые ссылки','Регистрации','Новые депозиторы','Прибыль','RP','CPA','Комиссия'],
+en:['Currency','Views','Clicks','Direct links','Registrations','New depositors','Company profit','RP','CPA','Commission'],
+tr:['Para birimi','Görüntülemeler','Tıklamalar','Direkt linkler','Kayıtlar','Yeni yatırımcılar','Şirket kârı','RP','CPA','Komisyon'],
+de:['Währung','Aufrufe','Klicks','Direkte Links','Registrierungen','Neue Einzahler','Firmengewinn','RP','CPA','Provision'],
+pt:['Moeda','Visualizações','Cliques','Links diretos','Registros','Novos depositantes','Lucro empresa','RP','CPA','Comissão'],
+pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','Nowi deponenci','Zysk firmy','RP','CPA','Prowizja']})[lang]||['Valută','Vizualizări','Clickuri','Linkuri directe','Înregistrări','Depunători','Profit','RP','CPA','Comision']).map(h=><th key={h} style={TH}>{h}</th>)}
                     </tr></thead>
                     <tbody>
                       <tr>
