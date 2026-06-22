@@ -278,7 +278,7 @@ function CalcSection({ isMobile, lang, navigate, gold }) {
 
   const labels = {
     ro: { title:'CALCULEAZĂ CÂȘTIGUL TĂU', sub:'Introdu datele tale și vezi cât poți câștiga lunar',
-          fol:'Număr urmăritori', posts:'Postări/săptămână cu Melbet',
+          fol:'Număr urmăritori', posts:'Postări/săptămână cu cazinoul',
           play:'Jucători estimați/lună', dep:'Depunători activi',
           earn:'Câștig lunar estimat', year:'Câștig anual',
           cta:'Aplică acum și începe să câștigi', note:'Estimare bazată pe conversie medie industrie. Rezultatele reale pot varia.' },
