@@ -223,7 +223,7 @@ Cererea ta de afiliere WinPartners a fost aprobată!
 ` +
             `2. Loghează-te cu username și parola de mai sus
 ` +
-            `3. Generează-ți codul promoțional Melbet din secțiunea "Coduri Promoționale"
+            `3. Generează-ți codul promoțional Melbet din secțiunea "Melbet" (Cazinourile mele)
 ` +
             `4. Începe să promovezi și să câștigi 25% RevShare!
 
