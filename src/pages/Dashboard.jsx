@@ -6,6 +6,7 @@ import {
   getNextAvailableCode, subscribePromoCodes, updateBloggerFields,
   addCustomRequest, subscribeCustomRequests,
   addNotification,
+  sendMessage, subscribeConversation, markConversationRead,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -400,6 +401,29 @@ function DashboardContent({ blogger, onLogout }) {
     })
     return unsub
   }, [D.username])
+
+  // Chat cu managerul (blogger ↔ admin)
+  const [chatMsgs, setChatMsgs] = useState([])
+  const [chatInput, setChatInput] = useState('')
+  useEffect(() => {
+    const unsub = subscribeConversation(D.username, setChatMsgs)
+    return unsub
+  }, [D.username])
+  // Marchează citite mesajele de la manager când bloggerul e pe pagina de contact
+  useEffect(() => {
+    if (page === 'contact' && chatMsgs.some(m => m.from === 'admin' && !m.read)) {
+      markConversationRead(D.username, 'blogger')
+    }
+  }, [page, chatMsgs, D.username])
+  const sendChatMsg = async () => {
+    const t = chatInput.trim()
+    if (!t) return
+    setChatInput('')
+    setChatMsgs(prev => [...prev, { from: 'blogger', text: t, ts: Date.now(), read: false, _key: 'tmp' + Date.now() }])
+    await sendMessage(D.username, 'blogger', t)
+  }
+  const myChatUnread = chatMsgs.filter(m => m.from === 'admin' && !m.read).length
+
   const [showCasinoRequest, setShowCasinoRequest] = useState(null)
   // Referrals
   const [myReferrals] = useState([])
@@ -584,6 +608,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <span style={{fontSize:14}}>{m.icon}</span>
                 <span style={{flex:1}}>{m.label}</span>
                 {m.comingSoon&&<span style={{fontSize:8,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.04em'}}>curând</span>}
+                {m.id==='contact'&&myChatUnread>0&&<span style={{fontSize:10,fontWeight:700,minWidth:18,height:18,borderRadius:9,background:'#ef4444',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 5px'}}>{myChatUnread}</span>}
               </div>
             </div>
             )
@@ -1177,16 +1202,57 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             </div>
           )}
 
-          {page==='contact'&&(
-            <div style={{...card,maxWidth:440}}>
-              {[['Email','support@winpartners.pro'],['Telegram','@winpartners_manager'],['Program','24/7, 365 zile/an']].map(([l,v])=>(
-                <div key={l} style={{display:'flex',justifyContent:'space-between',padding:'10px 0',borderBottom:`1px solid ${bdr}`}}>
-                  <span style={{fontSize:13,color:txtSub,fontWeight:500}}>{l}</span>
-                  <span style={{fontSize:13,color:gold,fontWeight:600}}>{v}</span>
+          {page==='contact'&&(()=>{
+            const CHAT = ({
+              ro:{title:'Managerul tău WinPartners',online:'De obicei răspunde în câteva ore',empty:'Scrie-i managerului tău aici — întreabă orice despre coduri, plăți sau cazinouri. Îți răspunde de obicei în câteva ore.',ph:'Scrie un mesaj...',send:'Trimite',you:'Tu',mgr:'Manager'},
+              ru:{title:'Ваш менеджер WinPartners',online:'Обычно отвечает в течение нескольких часов',empty:'Напишите менеджеру здесь — спросите что угодно о кодах, выплатах или казино. Обычно отвечаем в течение нескольких часов.',ph:'Напишите сообщение...',send:'Отправить',you:'Вы',mgr:'Менеджер'},
+              en:{title:'Your WinPartners manager',online:'Usually replies within a few hours',empty:'Message your manager here — ask anything about codes, payouts or casinos. We usually reply within a few hours.',ph:'Write a message...',send:'Send',you:'You',mgr:'Manager'},
+              tr:{title:'WinPartners yöneticiniz',online:'Genellikle birkaç saat içinde yanıtlar',empty:'Yöneticinize buradan yazın — kodlar, ödemeler veya kumarhaneler hakkında her şeyi sorun. Genellikle birkaç saat içinde yanıtlarız.',ph:'Bir mesaj yazın...',send:'Gönder',you:'Siz',mgr:'Yönetici'},
+              de:{title:'Ihr WinPartners-Manager',online:'Antwortet normalerweise innerhalb weniger Stunden',empty:'Schreiben Sie Ihrem Manager hier — fragen Sie alles über Codes, Auszahlungen oder Casinos. Wir antworten normalerweise innerhalb weniger Stunden.',ph:'Nachricht schreiben...',send:'Senden',you:'Sie',mgr:'Manager'},
+              pt:{title:'O seu gestor WinPartners',online:'Normalmente responde em poucas horas',empty:'Escreva ao seu gestor aqui — pergunte tudo sobre códigos, pagamentos ou casinos. Respondemos normalmente em poucas horas.',ph:'Escreva uma mensagem...',send:'Enviar',you:'Você',mgr:'Gestor'},
+              pl:{title:'Twój menedżer WinPartners',online:'Zwykle odpowiada w ciągu kilku godzin',empty:'Napisz do menedżera tutaj — zapytaj o kody, wypłaty lub kasyna. Zwykle odpowiadamy w ciągu kilku godzin.',ph:'Napisz wiadomość...',send:'Wyślij',you:'Ty',mgr:'Menedżer'},
+            })[lang] || ({title:'Managerul tău WinPartners',online:'De obicei răspunde în câteva ore',empty:'Scrie-i managerului tău aici.',ph:'Scrie un mesaj...',send:'Trimite',you:'Tu',mgr:'Manager'})
+            return (
+            <div style={{maxWidth:680}}>
+              {/* Optiuni rapide de contact */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12,marginBottom:16}}>
+                <a href="https://t.me/winpartners_manager" target="_blank" rel="noopener noreferrer" style={{...card,display:'flex',alignItems:'center',gap:12,textDecoration:'none',cursor:'pointer'}}>
+                  <div style={{width:42,height:42,borderRadius:10,background:'rgba(34,158,217,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>✈️</div>
+                  <div><div style={{fontSize:14,fontWeight:700,color:txt}}>Telegram</div><div style={{fontSize:12,color:'#229ED9',fontWeight:600}}>@winpartners_manager</div></div>
+                </a>
+                <a href="mailto:support@winpartners.pro" style={{...card,display:'flex',alignItems:'center',gap:12,textDecoration:'none',cursor:'pointer'}}>
+                  <div style={{width:42,height:42,borderRadius:10,background:'rgba(245,166,35,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>✉️</div>
+                  <div><div style={{fontSize:14,fontWeight:700,color:txt}}>Email</div><div style={{fontSize:12,color:gold,fontWeight:600}}>support@winpartners.pro</div></div>
+                </a>
+              </div>
+
+              {/* Chat direct cu managerul */}
+              <div style={{...card,padding:0,overflow:'hidden',display:'flex',flexDirection:'column',height:isMobile?'62vh':470}}>
+                <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,background:'#fafafa',display:'flex',alignItems:'center',gap:10}}>
+                  <div style={{width:38,height:38,borderRadius:'50%',background:'rgba(16,185,129,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>💬</div>
+                  <div><div style={{fontSize:14,fontWeight:700,color:txt}}>{CHAT.title}</div><div style={{fontSize:11,color:'#10b981'}}>● {CHAT.online}</div></div>
                 </div>
-              ))}
+                <div style={{flex:1,overflowY:'auto',padding:'16px',display:'flex',flexDirection:'column',gap:10,background:'#fff'}}>
+                  {chatMsgs.length===0 ? (
+                    <div style={{margin:'auto',textAlign:'center',color:txtSub,fontSize:13,maxWidth:320,lineHeight:1.6}}>{CHAT.empty}</div>
+                  ) : chatMsgs.map(m=>(
+                    <div key={m._key||m.ts} style={{alignSelf:m.from==='blogger'?'flex-end':'flex-start',maxWidth:'80%'}}>
+                      <div style={{padding:'9px 13px',borderRadius:12,fontSize:13,lineHeight:1.5,wordBreak:'break-word',
+                        background:m.from==='blogger'?gold:'#f1f3f5',color:m.from==='blogger'?'#1a1a2e':txt,
+                        borderBottomRightRadius:m.from==='blogger'?3:12,borderBottomLeftRadius:m.from==='blogger'?12:3}}>{m.text}</div>
+                      <div style={{fontSize:10,color:txtSub,marginTop:3,textAlign:m.from==='blogger'?'right':'left'}}>{m.from==='blogger'?CHAT.you:CHAT.mgr}{m.timestamp?(' · '+m.timestamp):''}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{padding:'10px 12px',borderTop:`1px solid ${bdr}`,display:'flex',gap:8,background:'#fafafa'}}>
+                  <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatMsg()}}}
+                    placeholder={CHAT.ph} style={{flex:1,padding:'10px 14px',fontSize:13,border:`1px solid ${bdr}`,borderRadius:20,outline:'none',fontFamily:'inherit',color:txt,boxSizing:'border-box'}}/>
+                  <button onClick={sendChatMsg} disabled={!chatInput.trim()} style={{...btnPrimary,padding:'10px 18px',borderRadius:20,flexShrink:0,opacity:chatInput.trim()?1:0.5,cursor:chatInput.trim()?'pointer':'default'}}>{CHAT.send}</button>
+                </div>
+              </div>
             </div>
-          )}
+            )
+          })()}
 
         </div>
       </div>

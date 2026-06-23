@@ -8,6 +8,7 @@ import {
   getApplications, updateApplication, subscribeApplications,
   getNotifications, markRead, addNotification, subscribeNotifications,
   getCustomRequests, updateCustomRequest, subscribeCustomRequests,
+  subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead,
   seedDatabase, forceReseedDatabase, isFirebaseEnabled, firebaseDebug, sendTelegramNotif,
 } from '../db.js'
 
@@ -51,6 +52,11 @@ export default function Admin() {
   const [updateBlogger, setUpdateBlogger] = useState(null)
   const [showNotifPanel, setShowNotifPanel] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
+  // Chat cu bloggerii
+  const [conversations, setConversations] = useState([])
+  const [chatBlogger, setChatBlogger] = useState(null)
+  const [adminChatMsgs, setAdminChatMsgs] = useState([])
+  const [adminChatInput, setAdminChatInput] = useState('')
 
   useEffect(() => {
     const fn = () => setIsMobile(window.innerWidth < 768)
@@ -69,9 +75,29 @@ export default function Admin() {
       subscribeApplications(setApplications),
       subscribeNotifications(setNotifications),
       subscribeCustomRequests(setCustomRequests),
+      subscribeAllConversations(setConversations),
     ]
     return () => unsubs.forEach(fn => fn && fn())
   }, [auth])
+
+  // Conversația selectată în chat — subscribe + marchează citit
+  useEffect(() => {
+    if (!chatBlogger) { setAdminChatMsgs([]); return }
+    const unsub = subscribeConversation(chatBlogger, setAdminChatMsgs)
+    return unsub
+  }, [chatBlogger])
+  useEffect(() => {
+    if (chatBlogger && adminChatMsgs.some(m => m.from === 'blogger' && !m.read)) {
+      markConversationRead(chatBlogger, 'admin')
+    }
+  }, [chatBlogger, adminChatMsgs])
+  const sendAdminMsg = async () => {
+    const t = adminChatInput.trim()
+    if (!t || !chatBlogger) return
+    setAdminChatInput('')
+    setAdminChatMsgs(prev => [...prev, { from:'admin', text:t, ts:Date.now(), read:false, _key:'tmp'+Date.now() }])
+    await sendMessage(chatBlogger, 'admin', t)
+  }
 
   // Când selectăm blogger pentru update — încărcăm stats
   useEffect(() => {
@@ -117,6 +143,7 @@ export default function Admin() {
   const totalPaid    = bloggers.reduce((s,b) => s+(b.paid||0), 0)
   const totalPending = bloggers.reduce((s,b) => s+payableOf(b), 0)
   const unreadCount  = notifications.filter(n => !n.read).length
+  const chatUnread   = conversations.reduce((s,c) => s+(c.unread||0), 0)
   const pendingApps  = applications.filter(a => a.status==='pending').length
 
   const saveEdit = async () => {
@@ -328,6 +355,7 @@ winpartners.pro`
           ['bloggers','Bloggeri'],
           ['promo','Promcoduri'],
           ['special','Coduri speciale'],
+          ['chat','Mesaje' + (chatUnread>0?' ('+chatUnread+')':'')],
           ['update','Actualizare stats'],
           ['payments','Plăți'],
           ['notif','Notificări' + (unreadCount>0?' ('+unreadCount+')':'')],
@@ -562,6 +590,66 @@ winpartners.pro`
               </div>
             )
           }
+        </div>
+      )}
+
+      {/* ── TAB: MESAJE (chat cu bloggerii) ── */}
+      {tab==='chat' && (
+        <div>
+          <h3 style={{ color:gold, marginBottom:'1rem', fontSize:16 }}>Mesaje cu bloggerii</h3>
+          <div style={{display:'flex',gap:12,height:isMobile?'auto':520}}>
+            {(!isMobile || !chatBlogger) && (
+              <div style={{width:isMobile?'100%':280,flexShrink:0,background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:12,overflowY:'auto',maxHeight:isMobile?'60vh':520}}>
+                {conversations.length===0
+                  ? <div style={{padding:30,textAlign:'center',color:'rgba(255,255,255,0.3)',fontSize:13}}>Nicio conversație încă</div>
+                  : conversations.map(c=>{
+                      const b = bloggers.find(x=>x.username===c.username)
+                      const sel = chatBlogger===c.username
+                      return (
+                        <div key={c.username} onClick={()=>setChatBlogger(c.username)} style={{padding:'12px 14px',cursor:'pointer',borderBottom:'1px solid rgba(255,255,255,0.05)',background:sel?'rgba(245,166,35,0.1)':'none',borderLeft:sel?`3px solid ${gold}`:'3px solid transparent'}}>
+                          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:8}}>
+                            <span style={{fontSize:13,fontWeight:700,color:sel?gold:'#fff'}}>{b?.name||c.username}</span>
+                            {c.unread>0 && <span style={{background:'#ef4444',color:'#fff',fontSize:10,fontWeight:700,minWidth:18,height:18,borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',padding:'0 5px'}}>{c.unread}</span>}
+                          </div>
+                          <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginTop:3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.last.from==='admin'?'Tu: ':''}{c.last.text}</div>
+                        </div>
+                      )
+                    })
+                }
+              </div>
+            )}
+            {(!isMobile || chatBlogger) && (
+              <div style={{flex:1,display:'flex',flexDirection:'column',background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:12,overflow:'hidden',minHeight:isMobile?440:undefined}}>
+                {!chatBlogger ? (
+                  <div style={{margin:'auto',color:'rgba(255,255,255,0.3)',fontSize:13,padding:30}}>Selectează o conversație din stânga</div>
+                ) : (
+                  <>
+                    <div style={{padding:'12px 14px',borderBottom:'1px solid rgba(255,255,255,0.06)',display:'flex',alignItems:'center',gap:10}}>
+                      {isMobile && <button onClick={()=>setChatBlogger(null)} style={{background:'none',border:'none',color:gold,fontSize:18,cursor:'pointer',padding:0}}>←</button>}
+                      <span style={{fontSize:14,fontWeight:700,color:'#fff'}}>{bloggers.find(x=>x.username===chatBlogger)?.name||chatBlogger}</span>
+                      <span style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>@{chatBlogger}</span>
+                    </div>
+                    <div style={{flex:1,overflowY:'auto',padding:'14px',display:'flex',flexDirection:'column',gap:9,minHeight:260,maxHeight:isMobile?'48vh':undefined}}>
+                      {adminChatMsgs.length===0
+                        ? <div style={{margin:'auto',color:'rgba(255,255,255,0.3)',fontSize:13}}>Niciun mesaj încă</div>
+                        : adminChatMsgs.map(m=>(
+                          <div key={m._key||m.ts} style={{alignSelf:m.from==='admin'?'flex-end':'flex-start',maxWidth:'80%'}}>
+                            <div style={{padding:'8px 12px',borderRadius:12,fontSize:13,lineHeight:1.5,wordBreak:'break-word',background:m.from==='admin'?gold:'rgba(255,255,255,0.08)',color:m.from==='admin'?'#1a1a2e':'#fff',borderBottomRightRadius:m.from==='admin'?3:12,borderBottomLeftRadius:m.from==='admin'?12:3}}>{m.text}</div>
+                            <div style={{fontSize:10,color:'rgba(255,255,255,0.3)',marginTop:2,textAlign:m.from==='admin'?'right':'left'}}>{m.from==='admin'?'Tu':'Blogger'}{m.timestamp?(' · '+m.timestamp):''}</div>
+                          </div>
+                        ))
+                      }
+                    </div>
+                    <div style={{padding:'10px 12px',borderTop:'1px solid rgba(255,255,255,0.06)',display:'flex',gap:8}}>
+                      <input value={adminChatInput} onChange={e=>setAdminChatInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAdminMsg()}}}
+                        placeholder="Scrie un răspuns..." style={{flex:1,padding:'10px 14px',fontSize:13,border:'1px solid rgba(255,255,255,0.1)',borderRadius:20,outline:'none',fontFamily:'inherit',background:'rgba(255,255,255,0.05)',color:'#fff',boxSizing:'border-box'}}/>
+                      <button onClick={sendAdminMsg} disabled={!adminChatInput.trim()} style={{padding:'10px 18px',fontSize:13,fontWeight:700,border:'none',borderRadius:20,cursor:adminChatInput.trim()?'pointer':'default',background:gold,color:'#1a1a2e',opacity:adminChatInput.trim()?1:0.5,flexShrink:0}}>Trimite</button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
 

@@ -383,3 +383,81 @@ export async function forceReseedDatabase() {
     return 'force_seeded_ls'
   }
 }
+
+// ─── MESSAGES (chat blogger ↔ manager) ────────────────────────
+// Structura: messages/{username}/{key} = { from:'blogger'|'admin', text, ts, read, timestamp }
+// read = dacă destinatarul a văzut mesajul
+export async function sendMessage(username, from, text) {
+  const data = { from, text, ts: Date.now(), read: false, timestamp: new Date().toLocaleString('ro-RO') }
+  if (USE_FIREBASE) return fbPush(`messages/${username}`, data)
+  const k = 'wp_msgs_' + username
+  const all = lsGet(k, [])
+  all.push({ ...data, _key: 'm' + data.ts })
+  lsSet(k, all)
+}
+
+export async function getConversation(username) {
+  if (USE_FIREBASE) {
+    const data = await fbGet(`messages/${username}`)
+    return data ? toArr(data).sort((a, b) => a.ts - b.ts) : []
+  }
+  return lsGet('wp_msgs_' + username, []).slice().sort((a, b) => a.ts - b.ts)
+}
+
+export function subscribeConversation(username, callback, interval = 4000) {
+  if (!username) return () => {}
+  getConversation(username).then(callback)
+  const id = setInterval(() => getConversation(username).then(callback), interval)
+  return () => clearInterval(id)
+}
+
+// Marchează citite mesajele de la celălalt rol. viewerRole = cine citește ('admin' sau 'blogger')
+export async function markConversationRead(username, viewerRole) {
+  const otherRole = viewerRole === 'admin' ? 'blogger' : 'admin'
+  if (USE_FIREBASE) {
+    const data = await fbGet(`messages/${username}`)
+    if (!data) return
+    for (const [key, msg] of Object.entries(data)) {
+      if (msg && msg.from === otherRole && !msg.read) {
+        await fbPatch(`messages/${username}/${key}`, { read: true })
+      }
+    }
+    return
+  }
+  const k = 'wp_msgs_' + username
+  const all = lsGet(k, []).map(m => (m.from === otherRole ? { ...m, read: true } : m))
+  lsSet(k, all)
+}
+
+// Pentru admin: toate conversațiile cu rezumat (ultim mesaj + necitite de la blogger)
+export async function getAllConversations() {
+  const convos = []
+  if (USE_FIREBASE) {
+    const raw = (await fbGet('messages')) || {}
+    for (const [username, msgsObj] of Object.entries(raw)) {
+      const msgs = toArr(msgsObj).sort((a, b) => a.ts - b.ts)
+      if (!msgs.length) continue
+      const last = msgs[msgs.length - 1]
+      convos.push({ username, last, unread: msgs.filter(m => m.from === 'blogger' && !m.read).length, count: msgs.length, lastTs: last.ts })
+    }
+  } else {
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i)
+        if (!k || !k.startsWith('wp_msgs_')) continue
+        const msgs = lsGet(k, []).slice().sort((a, b) => a.ts - b.ts)
+        if (!msgs.length) continue
+        const username = k.replace('wp_msgs_', '')
+        const last = msgs[msgs.length - 1]
+        convos.push({ username, last, unread: msgs.filter(m => m.from === 'blogger' && !m.read).length, count: msgs.length, lastTs: last.ts })
+      }
+    } catch (e) {}
+  }
+  return convos.sort((a, b) => b.lastTs - a.lastTs)
+}
+
+export function subscribeAllConversations(callback, interval = 5000) {
+  getAllConversations().then(callback)
+  const id = setInterval(() => getAllConversations().then(callback), interval)
+  return () => clearInterval(id)
+}
