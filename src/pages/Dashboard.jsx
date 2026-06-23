@@ -1269,7 +1269,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   Cererea ta de plată a fost înregistrată. Suma va fi procesată în <strong>48 ore</strong> pe adresa ta {payMethod}.
                 </p>
                 <div style={{background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,padding:'8px 12px',fontSize:12,color:'#854d0e',marginBottom:16}}>
-                  💡 Primești notificare pe WhatsApp când plata e confirmată.
+                  💡 Primești notificare pe Telegram când plata e confirmată.
                 </div>
                 <button style={btnPrimary} onClick={()=>{setShowPay(false);setPaySent(false)}}>{({'ro':'Închide','ru':'Закрыть','en':'Close','tr':'Kapat','de':'Schließen','pt':'Fechar','pl':'Zamknij'})[lang]||'Închide'}</button>
               </div>
@@ -1332,7 +1332,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 Trimite o cerere pentru a promova <strong>{casino?.name}</strong>. Echipa noastră îți va activa accesul și îți va aloca un cod promoțional dedicat.
               </p>
               <div style={{background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,padding:'10px 14px',marginBottom:20,fontSize:12,color:'#854d0e'}}>
-                ⏱ Procesare în 24-48 ore. Vei fi notificat pe email și WhatsApp.
+                ⏱ Procesare în 24-48 ore. Vei fi notificat pe email și Telegram.
               </div>
               <button
                 onClick={async ()=>{
