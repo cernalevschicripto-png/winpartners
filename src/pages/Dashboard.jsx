@@ -504,6 +504,18 @@ function DashboardContent({ blogger, onLogout }) {
     setCustomCodeSent(true)
     setCustomCodeText('')
   }
+  const requestNewCode = async (casinoId, casinoName) => {
+    const exists = customRequests.find(r=>r.casinoId===casinoId && r.type==='code_request')
+    if (!exists) {
+      await addCustomRequest({
+        blogger: D.username, bloggerName: D.name,
+        casinoId, casinoName,
+        type: 'code_request', requestedCode: 'REZERVĂ GOALĂ',
+        date: new Date().toLocaleDateString('ro-RO')
+      })
+    }
+    showToast('✅ Cerere de cod trimisă! Primești un cod imediat ce reumplem rezerva.')
+  }
   const [period,setPeriod]=useState('1 lună')
   const [toast, setToast] = useState('')
   const mt = MENU_T[lang] || MENU_T.ro
@@ -798,6 +810,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             const myCode = myCodes.find(x=>x.casinoId===cid)
             const gen = (generatedCode && generatedCode.casinoId===cid) ? generatedCode : null
             const reqSent = customRequests.find(r=>r.casinoId===cid && r.type==='casino_access')
+            const codeReqSent = customRequests.find(r=>r.casinoId===cid && r.type==='code_request')
             const theCode = (myCode||gen) ? (myCode?myCode.code:gen.code) : null
             return (
             <div>
@@ -899,9 +912,16 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 </div>
               ) : gen ? (
                 gen.error ? (
-                  <div style={{...card,textAlign:'center',padding:'24px',marginBottom:'1.5rem'}}>
-                    <div style={{fontSize:14,color:'#dc2626',fontWeight:600,marginBottom:4}}>⚠️ Momentan nu sunt coduri disponibile</div>
-                    <div style={{fontSize:12,color:txtSub}}>Contactează managerul pentru alocare manuală.</div>
+                  <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
+                    <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Rezerva de coduri {c.name} s-a epuizat</div>
+                    <div style={{padding:'20px 24px'}}>
+                      <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:16}}>Toate codurile {c.name} sunt momentan alocate. Trimite o cerere și primești un cod nou imediat ce reumplem rezerva. Te anunțăm pe Telegram.</p>
+                      {codeReqSent ? (
+                        <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#15803d',fontWeight:600}}>✓ Cerere trimisă{codeReqSent.date?(' pe '+codeReqSent.date):''} — ești pe listă</div>
+                      ) : (
+                        <button onClick={()=>requestNewCode(cid, c.name)} style={{...btnPrimary,padding:'12px 26px',fontSize:14,background:accent,borderColor:accent}}>📩 Solicită un cod {c.name}</button>
+                      )}
+                    </div>
                   </div>
                 ) : (
                   <div style={{...card,textAlign:'center',padding:'24px',marginBottom:'1.5rem'}}>
@@ -911,6 +931,14 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     <button onClick={()=>copy(gen.code,'cw_code')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază codul'}</button>
                   </div>
                 )
+              ) : codeReqSent ? (
+                /* A cerut cod (rezerva era goală) — așteaptă reumplere */
+                <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
+                  <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Cerere de cod {c.name} în curs</div>
+                  <div style={{padding:'20px 24px'}}>
+                    <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#15803d',fontWeight:600}}>✓ Cerere trimisă{codeReqSent.date?(' pe '+codeReqSent.date):''} — primești cod imediat ce reumplem rezerva. Te anunțăm pe Telegram.</div>
+                  </div>
+                </div>
               ) : (
                 /* Activ fără cod — generează */
                 <div style={{...card,padding:'24px',marginBottom:'1.5rem'}}>

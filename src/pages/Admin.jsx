@@ -572,6 +572,8 @@ winpartners.pro`
                         <td style={td}>{r.casinoName}</td>
                         <td style={td}>{(r.type==='casino_access'||r.requestedCode==='ACCES')
                           ? <span style={{background:'#3b82f622',color:'#3b82f6',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>🔓 Acces cazino</span>
+                          : r.type==='code_request'
+                          ? <span style={{background:'#ef444422',color:'#ef4444',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>🎟 Cerere cod (rezervă goală)</span>
                           : <span style={{background:'#f5a62322',color:'#f5a623',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>✨ Cod personalizat</span>}</td>
                         <td style={{...td,fontFamily:'monospace',color:gold,fontWeight:700}}>{r.requestedCode}</td>
                         <td style={td}><span style={{background:r.status==='pending'?'#f59e0b22':r.status==='approved'?'#10b98122':'#ef444422',color:r.status==='pending'?'#f59e0b':r.status==='approved'?'#10b981':'#ef4444',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>{r.status}</span></td>
