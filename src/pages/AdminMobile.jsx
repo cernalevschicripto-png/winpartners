@@ -8,6 +8,7 @@ import {
   addNotification,
   subscribeApplications, subscribeBloggers, subscribeNotifications,
   getNotifications, markRead,
+  subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -80,6 +81,11 @@ export default function AdminMobile() {
   const [statsForm, setStatsForm] = useState({ clicks:'', regs:'', deposits:'', revenue:'', commission:'' })
   const [newCode, setNewCode] = useState('')
   const [selCodeCasino, setSelCodeCasino] = useState('melbet')
+  // Chat
+  const [conversations, setConversations] = useState([])
+  const [chatBlogger, setChatBlogger] = useState(null)
+  const [chatMsgs, setChatMsgs] = useState([])
+  const [chatInput, setChatInput] = useState('')
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500) }
 
@@ -88,9 +94,29 @@ export default function AdminMobile() {
     const u1 = subscribeApplications(setApps)
     const u2 = subscribeBloggers(setBloggers)
     const u3 = subscribeNotifications(setNotifications)
+    const u4 = subscribeAllConversations(setConversations)
     getPromoCodes().then(setPromoCodes)
-    return () => { u1?.(); u2?.(); u3?.() }
+    return () => { u1?.(); u2?.(); u3?.(); u4?.() }
   }, [auth])
+
+  useEffect(() => {
+    if (!chatBlogger) { setChatMsgs([]); return }
+    const unsub = subscribeConversation(chatBlogger, setChatMsgs)
+    return unsub
+  }, [chatBlogger])
+  useEffect(() => {
+    if (chatBlogger && chatMsgs.some(m => m.from === 'blogger' && !m.read)) {
+      markConversationRead(chatBlogger, 'admin')
+    }
+  }, [chatBlogger, chatMsgs])
+  const chatUnread = conversations.reduce((s,c) => s+(c.unread||0), 0)
+  const sendChatReply = async () => {
+    const t = chatInput.trim()
+    if (!t || !chatBlogger) return
+    setChatInput('')
+    setChatMsgs(prev => [...prev, { from:'admin', text:t, ts:Date.now(), read:false, _key:'tmp'+Date.now() }])
+    await sendMessage(chatBlogger, 'admin', t)
+  }
 
   // Login
   if (!auth) return (
@@ -188,6 +214,7 @@ export default function AdminMobile() {
     { id:'apps', icon:'📋', label:'Cereri', badge: pendingApps.length },
     { id:'stats', icon:'📊', label:'Stats' },
     { id:'codes', icon:'🎟️', label:'Coduri' },
+    { id:'chat', icon:'💬', label:'Mesaje', badge: chatUnread },
     { id:'notif', icon:'🔔', label:'Notif', badge: unread },
   ]
 
@@ -435,6 +462,56 @@ export default function AdminMobile() {
               {c.blogger && <div style={{ fontSize:11, color:'rgba(255,255,255,0.3)', marginTop:4 }}>→ {c.blogger} · {c.assignedAt}</div>}
             </Card>
           ))}
+        </>}
+
+        {/* ── MESAJE (chat) ── */}
+        {tab === 'chat' && <>
+          {!chatBlogger ? (
+            <>
+              <div style={{ fontSize:18, fontWeight:800, color:'#fff', marginBottom:14 }}>Mesaje</div>
+              {conversations.length===0
+                ? <div style={{textAlign:'center',color:'rgba(255,255,255,0.3)',fontSize:13,padding:30}}>Nicio conversație încă</div>
+                : conversations.map(c=>{
+                    const b = bloggers.find(x=>x.username===c.username)
+                    return (
+                      <div key={c.username} onClick={()=>setChatBlogger(c.username)} style={{background:card,border:`1px solid ${bdr}`,borderRadius:12,padding:'12px 14px',marginBottom:8,cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center',gap:10}}>
+                        <div style={{minWidth:0,flex:1}}>
+                          <div style={{fontSize:14,fontWeight:700,color:'#fff'}}>{b?.name||c.username}</div>
+                          <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',marginTop:2,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.last.from==='admin'?'Tu: ':''}{c.last.text}</div>
+                        </div>
+                        {c.unread>0 && <span style={{background:red,color:'#fff',fontSize:11,fontWeight:700,minWidth:20,height:20,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',padding:'0 6px',flexShrink:0}}>{c.unread}</span>}
+                      </div>
+                    )
+                  })
+              }
+            </>
+          ) : (
+            <div style={{display:'flex',flexDirection:'column',height:'calc(100vh - 160px)'}}>
+              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
+                <button onClick={()=>setChatBlogger(null)} style={{background:'none',border:'none',color:gold,fontSize:22,cursor:'pointer',padding:0}}>←</button>
+                <div>
+                  <div style={{fontSize:15,fontWeight:700,color:'#fff'}}>{bloggers.find(x=>x.username===chatBlogger)?.name||chatBlogger}</div>
+                  <div style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>@{chatBlogger}</div>
+                </div>
+              </div>
+              <div style={{flex:1,overflowY:'auto',display:'flex',flexDirection:'column',gap:8,paddingBottom:8}}>
+                {chatMsgs.length===0
+                  ? <div style={{margin:'auto',color:'rgba(255,255,255,0.3)',fontSize:13}}>Niciun mesaj încă</div>
+                  : chatMsgs.map(m=>(
+                    <div key={m._key||m.ts} style={{alignSelf:m.from==='admin'?'flex-end':'flex-start',maxWidth:'82%'}}>
+                      <div style={{padding:'9px 13px',borderRadius:12,fontSize:13,lineHeight:1.5,wordBreak:'break-word',background:m.from==='admin'?gold:'rgba(255,255,255,0.08)',color:m.from==='admin'?'#1a1a2e':'#fff',borderBottomRightRadius:m.from==='admin'?3:12,borderBottomLeftRadius:m.from==='admin'?12:3}}>{m.text}</div>
+                      <div style={{fontSize:10,color:'rgba(255,255,255,0.3)',marginTop:2,textAlign:m.from==='admin'?'right':'left'}}>{m.from==='admin'?'Tu':'Blogger'}{m.timestamp?(' · '+m.timestamp):''}</div>
+                    </div>
+                  ))
+                }
+              </div>
+              <div style={{display:'flex',gap:8,paddingTop:8}}>
+                <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();sendChatReply()}}}
+                  placeholder="Scrie un răspuns..." style={{flex:1,padding:'11px 14px',fontSize:14,border:`1px solid ${bdr}`,borderRadius:20,outline:'none',fontFamily:'inherit',background:card,color:'#fff',boxSizing:'border-box'}}/>
+                <button onClick={sendChatReply} disabled={!chatInput.trim()} style={{padding:'11px 16px',fontSize:16,fontWeight:700,border:'none',borderRadius:20,cursor:'pointer',background:gold,color:'#1a1a2e',opacity:chatInput.trim()?1:0.5,flexShrink:0}}>➤</button>
+              </div>
+            </div>
+          )}
         </>}
 
         {/* ── NOTIFICĂRI ── */}
