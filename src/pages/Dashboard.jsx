@@ -94,8 +94,9 @@ const CASINOS_BASE = [
     minPayout: '$30',
     payFreq: 'Săptămânal',
     affLink: 'https://1xpartners.com',
+    affId: '5751730',
     geo: 'Global · RO, MD, RU',
-    comingSoon: true,
+    active: true,
   },
   {
     id: 'mostbet',
@@ -147,6 +148,20 @@ const MELBET_AFF_ID = '5666408'
 const MELBET_CAMPAIGN = '2170'
 function getMelbetPlayerLink(promoCode) {
   return `https://refpa3665.com/L?tag=d_${MELBET_AFF_ID}m_${MELBET_CAMPAIGN}c_${promoCode}`
+}
+
+// Link jucători 1xBet — format: https://refpa86112.pro/L?tag=s_{AffID}m_{campanie}c_{cod}
+const XBET_AFF_ID = '5751730'
+const XBET_CAMPAIGN = '355'
+function get1xBetPlayerLink(promoCode) {
+  return `https://refpa86112.pro/L?tag=s_${XBET_AFF_ID}m_${XBET_CAMPAIGN}c_${promoCode}`
+}
+
+// Link jucători per cazino (null dacă nu există încă)
+function getCasinoPlayerLink(casinoId, promoCode) {
+  if (casinoId === 'melbet') return getMelbetPlayerLink(promoCode)
+  if (casinoId === 'xbet') return get1xBetPlayerLink(promoCode)
+  return null
 }
 
 // buildCasinos eliminat — CASINOS se calculează în DashboardContent din casinoStats Firebase
@@ -870,12 +885,12 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                       </div>
                       <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
                     </div>
-                    {c.id==='melbet' && (
+                    {getCasinoPlayerLink(c.id, myCode.code) && (
                       <div style={{background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
                         <div style={{fontSize:11,color:'#1d4ed8',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🔗 Link de afiliat — pune în bio, stories, descriere</div>
                         <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
-                          <div style={{flex:1,minWidth:200,fontFamily:'monospace',fontSize:12,color:'#1d4ed8',background:'#dbeafe',padding:'8px 10px',borderRadius:6,wordBreak:'break-all',lineHeight:1.5}}>{getMelbetPlayerLink(myCode.code)}</div>
-                          <button onClick={()=>copy(getMelbetPlayerLink(myCode.code),'cw_link')} style={{...btnPrimary,padding:'8px 16px',fontSize:13,background:'#2563eb'}}>{copied==='cw_link'?'✓':'📋 Copiază'}</button>
+                          <div style={{flex:1,minWidth:200,fontFamily:'monospace',fontSize:12,color:'#1d4ed8',background:'#dbeafe',padding:'8px 10px',borderRadius:6,wordBreak:'break-all',lineHeight:1.5}}>{getCasinoPlayerLink(c.id, myCode.code)}</div>
+                          <button onClick={()=>copy(getCasinoPlayerLink(c.id, myCode.code),'cw_link')} style={{...btnPrimary,padding:'8px 16px',fontSize:13,background:'#2563eb'}}>{copied==='cw_link'?'✓':'📋 Copiază'}</button>
                         </div>
                       </div>
                     )}
