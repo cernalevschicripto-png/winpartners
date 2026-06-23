@@ -559,7 +559,7 @@ export default function AdminMobile() {
       <div style={{
         position:'fixed', bottom:0, left:0, right:0,
         background:'#0d0d1f', borderTop:`1px solid ${bdr}`,
-        display:'flex', zIndex:100,
+        display:'flex', zIndex:100, paddingBottom:'env(safe-area-inset-bottom)',
       }}>
         {TABS.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)} style={{

@@ -23,8 +23,6 @@ const txtSub = '#6b7280'
 // ============================================================
 // Funcțiile de localStorage sunt înlocuite de Firebase db.js
 // Rămân stub-uri goale pentru compatibilitate cu codul vechi
-function loadCustomRequests() { return [] }
-function saveCustomRequests() {}
 
 // Coada de coduri REALE Melbet — generate din panoul partners.melbet.com
 // Aceste coduri sunt valide și active în sistemul Melbet
@@ -48,9 +46,7 @@ const CODE_QUEUE = {
   pinup:       [],
 }
 
-// getNextCode — înlocuit cu Firebase (async) în generatePromoCode
 // Lăsat stub pentru compatibilitate
-function getNextCode(casinoId, username) { return null }
 
 // Datele bloggerului vin din Firebase/localStorage prin loginBlogger()
 
@@ -987,9 +983,9 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Perioada','ru':'Период','en':'Period','tr':'Dönem','de':'Zeitraum','pt':'Período','pl':'Okres'})[lang]||'Perioada'}</span>
                 <select style={inp}><option>{({'ro':'Perioada exactă','ru':'Точный период','en':'Exact period','tr':'Tam dönem','de':'Genauer Zeitraum','pt':'Período exato','pl':'Dokładny okres'})[lang]||'Perioada exactă'}</option></select>
-                <input type="date" style={inp} defaultValue="2026-06-13"/>
+                <input type="date" style={inp} defaultValue={new Date().toISOString().slice(0,10)}/>
                 <span style={{color:txtSub}}>→</span>
-                <input type="date" style={inp} defaultValue="2026-06-13"/>
+                <input type="date" style={inp} defaultValue={new Date().toISOString().slice(0,10)}/>
               </div>
               <div style={{display:'flex',gap:0,marginBottom:'1rem',borderBottom:`2px solid ${bdr}`}}>
                 {['Statusul solicitărilor','Istoricul plăților'].map((t,i)=>(
@@ -1108,9 +1104,9 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 {page==='summary'&&<><span style={{fontSize:13,color:txtSub}}>ID instrument</span><input style={{...inp,width:120}} placeholder=""/></>}
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Perioada','ru':'Период','en':'Period','tr':'Dönem','de':'Zeitraum','pt':'Período','pl':'Okres'})[lang]||'Perioada'}</span>
                 <select style={{...inp,width:130}}><option>{({'ro':'Perioada exactă','ru':'Точный период','en':'Exact period','tr':'Tam dönem','de':'Genauer Zeitraum','pt':'Período exato','pl':'Dokładny okres'})[lang]||'Perioada exactă'}</option></select>
-                <input type="date" style={inp} defaultValue="2026-06-13"/>
+                <input type="date" style={inp} defaultValue={new Date().toISOString().slice(0,10)}/>
                 <span style={{color:txtSub}}>→</span>
-                <input type="date" style={inp} defaultValue="2026-06-13"/>
+                <input type="date" style={inp} defaultValue={new Date().toISOString().slice(0,10)}/>
               </div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <div style={{overflowX:'auto'}}>
