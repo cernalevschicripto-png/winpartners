@@ -981,14 +981,12 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
                 <span style={{color:txtSub}}>→</span>
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
-                <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
               <div style={{display:'flex',gap:0,marginBottom:'1rem',borderBottom:`2px solid ${bdr}`}}>
                 {['Statusul solicitărilor','Istoricul plăților'].map((t,i)=>(
                   <button key={t} onClick={()=>setPayTab(i===0?'status':'history')} style={payTab===(i===0?'status':'history')?tabActive:tabInactive}>{t}</button>
                 ))}
                 <div style={{flex:1}}/>
-                <button style={{...btnOutline('#ef4444'),marginBottom:2,fontSize:12}} onClick={()=>showToast("📁 Export disponibil în curând")}>EXPORT ▼</button>
               </div>
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>6 articole selectate ▼</option></select></div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
@@ -1083,7 +1081,6 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     {type==='select'?<select style={inp}><option>Selectare...</option></select>:<input type="number" style={{...inp,width:70}} placeholder={opts}/>}
                   </div>
                 ))}
-                <button style={btnPrimary} onClick={()=>showToast("🔍 Funcție de căutare disponibilă în curând")}>CĂUTARE</button>
               </div>
               <div style={{...card,textAlign:'center',padding:'3rem',color:txtSub,fontSize:13}}>
                 {({'ro':'Niciun material media disponibil.','ru':'Медиаматериалы недоступны.','en':'No media materials available.','tr':'Medya materyali mevcut değil.','de':'Keine Medienmaterialien verfügbar.','pt':'Nenhum material de mídia disponível.','pl':'Brak dostępnych materiałów medialnych.'})[lang]}<br/>{({'ro':'Contactați managerul pentru materiale personalizate.','ru':'Свяжитесь с менеджером для персональных материалов.','en':'Contact your manager for custom materials.','tr':'Özel materyaller için yöneticinize başvurun.','de':'Wenden Sie sich an Ihren Manager für individuelle Materialien.','pt':'Contacte o seu gestor para materiais personalizados.','pl':'Skontaktuj się z menedżerem w sprawie materiałów.'})[lang]}
@@ -1105,7 +1102,6 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
                 <span style={{color:txtSub}}>→</span>
                 <input type="date" style={inp} defaultValue="2026-06-13"/>
-                <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <div style={{overflowX:'auto'}}>
@@ -1148,7 +1144,6 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <span style={{fontSize:13,color:txtSub}}>Site web</span><select style={{...inp,width:150}}><option>Toate</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Jucător</span><input style={{...inp,width:120}} placeholder="ID jucător"/>
                 <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
-                <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
@@ -1178,7 +1173,6 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span><select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
-                <button style={btnPrimary} onClick={()=>showToast("📊 Funcție disponibilă în curând")}>GENERAȚI RAPORT</button>
               </div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>

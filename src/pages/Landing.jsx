@@ -1145,8 +1145,6 @@ export default function Landing() {
             <div style={{display:'flex',gap:10,marginBottom:12,justifyContent:'center'}}>
               {[
                 ['https://t.me/winpartners_manager','TG','#229ED9'],
-                ['https://instagram.com','IG','#E1306C'],
-                ['https://youtube.com','YT','#FF0000'],
               ].map(([href,lbl,color])=>(
                 <a key={lbl} href={href} target="_blank" rel="noopener noreferrer"
                   style={{width:32,height:32,borderRadius:'50%',background:`${color}18`,border:`1px solid ${color}40`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:800,color,textDecoration:'none'}}>
