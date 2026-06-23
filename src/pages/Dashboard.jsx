@@ -140,6 +140,48 @@ const CASINOS_BASE = [
     geo: 'MD, RU, CIS, LATAM',
     comingSoon: true,
   },
+  {
+    id: 'onewin',
+    name: '1win',
+    logo: '🥇',
+    color: '#0ea5e9',
+    commissionPct: 50,
+    commission: 'până la 60% Revenue Share',
+    description: 'Creștere explozivă în CIS · cazino + pariuri + esports · 30M+ jucători',
+    minPayout: '$30',
+    payFreq: 'Săptămânal',
+    affLink: 'https://1win-partners.com',
+    geo: 'RO, MD, RU, CIS',
+    comingSoon: true,
+  },
+  {
+    id: 'vavada',
+    name: 'Vavada',
+    logo: '🎰',
+    color: '#dc2626',
+    commissionPct: 50,
+    commission: 'până la 55% Revenue Share',
+    description: 'Cazino pur · foarte popular în CIS · fără carryover negativ',
+    minPayout: '$15',
+    payFreq: 'Bilunar',
+    affLink: 'https://vavadapartners.com',
+    geo: 'RU, MD, CIS, EU',
+    comingSoon: true,
+  },
+  {
+    id: 'parimatch',
+    name: 'Parimatch',
+    logo: '🐯',
+    color: '#eab308',
+    commissionPct: 45,
+    commission: 'până la 45% Revenue Share',
+    description: 'Brand global recunoscut · cazino + pariuri + esports într-un singur cont',
+    minPayout: '$30',
+    payFreq: 'Lunar',
+    affLink: 'https://pmaffiliates.com',
+    geo: 'RO, MD, RU, EU',
+    comingSoon: true,
+  },
 ]
 
 // Generează linkul de jucători Melbet pentru un cod promoțional
@@ -829,6 +871,12 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     </button>
                   )
                 })}
+              </div>
+
+              {/* Notă: cere cazinouri noi (fără parteneriat fals) */}
+              <div style={{display:'flex',alignItems:'flex-start',gap:8,background:'#f8fafc',border:('1px dashed '+bdr),borderRadius:10,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12.5,color:txtSub,lineHeight:1.55}}>
+                <span style={{fontSize:15,flexShrink:0}}>💡</span>
+                <span>Adăugăm constant cazinouri noi. Nu-l vezi pe al tău preferat? Deschide orice cazino marcat <b style={{color:txt}}>„în curând"</b> și apasă <b style={{color:txt}}>„Vreau să lucrez cu..."</b> — îți activăm afilierea cu prioritate.</span>
               </div>
 
               {/* Header brand cazino */}
