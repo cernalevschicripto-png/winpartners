@@ -6,7 +6,6 @@ import {
   getNextAvailableCode, subscribePromoCodes, updateBloggerFields,
   addCustomRequest, subscribeCustomRequests,
   addNotification,
-  sendMessage, subscribeConversation, markConversationRead,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -315,7 +314,7 @@ function DashboardContent({ blogger, onLogout }) {
   }
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [page,setPage]=useState('casino')
+  const [page,setPage]=useState('main')
   const [lang, setLang] = useState(() => {
     const s = localStorage.getItem('wp_lang')
     return ['ro','ru','en','tr','de','pt','pl'].includes(s) ? s : 'ro'
@@ -365,7 +364,7 @@ function DashboardContent({ blogger, onLogout }) {
     }
   }
 
-  const [selectedCasino, setSelectedCasino] = useState('melbet')
+  const [selectedCasino, setSelectedCasino] = useState(null)
   const [generatedCode, setGeneratedCode] = useState(null)
   const [codeGenerating, setCodeGenerating] = useState(false)
   // Codurile mele atribuite — din Firebase
@@ -401,52 +400,12 @@ function DashboardContent({ blogger, onLogout }) {
     })
     return unsub
   }, [D.username])
-
-  // Chat cu managerul (blogger ↔ admin)
-  const [chatMsgs, setChatMsgs] = useState([])
-  const [chatInput, setChatInput] = useState('')
-  useEffect(() => {
-    const unsub = subscribeConversation(D.username, setChatMsgs)
-    return unsub
-  }, [D.username])
-  // Marchează citite mesajele de la manager când bloggerul e pe pagina de contact
-  useEffect(() => {
-    if (page === 'contact' && chatMsgs.some(m => m.from === 'admin' && !m.read)) {
-      markConversationRead(D.username, 'blogger')
-    }
-  }, [page, chatMsgs, D.username])
-  const sendChatMsg = async () => {
-    const t = chatInput.trim()
-    if (!t) return
-    setChatInput('')
-    setChatMsgs(prev => [...prev, { from: 'blogger', text: t, ts: Date.now(), read: false, _key: 'tmp' + Date.now() }])
-    await sendMessage(D.username, 'blogger', t)
-  }
-  const myChatUnread = chatMsgs.filter(m => m.from === 'admin' && !m.read).length
-
   const [showCasinoRequest, setShowCasinoRequest] = useState(null)
   // Referrals
   const [myReferrals] = useState([])
   // Cazinouri cu statistici live din Firebase (actualizate de admin)
   const [casinoStats, setCasinoStatsState] = useState({})
   const CASINOS = CASINOS_BASE.map(c => ({ ...c, stats: casinoStats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
-
-  // Sursă unică de adevăr: soldul derivă din suma comisioanelor pe cazinouri (actualizate de admin).
-  // Fallback pe câmpul global blogger.revenue până se încarcă statisticile (anti-pâlpâire la $0).
-  {
-    const hasCasinoData = Object.keys(casinoStats).length > 0
-    if (hasCasinoData) {
-      const earned = CASINOS.reduce((s,c)=>s+(Number(c.stats.commission)||0),0)
-      D.bal.total = Math.round(earned)
-      D.bal.days30 = Math.round(earned)
-      D.bal.available = Math.max(0, Math.round(earned - (blogger.paid||0)))
-      D.bal.byCasino = CASINOS
-        .filter(c=>(Number(c.stats.commission)||0)>0)
-        .map(c=>({ name:c.name, color:c.color, amount:Math.round(Number(c.stats.commission)||0) }))
-    } else {
-      D.bal.byCasino = []
-    }
-  }
 
   // Subscribe Firebase — polling la 5 secunde
   useEffect(() => {
@@ -496,28 +455,28 @@ function DashboardContent({ blogger, onLogout }) {
   const [period,setPeriod]=useState('1 lună')
   const [toast, setToast] = useState('')
   const mt = MENU_T[lang] || MENU_T.ro
-  const secCas = ({ro:'CAZINOURILE MELE',ru:'МОИ КАЗИНО',en:'MY CASINOS',tr:'KUMARHANELERİM',de:'MEINE CASINOS',pt:'OS MEUS CASINOS',pl:'MOJE KASYNA'})[lang]||'CAZINOURILE MELE'
-  const secAcc = ({ro:'CONTUL MEU',ru:'МОЙ АККАУНТ',en:'MY ACCOUNT',tr:'HESABIM',de:'MEIN KONTO',pt:'A MINHA CONTA',pl:'MOJE KONTO'})[lang]||'CONTUL MEU'
   const MENU = [
-    // Cazinouri — navigația principală (fiecare deschide workspace-ul cazinoului)
-    ...CASINOS_BASE.map((c,i)=>({ id:'cas_'+c.id, casinoId:c.id, label:c.name, section: i===0?secCas:'', icon:c.logo, comingSoon:!!c.comingSoon })),
-    // Contul meu
-    {id:'main',label:mt.main,section:secAcc,icon:'🏠'},
+    {id:'main',label:mt.main,section:mt.s1,icon:'🏠'},
+    {id:'sites',label:mt.sites,section:'',icon:'🌐'},
     {id:'comm',label:mt.comm,section:'',icon:'💲'},
     {id:'pays',label:mt.pays,section:'',icon:'💳'},
     {id:'account',label:mt.account,section:'',icon:'👤'},
     {id:'contact',label:mt.contact,section:'',icon:'✉️'},
-    // Rapoarte detaliate
+    {id:'links',label:mt.links,section:mt.s2,icon:'🔗'},
+    {id:'promo',label:mt.promo,section:'',icon:'🎟'},
+    {id:'media',label:mt.media,section:'',icon:'📢'},
+    {id:'cazinouri',label:mt.cazinouri,section:'',icon:'🎰'},
     {id:'summary',label:mt.summary,section:mt.s3,icon:'📊'},
     {id:'report',label:mt.report,section:'',icon:'📋'},
+    {id:'mkttools',label:mt.mkttools,section:'',icon:'🛠'},
     {id:'players',label:mt.players,section:'',icon:'👥'},
-    {id:'media',label:mt.media,section:'',icon:'📢'},
     {id:'subaff',label:mt.subaff,section:'',icon:'🌿'},
   ]
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500) }
   const [currency,setCurrency]=useState('USD')
   const [copied,setCopied]=useState('')
   const [showPay,setShowPay]=useState(false)
+  const [showCode,setShowCode]=useState(false)
   const [payAddr,setPayAddr]=useState('')
   const [payMethod,setPayMethod]=useState('Bitcoin')
   const [codeText,setCodeText]=useState('')
@@ -599,20 +558,15 @@ function DashboardContent({ blogger, onLogout }) {
 
         {/* SIDEBAR - responsive */}
         <div style={Object.assign({},{width:220,background:bgSide,flexShrink:0,overflowY:'auto',paddingBottom:20,borderRight:'1px solid rgba(255,255,255,0.05)'},isMobile?{position:'fixed',top:52,left:sidebarOpen?0:-220,height:'calc(100vh - 52px)',zIndex:50,transition:'left .25s ease',boxShadow:sidebarOpen?'4px 0 20px rgba(0,0,0,0.4)':'none'}:{})}>
-          {MENU.map((m)=>{
-            const isActiveItem = m.casinoId ? (page==='casino' && selectedCasino===m.casinoId) : page===m.id
-            return (
+          {MENU.map((m)=>(
             <div key={m.id}>
               {m.section&&<div style={{padding:'12px 14px 4px',fontSize:9,color:'rgba(255,255,255,0.25)',textTransform:'uppercase',letterSpacing:'.12em',fontWeight:600}}>{m.section}</div>}
-              <div onClick={()=>{ if(m.casinoId){setSelectedCasino(m.casinoId);setPage('casino');setGeneratedCode(null)} else {setPage(m.id)} ; if(isMobile) setSidebarOpen(false) }} style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px 9px 16px',cursor:'pointer',fontSize:13,color:isActiveItem?gold:'rgba(255,255,255,0.55)',background:isActiveItem?'rgba(245,166,35,0.1)':'none',borderLeft:isActiveItem?`3px solid ${gold}`:'3px solid transparent',transition:'all .12s'}}>
+              <div onClick={()=>setPage(m.id)} style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px 9px 16px',cursor:'pointer',fontSize:13,color:page===m.id?gold:'rgba(255,255,255,0.55)',background:page===m.id?'rgba(245,166,35,0.1)':'none',borderLeft:page===m.id?`3px solid ${gold}`:'3px solid transparent',transition:'all .12s'}}>
                 <span style={{fontSize:14}}>{m.icon}</span>
-                <span style={{flex:1}}>{m.label}</span>
-                {m.comingSoon&&<span style={{fontSize:8,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.04em'}}>curând</span>}
-                {m.id==='contact'&&myChatUnread>0&&<span style={{fontSize:10,fontWeight:700,minWidth:18,height:18,borderRadius:9,background:'#ef4444',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 5px'}}>{myChatUnread}</span>}
+                <span>{m.label}</span>
               </div>
             </div>
-            )
-          })}
+          ))}
         </div>
 
         {/* MAIN CONTENT - light white background like Melbet */}
@@ -620,13 +574,11 @@ function DashboardContent({ blogger, onLogout }) {
 
           {/* PAGE TITLE */}
           {/* Page title bar - like Melbet's yellow title */}
-          {page!=='casino' && (
           <div style={{display:'flex',alignItems:'center',gap:0,marginBottom:'1.5rem',borderBottom:`2px solid #e5e7eb`}}>
             <div style={{padding:'0 0 12px',fontSize:18,fontWeight:700,color:gold,borderBottom:`3px solid ${gold}`,marginBottom:-2}}>
               {MENU.find(m=>m.id===page)?.label||'Dashboard'}
             </div>
           </div>
-          )}
 
           {/* === PAGINA PRINCIPALA === */}
           {page==='main'&&(
@@ -640,7 +592,7 @@ function DashboardContent({ blogger, onLogout }) {
                   </div>
                   <div style={{display:'flex',flexDirection:'column',gap:10}}>
                     {[
-                      {n:'1',t:'Ia-ți codul promoțional Melbet',d:'Deschide secțiunea Melbet → generează codul tău unic',p:'casino',btn:'Generează cod →'},
+                      {n:'1',t:'Ia-ți codul promoțional Melbet',d:'Mergi la "Coduri Promoționale" → generează codul tău unic',p:'promo',btn:'Generează cod →'},
                       {n:'2',t:'Promovează pe platforma ta',d:'Include codul în videoclipuri, descrieri și story-uri',p:null,btn:null},
                       {n:'3',t:'Urmărește câștigurile',d:'Statisticile se actualizează săptămânal de echipa WinPartners',p:null,btn:null},
                     ].map(s=>(
@@ -650,7 +602,7 @@ function DashboardContent({ blogger, onLogout }) {
                           <div style={{fontSize:13,fontWeight:700,color:'#fff',marginBottom:2}}>{s.t}</div>
                           <div style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>{s.d}</div>
                         </div>
-                        {s.btn && <button onClick={()=>{ if(s.p==='casino'){setSelectedCasino('melbet');setPage('casino')} else if(s.p){setPage(s.p)} }} style={{padding:'5px 12px',fontSize:11,fontWeight:700,cursor:'pointer',border:'1px solid #f5a623',borderRadius:6,background:'none',color:'#f5a623',whiteSpace:'nowrap'}}>{s.btn}</button>}
+                        {s.btn && <button onClick={()=>setPage(s.p)} style={{padding:'5px 12px',fontSize:11,fontWeight:700,cursor:'pointer',border:'1px solid #f5a623',borderRadius:6,background:'none',color:'#f5a623',whiteSpace:'nowrap'}}>{s.btn}</button>}
                       </div>
                     ))}
                   </div>
@@ -674,27 +626,6 @@ function DashboardContent({ blogger, onLogout }) {
                   </div>
                 ))}
               </div>
-
-              {/* Câștigurile mele pe cazino — de unde vin banii */}
-              {D.bal.byCasino && D.bal.byCasino.length > 0 && (
-                <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.25rem'}}>
-                  <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,background:'#fafafa',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:6}}>
-                    <span style={{fontSize:13,fontWeight:700,color:txt}}>{({'ro':'Câștigurile mele pe cazino','ru':'Мои доходы по казино','en':'My earnings by casino','tr':'Kumarhaneye göre kazançlarım','de':'Meine Einnahmen pro Casino','pt':'Os meus ganhos por casino','pl':'Moje zarobki według kasyna'})[lang]||'Câștigurile mele pe cazino'}</span>
-                    <span style={{fontSize:12,color:txtSub}}>{({'ro':'comision total','ru':'общая комиссия','en':'total commission','tr':'toplam komisyon','de':'Gesamtprovision','pt':'comissão total','pl':'całkowita prowizja'})[lang]||'comision total'}: <b style={{color:'#10b981'}}>${(D.bal.total||0).toLocaleString()}</b></span>
-                  </div>
-                  <div style={{padding:'4px 16px'}}>
-                    {D.bal.byCasino.map((b,idx,arr)=>(
-                      <div key={b.name} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'9px 0',borderBottom:idx<arr.length-1?`1px solid ${bdr}`:'none'}}>
-                        <div style={{display:'flex',alignItems:'center',gap:9}}>
-                          <span style={{width:10,height:10,borderRadius:3,background:b.color,display:'inline-block'}}/>
-                          <span style={{fontSize:13,color:txt,fontWeight:600}}>{b.name}</span>
-                        </div>
-                        <span style={{fontSize:14,fontWeight:800,color:b.color}}>${b.amount.toLocaleString()}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {/* Filters */}
               <div style={filterRow}>
@@ -769,152 +700,6 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               </div>
             </div>
           )}
-
-          {/* === WORKSPACE CAZINO (per-cazino, brandat) === */}
-          {page==='casino'&&(()=>{
-            const cid = selectedCasino || 'melbet'
-            const c = CASINOS.find(x=>x.id===cid) || CASINOS[0]
-            const accent = c.color
-            const myCode = myCodes.find(x=>x.casinoId===cid)
-            const gen = (generatedCode && generatedCode.casinoId===cid) ? generatedCode : null
-            const reqSent = customRequests.find(r=>r.casinoId===cid && r.type==='casino_access')
-            const theCode = (myCode||gen) ? (myCode?myCode.code:gen.code) : null
-            return (
-            <div>
-              {/* Strip taburi cazinouri — comutare rapidă */}
-              <div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:6,marginBottom:'1.25rem',WebkitOverflowScrolling:'touch'}}>
-                {CASINOS.map(x=>{
-                  const sel = x.id===cid
-                  return (
-                    <button key={x.id} onClick={()=>{setSelectedCasino(x.id);setGeneratedCode(null)}}
-                      style={{display:'flex',alignItems:'center',gap:7,padding:'8px 14px',borderRadius:9,cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,whiteSpace:'nowrap',flexShrink:0,
-                        border: sel?('2px solid '+x.color):('1px solid '+bdr),
-                        background: sel?(x.color+'15'):'#fff',
-                        color: sel?x.color:txt}}>
-                      <span style={{fontSize:16}}>{x.logo}</span>{x.name}
-                      {x.comingSoon && <span style={{fontSize:9,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'#f1f5f9',color:'#94a3b8'}}>curând</span>}
-                    </button>
-                  )
-                })}
-              </div>
-
-              {/* Header brand cazino */}
-              <div style={{background:('linear-gradient(135deg,'+accent+'1f,'+accent+'08)'),border:('1px solid '+accent+'44'),borderLeft:('5px solid '+accent),borderRadius:12,padding:isMobile?'16px':'20px 24px',marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:16,flexWrap:'wrap'}}>
-                <div style={{width:56,height:56,borderRadius:14,background:(accent+'22'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:30,flexShrink:0}}>{c.logo}</div>
-                <div style={{flex:1,minWidth:180}}>
-                  <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
-                    <div style={{fontSize:22,fontWeight:900,color:txt}}>{c.name}</div>
-                    {c.comingSoon
-                      ? <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'#fef3c7',color:'#92400e'}}>În curând</span>
-                      : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'#dcfce7',color:'#16a34a'}}>Activ</span>}
-                  </div>
-                  <div style={{fontSize:13,color:accent,fontWeight:700,marginTop:3}}>{c.commission}</div>
-                  <div style={{fontSize:12,color:txtSub,marginTop:4}}>{c.description}</div>
-                </div>
-                <div style={{textAlign:'right',fontSize:12,color:txtSub,lineHeight:1.7}}>
-                  <div>Plată: <b style={{color:txt}}>{c.payFreq}</b></div>
-                  <div>Min: <b style={{color:txt}}>{c.minPayout}</b></div>
-                  <div>Geo: <b style={{color:txt}}>{c.geo}</b></div>
-                </div>
-              </div>
-
-              {/* Statistici cazino */}
-              <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:12,marginBottom:'1.5rem'}}>
-                {[
-                  ['Înregistrări', c.stats.regs||0, txt],
-                  ['Depunători', c.stats.deposits||0, '#3b82f6'],
-                  ['Venit generat', '$'+(c.stats.revenue||0).toLocaleString(), '#8b5cf6'],
-                  ['Comisionul meu', '$'+(c.stats.commission||0).toLocaleString(), '#10b981'],
-                ].map(([l,v,col])=>(
-                  <div key={l} style={{...card,borderBottom:('3px solid '+accent),textAlign:'center',padding:'16px 10px'}}>
-                    <div style={{fontSize:isMobile?22:26,fontWeight:900,color:col}}>{v}</div>
-                    <div style={{fontSize:10,color:txtSub,textTransform:'uppercase',letterSpacing:'.05em',marginTop:4}}>{l}</div>
-                  </div>
-                ))}
-              </div>
-
-              {c.comingSoon ? (
-                /* Cazino neaprobat încă — cerere de acces */
-                <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
-                  <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Vrei să promovezi {c.name}?</div>
-                  <div style={{padding:'20px 24px'}}>
-                    <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:16}}>
-                      Lucrăm la activarea afilierii cu <b style={{color:txt}}>{c.name}</b>. Trimite o cerere acum — apari pe lista de așteptare și ești printre primii care primesc cod imediat ce afilierea e aprobată. Te anunțăm pe Telegram.
-                    </p>
-                    {reqSent ? (
-                      <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#15803d',fontWeight:600}}>
-                        ✓ Cerere trimisă{reqSent.date?(' pe '+reqSent.date):''} — ești pe lista de așteptare
-                      </div>
-                    ) : (
-                      <button onClick={()=>setShowCasinoRequest(cid)} style={{...btnPrimary,padding:'12px 26px',fontSize:14,background:accent,borderColor:accent}}>
-                        📩 Vreau să lucrez cu {c.name}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ) : myCode ? (
-                /* Are cod — afișează cod + link */
-                <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
-                  <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Codul tău {c.name}</div>
-                  <div style={{padding:'20px 24px'}}>
-                    <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
-                      <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Cod promoțional — spune-l în video</div>
-                      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
-                        <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{myCode.code}</div>
-                        <button onClick={()=>copy(myCode.code,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază'}</button>
-                      </div>
-                      <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
-                    </div>
-                    {c.id==='melbet' && (
-                      <div style={{background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
-                        <div style={{fontSize:11,color:'#1d4ed8',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🔗 Link de afiliat — pune în bio, stories, descriere</div>
-                        <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
-                          <div style={{flex:1,minWidth:200,fontFamily:'monospace',fontSize:12,color:'#1d4ed8',background:'#dbeafe',padding:'8px 10px',borderRadius:6,wordBreak:'break-all',lineHeight:1.5}}>{getMelbetPlayerLink(myCode.code)}</div>
-                          <button onClick={()=>copy(getMelbetPlayerLink(myCode.code),'cw_link')} style={{...btnPrimary,padding:'8px 16px',fontSize:13,background:'#2563eb'}}>{copied==='cw_link'?'✓':'📋 Copiază'}</button>
-                        </div>
-                      </div>
-                    )}
-                    <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(accent),padding:'9px 20px',fontSize:13}}>✨ Vreau cod personalizat cu numele meu</button>
-                  </div>
-                </div>
-              ) : gen ? (
-                gen.error ? (
-                  <div style={{...card,textAlign:'center',padding:'24px',marginBottom:'1.5rem'}}>
-                    <div style={{fontSize:14,color:'#dc2626',fontWeight:600,marginBottom:4}}>⚠️ Momentan nu sunt coduri disponibile</div>
-                    <div style={{fontSize:12,color:txtSub}}>Contactează managerul pentru alocare manuală.</div>
-                  </div>
-                ) : (
-                  <div style={{...card,textAlign:'center',padding:'24px',marginBottom:'1.5rem'}}>
-                    <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.08em'}}>✅ Codul tău {c.name}</div>
-                    <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:4,marginBottom:8}}>{gen.code}</div>
-                    <div style={{fontSize:12,color:'#16a34a',marginBottom:12}}>@{gen.bloggerUsername}</div>
-                    <button onClick={()=>copy(gen.code,'cw_code')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază codul'}</button>
-                  </div>
-                )
-              ) : (
-                /* Activ fără cod — generează */
-                <div style={{...card,padding:'24px',marginBottom:'1.5rem'}}>
-                  <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:8}}>Generează-ți codul {c.name}</div>
-                  <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>Codul va fi asociat contului <b>@{D.username}</b> și câștigi <b style={{color:accent}}>{c.commissionPct}%</b> din pierderile jucătorilor care îl folosesc.</p>
-                  <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
-                    <button onClick={()=>generatePromoCode(cid)} disabled={codeGenerating} style={{...btnPrimary,padding:'12px 28px',fontSize:14,background:accent,borderColor:accent,opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>{codeGenerating?'⏳ Se atribuie...':'🎁 Generează Cod Promoțional'}</button>
-                    <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(accent),padding:'12px 20px',fontSize:13}}>✨ Cod personalizat</button>
-                  </div>
-                </div>
-              )}
-
-              {/* Cum promovezi — doar pentru active cu cod */}
-              {!c.comingSoon && theCode && (
-                <div style={{background:'#fefce8',border:'1px solid #fde047',borderRadius:8,padding:'14px 18px',fontSize:12.5,color:'#854d0e',lineHeight:1.8}}>
-                  <strong>💡 Cum promovezi {c.name}:</strong><br/>
-                  • <strong>Bio TikTok/Instagram:</strong> pune linkul/codul → „Înregistrează-te pe {c.name}"<br/>
-                  • <strong>În video/stories:</strong> „Folosiți codul <strong>{theCode}</strong> la înregistrare"<br/>
-                  • <strong>Descriere YouTube:</strong> link + cod în descriere
-                </div>
-              )}
-            </div>
-            )
-          })()}
 
           {/* === STRUCTURA COMISIONULUI === */}
           {page==='comm'&&(
@@ -1010,9 +795,9 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 </table>
                 <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} {D.pays.length}</div>
               </div>
-              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12}}>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
                 <div style={card}>
-                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:8}}>{({'ro':'Câștigurile se acumulează automat pe măsură ce jucătorii tăi joacă. Când soldul ajunge la $30, soliciți plata mai jos — o procesăm săptămânal pe metoda ta preferată.','ru':'Доход накапливается автоматически по мере игры ваших игроков. Когда баланс достигнет $30, запросите выплату ниже — мы обрабатываем её еженедельно удобным вам способом.','en':'Earnings accumulate automatically as your players play. When your balance reaches $30, request a payout below — we process it weekly via your preferred method.','tr':'Oyuncularınız oynadıkça kazançlar otomatik birikir. Bakiyeniz $30 olunca aşağıdan ödeme talep edin — tercih ettiğiniz yöntemle haftalık işleriz.','de':'Die Einnahmen sammeln sich automatisch an, während Ihre Spieler spielen. Bei $30 Guthaben fordern Sie unten eine Auszahlung an — wir bearbeiten sie wöchentlich über Ihre bevorzugte Methode.','pt':'Os ganhos acumulam-se automaticamente à medida que os seus jogadores jogam. Quando o saldo atingir $30, solicite o pagamento abaixo — processamos semanalmente pelo método preferido.','pl':'Zarobki kumulują się automatycznie w miarę gry Twoich graczy. Gdy saldo osiągnie $30, poproś o wypłatę poniżej — przetwarzamy ją tygodniowo wybraną metodą.'})[lang]||'Câștigurile se acumulează automat. Când soldul ajunge la $30, soliciți plata mai jos.'}</p>
+                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:8}}>Pentru a primi plata, vă rugăm să contactați managerul dumneavoastră. Plata automată va fi setată ulterior.</p>
                   <p style={{fontSize:13,fontWeight:600,color:txt,marginBottom:12}}>{({'ro':'Suma minimă de plată este de $30 pe săptămână','ru':'Минимальная сумма выплаты $30 в неделю','en':'Minimum payment amount is $30 per week','tr':'Minimum ödeme tutarı haftada $30','de':'Mindestauszahlungsbetrag beträgt $30 pro Woche','pt':'O valor mínimo de pagamento é $30 por semana','pl':'Minimalna kwota płatności to $30 tygodniowo'})[lang]}</p>
                   <button style={btnPrimary} onClick={()=>setShowPay(true)}>{({'ro':'Solicită plată','ru':'Запросить выплату','en':'Request payment','tr':'Ödeme talep et','de':'Zahlung anfordern','pt':'Solicitar pagamento','pl':'Zażądaj płatności'})[lang]||'Solicită plată'} → ${D.bal.available}</button>
                 </div>
@@ -1027,24 +812,29 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           {page==='account'&&(
             <div>
               <div style={{fontSize:13,marginBottom:'1rem',color:txtSub}}>Utilizator: <span style={{color:gold,fontWeight:600}}>@{D.username}</span></div>
-              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr 1fr',gap:16}}>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:16}}>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Informații de contact</div>
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
-                    <div><label style={label}>Prenume</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={(D.name||'').split(' ')[0]||''} readOnly/></div>
-                    <div><label style={label}>Nume</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={(D.name||'').split(' ').slice(1).join(' ')} readOnly/></div>
+                    <div><label style={label}>Prenume *</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue="Ion"/></div>
+                    <div><label style={label}>Prenume *</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue="Popescu"/></div>
                   </div>
-                  <div style={{marginBottom:8}}><label style={label}>Număr de telefon</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.phone||''} readOnly/></div>
+                  <div style={{marginBottom:8}}><label style={label}>Număr de telefon</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue={D.phone}/></div>
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
+                    <div><label style={label}>Messenger</label><select style={{...inp,width:'100%',boxSizing:'border-box'}}><option>WhatsApp</option></select></div>
+                    <div><label style={label}>Număr telefon</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue={D.phone}/></div>
+                  </div>
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12}}>
-                    <div><label style={label}>Platformă</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.platform||''} readOnly/></div>
-                    <div><label style={label}>Țară</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.country||''} readOnly/></div>
+                    <div><label style={label}>Țară</label><select style={{...inp,width:'100%',boxSizing:'border-box'}}><option>Moldova</option></select></div>
+                    <div><label style={label}>Limbă notificări</label><select style={{...inp,width:'100%',boxSizing:'border-box'}}><option>Română</option></select></div>
                   </div>
-                  <div style={{fontSize:11,color:txtSub}}>pentru a modifica datele de contact, contactați managerul dvs.</div>
+                  <div style={{fontSize:11,color:txtSub,marginBottom:10}}>pentru a modifica datele de contact, contactați managerul dvs.</div>
+                  <button style={btnPrimary} onClick={()=>setPassMsg('ℹ️ '+dt.contactInfo)}>{dt.saveBtn}</button>
                 </div>
                 <div style={card}>
                   <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Detaliile plății</div>
-                  <div style={{marginBottom:8}}><label style={label}>{({'ro':'Metoda de plată preferată','ru':'Предпочтительный метод оплаты','en':'Preferred payment method','tr':'Tercih edilen ödeme yöntemi','de':'Bevorzugte Zahlungsmethode','pt':'Método de pagamento preferido','pl':'Preferowana metoda płatności'})[lang]}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.payMethod||'Bitcoin'} readOnly/></div>
-                  <div style={{marginBottom:12}}><label style={label}>Numărul portofelului</label><input style={{...inp,width:'100%',boxSizing:'border-box',fontFamily:'monospace',fontSize:11}} value={D.payAddress||''} readOnly placeholder={({'ro':'necompletat','ru':'не указан','en':'not set','tr':'belirtilmemiş','de':'nicht angegeben','pt':'não definido','pl':'nie ustawiono'})[lang]||'necompletat'}/></div>
+                  <div style={{marginBottom:8}}><label style={label}>{({'ro':'Metoda de plată preferată','ru':'Предпочтительный метод оплаты','en':'Preferred payment method','tr':'Tercih edilen ödeme yöntemi','de':'Bevorzugte Zahlungsmethode','pt':'Método de pagamento preferido','pl':'Preferowana metoda płatności'})[lang]}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} defaultValue="Bitcoin" readOnly/></div>
+                  <div style={{marginBottom:12}}><label style={label}>Numărul portofelului</label><input style={{...inp,width:'100%',boxSizing:'border-box',fontFamily:'monospace',fontSize:11}} defaultValue={D.payAddress}/></div>
                   <div style={{fontSize:11,color:txtSub,marginBottom:16}}>* pentru a modifica detaliile de plată, contactați Asistența Pentru Parteneri.</div>
                   <div style={{borderTop:`1px solid ${bdr}`,paddingTop:12}}>
                     <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:8}}>Abonamente</div>
@@ -1070,6 +860,175 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   </div>
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* === LINK-URI === */}
+          {page==='links'&&(
+            <div>
+              <div style={filterRow}>
+                <span style={{fontSize:13,color:txtSub}}>Site web</span>
+                <select style={{...inp,width:190}}><option>winpartners.pro</option></select>
+                <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span>
+                <select style={inp}><option>USD</option></select>
+                <span style={{fontSize:13,color:txtSub}}>Campanie</span>
+                <select style={{...inp,width:120}} value={linkCamp} onChange={e=>setLinkCamp(e.target.value)}><option>English</option><option>Romanian</option><option>Russian</option></select>
+                <span style={{fontSize:13,color:txtSub}}>Pagină destinație</span>
+                <input style={{...inp,width:70}} value={linkPage} onChange={e=>setLinkPage(e.target.value)}/>
+                <span style={{fontSize:13,color:txtSub}}>Sub ID</span>
+                <input style={{...inp,width:90}} value={subId} onChange={e=>setSubId(e.target.value)} placeholder="SubID"/>
+                <button style={btnPrimary} onClick={()=>showToast("🔗 Link generat! Copiați din câmpul de mai jos")}>GENERARE LINK</button>
+              </div>
+              <div style={{display:'flex',gap:0,marginBottom:'1rem',borderBottom:`2px solid ${bdr}`}}>
+                {['Link-uri create','Link-uri ascunse'].map((t,i)=>(
+                  <button key={t} onClick={()=>setLinkTab(i===0?'created':'hidden')} style={linkTab===(i===0?'created':'hidden')?tabActive:tabInactive}>{t}</button>
+                ))}
+              </div>
+              <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>8 articole selectate ▼</option></select></div>
+              <div style={{...card,padding:0,overflowX:'auto'}}>
+                <table style={{width:'100%',borderCollapse:'collapse',minWidth:700}}>
+                  <thead><tr>{[dt.thNr+' ↕',dt.thSite+' ↕',dt.thToggle+' ↕',dt.thLanding+' ↕',dt.thSubid+' ↕',dt.thCampaign+' ↕',dt.thLink+' ↕',dt.thCur+' ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                  <tbody>
+                    {linkTab==='created'&&D.links.map((l,i)=>(
+                      <tr key={i} style={{background:i%2===0?'#fff':'#fafafa'}}>
+                        <td style={TD}>{l.id}</td>
+                        <td style={TD}>winpartners.pro</td>
+                        <td style={TD}><span style={{background:'#d1fae5',color:'#065f46',padding:'2px 8px',borderRadius:12,fontSize:11,fontWeight:600}}>Arată</span></td>
+                        <td style={TD}>{l.page}</td>
+                        <td style={TD}>{l.subid||'—'}</td>
+                        <td style={TD}>{l.camp}</td>
+                        <td style={{...TD,fontFamily:'monospace',fontSize:11,color:txtSub}}>
+                          {l.link}
+                          <button style={{...btnOutline(gold),padding:'2px 8px',fontSize:10,marginLeft:6}} onClick={()=>copy(l.link,'lnk'+i)}>{copied==='lnk'+i?'✓':'Copiează'}</button>
+                        </td>
+                        <td style={TD}>USD</td>
+                      </tr>
+                    ))}
+                    {linkTab==='hidden'&&<tr><td colSpan={8} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>Fără informații</td></tr>}
+                  </tbody>
+                </table>
+                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} {D.links.length}</div>
+              </div>
+            </div>
+          )}
+
+          {/* === CODURI PROMO === */}
+          {page==='promo'&&(
+            <div>
+              {/* Banner — cum funcționează codurile, per platformă */}
+              <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.12),rgba(245,166,35,0.03))',border:'1px solid rgba(245,166,35,0.35)',borderRadius:10,padding:'14px 18px',marginBottom:'1.25rem',display:'flex',gap:14,alignItems:'flex-start'}}>
+                <div style={{fontSize:22,flexShrink:0}}>🎟️</div>
+                <div>
+                  <div style={{fontSize:13,fontWeight:700,color:gold,marginBottom:5}}>
+                    {({'ro':'Codurile tale promoționale — alege cazinoul','ru':'Твои промокоды — выбери казино','en':'Your promo codes — pick a casino','tr':'Promosyon kodların — bir casino seç','de':'Deine Promo-Codes — wähle ein Casino','pt':'Os teus códigos promo — escolhe um casino','pl':'Twoje kody promo — wybierz kasyno'})[lang]||'Codurile tale promoționale — alege cazinoul'}
+                  </div>
+                  <div style={{fontSize:12,color:txtSub,lineHeight:1.7}}>
+                    {({'ro':'Fiecare cazino are codul lui propriu. Selectează cazinoul pe care vrei să-l promovezi — dacă ai deja acces, codul apare imediat. Jucătorii îl introduc la înregistrare și sunt legați automat de tine.','ru':'У каждого казино свой промокод. Выбери казино для продвижения — если доступ уже есть, код появится сразу. Игроки вводят его при регистрации и привязываются к тебе.','en':'Each casino has its own code. Select the casino you want to promote — if you already have access, the code appears instantly. Players enter it at signup and are tied to you.','tr':'Her casinonun kendi kodu vardır. Tanıtmak istediğin casinoyu seç — erişimin varsa kod hemen görünür. Oyuncular kayıtta girer ve sana bağlanır.','de':'Jedes Casino hat seinen eigenen Code. Wähle das Casino, das du bewerben willst — wenn du Zugang hast, erscheint der Code sofort.','pt':'Cada casino tem o seu código. Seleciona o casino que queres promover — se já tens acesso, o código aparece logo.','pl':'Każde kasyno ma swój kod. Wybierz kasyno do promowania — jeśli masz dostęp, kod pojawi się od razu.'})[lang]||'Fiecare cazino are codul lui propriu. Selectează cazinoul pe care vrei să-l promovezi — dacă ai deja acces, codul apare imediat. Jucătorii îl introduc la înregistrare și sunt legați automat de tine.'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Carduri cazino — selector */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(5,1fr)',gap:10,marginBottom:'1.25rem'}}>
+                {CASINOS.map(casino=>{
+                  const myCode = myCodes.find(c=>c.casinoId===casino.id)
+                  const hasCode = !!myCode || !casino.comingSoon
+                  const isSel = selectedCasino===casino.id
+                  return (
+                    <div key={casino.id} onClick={()=>{setSelectedCasino(isSel?null:casino.id);setGeneratedCode(null)}}
+                      style={{...card,cursor:'pointer',padding:'12px 10px',textAlign:'center',border:isSel?`2px solid ${casino.color}`:`2px solid ${bdr}`,transition:'all .2s',position:'relative'}}>
+                      <div style={{width:36,height:36,borderRadius:9,background:`${casino.color}20`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,margin:'0 auto 8px'}}>{casino.logo}</div>
+                      <div style={{fontWeight:700,fontSize:13,color:txt,marginBottom:3}}>{casino.name}</div>
+                      <div style={{fontSize:10,fontWeight:700,color:hasCode?'#16a34a':txtSub}}>
+                        {hasCode
+                          ? '✓ '+({'ro':'Cod disponibil','ru':'Код доступен','en':'Code ready','tr':'Kod hazır','de':'Code bereit','pt':'Código pronto','pl':'Kod gotowy'})[lang]
+                          : '🔜 '+({'ro':'În curând','ru':'Скоро','en':'Soon','tr':'Yakında','de':'Bald','pt':'Em breve','pl':'Wkrótce'})[lang]}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Detaliu cazino selectat */}
+              {!selectedCasino ? (
+                <div style={{...card,textAlign:'center',padding:'2.5rem 1rem',color:txtSub,fontSize:13}}>
+                  👆 {({'ro':'Selectează un cazino de mai sus pentru a vedea sau genera codul promoțional','ru':'Выбери казино выше, чтобы увидеть или сгенерировать промокод','en':'Select a casino above to view or generate the promo code','tr':'Promosyon kodunu görmek veya oluşturmak için yukarıdan bir casino seç','de':'Wähle oben ein Casino, um den Promo-Code zu sehen oder zu erstellen','pt':'Seleciona um casino acima para ver ou gerar o código','pl':'Wybierz kasyno powyżej, aby zobaczyć lub wygenerować kod'})[lang]||'Selectează un cazino de mai sus pentru a vedea sau genera codul promoțional'}
+                </div>
+              ) : (()=>{
+                const casino = CASINOS.find(c=>c.id===selectedCasino)
+                const myCode = myCodes.find(c=>c.casinoId===selectedCasino)
+                const codeVal = myCode ? myCode.code : (D.promoCode || '').toLowerCase()
+                // Cazino cu cod disponibil (Melbet acum, sau orice cazino cu cod în viitor)
+                if (myCode || !casino.comingSoon) {
+                  return (
+                    <div style={{...card,padding:0,overflow:'hidden',border:`2px solid ${casino.color}44`}}>
+                      <div style={{background:`${casino.color}12`,padding:'14px 18px',borderBottom:`1px solid ${bdr}`,display:'flex',alignItems:'center',gap:12}}>
+                        <div style={{width:38,height:38,borderRadius:9,background:`${casino.color}25`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>{casino.logo}</div>
+                        <div style={{flex:1}}>
+                          <div style={{fontWeight:700,fontSize:14,color:txt}}>{casino.name}</div>
+                          <div style={{fontSize:11,color:casino.color,fontWeight:700}}>{casino.commission}</div>
+                        </div>
+                      </div>
+                      <div style={{padding:'16px 18px'}}>
+                        <div style={{fontSize:11,color:txtSub,fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.05em'}}>
+                          🎟 {({'ro':'Codul tău promoțional — spune-l în video','ru':'Твой промокод — назови его в видео','en':'Your promo code — say it in your video','tr':'Promosyon kodun — videoda söyle','de':'Dein Promo-Code — nenne ihn im Video','pt':'O teu código promo — diz no vídeo','pl':'Twój kod promo — powiedz go w wideo'})[lang]||'Codul tău promoțional — spune-l în video'}
+                        </div>
+                        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,background:`${casino.color}0d`,border:`1px solid ${casino.color}33`,borderRadius:8,padding:'14px 18px',marginBottom:12}}>
+                          <div style={{fontSize:28,fontWeight:900,color:casino.color,fontFamily:'monospace',letterSpacing:2}}>{codeVal}</div>
+                          <button onClick={()=>copy(codeVal,'promo_'+casino.id)} style={{...btnPrimary,padding:'8px 18px',fontSize:13,flexShrink:0}}>{copied==='promo_'+casino.id?'✓ Copiat':'📋 Copiază'}</button>
+                        </div>
+                        {casino.id==='melbet' && (
+                          <div style={{marginBottom:12}}>
+                            <div style={{fontSize:11,color:txtSub,fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.05em'}}>🔗 {({'ro':'Link pentru jucători — pune în bio/stories','ru':'Ссылка для игроков — в био/сторис','en':'Player link — put in bio/stories','tr':'Oyuncu linki — bio/stories','de':'Spieler-Link — in Bio/Stories','pt':'Link para jogadores — bio/stories','pl':'Link dla graczy — bio/stories'})[lang]||'Link pentru jucători — pune în bio/stories'}</div>
+                            <div style={{display:'flex',alignItems:'center',gap:10}}>
+                              <div style={{flex:1,fontFamily:'monospace',fontSize:11,color:'#1d4ed8',background:'#dbeafe',padding:'8px 10px',borderRadius:6,wordBreak:'break-all'}}>{getMelbetPlayerLink(codeVal)}</div>
+                              <button onClick={()=>copy(getMelbetPlayerLink(codeVal),'plink_'+casino.id)} style={{...btnPrimary,padding:'8px 14px',fontSize:13,flexShrink:0,background:'#2563eb'}}>{copied==='plink_'+casino.id?'✓':'📋'}</button>
+                            </div>
+                          </div>
+                        )}
+                        <div style={{...card,padding:'10px 14px',marginBottom:0,background:'#f8f9fa'}}>
+                          <table style={{width:'100%',borderCollapse:'collapse'}}>
+                            <thead><tr>{[dt.thSite,dt.thCur,dt.thPromo,dt.thBtag].map(h=><th key={h} style={{...TH,fontSize:10}}>{h}</th>)}</tr></thead>
+                            <tbody><tr>
+                              <td style={{...TD,fontSize:11}}>winpartners.pro</td>
+                              <td style={{...TD,fontSize:11}}>USD</td>
+                              <td style={{...TD,fontWeight:700,fontFamily:'monospace',fontSize:12,color:casino.color}}>{codeVal}</td>
+                              <td style={{...TD,fontFamily:'monospace',fontSize:10,color:txtSub}}>{casino.id==='melbet'?'d_5666408m_2170c_'+codeVal:casino.id+'_'+codeVal}</td>
+                            </tr></tbody>
+                          </table>
+                        </div>
+                        <button onClick={()=>{setCustomCasinoId(casino.id);setShowCustomCode(true)}} style={{...btnOutline(casino.color),padding:'9px 18px',fontSize:13,marginTop:12}}>
+                          ✨ {({'ro':'Vreau cod personalizat cu numele meu','ru':'Хочу персональный код с моим именем','en':'I want a custom code with my name','tr':'Adımla özel kod istiyorum','de':'Ich will einen Code mit meinem Namen','pt':'Quero um código com o meu nome','pl':'Chcę kod z moją nazwą'})[lang]||'Vreau cod personalizat cu numele meu'}
+                        </button>
+                      </div>
+                    </div>
+                  )
+                }
+                // Cazino fără cod încă — NU arăta cod Melbet, arată cerere acces pentru cazinoul corect
+                return (
+                  <div style={{...card,padding:0,overflow:'hidden',border:`2px solid ${bdr}`}}>
+                    <div style={{background:'#fafafa',padding:'14px 18px',borderBottom:`1px solid ${bdr}`,display:'flex',alignItems:'center',gap:12}}>
+                      <div style={{width:38,height:38,borderRadius:9,background:`${casino.color}20`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>{casino.logo}</div>
+                      <div style={{flex:1}}>
+                        <div style={{fontWeight:700,fontSize:14,color:txt}}>{casino.name}</div>
+                        <div style={{fontSize:11,color:casino.color,fontWeight:700}}>{casino.commission}</div>
+                      </div>
+                    </div>
+                    <div style={{padding:'24px 18px',textAlign:'center'}}>
+                      <div style={{fontSize:32,marginBottom:10}}>🔜</div>
+                      <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:6}}>
+                        {({'ro':'Codul pentru '+casino.name+' va fi disponibil în curând','ru':'Код для '+casino.name+' скоро будет доступен','en':'The '+casino.name+' code will be available soon','tr':casino.name+' kodu yakında hazır olacak','de':'Der '+casino.name+'-Code ist bald verfügbar','pt':'O código '+casino.name+' estará disponível em breve','pl':'Kod '+casino.name+' będzie wkrótce dostępny'})[lang]||('Codul pentru '+casino.name+' va fi disponibil în curând')}
+                      </div>
+                      <div style={{fontSize:13,color:txtSub,lineHeight:1.6,maxWidth:420,margin:'0 auto 18px'}}>
+                        {({'ro':'Cere acces acum și managerul tău îți activează codul '+casino.name+' imediat ce e gata. Vei fi anunțat pe Telegram.','ru':'Запроси доступ сейчас, и менеджер активирует код '+casino.name+', как только он будет готов. Уведомим в Telegram.','en':'Request access now and your manager will activate your '+casino.name+' code as soon as it is ready. You will be notified on Telegram.','tr':'Şimdi erişim talep et, '+casino.name+' kodun hazır olunca yöneticin aktive edecek. Telegram\u0027dan haber verilecek.','de':'Fordere jetzt Zugang an und dein Manager aktiviert deinen '+casino.name+'-Code, sobald er bereit ist.','pt':'Solicita acesso agora e o teu gestor ativa o código '+casino.name+' assim que estiver pronto.','pl':'Zażądaj dostępu teraz, a menedżer aktywuje kod '+casino.name+', gdy będzie gotowy.'})[lang]||('Cere acces acum și managerul tău îți activează codul '+casino.name+' imediat ce e gata. Vei fi anunțat pe Telegram.')}
+                      </div>
+                      <button onClick={()=>setShowCasinoRequest(casino.id)} style={{...btnPrimary,padding:'11px 28px',fontSize:14}}>
+                        {({'ro':'Cere acces la '+casino.name,'ru':'Запросить доступ к '+casino.name,'en':'Request access to '+casino.name,'tr':casino.name+' erişimi iste','de':'Zugang zu '+casino.name+' anfordern','pt':'Pedir acesso a '+casino.name,'pl':'Poproś o dostęp do '+casino.name})[lang]||('Cere acces la '+casino.name)} →
+                      </button>
+                    </div>
+                  </div>
+                )
+              })()}
             </div>
           )}
 
@@ -1202,57 +1161,329 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             </div>
           )}
 
-          {page==='contact'&&(()=>{
-            const CHAT = ({
-              ro:{title:'Managerul tău WinPartners',online:'De obicei răspunde în câteva ore',empty:'Scrie-i managerului tău aici — întreabă orice despre coduri, plăți sau cazinouri. Îți răspunde de obicei în câteva ore.',ph:'Scrie un mesaj...',send:'Trimite',you:'Tu',mgr:'Manager'},
-              ru:{title:'Ваш менеджер WinPartners',online:'Обычно отвечает в течение нескольких часов',empty:'Напишите менеджеру здесь — спросите что угодно о кодах, выплатах или казино. Обычно отвечаем в течение нескольких часов.',ph:'Напишите сообщение...',send:'Отправить',you:'Вы',mgr:'Менеджер'},
-              en:{title:'Your WinPartners manager',online:'Usually replies within a few hours',empty:'Message your manager here — ask anything about codes, payouts or casinos. We usually reply within a few hours.',ph:'Write a message...',send:'Send',you:'You',mgr:'Manager'},
-              tr:{title:'WinPartners yöneticiniz',online:'Genellikle birkaç saat içinde yanıtlar',empty:'Yöneticinize buradan yazın — kodlar, ödemeler veya kumarhaneler hakkında her şeyi sorun. Genellikle birkaç saat içinde yanıtlarız.',ph:'Bir mesaj yazın...',send:'Gönder',you:'Siz',mgr:'Yönetici'},
-              de:{title:'Ihr WinPartners-Manager',online:'Antwortet normalerweise innerhalb weniger Stunden',empty:'Schreiben Sie Ihrem Manager hier — fragen Sie alles über Codes, Auszahlungen oder Casinos. Wir antworten normalerweise innerhalb weniger Stunden.',ph:'Nachricht schreiben...',send:'Senden',you:'Sie',mgr:'Manager'},
-              pt:{title:'O seu gestor WinPartners',online:'Normalmente responde em poucas horas',empty:'Escreva ao seu gestor aqui — pergunte tudo sobre códigos, pagamentos ou casinos. Respondemos normalmente em poucas horas.',ph:'Escreva uma mensagem...',send:'Enviar',you:'Você',mgr:'Gestor'},
-              pl:{title:'Twój menedżer WinPartners',online:'Zwykle odpowiada w ciągu kilku godzin',empty:'Napisz do menedżera tutaj — zapytaj o kody, wypłaty lub kasyna. Zwykle odpowiadamy w ciągu kilku godzin.',ph:'Napisz wiadomość...',send:'Wyślij',you:'Ty',mgr:'Menedżer'},
-            })[lang] || ({title:'Managerul tău WinPartners',online:'De obicei răspunde în câteva ore',empty:'Scrie-i managerului tău aici.',ph:'Scrie un mesaj...',send:'Trimite',you:'Tu',mgr:'Manager'})
-            return (
-            <div style={{maxWidth:680}}>
-              {/* Optiuni rapide de contact */}
-              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12,marginBottom:16}}>
-                <a href="https://t.me/winpartners_manager" target="_blank" rel="noopener noreferrer" style={{...card,display:'flex',alignItems:'center',gap:12,textDecoration:'none',cursor:'pointer'}}>
-                  <div style={{width:42,height:42,borderRadius:10,background:'rgba(34,158,217,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>✈️</div>
-                  <div><div style={{fontSize:14,fontWeight:700,color:txt}}>Telegram</div><div style={{fontSize:12,color:'#229ED9',fontWeight:600}}>@winpartners_manager</div></div>
-                </a>
-                <a href="mailto:support@winpartners.pro" style={{...card,display:'flex',alignItems:'center',gap:12,textDecoration:'none',cursor:'pointer'}}>
-                  <div style={{width:42,height:42,borderRadius:10,background:'rgba(245,166,35,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>✉️</div>
-                  <div><div style={{fontSize:14,fontWeight:700,color:txt}}>Email</div><div style={{fontSize:12,color:gold,fontWeight:600}}>support@winpartners.pro</div></div>
-                </a>
+          {/* === INSTRUMENTE MARKETING === */}
+          {page==='mkttools'&&(
+            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12}}>
+              {[['📊','Raport complet','Statistici detaliate per zi','report'],['👥','Raport jucători','Activitatea fiecărui jucător','players'],['🌿','Sub-afiliați','Gestionați bloggerii invitați','subaff'],['🔗','Link-uri Afiliați','Linkuri de tracking personalizate','links'],['🎟','Coduri Promo','Coduri personalizate pentru promovare','promo'],['📢','Media','Bannere și materiale grafice','media']].map(([icon,t,d,dest])=>(
+                <div key={t} style={{...card,cursor:'pointer',transition:'box-shadow .15s,transform .15s'}} onClick={()=>setPage(dest)}
+                  onMouseOver={e=>{e.currentTarget.style.boxShadow='0 4px 16px rgba(0,0,0,0.12)';e.currentTarget.style.transform='translateY(-2px)'}}
+                  onMouseOut={e=>{e.currentTarget.style.boxShadow='0 1px 3px rgba(0,0,0,0.06)';e.currentTarget.style.transform='none'}}>
+                  <div style={{fontSize:28,marginBottom:10}}>{icon}</div>
+                  <div style={{fontSize:14,fontWeight:700,color:txt,marginBottom:4}}>{t}</div>
+                  <div style={{fontSize:12,color:txtSub,lineHeight:1.5}}>{d}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* === CAZINOURI PARTENERE === */}
+          {page==='cazinouri'&&(
+            <div>
+              {/* Sumar total deasupra */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)',gap:12,marginBottom:'1.5rem'}}>
+                {[
+                  ['Total înregistrări', CASINOS.reduce((s,c)=>s+(c.stats.regs||0),0), txt, '👥'],
+                  ['Total depunători', CASINOS.reduce((s,c)=>s+(c.stats.deposits||0),0), txt, '💳'],
+                  ['Venit total generat', '$'+CASINOS.reduce((s,c)=>s+(c.stats.revenue||0),0).toLocaleString(), '#3b82f6', '📈'],
+                  ['Comision total al meu', '$'+CASINOS.reduce((s,c)=>s+(c.stats.commission||0),0).toLocaleString(), '#10b981', '💰'],
+                ].map(([l,v,c,icon])=>(
+                  <div key={l} style={{...card,textAlign:'center',padding:'14px 12px'}}>
+                    <div style={{fontSize:18,marginBottom:4}}>{icon}</div>
+                    <div style={{fontSize:11,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4,lineHeight:1.3}}>{l}</div>
+                    <div style={{fontSize:22,fontWeight:800,color:c}}>{v}</div>
+                  </div>
+                ))}
               </div>
 
-              {/* Chat direct cu managerul */}
-              <div style={{...card,padding:0,overflow:'hidden',display:'flex',flexDirection:'column',height:isMobile?'62vh':470}}>
-                <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,background:'#fafafa',display:'flex',alignItems:'center',gap:10}}>
-                  <div style={{width:38,height:38,borderRadius:'50%',background:'rgba(16,185,129,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>💬</div>
-                  <div><div style={{fontSize:14,fontWeight:700,color:txt}}>{CHAT.title}</div><div style={{fontSize:11,color:'#10b981'}}>● {CHAT.online}</div></div>
-                </div>
-                <div style={{flex:1,overflowY:'auto',padding:'16px',display:'flex',flexDirection:'column',gap:10,background:'#fff'}}>
-                  {chatMsgs.length===0 ? (
-                    <div style={{margin:'auto',textAlign:'center',color:txtSub,fontSize:13,maxWidth:320,lineHeight:1.6}}>{CHAT.empty}</div>
-                  ) : chatMsgs.map(m=>(
-                    <div key={m._key||m.ts} style={{alignSelf:m.from==='blogger'?'flex-end':'flex-start',maxWidth:'80%'}}>
-                      <div style={{padding:'9px 13px',borderRadius:12,fontSize:13,lineHeight:1.5,wordBreak:'break-word',
-                        background:m.from==='blogger'?gold:'#f1f3f5',color:m.from==='blogger'?'#1a1a2e':txt,
-                        borderBottomRightRadius:m.from==='blogger'?3:12,borderBottomLeftRadius:m.from==='blogger'?12:3}}>{m.text}</div>
-                      <div style={{fontSize:10,color:txtSub,marginTop:3,textAlign:m.from==='blogger'?'right':'left'}}>{m.from==='blogger'?CHAT.you:CHAT.mgr}{m.timestamp?(' · '+m.timestamp):''}</div>
+              {/* Carduri casino — fiecare cu statistici */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:16,marginBottom:'1.5rem'}}>
+                {CASINOS.map(casino=>{
+                  const myCode = myCodes.find(c=>c.casinoId===casino.id)
+                  const isActive = !!myCode
+                  const isSelected = selectedCasino===casino.id
+                  return (
+                    <div key={casino.id}
+                      onClick={()=>{setSelectedCasino(isSelected?null:casino.id);setGeneratedCode(null)}}
+                      style={{...card,cursor:'pointer',border:isSelected?`2px solid ${casino.color}`:`2px solid ${isActive?casino.color+'44':bdr}`,transition:'all .2s',position:'relative',overflow:'hidden',padding:0}}>
+
+                      {/* Header casino */}
+                      <div style={{background:isActive?`${casino.color}12`:'#fafafa',padding:'14px 16px',borderBottom:`1px solid ${bdr}`,display:'flex',alignItems:'center',gap:12}}>
+                        <div style={{width:40,height:40,borderRadius:10,background:`${casino.color}20`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0}}>{casino.logo}</div>
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontWeight:700,fontSize:14,color:txt,marginBottom:2}}>{casino.name}</div>
+                          <div style={{fontSize:11,color:casino.color,fontWeight:700}}>{casino.commission}</div>
+                        </div>
+                        {isActive && <div style={{background:casino.color,color:'#000',fontSize:10,fontWeight:700,padding:'3px 8px',borderRadius:12,flexShrink:0}}>ACTIV</div>}
+                      </div>
+
+                      {/* Statistici per casino */}
+                      <div style={{padding:'12px 16px'}}>
+                        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr 1fr',gap:8,marginBottom:12}}>
+                          {[
+                            ['Înreg.', casino.stats.regs, txt],
+                            ['Depun.', casino.stats.deposits, '#3b82f6'],
+                            ['Comision', '$'+casino.stats.commission, '#10b981'],
+                          ].map(([l,v,c])=>(
+                            <div key={l} style={{textAlign:'center',background:'#f8f9fa',borderRadius:6,padding:'8px 4px'}}>
+                              <div style={{fontSize:10,color:txtSub,marginBottom:3,textTransform:'uppercase',letterSpacing:'.04em'}}>{l}</div>
+                              <div style={{fontSize:16,fontWeight:800,color:c}}>{v}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Codul meu dacă există */}
+                        {casino.comingSoon ? (
+                          <div>
+                            <div style={{background:'rgba(0,0,0,0.04)',border:'1px solid rgba(0,0,0,0.08)',borderRadius:6,padding:'8px 10px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                              <div style={{fontSize:12,color:txtSub,fontWeight:600}}>🔜 Disponibil în curând</div>
+                              <button
+                                onClick={e=>{e.stopPropagation();setShowCasinoRequest(casino.id)}}
+                                style={{padding:'3px 10px',fontSize:11,fontWeight:600,cursor:'pointer',border:'1px solid rgba(245,166,35,0.3)',borderRadius:5,background:'none',color:gold,fontFamily:'inherit',flexShrink:0}}>
+                                Aplică
+                              </button>
+                            </div>
+                          </div>
+                        ) : isActive ? (
+                          <div>
+                            {/* Codul promoțional */}
+                            <div style={{background:`${casino.color}0d`,border:`1px solid ${casino.color}30`,borderRadius:6,padding:'8px 12px',display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
+                              <div>
+                                <div style={{fontSize:10,color:txtSub,marginBottom:1}}>Codul meu (spune-l în video)</div>
+                                <div style={{fontFamily:'monospace',fontWeight:900,color:casino.color,fontSize:15,letterSpacing:1}}>{myCode.code}</div>
+                              </div>
+                              <button onClick={e=>{e.stopPropagation();copy(myCode.code,'code_'+casino.id)}}
+                                style={{padding:'4px 10px',fontSize:11,fontWeight:600,cursor:'pointer',border:`1px solid ${casino.color}40`,borderRadius:6,background:'none',color:casino.color,fontFamily:'inherit'}}>
+                                {copied==='code_'+casino.id?'✓':'Copiază'}
+                              </button>
+                            </div>
+                            {/* Link pentru jucători */}
+                            {casino.id==='melbet' && (
+                              <div style={{background:'rgba(59,130,246,0.06)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:6,padding:'8px 12px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                                <div style={{flex:1,minWidth:0}}>
+                                  <div style={{fontSize:10,color:txtSub,marginBottom:1}}>Link pentru jucători (pune în bio/stories)</div>
+                                  <div style={{fontFamily:'monospace',fontSize:10,color:'#3b82f6',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{getMelbetPlayerLink(myCode.code)}</div>
+                                </div>
+                                <button onClick={e=>{e.stopPropagation();copy(getMelbetPlayerLink(myCode.code),'link_'+casino.id)}}
+                                  style={{padding:'4px 10px',fontSize:11,fontWeight:600,cursor:'pointer',border:'1px solid rgba(59,130,246,0.3)',borderRadius:6,background:'none',color:'#3b82f6',fontFamily:'inherit',flexShrink:0,marginLeft:8}}>
+                                  {copied==='link_'+casino.id?'✓':'Copiază'}
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div style={{background:'#f0fdf4',border:'1px solid #bbf7d0',borderRadius:6,padding:'8px 12px',textAlign:'center'}}>
+                            <div style={{fontSize:12,color:'#16a34a',fontWeight:600}}>Disponibil — generează cod</div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Footer */}
+                      <div style={{padding:'8px 16px',borderTop:`1px solid ${bdr}`,display:'flex',justifyContent:'space-between',fontSize:11,color:txtSub,background:'#fafafa'}}>
+                        <span>Plată: {casino.payFreq}</span>
+                        <span>Min: {casino.minPayout}</span>
+                      </div>
                     </div>
-                  ))}
-                </div>
-                <div style={{padding:'10px 12px',borderTop:`1px solid ${bdr}`,display:'flex',gap:8,background:'#fafafa'}}>
-                  <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatMsg()}}}
-                    placeholder={CHAT.ph} style={{flex:1,padding:'10px 14px',fontSize:13,border:`1px solid ${bdr}`,borderRadius:20,outline:'none',fontFamily:'inherit',color:txt,boxSizing:'border-box'}}/>
-                  <button onClick={sendChatMsg} disabled={!chatInput.trim()} style={{...btnPrimary,padding:'10px 18px',borderRadius:20,flexShrink:0,opacity:chatInput.trim()?1:0.5,cursor:chatInput.trim()?'pointer':'default'}}>{CHAT.send}</button>
-                </div>
+                  )
+                })}
               </div>
+
+              {/* Panoul de acțiune — apare când selectezi un casino */}
+              {selectedCasino && (()=>{
+                const casino = CASINOS.find(c=>c.id===selectedCasino)
+                const myCode = myCodes.find(c=>c.casinoId===selectedCasino)
+                return (
+                  <div style={{...card,border:`2px solid ${casino.color}44`,marginBottom:'1.5rem'}}>
+                    <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:16}}>
+                      <div style={{width:36,height:36,borderRadius:8,background:`${casino.color}20`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>{casino.logo}</div>
+                      <div>
+                        <div style={{fontWeight:700,fontSize:15,color:txt}}>{casino.name}</div>
+                        <div style={{fontSize:12,color:txtSub}}>{casino.description}</div>
+                      </div>
+                    </div>
+
+                    {myCode ? (
+                      /* Cod deja generat */
+                      <div>
+                        {/* Codul promoțional */}
+                        <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                          <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Codul tău promoțional — spune-l în video</div>
+                          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
+                            <div style={{fontSize:32,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{myCode.code}</div>
+                            <button onClick={()=>copy(myCode.code,'panel_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13,flexShrink:0}}>
+                              {copied==='panel_code'?'✓ Copiat!':'📋 Copiază'}
+                            </button>
+                          </div>
+                          <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul introduce acest cod la înregistrare pe Melbet → tu primești {casino.commissionPct}% din pierderile lui.</div>
+                        </div>
+
+                        {/* Linkul de jucători — PRINCIPAL */}
+                        {casino.id==='melbet' && (
+                          <div style={{background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                            <div style={{fontSize:11,color:'#1d4ed8',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🔗 Linkul tău de afiliat — pune în bio, stories, descriere</div>
+                            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                              <div style={{flex:1,fontFamily:'monospace',fontSize:12,color:'#1d4ed8',background:'#dbeafe',padding:'8px 10px',borderRadius:6,wordBreak:'break-all',lineHeight:1.5}}>
+                                {getMelbetPlayerLink(myCode.code)}
+                              </div>
+                              <button onClick={()=>copy(getMelbetPlayerLink(myCode.code),'player_link')} style={{...btnPrimary,padding:'8px 16px',fontSize:13,flexShrink:0,background:'#2563eb'}}>
+                                {copied==='player_link'?'✓ Copiat!':'📋 Copiază'}
+                              </button>
+                            </div>
+                            <div style={{fontSize:11,color:'#3b82f6',lineHeight:1.6}}>
+                              Jucătorul dă click pe link → ajunge direct pe Melbet → se înregistrează → e legat automat de tine. <strong>Nu trebuie să introducă codul manual!</strong>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Cum să folosești */}
+                        <div style={{background:'#fefce8',border:'1px solid #fde047',borderRadius:8,padding:'12px 16px',marginBottom:12,fontSize:12,color:'#854d0e',lineHeight:1.7}}>
+                          <strong>💡 Cum promovezi:</strong><br/>
+                          • <strong>TikTok/Instagram Bio:</strong> Pune linkul de afiliat în bio → „Înregistrează-te pe Melbet prin linkul din bio"<br/>
+                          • <strong>În video/stories:</strong> „Folosiți codul <strong>{myCode.code}</strong> la înregistrare pentru bonus"<br/>
+                          • <strong>YouTube descriere:</strong> Pune linkul + scrie codul în descriere
+                        </div>
+
+                        <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(casino.color),padding:'9px 20px',fontSize:13}}>
+                          ✨ Vreau cod personalizat cu numele meu
+                        </button>
+                      </div>
+                    ) : (
+                      /* Nu are cod încă */
+                      <div>
+                        {!generatedCode ? (
+                          <div>
+                            <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>
+                              Generează un cod promoțional unic pentru <strong>{casino.name}</strong>. Codul va fi asociat contului tău @{D.username} și vei câștiga <strong style={{color:casino.color}}>{casino.commissionPct}%</strong> din pierderile jucătorilor care îl folosesc.
+                            </p>
+                            <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                              <button onClick={()=>generatePromoCode(selectedCasino)} disabled={codeGenerating}
+                                style={{...btnPrimary,padding:'12px 28px',fontSize:14,borderRadius:8,opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>
+                                {codeGenerating?'⏳ Se atribuie codul...':'🎁 Generează Cod Promoțional'}
+                              </button>
+                              <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(casino.color),padding:'12px 20px',fontSize:13}}>
+                                ✨ Vreau cod personalizat
+                              </button>
+                            </div>
+                          </div>
+                        ) : generatedCode.error ? (
+                          <div style={{background:'#fef2f2',border:'1px solid #fca5a5',borderRadius:8,padding:'16px',textAlign:'center'}}>
+                            <div style={{fontSize:14,color:'#dc2626',fontWeight:600,marginBottom:4}}>⚠️ Momentan nu sunt coduri disponibile</div>
+                            <div style={{fontSize:12,color:'#9ca3af'}}>Contactează managerul pentru alocare manuală.</div>
+                          </div>
+                        ) : (
+                          <div>
+                            <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'20px',marginBottom:14,textAlign:'center'}}>
+                              <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.08em'}}>✅ Codul tău promoțional</div>
+                              <div style={{fontSize:32,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:4,marginBottom:8}}>{generatedCode.code}</div>
+                              <div style={{fontSize:12,color:'#16a34a'}}>{casino.name} · @{generatedCode.bloggerUsername}</div>
+                            </div>
+                            <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                              <button onClick={()=>copy(generatedCode.code,'promoCode')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>
+                                {copied==='promoCode'?'✓ Copiat!':'📋 Copiază codul'}
+                              </button>
+                              <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(casino.color),padding:'10px 16px',fontSize:13}}>
+                                ✨ Vreau cod cu numele meu
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+              })()}
+
+              {/* Buton cod personalizat */}
+              <div style={{...card,marginBottom:'1rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:12}}>
+                <div>
+                  <div style={{fontWeight:700,fontSize:14,color:txt,marginBottom:3}}>Vrei un cod personalizat? (ex: IONEL23)</div>
+                  <div style={{fontSize:12,color:txtSub}}>{({'ro':'Trimite o cerere — managerul tău îl activează în 24-48h','ru':'Отправить запрос — ваш менеджер активирует в течение 24-48 часов','en':'Submit request — your manager activates it within 24-48 hours','tr':'İstek gönder — yöneticiniz 24-48 saat içinde etkinleştirir','de':'Anfrage senden — Ihr Manager aktiviert es in 24-48 Stunden','pt':'Enviar pedido — o seu gestor ativa em 24-48 horas','pl':'Wyślij prośbę — menedżer aktywuje w ciągu 24-48 godzin'})[lang]||'Trimite o cerere'}</div>
+                </div>
+                <button onClick={()=>setShowCustomCode(true)} style={{...btnPrimary,padding:'9px 20px',fontSize:13,flexShrink:0}}>
+                  ✨ Solicită cod special
+                </button>
+              </div>
+
+              {/* Cereri trimise */}
+              {customRequests.length > 0 && (
+                <div style={{...card,marginBottom:'1rem',padding:0,overflow:'hidden'}}>
+                  <div style={{padding:'10px 16px',borderBottom:`1px solid ${bdr}`,fontSize:13,fontWeight:700,color:txt}}>Cererile mele de cod special</div>
+                  <div style={{overflowX:'auto',WebkitOverflowScrolling:'touch'}}>
+                  <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
+                    <thead><tr>{['Cod solicitat','Casino','Data','Status'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                    <tbody>{customRequests.map((r,i)=>(
+                      <tr key={r.id} style={{background:i%2===0?'#fff':'#fafafa'}}>
+                        <td style={{...TD,fontFamily:'monospace',fontWeight:700,color:gold}}>{r.requestedCode}</td>
+                        <td style={TD}>{r.casinoName}</td>
+                        <td style={{...TD,color:txtSub}}>{r.date}</td>
+                        <td style={TD}>
+                          <span style={{padding:'2px 10px',borderRadius:12,fontSize:11,fontWeight:600,
+                            background: r.status==='approved'?'#d1fae5': r.status==='rejected'?'#fee2e2':'#fef9c3',
+                            color: r.status==='approved'?'#065f46': r.status==='rejected'?'#991b1b':'#92400e'}}>
+                            {r.status==='approved'?'✓ Aprobat': r.status==='rejected'?'✗ Respins':'⏳ În așteptare'}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}</tbody>
+                  </table>
+                  </div>
+                </div>
+              )}
+
+              {/* Tabel toate codurile mele */}
+              {myCodes.length > 0 && (
+                <div style={{...card,padding:0,overflow:'hidden'}}>
+                  <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,fontSize:14,fontWeight:700,color:txt}}>Toate codurile mele active</div>
+                  <div style={{overflowX:'auto'}}>
+                    <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
+                      <thead><tr>{[dt.thCasino,dt.thCode,dt.thGenDate,dt.thRegs,dt.thComm].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                      <tbody>{myCodes.map((c,i)=>(
+                        <tr key={c.code} style={{background:i%2===0?'#fff':'#fafafa'}}>
+                          <td style={TD}>
+                            <div style={{display:'flex',alignItems:'center',gap:8}}>
+                              <span style={{width:8,height:8,borderRadius:'50%',background:c.color||gold,display:'inline-block',flexShrink:0}}/>
+                              {c.casinoName}
+                            </div>
+                          </td>
+                          <td style={{...TD,fontFamily:'monospace',fontWeight:800,color:c.color||gold,fontSize:14}}>{c.code}</td>
+                          <td style={{...TD,color:txtSub}}>{c.date}</td>
+                          <td style={TD}>{c.regs}</td>
+                          <td style={{...TD,color:'#10b981',fontWeight:700}}>${c.commission.toFixed(2)}</td>
+                        </tr>
+                      ))}</tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
             </div>
-            )
-          })()}
+          )}
+
+          {page==='contact'&&(
+            <div style={{...card,maxWidth:440}}>
+              {[['Email','support@winpartners.pro'],['Telegram','@winpartners_manager'],['Program','24/7, 365 zile/an']].map(([l,v])=>(
+                <div key={l} style={{display:'flex',justifyContent:'space-between',padding:'10px 0',borderBottom:`1px solid ${bdr}`}}>
+                  <span style={{fontSize:13,color:txtSub,fontWeight:500}}>{l}</span>
+                  <span style={{fontSize:13,color:gold,fontWeight:600}}>{v}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* === SITES === */}
+          {page==='sites'&&(
+            <div style={{...card,padding:0,overflow:'hidden'}}>
+              <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
+                <thead><tr>{['Site web','Status','Data adăugării'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                <tbody>
+                  <tr>
+                    <td style={TD}>winpartners.pro</td>
+                    <td style={TD}><span style={{background:'#d1fae5',color:'#065f46',padding:'2px 10px',borderRadius:12,fontSize:11,fontWeight:600}}>Activ</span></td>
+                    <td style={TD}>2026-06-13</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
 
         </div>
       </div>
@@ -1294,12 +1525,22 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <input style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:6,fontFamily:'monospace',fontSize:12}}
                   placeholder={payMethod.includes('Bitcoin')?'bc1q...':payMethod.includes('TRC20')?'T...':payMethod.includes('Binance')?'ID Binance Pay...':'Adresa sau email'}
                   value={payAddr} onChange={e=>setPayAddr(e.target.value)}/>
-                <div style={{background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:6,padding:'10px 12px',marginBottom:10,fontSize:12,color:txtSub}}>
-                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                    <strong>{({'ro':'Primești integral:','ru':'Получаете полностью:','en':'You receive in full:','tr':'Tam alırsınız:','de':'Sie erhalten vollständig:','pt':'Recebe na totalidade:','pl':'Otrzymujesz w całości:'})[lang]||'Primești integral:'}</strong>
-                    <strong style={{color:'#10b981',fontSize:16}}>${D.bal.available}</strong>
+                <div style={{background:'rgba(245,166,35,0.06)',border:'1px solid rgba(245,166,35,0.15)',borderRadius:6,padding:'8px 12px',marginBottom:10,fontSize:12,color:txtSub}}>
+                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:3}}>
+                    <span>Sumă solicitată:</span>
+                    <strong style={{color:txt}}>${D.bal.available}</strong>
                   </div>
-                  <div style={{fontSize:11,color:txtSub,marginTop:4}}>{({'ro':'Fără comisioane de procesare — primești 100% din sold.','ru':'Без комиссий за обработку — вы получаете 100% баланса.','en':'No processing fees — you receive 100% of your balance.','tr':'İşlem ücreti yok — bakiyenizin %100ünü alırsınız.','de':'Keine Bearbeitungsgebühren — Sie erhalten 100% Ihres Guthabens.','pt':'Sem taxas de processamento — recebe 100% do saldo.','pl':'Bez opłat za przetwarzanie — otrzymujesz 100% salda.'})[lang]||'Fără comisioane de procesare — primești 100% din sold.'}</div>
+                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:3}}>
+                    <span>Taxă procesare (5%):</span>
+                    <span style={{color:'#ef4444'}}>-${(D.bal.available*0.05).toFixed(2)}</span>
+                  </div>
+                  <div style={{display:'flex',justifyContent:'space-between',borderTop:'1px solid rgba(255,255,255,0.08)',paddingTop:4,marginTop:4}}>
+                    <strong>Primești:</strong>
+                    <strong style={{color:'#10b981'}}>${(D.bal.available*0.95).toFixed(2)}</strong>
+                  </div>
+                </div>
+                <div style={{fontSize:10,color:'rgba(255,255,255,0.25)',marginBottom:10}}>
+                  Se aplică o taxă de procesare de 5% pentru acoperirea costurilor de transfer. Detalii în <span style={{color:gold,cursor:'pointer'}} onClick={()=>window.open('/terms','_blank')}>Termeni și Condiții</span>.
                 </div>
                 <div style={{fontSize:11,color:txtSub,marginBottom:10}}>
                   {({'ro':'Verifică adresa cu atenție. Tranzacțiile crypto sunt ireversibile.','ru':'Проверьте адрес тщательно. Крипто-транзакции необратимы.','en':'Check the address carefully. Crypto transactions are irreversible.','tr':'Adresi dikkatlice kontrol edin. Kripto işlemler geri alınamaz.','de':'Adresse sorgfältig prüfen. Krypto-Transaktionen sind unwiderruflich.','pt':'Verifique o endereço com atenção. Transações cripto são irreversíveis.','pl':'Sprawdź adres uważnie. Transakcje krypto są nieodwracalne.'})[lang]||'Verifică adresa cu atenție.'}
@@ -1335,18 +1576,18 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 ⏱ Procesare în 24-48 ore. Vei fi notificat pe email și WhatsApp.
               </div>
               <button
-                onClick={async ()=>{
-                  const exists = customRequests.find(r=>r.casinoId===showCasinoRequest && r.type==='casino_access')
-                  if (!exists) {
-                    await addCustomRequest({
-                      blogger: D.username, bloggerName: D.name,
+                onClick={()=>{
+                  const reqs = loadCustomRequests()
+                  const already = reqs.find(r=>r.blogger===D.username && r.casinoId===showCasinoRequest && r.type==='casino_access')
+                  if (!already) {
+                    saveCustomRequests([...reqs, {
+                      id: Date.now(), blogger: D.username, bloggerName: D.name,
                       casinoId: showCasinoRequest, casinoName: casino?.name,
-                      type: 'casino_access', requestedCode: 'ACCES',
-                      date: new Date().toLocaleDateString('ro-RO')
-                    })
+                      type: 'casino_access', requestedCode: 'ACCES', date: new Date().toLocaleDateString('ro-RO'), status: 'pending'
+                    }])
                   }
                   setShowCasinoRequest(null)
-                  showToast('✅ Cererea a fost trimisă! Te anunțăm în 24-48 ore.')
+                  alert('✅ Cererea a fost trimisă! Vei fi notificat în 24-48 ore.')
                 }}
                 style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6}}>
                 Trimite cererea
@@ -1401,6 +1642,32 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           </div>
         </div>
       )}
+
+      {/* CODE MODAL */}
+      {showCode&&(
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.5)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:200,padding:'1rem'}} onClick={()=>setShowCode(false)}>
+          <div style={{...card,width:'100%',maxWidth:360,boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}} onClick={e=>e.stopPropagation()}>
+            {codeSent?(
+              <div style={{textAlign:'center',padding:'1rem'}}>
+                <div style={{fontSize:40,marginBottom:10}}>✅</div>
+                <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>Cerere trimisă!</h3>
+                <p style={{color:txtSub,fontSize:13,marginBottom:16}}>Codul personalizat va fi activat în 24-48 ore.</p>
+                <button style={btnPrimary} onClick={()=>{setShowCode(false);setCodeSent(false)}}>{({'ro':'Închide','ru':'Закрыть','en':'Close','tr':'Kapat','de':'Schließen','pt':'Fechar','pl':'Zamknij'})[lang]||'Închide'}</button>
+              </div>
+            ):(
+              <>
+                <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>{({'ro':'Cere cod personalizat','ru':'Запросить персональный код','en':'Request custom code','tr':'Özel kod talep et','de':'Benutzerdefinierten Code anfordern','pt':'Solicitar código personalizado','pl':'Poproś o niestandardowy kod'})[lang]||'Cere cod personalizat'}</div>
+                <p style={{color:txtSub,fontSize:13,marginBottom:14}}>{({'ro':'Procesare în 24-48 ore. Discutați cu managerul pentru bonusuri speciale.','ru':'Обработка 24-48 часов. Обсудите с менеджером специальные бонусы.','en':'Processing in 24-48 hours. Discuss special bonuses with your manager.','tr':'24-48 saat içinde işlem. Özel bonuslar için yöneticinizle görüşün.','de':'Bearbeitung in 24-48 Stunden. Besprechen Sie Sonderboni mit Ihrem Manager.','pt':'Processamento em 24-48 horas. Discuta bônus especiais com o seu gestor.','pl':'Przetwarzanie w ciągu 24-48 godzin. Omów specjalne bonusy z menedżerem.'})[lang]||'Procesare în 24-48 ore.'}</p>
+                <label style={label}>Codul dorit (ex: IONEL, VLAD20)</label>
+                <input style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:14,textTransform:'uppercase',fontFamily:'monospace',fontSize:14,fontWeight:700}} placeholder="IONEL" value={codeText} onChange={e=>setCodeText(e.target.value.toUpperCase())}/>
+                <button style={{...btnPrimary,width:'100%',padding:'10px',fontSize:14,borderRadius:6}} onClick={()=>codeText&&setCodeSent(true)}>{({'ro':'Trimite','ru':'Отправить','en':'Send','tr':'Gönder','de':'Senden','pt':'Enviar','pl':'Wyślij'})[lang]||'Trimite'}</button>
+                <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCode(false)}>{({'ro':'Anulează','ru':'Отмена','en':'Cancel','tr':'İptal','de':'Abbrechen','pt':'Cancelar','pl':'Anuluj'})[lang]||'Anulează'}</button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
 
       {/* Footer - like Melbet */}
       <div style={{background:'#1e1e30',borderTop:'1px solid rgba(255,255,255,0.06)',padding:'12px 24px',display:'flex',alignItems:'center',gap:24,flexShrink:0}}>
