@@ -7,6 +7,10 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#060612;color:#e2e8
 a{text-decoration:none;color:inherit}
 button{font-family:inherit;cursor:pointer}
 input,select,textarea{font-family:inherit}
+/* iOS: previne zoom-ul automat Safari la focus pe inputuri (font < 16px) */
+@media (max-width: 768px){
+  input,select,textarea{font-size:16px !important}
+}
 
 /* WinPartners Premium Animations */
 @keyframes wp-float {

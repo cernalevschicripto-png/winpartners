@@ -565,8 +565,11 @@ function DashboardContent({ blogger, onLogout }) {
       )}
 
       {/* TOP HEADER - dark like Melbet */}
-      <div style={{background:bgHeader,height:52,display:'flex',alignItems:'center',padding:'0 1.5rem',gap:12,flexShrink:0,zIndex:10,boxShadow:'0 2px 8px rgba(0,0,0,0.2)'}}>
-        <div style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',marginRight:8}} onClick={()=>nav('/')}>
+      <div style={{background:bgHeader,height:52,display:'flex',alignItems:'center',padding:isMobile?'0 0.75rem':'0 1.5rem',gap:isMobile?8:12,flexShrink:0,zIndex:10,boxShadow:'0 2px 8px rgba(0,0,0,0.2)'}}>
+        {isMobile && (
+          <button onClick={()=>setSidebarOpen(o=>!o)} aria-label="Meniu" style={{background:'none',border:'none',color:'#fff',fontSize:24,cursor:'pointer',padding:0,lineHeight:1,display:'flex',alignItems:'center'}}>☰</button>
+        )}
+        <div style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',marginRight:isMobile?0:8}} onClick={()=>nav('/')}>
           <svg width="22" height="22" viewBox="0 0 22 22">
             <polygon points="11,2 20,6.5 20,15.5 11,20 2,15.5 2,6.5" fill={gold} opacity=".2" stroke={gold} strokeWidth="1.2"/>
             <text x="11" y="15" textAnchor="middle" fontSize="9" fontWeight="900" fill={gold}>W</text>
@@ -574,23 +577,29 @@ function DashboardContent({ blogger, onLogout }) {
           <span style={{fontSize:15,fontWeight:800,color:'#fff'}}><span>WIN</span><span style={{color:gold}}>PARTNERS</span></span>
         </div>
         {/* Badge inline items like Melbet */}
+        {!isMobile && (
         <div style={{display:'flex',alignItems:'center',gap:6,background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:4,padding:'4px 10px'}}>
           <span style={{fontSize:10,color:'rgba(255,255,255,0.4)'}}>Aff ID:</span>
           <span style={{fontSize:12,fontWeight:700,color:gold,fontFamily:'monospace'}}>{D.affId}</span>
         </div>
+        )}
         <div style={{flex:1}}/>
         <div style={{display:'flex',gap:3,marginRight:6}}>
           {['ro','ru','en','tr','de','pt','pl'].map(l=>(
             <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l)}} style={{padding:'2px 5px',fontSize:9,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:3,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.35)'}}>{l.toUpperCase()}</button>
           ))}
         </div>
+        {!isMobile && (
         <button style={{...btnPrimary,fontSize:11,padding:'6px 14px',borderRadius:20}} onClick={()=>showToast('✓ '+{ro:'Statistici actualizate',ru:'Статистика обновлена',en:'Statistics refreshed',tr:'İstatistikler güncellendi',de:'Statistiken aktualisiert',pt:'Estatísticas atualizadas',pl:'Statystyki odświeżone'}[lang]||'Updated')}>↻ {({ro:'Actualizare',ru:'Обновить',en:'Refresh',tr:'Yenile',de:'Aktualisieren',pt:'Atualizar',pl:'Odśwież'})[lang]||'Refresh'}</button>
+        )}
         <div style={{display:'flex',alignItems:'center',gap:8,borderLeft:'1px solid rgba(255,255,255,0.1)',paddingLeft:12}}>
           <div style={{width:28,height:28,borderRadius:'50%',background:`linear-gradient(135deg,${gold},#c97d00)`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:700,color:'#000'}}>{D.name[0]}</div>
+          {!isMobile && (
           <div style={{lineHeight:1.2}}>
             <div style={{fontSize:12,fontWeight:600,color:'#fff'}}>{D.name}</div>
             <div style={{fontSize:10,color:'rgba(255,255,255,0.4)'}}>@{D.username}</div>
           </div>
+          )}
           <button style={{...btnOutline('rgba(255,255,255,0.35)'),color:'rgba(255,255,255,0.6)',fontSize:11,padding:'4px 10px',borderRadius:4}} onClick={()=>{ if(window.confirm('Ești sigur că vrei să ieși?')) { sessionStorage.removeItem('wp_blogger'); onLogout() } }}>Logout</button>
         </div>
       </div>
