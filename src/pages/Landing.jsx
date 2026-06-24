@@ -446,10 +446,10 @@ export default function Landing() {
 
   const casinos = [
     {name:'Melbet',     color:'#f5a623', bg:'rgba(245,166,35,0.12)', icon:'M', rs:'25%', geo:'40+ GEO', since:'2012', badge:'Top Pick'},
-    {name:'1xBet',      color:'#60a5fa', bg:'rgba(96,165,250,0.10)', icon:'1', rs:'25%', geo:'62+ GEO', since:'2007', badge:'Global'},
-    {name:'Mostbet',    color:'#f87171', bg:'rgba(248,113,113,0.10)', icon:'M', rs:'25%', geo:'90+ GEO', since:'2016', badge:'Fast Pay'},
-    {name:'SpinBetter', color:'#a78bfa', bg:'rgba(167,139,250,0.10)', icon:'S', rs:'25%', geo:'100+ GEO', since:'2019', badge:'New'},
-    {name:'BetWinner', color:'#84cc16', bg:'rgba(132,204,22,0.10)', icon:'B', rs:'40%', geo:'CIS, RO, EU', since:'2018', badge:'Casino + Sport'},
+    {name:'1xBet',      color:'#60a5fa', bg:'rgba(96,165,250,0.10)', icon:'1', rs:'40%', geo:'62+ GEO', since:'2007', badge:'Global'},
+    {name:'Mostbet',    color:'#f87171', bg:'rgba(248,113,113,0.10)', icon:'M', rs:'60%', geo:'90+ GEO', since:'2016', badge:'Fast Pay'},
+    {name:'SpinBetter', color:'#a78bfa', bg:'rgba(167,139,250,0.10)', icon:'S', rs:'50%', geo:'100+ GEO', since:'2019', badge:'New'},
+    {name:'BetWinner', color:'#84cc16', bg:'rgba(132,204,22,0.10)', icon:'B', rs:'25%', geo:'CIS, RO, EU', since:'2018', badge:'Casino + Sport'},
   ]
 
   return (
@@ -1034,10 +1034,10 @@ export default function Landing() {
             <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(5,1fr)',gap:10}}>
               {[
                 {name:'Melbet',  color:'#f5a623', rs:'25%', ref:'3%', geo:'40+ GEO', pay:'Marți'},
-                {name:'1xBet',   color:'#60a5fa', rs:'25%', ref:'3%', geo:'62+ GEO', pay:'Marți'},
-                {name:'Mostbet', color:'#f87171', rs:'25%', ref:'3%', geo:'90+ GEO', pay:'Marți'},
-                {name:'SpinBetter',color:'#a78bfa',rs:'25%',ref:'3%',geo:'100+ GEO',pay:'Marți'},
-                {name:'BetWinner', color:'#84cc16', rs:'40%', ref:'3%', geo:'CIS, RO, EU', pay:'Vineri'},
+                {name:'1xBet',   color:'#60a5fa', rs:'40%', ref:'3%', geo:'62+ GEO', pay:'Marți'},
+                {name:'Mostbet', color:'#f87171', rs:'60%', ref:'3%', geo:'90+ GEO', pay:'Marți'},
+                {name:'SpinBetter',color:'#a78bfa',rs:'50%',ref:'3%',geo:'100+ GEO',pay:'Marți'},
+                {name:'BetWinner', color:'#84cc16', rs:'25%', ref:'3%', geo:'CIS, RO, EU', pay:'Vineri'},
               ].map(c=>(
                 <div key={c.name} style={{background:'rgba(255,255,255,0.025)',border:`1px solid ${c.color}25`,borderRadius:10,padding:'0.875rem',textAlign:'center'}}>
                   <div style={{fontSize:13,fontWeight:800,color:c.color,marginBottom:8}}>{c.name}</div>
