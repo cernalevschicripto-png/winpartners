@@ -619,6 +619,7 @@ function DashboardContent({ blogger, onLogout }) {
   const label = {fontSize:11,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4,display:'block',fontWeight:500}
   const filterRow = {display:'flex',alignItems:'center',gap:10,marginBottom:16,flexWrap:'wrap'}
   const pageTitle = {fontSize:20,fontWeight:700,color:txt,marginBottom:'1.5rem'}
+  const L = (o) => o[lang] || o.ro
 
   const tabActive = {padding:'8px 20px',fontSize:13,cursor:'pointer',border:'none',background:gold,color:'#000',fontWeight:700,fontFamily:'inherit',borderRadius:'4px 4px 0 0'}
   const tabInactive = {padding:'8px 20px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderBottom:'none',background:bgCard,color:txtSub,fontWeight:400,fontFamily:'inherit',borderRadius:'4px 4px 0 0'}
@@ -715,9 +716,9 @@ function DashboardContent({ blogger, onLogout }) {
                   </div>
                   <div style={{display:'flex',flexDirection:'column',gap:10}}>
                     {[
-                      {n:'1',t:'Ia-ți codul promoțional Melbet',d:'Deschide secțiunea Melbet → generează codul tău unic',p:'casino',btn:'Generează cod →'},
-                      {n:'2',t:'Promovează pe platforma ta',d:'Include codul în videoclipuri, descrieri și story-uri',p:null,btn:null},
-                      {n:'3',t:'Urmărește câștigurile',d:'Statisticile se actualizează săptămânal de echipa WinPartners',p:null,btn:null},
+                      {n:'1',t:L({ro:'Ia-ți codul promoțional Melbet',ru:'Получи свой промокод Melbet',en:'Get your Melbet promo code',tr:'Melbet promosyon kodunu al',de:'Hol dir deinen Melbet-Promo-Code',pt:'Obtém o teu código promo Melbet',pl:'Odbierz swój kod promo Melbet'}),d:L({ro:'Deschide secțiunea Melbet → generează codul tău unic',ru:'Открой раздел Melbet → сгенерируй свой уникальный код',en:'Open the Melbet section → generate your unique code',tr:'Melbet bölümünü aç → benzersiz kodunu oluştur',de:'Öffne den Melbet-Bereich → generiere deinen einzigartigen Code',pt:'Abre a secção Melbet → gera o teu código único',pl:'Otwórz sekcję Melbet → wygeneruj swój unikalny kod'}),p:'casino',btn:L({ro:'Generează cod →',ru:'Сгенерировать код →',en:'Generate code →',tr:'Kod oluştur →',de:'Code generieren →',pt:'Gerar código →',pl:'Wygeneruj kod →'})},
+                      {n:'2',t:L({ro:'Promovează pe platforma ta',ru:'Продвигай на своей платформе',en:'Promote on your platform',tr:'Kendi platformunda tanıt',de:'Bewirb auf deiner Plattform',pt:'Promove na tua plataforma',pl:'Promuj na swojej platformie'}),d:L({ro:'Include codul în videoclipuri, descrieri și story-uri',ru:'Добавляй код в видео, описания и истории',en:'Include the code in videos, descriptions and stories',tr:'Kodu videolara, açıklamalara ve hikâyelere ekle',de:'Füge den Code in Videos, Beschreibungen und Stories ein',pt:'Inclui o código em vídeos, descrições e stories',pl:'Dodawaj kod do filmów, opisów i relacji'}),p:null,btn:null},
+                      {n:'3',t:L({ro:'Urmărește câștigurile',ru:'Следи за заработком',en:'Track your earnings',tr:'Kazançlarını takip et',de:'Verfolge deine Einnahmen',pt:'Acompanha os teus ganhos',pl:'Śledź swoje zarobki'}),d:L({ro:'Statisticile se actualizează săptămânal de echipa WinPartners',ru:'Статистика обновляется еженедельно командой WinPartners',en:'Stats are updated weekly by the WinPartners team',tr:'İstatistikler WinPartners ekibi tarafından haftalık güncellenir',de:'Statistiken werden wöchentlich vom WinPartners-Team aktualisiert',pt:'As estatísticas são atualizadas semanalmente pela equipa WinPartners',pl:'Statystyki są aktualizowane co tydzień przez zespół WinPartners'}),p:null,btn:null},
                     ].map(s=>(
                       <div key={s.n} style={{display:'flex',alignItems:'flex-start',gap:12,background:'rgba(255,255,255,0.03)',borderRadius:8,padding:'10px 14px'}}>
                         <div style={{minWidth:24,height:24,borderRadius:'50%',background:'#f5a623',color:'#000',fontWeight:800,fontSize:12,display:'flex',alignItems:'center',justifyContent:'center'}}>{s.n}</div>
@@ -863,17 +864,17 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               return (
                 <div style={{display:'flex',gap:14,flexWrap:'wrap',alignItems:'stretch'}}>
                   <div style={{flex:'1 1 320px',minWidth:240,background:bgCard,border:('1.5px solid '+accent+'55'),borderRadius:12,padding:'16px 18px',display:'flex',flexDirection:'column',gap:10}}>
-                    <div style={{fontSize:11,fontWeight:800,color:accent,textTransform:'uppercase',letterSpacing:'.08em'}}>🔗 Link de referință — pune-l în bio, stories, descriere</div>
+                    <div style={{fontSize:11,fontWeight:800,color:accent,textTransform:'uppercase',letterSpacing:'.08em'}}>{L({ro:'🔗 Link de referință — pune-l în bio, stories, descriere',ru:'🔗 Реферальная ссылка — добавь в био, истории, описание',en:'🔗 Referral link — put it in your bio, stories, description',tr:'🔗 Referans bağlantısı — bio, hikâye ve açıklamaya ekle',de:'🔗 Empfehlungslink — in Bio, Stories, Beschreibung',pt:'🔗 Link de indicação — coloque na bio, stories, descrição',pl:'🔗 Link polecający — wstaw w bio, relacjach, opisie'})}</div>
                     <div style={{fontFamily:'monospace',fontSize:13,color:txt,background:bg,border:('1px solid '+bdr),padding:'10px 12px',borderRadius:8,wordBreak:'break-all',lineHeight:1.5}}>{link}</div>
                     <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
-                      <button onClick={()=>copy(link,'cw_link')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>{copied==='cw_link'?'✓ Copiat!':'📋 Copiază linkul'}</button>
+                      <button onClick={()=>copy(link,'cw_link')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>{copied==='cw_link'?L({ro:'✓ Copiat!',ru:'✓ Скопировано!',en:'✓ Copied!',tr:'✓ Kopyalandı!',de:'✓ Kopiert!',pt:'✓ Copiado!',pl:'✓ Skopiowano!'}):L({ro:'📋 Copiază linkul',ru:'📋 Копировать ссылку',en:'📋 Copy link',tr:'📋 Bağlantıyı kopyala',de:'📋 Link kopieren',pt:'📋 Copiar link',pl:'📋 Kopiuj link'})}</button>
                       <a href={link} target="_blank" rel="noreferrer" style={{...btnOutline(accent),padding:'9px 16px',fontSize:13,textDecoration:'none',display:'inline-flex',alignItems:'center'}}>Deschide ↗</a>
                     </div>
-                    <div style={{fontSize:12,color:txtSub,lineHeight:1.5}}>Jucătorul care intră pe acest link rămâne legat de tine — primești comision din pierderile lui pe viață, chiar dacă nu mai postezi.</div>
+                    <div style={{fontSize:12,color:txtSub,lineHeight:1.5}}>{L({ro:'Jucătorul care intră pe acest link rămâne legat de tine — primești comision din pierderile lui pe viață, chiar dacă nu mai postezi.',ru:'Игрок, перешедший по ссылке, навсегда закреплён за тобой — ты получаешь комиссию с его проигрышей пожизненно, даже если перестанешь публиковать.',en:'A player who opens this link stays linked to you — you earn commission from their losses for life, even if you stop posting.',tr:'Bu bağlantıdan giren oyuncu sana bağlı kalır — paylaşımı bıraksan bile kayıplarından ömür boyu komisyon kazanırsın.',de:'Ein Spieler, der diesen Link öffnet, bleibt dir zugeordnet — du verdienst lebenslang Provision aus seinen Verlusten, auch wenn du nicht mehr postest.',pt:'O jogador que abrir este link fica ligado a ti — ganhas comissão das perdas dele para sempre, mesmo que pares de publicar.',pl:'Gracz, który wejdzie w ten link, zostaje przypisany do ciebie — zarabiasz prowizję z jego przegranych dożywotnio, nawet gdy przestaniesz publikować.'})}</div>
                   </div>
                   <div style={{flex:'0 0 auto',background:'#ffffff',border:('1.5px solid '+accent+'55'),borderRadius:12,padding:16,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:8}}>
                     <img src={qr} alt={'Cod QR '+c.name} width={140} height={140} style={{display:'block',borderRadius:6}} />
-                    <div style={{fontSize:10.5,fontWeight:700,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em'}}>Scanează în video</div>
+                    <div style={{fontSize:10.5,fontWeight:700,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em'}}>{L({ro:'Scanează în video',ru:'Сканируй в видео',en:'Scan in your video',tr:'Videoda tarat',de:'Im Video scannen',pt:'Digitaliza no vídeo',pl:'Zeskanuj w wideo'})}</div>
                   </div>
                 </div>
               )
@@ -900,7 +901,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               {/* Notă: cere cazinouri noi (fără parteneriat fals) */}
               <div style={{display:'flex',alignItems:'flex-start',gap:8,background:'#15151e',border:('1px dashed '+bdr),borderRadius:10,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12.5,color:txtSub,lineHeight:1.55}}>
                 <span style={{fontSize:15,flexShrink:0}}>💡</span>
-                <span>Adăugăm constant cazinouri noi. Nu-l vezi pe al tău preferat? Deschide orice cazino marcat <b style={{color:txt}}>„în curând"</b> și apasă <b style={{color:txt}}>„Vreau să lucrez cu..."</b> — îți activăm afilierea cu prioritate.</span>
+                <span>{L({ro:'Adăugăm constant cazinouri noi. Nu-l vezi pe al tău preferat? Deschide orice cazino marcat „în curând" și apasă „Vreau să lucrez cu..." — îți activăm afilierea cu prioritate.',ru:'Мы постоянно добавляем новые казино. Не видишь своё любимое? Открой любое казино с пометкой «скоро» и нажми «Хочу работать с...» — подключим партнёрку в приоритете.',en:'We constantly add new casinos. Do not see your favourite? Open any casino marked „coming soon" and tap „I want to work with..." — we will activate your affiliation as a priority.',tr:'Sürekli yeni kumarhaneler ekliyoruz. Favorini göremiyor musun? „yakında" etiketli bir kumarhaneyi aç ve „... ile çalışmak istiyorum" butonuna bas — ortaklığını öncelikli aktif ederiz.',de:'Wir fügen ständig neue Casinos hinzu. Dein Favorit fehlt? Öffne ein als „bald" markiertes Casino und tippe auf „Ich möchte mit ... arbeiten" — wir aktivieren deine Partnerschaft bevorzugt.',pt:'Adicionamos sempre novos casinos. Não vês o teu favorito? Abre qualquer casino marcado „em breve" e toca em „Quero trabalhar com..." — ativamos a tua afiliação com prioridade.',pl:'Stale dodajemy nowe kasyna. Nie widzisz swojego ulubionego? Otwórz dowolne kasyno oznaczone „wkrótce" i kliknij „Chcę współpracować z..." — aktywujemy współpracę priorytetowo.'})}</span>
               </div>
 
               {/* Header brand cazino */}
@@ -910,14 +911,14 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
                     <div style={{fontSize:22,fontWeight:900,color:txt}}>{c.name}</div>
                     {c.comingSoon
-                      ? <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'rgba(245,166,35,0.16)',color:'#f7cd7a'}}>În curând</span>
-                      : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'rgba(52,211,153,0.16)',color:'#34d399'}}>Activ</span>}
+                      ? <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'rgba(245,166,35,0.16)',color:'#f7cd7a'}}>{L({ro:'În curând',ru:'Скоро',en:'Coming soon',tr:'Yakında',de:'Bald',pt:'Em breve',pl:'Wkrótce'})}</span>
+                      : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'rgba(52,211,153,0.16)',color:'#34d399'}}>{L({ro:'Activ',ru:'Активно',en:'Active',tr:'Aktif',de:'Aktiv',pt:'Ativo',pl:'Aktywne'})}</span>}
                   </div>
                   <div style={{fontSize:13,color:accent,fontWeight:700,marginTop:3}}>{c.commission}</div>
                   <div style={{fontSize:12,color:txtSub,marginTop:4}}>{c.description}</div>
                 </div>
                 <div style={{textAlign:'right',fontSize:12,color:txtSub,lineHeight:1.7}}>
-                  <div>Plată: <b style={{color:txt}}>{c.payFreq}</b></div>
+                  <div>{L({ro:'Plată:',ru:'Выплата:',en:'Payout:',tr:'Ödeme:',de:'Auszahlung:',pt:'Pagamento:',pl:'Wypłata:'})} <b style={{color:txt}}>{L({ro:c.payFreq,ru:c.payFreq==='Săptămânal'?'Еженедельно':'Ежемесячно',en:c.payFreq==='Săptămânal'?'Weekly':'Monthly',tr:c.payFreq==='Săptămânal'?'Haftalık':'Aylık',de:c.payFreq==='Săptămânal'?'Wöchentlich':'Monatlich',pt:c.payFreq==='Săptămânal'?'Semanal':'Mensal',pl:c.payFreq==='Săptămânal'?'Tygodniowo':'Miesięcznie'})}</b></div>
                   <div>Min: <b style={{color:txt}}>{c.minPayout}</b></div>
                   <div>Geo: <b style={{color:txt}}>{c.geo}</b></div>
                 </div>
@@ -926,10 +927,10 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               {/* Statistici cazino */}
               <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:12,marginBottom:'1.5rem'}}>
                 {[
-                  ['Înregistrări', c.stats.regs||0, txt],
-                  ['Depunători', c.stats.deposits||0, '#3b82f6'],
-                  ['Venit generat', '$'+(c.stats.revenue||0).toLocaleString(), '#8b5cf6'],
-                  ['Comisionul meu', '$'+(c.stats.commission||0).toLocaleString(), '#10b981'],
+                  [L({ro:'Înregistrări',ru:'Регистрации',en:'Registrations',tr:'Kayıtlar',de:'Registrierungen',pt:'Registos',pl:'Rejestracje'}), c.stats.regs||0, txt],
+                  [L({ro:'Depunători',ru:'Депозиторы',en:'Depositors',tr:'Para yatıranlar',de:'Einzahler',pt:'Depositantes',pl:'Wpłacający'}), c.stats.deposits||0, '#3b82f6'],
+                  [L({ro:'Venit generat',ru:'Доход',en:'Revenue',tr:'Gelir',de:'Umsatz',pt:'Receita',pl:'Przychód'}), '$'+(c.stats.revenue||0).toLocaleString(), '#8b5cf6'],
+                  [L({ro:'Comisionul meu',ru:'Моя комиссия',en:'My commission',tr:'Komisyonum',de:'Meine Provision',pt:'A minha comissão',pl:'Moja prowizja'}), '$'+(c.stats.commission||0).toLocaleString(), '#10b981'],
                 ].map(([l,v,col])=>(
                   <div key={l} style={{...card,borderBottom:('3px solid '+accent),textAlign:'center',padding:'16px 10px'}}>
                     <div style={{fontSize:isMobile?22:26,fontWeight:900,color:col}}>{v}</div>
@@ -944,15 +945,15 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Vrei să promovezi {c.name}?</div>
                   <div style={{padding:'20px 24px'}}>
                     <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:16}}>
-                      Lucrăm la activarea afilierii cu <b style={{color:txt}}>{c.name}</b>. Trimite o cerere acum — apari pe lista de așteptare și ești printre primii care primesc cod imediat ce afilierea e aprobată. Te anunțăm pe Telegram.
+                      {L({ro:'Lucrăm la activarea afilierii cu '+c.name+'. Trimite o cerere acum — apari pe lista de așteptare și ești printre primii care primesc cod imediat ce afilierea e aprobată. Te anunțăm pe Telegram.',ru:'Мы работаем над подключением партнёрки с '+c.name+'. Отправь заявку сейчас — попадёшь в список ожидания и получишь код одним из первых, как только её одобрят. Сообщим в Telegram.',en:'We are working on activating the '+c.name+' partnership. Send a request now — you will join the waiting list and be among the first to get a code once it is approved. We will notify you on Telegram.',tr:c.name+' ortaklığını aktifleştirmek için çalışıyoruz. Şimdi talep gönder — bekleme listesine girersin ve onaylanır onaylanmaz kod alan ilk kişilerden olursun. Telegram üzerinden haber veririz.',de:'Wir arbeiten an der Aktivierung der '+c.name+'-Partnerschaft. Sende jetzt eine Anfrage — du kommst auf die Warteliste und erhältst als einer der Ersten einen Code, sobald sie freigegeben ist. Wir benachrichtigen dich auf Telegram.',pt:'Estamos a ativar a parceria com a '+c.name+'. Envia um pedido agora — entras na lista de espera e ficas entre os primeiros a receber código assim que for aprovada. Avisamos no Telegram.',pl:'Pracujemy nad uruchomieniem współpracy z '+c.name+'. Wyślij wniosek teraz — trafisz na listę oczekujących i będziesz wśród pierwszych z kodem po zatwierdzeniu. Powiadomimy na Telegramie.'})}
                     </p>
                     {reqSent ? (
                       <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#4ade80',fontWeight:600}}>
-                        ✓ Cerere trimisă{reqSent.date?(' pe '+reqSent.date):''} — ești pe lista de așteptare
+                        ✓ {L({ro:'Cerere trimisă',ru:'Заявка отправлена',en:'Request sent',tr:'Talep gönderildi',de:'Anfrage gesendet',pt:'Pedido enviado',pl:'Wniosek wysłany'})}{reqSent.date?(' · '+reqSent.date):''} — {L({ro:'ești pe lista de așteptare',ru:'ты в списке ожидания',en:'you are on the waiting list',tr:'bekleme listesindesin',de:'du bist auf der Warteliste',pt:'estás na lista de espera',pl:'jesteś na liście oczekujących'})}
                       </div>
                     ) : (
                       <button onClick={()=>setShowCasinoRequest(cid)} style={{...btnPrimary,padding:'12px 26px',fontSize:14,background:accent,borderColor:accent}}>
-                        📩 Vreau să lucrez cu {c.name}
+                        📩 {L({ro:'Vreau să lucrez cu '+c.name,ru:'Хочу работать с '+c.name,en:'I want to work with '+c.name,tr:c.name+' ile çalışmak istiyorum',de:'Ich möchte mit '+c.name+' arbeiten',pt:'Quero trabalhar com '+c.name,pl:'Chcę współpracować z '+c.name})}
                       </button>
                     )}
                   </div>
@@ -960,15 +961,15 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               ) : myCode ? (
                 /* Are cod — afișează cod + link */
                 <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
-                  <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Codul tău {c.name}</div>
+                  <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>{L({ro:'Codul tău '+c.name,ru:'Твой код '+c.name,en:'Your '+c.name+' code',tr:c.name+' kodun',de:'Dein '+c.name+'-Code',pt:'O teu código '+c.name,pl:'Twój kod '+c.name})}</div>
                   <div style={{padding:'20px 24px'}}>
                     <div style={{background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
-                      <div style={{fontSize:11,color:'#34d399',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Cod promoțional — spune-l în video</div>
+                      <div style={{fontSize:11,color:'#34d399',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>{L({ro:'🎟 Cod promoțional — spune-l în video',ru:'🎟 Промокод — назови его в видео',en:'🎟 Promo code — say it in your video',tr:'🎟 Promosyon kodu — videoda söyle',de:'🎟 Promo-Code — nenne ihn im Video',pt:'🎟 Código promo — diz no vídeo',pl:'🎟 Kod promocyjny — podaj go w wideo'})}</div>
                       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
                         <div style={{fontSize:30,fontWeight:900,color:'#4ade80',fontFamily:'monospace',letterSpacing:3}}>{myCode.code}</div>
-                        <button onClick={()=>copy(myCode.code,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază'}</button>
+                        <button onClick={()=>copy(myCode.code,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?L({ro:'✓ Copiat!',ru:'✓ Скопировано!',en:'✓ Copied!',tr:'✓ Kopyalandı!',de:'✓ Kopiert!',pt:'✓ Copiado!',pl:'✓ Skopiowano!'}):L({ro:'📋 Copiază',ru:'📋 Копировать',en:'📋 Copy',tr:'📋 Kopyala',de:'📋 Kopieren',pt:'📋 Copiar',pl:'📋 Kopiuj'})}</button>
                       </div>
-                      <div style={{fontSize:12,color:'#34d399',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
+                      <div style={{fontSize:12,color:'#34d399',marginTop:6}}>{L({ro:'Jucătorul îl introduce la înregistrare pe '+c.name+' → tu primești '+c.commissionPct+'% din pierderile lui.',ru:'Игрок вводит его при регистрации на '+c.name+' → ты получаешь '+c.commissionPct+'% с его проигрышей.',en:'The player enters it when signing up on '+c.name+' → you get '+c.commissionPct+'% of their losses.',tr:'Oyuncu '+c.name+' kaydında girer → kayıplarının %'+c.commissionPct+'\'ini alırsın.',de:'Der Spieler gibt ihn bei der Anmeldung auf '+c.name+' ein → du erhältst '+c.commissionPct+'% seiner Verluste.',pt:'O jogador insere-o ao registar-se na '+c.name+' → recebes '+c.commissionPct+'% das perdas dele.',pl:'Gracz wpisuje go przy rejestracji na '+c.name+' → dostajesz '+c.commissionPct+'% jego przegranych.'})}</div>
                     </div>
                     <div style={{marginBottom:14}}>{renderTools(myCode.code)}</div>
                     <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(accent),padding:'9px 20px',fontSize:13}}>✨ Vreau cod personalizat cu numele meu</button>
@@ -977,27 +978,27 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               ) : gen ? (
                 gen.error ? (
                   <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
-                    <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Rezerva de coduri {c.name} s-a epuizat</div>
+                    <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>{L({ro:'Rezerva de coduri '+c.name+' s-a epuizat',ru:'Запас кодов '+c.name+' закончился',en:'The '+c.name+' code reserve is empty',tr:c.name+' kod rezervi tükendi',de:'Der '+c.name+'-Code-Vorrat ist leer',pt:'A reserva de códigos '+c.name+' esgotou',pl:'Zapas kodów '+c.name+' się skończył'})}</div>
                     <div style={{padding:'20px 24px'}}>
-                      <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:16}}>Toate codurile {c.name} sunt momentan alocate. Trimite o cerere și primești un cod nou imediat ce reumplem rezerva. Te anunțăm pe Telegram.</p>
+                      <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:16}}>{L({ro:'Toate codurile '+c.name+' sunt momentan alocate. Trimite o cerere și primești un cod nou imediat ce reumplem rezerva. Te anunțăm pe Telegram.',ru:'Все коды '+c.name+' сейчас распределены. Отправь заявку — получишь новый код, как только пополним запас. Сообщим в Telegram.',en:'All '+c.name+' codes are currently assigned. Send a request and you will get a new code as soon as we refill the reserve. We will notify you on Telegram.',tr:'Tüm '+c.name+' kodları şu an dağıtıldı. Talep gönder, rezervi yeniler yenilemez yeni kod alırsın. Telegram üzerinden haber veririz.',de:'Alle '+c.name+'-Codes sind derzeit vergeben. Sende eine Anfrage und du erhältst einen neuen Code, sobald wir den Vorrat auffüllen. Wir benachrichtigen dich auf Telegram.',pt:'Todos os códigos '+c.name+' estão atribuídos. Envia um pedido e recebes um novo código assim que repusermos a reserva. Avisamos-te no Telegram.',pl:'Wszystkie kody '+c.name+' są obecnie przydzielone. Wyślij wniosek, a otrzymasz nowy kod, gdy tylko uzupełnimy zapas. Powiadomimy cię na Telegramie.'})}</p>
                       {codeReqSent ? (
-                        <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#4ade80',fontWeight:600}}>✓ Cerere trimisă{codeReqSent.date?(' pe '+codeReqSent.date):''} — ești pe listă</div>
+                        <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#4ade80',fontWeight:600}}>✓ {L({ro:'Cerere trimisă',ru:'Заявка отправлена',en:'Request sent',tr:'Talep gönderildi',de:'Anfrage gesendet',pt:'Pedido enviado',pl:'Wniosek wysłany'})}{codeReqSent.date?(' · '+codeReqSent.date):''} — {L({ro:'ești pe listă',ru:'ты в списке',en:'you are on the list',tr:'listedesin',de:'du bist auf der Liste',pt:'estás na lista',pl:'jesteś na liście'})}</div>
                       ) : (
-                        <button onClick={()=>requestNewCode(cid, c.name)} style={{...btnPrimary,padding:'12px 26px',fontSize:14,background:accent,borderColor:accent}}>📩 Solicită un cod {c.name}</button>
+                        <button onClick={()=>requestNewCode(cid, c.name)} style={{...btnPrimary,padding:'12px 26px',fontSize:14,background:accent,borderColor:accent}}>📩 {L({ro:'Solicită un cod '+c.name,ru:'Запросить код '+c.name,en:'Request a '+c.name+' code',tr:c.name+' kodu iste',de:'Einen '+c.name+'-Code anfordern',pt:'Pedir um código '+c.name,pl:'Poproś o kod '+c.name})}</button>
                       )}
                     </div>
                   </div>
                 ) : (
                   <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
-                    <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Codul tău {c.name}</div>
+                    <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>{L({ro:'Codul tău '+c.name,ru:'Твой код '+c.name,en:'Your '+c.name+' code',tr:c.name+' kodun',de:'Dein '+c.name+'-Code',pt:'O teu código '+c.name,pl:'Twój kod '+c.name})}</div>
                     <div style={{padding:'20px 24px'}}>
                       <div style={{background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'16px 20px',marginBottom:14}}>
-                        <div style={{fontSize:11,color:'#34d399',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Cod promoțional — spune-l în video</div>
+                        <div style={{fontSize:11,color:'#34d399',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>{L({ro:'🎟 Cod promoțional — spune-l în video',ru:'🎟 Промокод — назови его в видео',en:'🎟 Promo code — say it in your video',tr:'🎟 Promosyon kodu — videoda söyle',de:'🎟 Promo-Code — nenne ihn im Video',pt:'🎟 Código promo — diz no vídeo',pl:'🎟 Kod promocyjny — podaj go w wideo'})}</div>
                         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
                           <div style={{fontSize:30,fontWeight:900,color:'#4ade80',fontFamily:'monospace',letterSpacing:3}}>{gen.code}</div>
-                          <button onClick={()=>copy(gen.code,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază'}</button>
+                          <button onClick={()=>copy(gen.code,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?L({ro:'✓ Copiat!',ru:'✓ Скопировано!',en:'✓ Copied!',tr:'✓ Kopyalandı!',de:'✓ Kopiert!',pt:'✓ Copiado!',pl:'✓ Skopiowano!'}):L({ro:'📋 Copiază',ru:'📋 Копировать',en:'📋 Copy',tr:'📋 Kopyala',de:'📋 Kopieren',pt:'📋 Copiar',pl:'📋 Kopiuj'})}</button>
                         </div>
-                        <div style={{fontSize:12,color:'#34d399',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
+                        <div style={{fontSize:12,color:'#34d399',marginTop:6}}>{L({ro:'Jucătorul îl introduce la înregistrare pe '+c.name+' → tu primești '+c.commissionPct+'% din pierderile lui.',ru:'Игрок вводит его при регистрации на '+c.name+' → ты получаешь '+c.commissionPct+'% с его проигрышей.',en:'The player enters it when signing up on '+c.name+' → you get '+c.commissionPct+'% of their losses.',tr:'Oyuncu '+c.name+' kaydında girer → kayıplarının %'+c.commissionPct+'\'ini alırsın.',de:'Der Spieler gibt ihn bei der Anmeldung auf '+c.name+' ein → du erhältst '+c.commissionPct+'% seiner Verluste.',pt:'O jogador insere-o ao registar-se na '+c.name+' → recebes '+c.commissionPct+'% das perdas dele.',pl:'Gracz wpisuje go przy rejestracji na '+c.name+' → dostajesz '+c.commissionPct+'% jego przegranych.'})}</div>
                       </div>
                       {renderTools(gen.code)}
                     </div>
@@ -1008,16 +1009,16 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
                   <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Cerere de cod {c.name} în curs</div>
                   <div style={{padding:'20px 24px'}}>
-                    <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#4ade80',fontWeight:600}}>✓ Cerere trimisă{codeReqSent.date?(' pe '+codeReqSent.date):''} — primești cod imediat ce reumplem rezerva. Te anunțăm pe Telegram.</div>
+                    <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#4ade80',fontWeight:600}}>✓ {L({ro:'Cerere trimisă',ru:'Заявка отправлена',en:'Request sent',tr:'Talep gönderildi',de:'Anfrage gesendet',pt:'Pedido enviado',pl:'Wniosek wysłany'})}{codeReqSent.date?(' · '+codeReqSent.date):''} — {L({ro:'primești cod imediat ce reumplem rezerva. Te anunțăm pe Telegram.',ru:'получишь код, как только пополним запас. Сообщим в Telegram.',en:'you will get a code as soon as we refill the reserve. We will notify you on Telegram.',tr:'rezervi yeniler yenilemez kod alırsın. Telegram üzerinden haber veririz.',de:'du erhältst einen Code, sobald wir den Vorrat auffüllen. Wir benachrichtigen dich auf Telegram.',pt:'recebes um código assim que repusermos a reserva. Avisamos no Telegram.',pl:'otrzymasz kod, gdy tylko uzupełnimy zapas. Powiadomimy na Telegramie.'})}</div>
                   </div>
                 </div>
               ) : (
                 /* Activ fără cod — generează */
                 <div style={{...card,padding:'24px',marginBottom:'1.5rem'}}>
-                  <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:8}}>Generează-ți codul {c.name}</div>
-                  <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>Codul va fi asociat contului <b>@{D.username}</b> și câștigi <b style={{color:accent}}>{c.commissionPct}%</b> din pierderile jucătorilor care îl folosesc.</p>
+                  <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:8}}>{L({ro:'Generează-ți codul '+c.name,ru:'Сгенерируй свой код '+c.name,en:'Generate your '+c.name+' code',tr:c.name+' kodunu oluştur',de:'Generiere deinen '+c.name+'-Code',pt:'Gera o teu código '+c.name,pl:'Wygeneruj swój kod '+c.name})}</div>
+                  <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>{L({ro:'Codul va fi asociat contului @'+D.username+' și câștigi '+c.commissionPct+'% din pierderile jucătorilor care îl folosesc.',ru:'Код будет привязан к аккаунту @'+D.username+', и ты получаешь '+c.commissionPct+'% с проигрышей игроков, которые его используют.',en:'The code will be linked to @'+D.username+' and you earn '+c.commissionPct+'% of the losses of players who use it.',tr:'Kod @'+D.username+' hesabına bağlanır ve onu kullanan oyuncuların kayıplarından %'+c.commissionPct+' kazanırsın.',de:'Der Code wird mit @'+D.username+' verknüpft und du verdienst '+c.commissionPct+'% der Verluste der Spieler, die ihn nutzen.',pt:'O código fica associado a @'+D.username+' e ganhas '+c.commissionPct+'% das perdas dos jogadores que o usam.',pl:'Kod zostanie powiązany z @'+D.username+' i zarabiasz '+c.commissionPct+'% przegranych graczy, którzy go użyją.'})}</p>
                   <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
-                    <button onClick={()=>generatePromoCode(cid)} disabled={codeGenerating} style={{...btnPrimary,padding:'12px 28px',fontSize:14,background:accent,borderColor:accent,opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>{codeGenerating?'⏳ Se atribuie...':'🎁 Generează Cod Promoțional'}</button>
+                    <button onClick={()=>generatePromoCode(cid)} disabled={codeGenerating} style={{...btnPrimary,padding:'12px 28px',fontSize:14,background:accent,borderColor:accent,opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>{codeGenerating?L({ro:'⏳ Se atribuie...',ru:'⏳ Назначается...',en:'⏳ Assigning...',tr:'⏳ Atanıyor...',de:'⏳ Wird zugewiesen...',pt:'⏳ A atribuir...',pl:'⏳ Przydzielanie...'}):L({ro:'🎁 Generează Cod Promoțional',ru:'🎁 Сгенерировать промокод',en:'🎁 Generate Promo Code',tr:'🎁 Promosyon Kodu Oluştur',de:'🎁 Promo-Code generieren',pt:'🎁 Gerar Código Promo',pl:'🎁 Wygeneruj kod promo'})}</button>
                     <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(accent),padding:'12px 20px',fontSize:13}}>✨ Cod personalizat</button>
                   </div>
                 </div>
@@ -1026,10 +1027,10 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               {/* Cum promovezi — doar pentru active cu cod */}
               {!c.comingSoon && theCode && (
                 <div style={{background:'rgba(245,166,35,0.08)',border:'1px solid rgba(245,166,35,0.28)',borderRadius:8,padding:'14px 18px',fontSize:12.5,color:'#e8c074',lineHeight:1.8}}>
-                  <strong>💡 Cum promovezi {c.name}:</strong><br/>
-                  • <strong>Bio TikTok/Instagram:</strong> pune linkul/codul → „Înregistrează-te pe {c.name}"<br/>
-                  • <strong>În video/stories:</strong> „Folosiți codul <strong>{theCode}</strong> la înregistrare"<br/>
-                  • <strong>Descriere YouTube:</strong> link + cod în descriere
+                  <strong>💡 {L({ro:'Cum promovezi '+c.name,ru:'Как продвигать '+c.name,en:'How to promote '+c.name,tr:c.name+' nasıl tanıtılır',de:'So bewirbst du '+c.name,pt:'Como promover '+c.name,pl:'Jak promować '+c.name})}:</strong><br/>
+                  {L({ro:'• Bio TikTok/Instagram: pune linkul/codul → „Înregistrează-te pe '+c.name+'"',ru:'• Био TikTok/Instagram: вставь ссылку/код → «Зарегистрируйся на '+c.name+'»',en:'• TikTok/Instagram bio: put the link/code → „Sign up on '+c.name+'"',tr:'• TikTok/Instagram bio: linki/kodu koy → „'+c.name+' kayıt ol"',de:'• TikTok/Instagram-Bio: Link/Code einfügen → „Registriere dich bei '+c.name+'"',pt:'• Bio TikTok/Instagram: coloca o link/código → „Regista-te na '+c.name+'"',pl:'• Bio TikTok/Instagram: wstaw link/kod → „Zarejestruj się w '+c.name+'"'})}<br/>
+                  {L({ro:'• În video/stories: „Folosiți codul '+(theCode||'')+' la înregistrare"',ru:'• В видео/историях: «Используйте код '+(theCode||'')+' при регистрации»',en:'• In video/stories: „Use code '+(theCode||'')+' at sign-up"',tr:'• Videoda/hikayede: „Kayıtta '+(theCode||'')+' kodunu kullanın"',de:'• In Video/Stories: „Nutze den Code '+(theCode||'')+' bei der Anmeldung"',pt:'• Em vídeo/stories: „Usem o código '+(theCode||'')+' no registo"',pl:'• W wideo/relacjach: „Użyj kodu '+(theCode||'')+' przy rejestracji"'})}<br/>
+                  {L({ro:'• Descriere YouTube: link + cod în descriere',ru:'• Описание YouTube: ссылка + код в описании',en:'• YouTube description: link + code in the description',tr:'• YouTube açıklaması: açıklamada link + kod',de:'• YouTube-Beschreibung: Link + Code in der Beschreibung',pt:'• Descrição YouTube: link + código na descrição',pl:'• Opis YouTube: link + kod w opisie'})}
                 </div>
               )}
             </div>
@@ -1041,17 +1042,17 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             <div>
               {/* Explicatie structura comision */}
               <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.03))',border:'1px solid rgba(245,166,35,0.3)',borderRadius:10,padding:'16px 20px',marginBottom:'1.25rem'}}>
-                <div style={{fontSize:14,fontWeight:700,color:gold,marginBottom:8}}>📋 Structura ta de comision: RS25% + REF3%</div>
+                <div style={{fontSize:14,fontWeight:700,color:gold,marginBottom:8}}>📋 {L({ro:'Structura ta de comision: RS25% + REF3%',ru:'Твоя структура комиссий: RS25% + REF3%',en:'Your commission structure: RS25% + REF3%',tr:'Komisyon yapın: RS25% + REF3%',de:'Deine Provisionsstruktur: RS25% + REF3%',pt:'A tua estrutura de comissões: RS25% + REF3%',pl:'Twoja struktura prowizji: RS25% + REF3%'})}</div>
                 <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12}}>
                   <div style={{fontSize:12,color:txtSub,lineHeight:1.7}}>
-                    <b style={{color:txt}}>Revenue Share 25%</b> — primești 25% din pierderile nete ale jucătorilor recomandați de tine, pe toată durata activității lor pe platforma Melbet.
+                    <b style={{color:txt}}>Revenue Share 25%</b> {L({ro:'— primești 25% din pierderile nete ale jucătorilor recomandați de tine, pe toată durata activității lor pe platforma Melbet.',ru:'— получаешь 25% от чистых проигрышей приведённых тобой игроков, пока они активны на Melbet.',en:'— you get 25% of the net losses of the players you refer, for as long as they stay active on Melbet.',tr:'— yönlendirdiğin oyuncuların net kayıplarının %25 ini, Melbet te aktif oldukları sürece alırsın.',de:'— du erhältst 25% der Nettoverluste der von dir geworbenen Spieler, solange sie auf Melbet aktiv sind.',pt:'— recebes 25% das perdas líquidas dos jogadores que indicares, enquanto estiverem ativos na Melbet.',pl:'— otrzymujesz 25% strat netto poleconych graczy, dopóki są aktywni na Melbet.'})}
                   </div>
                   <div style={{fontSize:12,color:txtSub,lineHeight:1.7}}>
-                    <b style={{color:'#10b981'}}>Referral 3%</b> — dacă inviți un alt blogger în WinPartners, primești 3% din comisionul lui lunar, pe viață. Copiază linkul de referral din tab-ul "Link-uri Afiliați".
+                    <b style={{color:'#10b981'}}>Referral 3%</b> {L({ro:'— dacă inviți un alt blogger în WinPartners, primești 3% din comisionul lui lunar, pe viață. Copiază linkul de referral din tab-ul Link-uri Afiliați.',ru:'— если приглашаешь другого блогера в WinPartners, получаешь 3% с его месячной комиссии, пожизненно. Скопируй реферальную ссылку во вкладке Партнёрские ссылки.',en:'— if you invite another blogger to WinPartners, you get 3% of their monthly commission, for life. Copy your referral link from the Affiliate Links tab.',tr:'— WinPartners e başka bir blogcu davet edersen, onun aylık komisyonunun %3 ünü ömür boyu alırsın. Referans bağlantını Ortaklık Bağlantıları sekmesinden kopyala.',de:'— wenn du einen anderen Blogger zu WinPartners einlädst, erhältst du 3% seiner monatlichen Provision, lebenslang. Kopiere deinen Empfehlungslink im Tab Affiliate-Links.',pt:'— se convidares outro blogger para a WinPartners, recebes 3% da comissão mensal dele, para sempre. Copia o teu link de indicação no separador Links de Afiliado.',pl:'— jeśli zaprosisz innego blogera do WinPartners, otrzymasz 3% jego miesięcznej prowizji, dożywotnio. Skopiuj link polecający w zakładce Linki Afiliacyjne.'})}
                   </div>
                 </div>
               </div>
-              <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12,padding:'6px 12px'}}><option>6 articole selectate ▼</option></select></div>
+              <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12,padding:'6px 12px'}}><option>{L({ro:'6 articole selectate ▼',ru:'Выбрано 6 элементов ▼',en:'6 items selected ▼',tr:'6 öğe seçildi ▼',de:'6 Einträge ausgewählt ▼',pt:'6 itens selecionados ▼',pl:'Wybrano 6 elementów ▼'})}</option></select></div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
                 <div style={{overflowX:'auto'}}>
                   <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
@@ -1082,13 +1083,13 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <div style={{fontSize:24,flexShrink:0}}>💰</div>
                   <div>
                     <div style={{fontSize:13,fontWeight:700,color:'#10b981',marginBottom:4}}>{dt.commLabel}</div>
-                    <div style={{fontSize:12,color:txtSub,lineHeight:1.6}}>Primești <b style={{color:txt}}>25%</b> din pierderile jucătorilor tăi + <b style={{color:'#10b981'}}>3% bonus</b> din câștigurile oricărui blogger pe care îl inviți tu în program — pe viață.</div>
+                    <div style={{fontSize:12,color:txtSub,lineHeight:1.6}}>{L({ro:'Primești 25% din pierderile jucătorilor tăi + 3% bonus din câștigurile oricărui blogger pe care îl inviți tu în program — pe viață.',ru:'Получаешь 25% с проигрышей твоих игроков + 3% бонус с доходов любого блогера, которого ты пригласишь в программу — пожизненно.',en:'You get 25% of your players losses + a 3% bonus from the earnings of any blogger you invite to the program — for life.',tr:'Oyuncularının kayıplarının %25 i + programa davet ettiğin her blogcunun kazancından %3 bonus — ömür boyu.',de:'Du erhältst 25% der Verluste deiner Spieler + 3% Bonus aus den Einnahmen jedes Bloggers, den du ins Programm einlädst — lebenslang.',pt:'Recebes 25% das perdas dos teus jogadores + 3% de bónus dos ganhos de qualquer blogger que convidares para o programa — para sempre.',pl:'Otrzymujesz 25% strat swoich graczy + 3% bonusu z zarobków każdego blogera, którego zaprosisz do programu — dożywotnio.'})}</div>
                   </div>
                 </div>
                 <div style={{background:'linear-gradient(135deg,rgba(167,139,250,0.12),rgba(167,139,250,0.04))',border:'1px solid rgba(167,139,250,0.3)',borderRadius:10,padding:'14px 18px',display:'flex',gap:12,alignItems:'flex-start'}}>
                   <div style={{fontSize:24,flexShrink:0}}>📅</div>
                   <div>
-                    <div style={{fontSize:13,fontWeight:700,color:'#a78bfa',marginBottom:4}}>Plăți săptămânale automate</div>
+                    <div style={{fontSize:13,fontWeight:700,color:'#a78bfa',marginBottom:4}}>{L({ro:'Plăți săptămânale automate',ru:'Автоматические еженедельные выплаты',en:'Automatic weekly payouts',tr:'Otomatik haftalık ödemeler',de:'Automatische wöchentliche Auszahlungen',pt:'Pagamentos semanais automáticos',pl:'Automatyczne cotygodniowe wypłaty'})}</div>
                     <div style={{fontSize:12,color:txtSub,lineHeight:1.6}}>{({'ro':'Suma minimă de retragere: ','ru':'Минимальная сумма вывода: ','en':'Minimum withdrawal: ','tr':'Minimum çekim: ','de':'Mindestauszahlung: ','pt':'Levantamento mínimo: ','pl':'Minimalna wypłata: '})[lang]}<b style={{color:txt}}>$30/{({'ro':'săptămână','ru':'неделю','en':'week','tr':'hafta','de':'Woche','pt':'semana','pl':'tydzień'})[lang]}</b></div>
                   </div>
                 </div>
@@ -1108,7 +1109,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 ))}
                 <div style={{flex:1}}/>
               </div>
-              <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>6 articole selectate ▼</option></select></div>
+              <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>{L({ro:'6 articole selectate ▼',ru:'Выбрано 6 элементов ▼',en:'6 items selected ▼',tr:'6 öğe seçildi ▼',de:'6 Einträge ausgewählt ▼',pt:'6 itens selecionados ▼',pl:'Wybrano 6 elementów ▼'})}</option></select></div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:500}}>
                   <thead><tr>{[dt.thCur+' ↕',dt.thDate+' ↕',dt.thPay+' ↕',dt.thRev+' ↕',dt.thBal+' ↕',dt.thStatus+' ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
@@ -1262,8 +1263,8 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span><select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>Site web</span><select style={{...inp,width:150}}><option>Toate</option></select>
-                <span style={{fontSize:13,color:txtSub}}>Jucător</span><input style={{...inp,width:120}} placeholder="ID jucător"/>
-                <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
+                <span style={{fontSize:13,color:txtSub}}>{L({ro:'Jucător',ru:'Игрок',en:'Player',tr:'Oyuncu',de:'Spieler',pt:'Jogador',pl:'Gracz'})}</span><input style={{...inp,width:120}} placeholder={L({ro:'ID jucător',ru:'ID игрока',en:'Player ID',tr:'Oyuncu ID',de:'Spieler-ID',pt:'ID do jogador',pl:'ID gracza'})}/>
+                <span style={{fontSize:13,color:txtSub}}>{L({ro:'Perioada',ru:'Период',en:'Period',tr:'Dönem',de:'Zeitraum',pt:'Período',pl:'Okres'})}</span><select style={inp}><option>{L({ro:'1 lună',ru:'1 месяц',en:'1 month',tr:'1 ay',de:'1 Monat',pt:'1 mês',pl:'1 miesiąc'})}</option></select>
               </div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
@@ -1278,12 +1279,12 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           {page==='subaff'&&(
             <div>
               <div style={{background:'#10231a',border:'1px solid #bbf7d0',borderRadius:8,padding:'14px 16px',marginBottom:'1.25rem'}}>
-                <div style={{fontSize:13,fontWeight:600,color:'#065f46',marginBottom:5}}>💰 Câștigă 3% din comisioanele bloggerilor pe care îi inviți — pe viață!</div>
+                <div style={{fontSize:13,fontWeight:600,color:'#065f46',marginBottom:5}}>💰 {L({ro:'Câștigă 3% din comisioanele bloggerilor pe care îi inviți — pe viață!',ru:'Зарабатывай 3% с комиссий приглашённых блогеров — пожизненно!',en:'Earn 3% of the commissions of bloggers you invite — for life!',tr:'Davet ettiğin blogcuların komisyonlarının %3 kazan — ömür boyu!',de:'Verdiene 3% der Provisionen der von dir eingeladenen Blogger — lebenslang!',pt:'Ganha 3% das comissões dos bloggers que convidares — para sempre!',pl:'Zarabiaj 3% z prowizji zaproszonych blogerów — dożywotnio!'})}</div>
                 <div style={{fontFamily:'monospace',fontSize:12,color:'#047857',background:'rgba(0,0,0,0.04)',padding:'6px 10px',borderRadius:4,marginBottom:8,wordBreak:'break-all'}}>{refLink}</div>
-                <button style={btnPrimary} onClick={()=>copy(refLink,'ref')}>{copied==='ref'?'✓ Copiat!':'Copiează linkul de referral'}</button>
+                <button style={btnPrimary} onClick={()=>copy(refLink,'ref')}>{copied==='ref'?L({ro:'✓ Copiat!',ru:'✓ Скопировано!',en:'✓ Copied!',tr:'✓ Kopyalandı!',de:'✓ Kopiert!',pt:'✓ Copiado!',pl:'✓ Skopiowano!'}):L({ro:'Copiează linkul de referral',ru:'Копировать реферальную ссылку',en:'Copy referral link',tr:'Referans bağlantısını kopyala',de:'Empfehlungslink kopieren',pt:'Copiar link de indicação',pl:'Kopiuj link polecający'})}</button>
               </div>
               <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:12,marginBottom:'1.25rem'}}>
-                {[['Bloggeri invitați',myReferrals.length,'#3b82f6'],['Total câștigat','$'+myReferrals.reduce((s,r)=>s+(r.cm||0),0).toFixed(2),'#10b981'],['Comision referral','3%',gold]].map(([l,v,c])=>(
+                {[[L({ro:'Bloggeri invitați',ru:'Приглашённые блогеры',en:'Invited bloggers',tr:'Davet edilen blogcular',de:'Eingeladene Blogger',pt:'Bloggers convidados',pl:'Zaproszeni blogerzy'}),myReferrals.length,'#3b82f6'],[L({ro:'Total câștigat',ru:'Всего заработано',en:'Total earned',tr:'Toplam kazanç',de:'Gesamt verdient',pt:'Total ganho',pl:'Łącznie zarobiono'}),'$'+myReferrals.reduce((s,r)=>s+(r.cm||0),0).toFixed(2),'#10b981'],[L({ro:'Comision referral',ru:'Реферальная комиссия',en:'Referral commission',tr:'Referans komisyonu',de:'Empfehlungsprovision',pt:'Comissão de indicação',pl:'Prowizja polecająca'}),'3%',gold]].map(([l,v,c])=>(
                   <div key={l} style={{...card,textAlign:'center'}}>
                     <div style={{fontSize:11,color:txtSub,textTransform:'uppercase',letterSpacing:'.07em',marginBottom:5}}>{l}</div>
                     <div style={{fontSize:24,fontWeight:800,color:c}}>{v}</div>
@@ -1292,14 +1293,14 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               </div>
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span><select style={inp}><option>USD</option></select>
-                <span style={{fontSize:13,color:txtSub}}>Perioada</span><select style={inp}><option>1 lună</option></select>
+                <span style={{fontSize:13,color:txtSub}}>{L({ro:'Perioada',ru:'Период',en:'Period',tr:'Dönem',de:'Zeitraum',pt:'Período',pl:'Okres'})}</span><select style={inp}><option>{L({ro:'1 lună',ru:'1 месяц',en:'1 month',tr:'1 ay',de:'1 Monat',pt:'1 mês',pl:'1 miesiąc'})}</option></select>
               </div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                   <thead><tr>{[dt.thBlogger,dt.thPlatform,dt.thRegDate,dt.thRegsBrought,dt.thHisEarnings,dt.thMyComm].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>{myReferrals.length===0?(
                     <tr><td colSpan={6} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>
-                      Niciun blogger invitat încă. Copiază linkul de referral și trimite-l colegilor tăi bloggeri!
+                      {L({ro:'Niciun blogger invitat încă. Copiază linkul de referral și trimite-l colegilor tăi bloggeri!',ru:'Пока нет приглашённых блогеров. Скопируй реферальную ссылку и отправь её коллегам-блогерам!',en:'No invited bloggers yet. Copy your referral link and send it to your fellow bloggers!',tr:'Henüz davet edilen blogcu yok. Referans bağlantını kopyala ve blogcu arkadaşlarına gönder!',de:'Noch keine eingeladenen Blogger. Kopiere deinen Empfehlungslink und sende ihn an deine Blogger-Kollegen!',pt:'Ainda sem bloggers convidados. Copia o teu link de indicação e envia aos teus colegas bloggers!',pl:'Brak zaproszonych blogerów. Skopiuj link polecający i wyślij go znajomym blogerom!'})}
                     </td></tr>
                   ):myReferrals.map((r,i)=>(
                     <tr key={r.name} style={{background:i%2===0?'#fff':'#fafafa'}}>
@@ -1378,7 +1379,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             {paySent?(
               <div style={{textAlign:'center',padding:'1rem'}}>
                 <div style={{fontSize:40,marginBottom:10}}>✅</div>
-                <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>Cerere trimisă!</h3>
+                <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>{L({ro:'Cerere trimisă!',ru:'Заявка отправлена!',en:'Request sent!',tr:'Talep gönderildi!',de:'Anfrage gesendet!',pt:'Pedido enviado!',pl:'Wniosek wysłany!'})}</h3>
                 <p style={{color:txtSub,fontSize:13,marginBottom:8,lineHeight:1.6}}>
                   Cererea ta de plată a fost înregistrată. Suma va fi procesată în <strong>48 ore</strong> pe adresa ta {payMethod}.
                 </p>
@@ -1443,7 +1444,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             <div style={{...card,width:'100%',maxWidth:420,boxShadow:'0 20px 60px rgba(0,0,0,0.4)'}} onClick={e=>e.stopPropagation()}>
               <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>{dt.reqAccessTitle} — {casino?.name}</div>
               <p style={{color:txtSub,fontSize:13,marginBottom:20,lineHeight:1.6}}>
-                Trimite o cerere pentru a promova <strong>{casino?.name}</strong>. Echipa noastră îți va activa accesul și îți va aloca un cod promoțional dedicat.
+                {L({ro:'Trimite o cerere pentru a promova '+(casino?.name||'')+'. Echipa noastră îți va activa accesul și îți va aloca un cod promoțional dedicat.',ru:'Отправь заявку на продвижение '+(casino?.name||'')+'. Наша команда активирует доступ и выделит тебе персональный промокод.',en:'Send a request to promote '+(casino?.name||'')+'. Our team will activate your access and assign you a dedicated promo code.',tr:(casino?.name||'')+' tanıtmak için talep gönder. Ekibimiz erişimini aktif edecek ve sana özel bir promosyon kodu atayacak.',de:'Sende eine Anfrage, um '+(casino?.name||'')+' zu bewerben. Unser Team aktiviert deinen Zugang und weist dir einen eigenen Promo-Code zu.',pt:'Envia um pedido para promover '+(casino?.name||'')+'. A nossa equipa ativará o teu acesso e atribuirá um código promo dedicado.',pl:'Wyślij wniosek o promowanie '+(casino?.name||'')+'. Nasz zespół aktywuje dostęp i przypisze Ci dedykowany kod promocyjny.'})}
               </p>
               <div style={{background:'rgba(245,166,35,0.08)',border:'1px solid rgba(245,166,35,0.28)',borderRadius:6,padding:'10px 14px',marginBottom:20,fontSize:12,color:'#e8c074'}}>
                 ⏱ Procesare în 24-48 ore. Vei fi notificat pe email și Telegram.
@@ -1463,7 +1464,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   showToast('✅ Cererea a fost trimisă! Te anunțăm în 24-48 ore.')
                 }}
                 style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6}}>
-                Trimite cererea
+                {L({ro:'Trimite cererea',ru:'Отправить заявку',en:'Send request',tr:'Talebi gönder',de:'Anfrage senden',pt:'Enviar pedido',pl:'Wyślij wniosek'})}
               </button>
               <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCasinoRequest(null)}>{({'ro':'Anulează','ru':'Отмена','en':'Cancel','tr':'İptal','de':'Abbrechen','pt':'Cancelar','pl':'Anuluj'})[lang]||'Anulează'}</button>
             </div>
@@ -1478,7 +1479,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             {customCodeSent?(
               <div style={{textAlign:'center',padding:'1rem'}}>
                 <div style={{fontSize:40,marginBottom:10}}>✅</div>
-                <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>Cerere trimisă!</h3>
+                <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>{L({ro:'Cerere trimisă!',ru:'Заявка отправлена!',en:'Request sent!',tr:'Talep gönderildi!',de:'Anfrage gesendet!',pt:'Pedido enviado!',pl:'Wniosek wysłany!'})}</h3>
                 <p style={{color:txtSub,fontSize:13,marginBottom:4}}>Managerul tău va procesa cererea pentru <strong style={{color:gold,fontFamily:'monospace'}}>{customCodeText||'codul tău'}</strong> în 24-48 ore.</p>
                 <p style={{color:txtSub,fontSize:12,marginBottom:16}}>Vei fi notificat când codul este activat.</p>
                 <button style={btnPrimary} onClick={()=>{setShowCustomCode(false);setCustomCodeSent(false)}}>{({'ro':'Închide','ru':'Закрыть','en':'Close','tr':'Kapat','de':'Schließen','pt':'Fechar','pl':'Zamknij'})[lang]||'Închide'}</button>
@@ -1487,10 +1488,10 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <>
                 <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>{dt.reqCustomTitle}</div>
                 <p style={{color:txtSub,fontSize:13,marginBottom:16,lineHeight:1.5}}>
-                  Vrei un cod cu numele tău? (ex: <span style={{fontFamily:'monospace',color:gold,fontWeight:700}}>IONEL23</span>, <span style={{fontFamily:'monospace',color:gold,fontWeight:700}}>VLAD_WIN</span>)<br/>
-                  Managerul va face cererea la cazinou și îl activează în 24-48h.
+                  {L({ro:'Vrei un cod cu numele tău?',ru:'Хочешь код со своим именем?',en:'Want a code with your name?',tr:'Adınla bir kod ister misin?',de:'Möchtest du einen Code mit deinem Namen?',pt:'Queres um código com o teu nome?',pl:'Chcesz kod ze swoim imieniem?'})} (ex: <span style={{fontFamily:'monospace',color:gold,fontWeight:700}}>IONEL23</span>, <span style={{fontFamily:'monospace',color:gold,fontWeight:700}}>VLAD_WIN</span>)<br/>
+                  {L({ro:'Managerul va face cererea la cazinou și îl activează în 24-48h.',ru:'Менеджер отправит заявку в казино и активирует его за 24-48 часов.',en:'The manager will submit the request to the casino and activate it within 24-48h.',tr:'Yönetici talebi kumarhaneye iletecek ve 24-48 saat içinde aktif edecek.',de:'Der Manager reicht die Anfrage beim Casino ein und aktiviert es innerhalb von 24-48 Std.',pt:'O gestor enviará o pedido ao casino e ativá-lo-á em 24-48h.',pl:'Menedżer złoży wniosek w kasynie i aktywuje je w ciągu 24-48 godz.'})}
                 </p>
-                <label style={label}>Cazinou</label>
+                <label style={label}>{L({ro:'Cazinou',ru:'Казино',en:'Casino',tr:'Kumarhane',de:'Casino',pt:'Casino',pl:'Kasyno'})}</label>
                 <select style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:12}} value={customCasinoId} onChange={e=>setCustomCasinoId(e.target.value)}>
                   {CASINOS.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
@@ -1507,7 +1508,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6,opacity:customCodeText.length<3?0.5:1}}
                   disabled={customCodeText.length<3}
                   onClick={submitCustomRequest}>
-                  Trimite cererea
+                  {L({ro:'Trimite cererea',ru:'Отправить заявку',en:'Send request',tr:'Talebi gönder',de:'Anfrage senden',pt:'Enviar pedido',pl:'Wyślij wniosek'})}
                 </button>
                 <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowCustomCode(false)}>{({'ro':'Anulează','ru':'Отмена','en':'Cancel','tr':'İptal','de':'Abbrechen','pt':'Cancelar','pl':'Anuluj'})[lang]||'Anulează'}</button>
               </>
@@ -1519,12 +1520,12 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
       {/* Footer - like Melbet */}
       <div style={{background:'#1e1e30',borderTop:'1px solid rgba(255,255,255,0.06)',padding:'12px 24px',display:'flex',alignItems:'center',gap:24,flexShrink:0}}>
         <div style={{display:'flex',gap:20,flex:1}}>
-          {['Contacte','Știri','Politica de confidențialitate','Politica cookie'].map(l=>(
+          {L({ro:['Contacte','Știri','Politica de confidențialitate','Politica cookie'],ru:['Контакты','Новости','Политика конфиденциальности','Политика cookie'],en:['Contacts','News','Privacy Policy','Cookie Policy'],tr:['İletişim','Haberler','Gizlilik Politikası','Çerez Politikası'],de:['Kontakte','News','Datenschutz','Cookie-Richtlinie'],pt:['Contactos','Notícias','Política de Privacidade','Política de Cookies'],pl:['Kontakt','Aktualności','Polityka prywatności','Polityka cookie']}).map(l=>(
             <span key={l} style={{fontSize:11,color:'rgba(255,255,255,0.35)',cursor:'pointer'}}>{l}</span>
           ))}
         </div>
         <span style={{fontSize:11,color:'rgba(255,255,255,0.35)'}}>App for Android™</span>
-        <span style={{fontSize:11,color:'rgba(255,255,255,0.2)'}}>Copyright © 2024-2026 WinPartners. Toate drepturile rezervate.</span>
+        <span style={{fontSize:11,color:'rgba(255,255,255,0.2)'}}>Copyright © 2024-2026 WinPartners. {L({ro:'Toate drepturile rezervate.',ru:'Все права защищены.',en:'All rights reserved.',tr:'Tüm hakları saklıdır.',de:'Alle Rechte vorbehalten.',pt:'Todos os direitos reservados.',pl:'Wszelkie prawa zastrzeżone.'})}</span>
       </div>
     </div>
   )
