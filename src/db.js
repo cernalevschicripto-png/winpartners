@@ -116,6 +116,57 @@ export async function loginBlogger(username, pass) {
   }
 }
 
+// ─── RESETARE PAROLA PRIN EMAIL ──────────────────────────────
+export async function sendResetEmail(toEmail, resetLink, username) {
+  const SID = import.meta.env.VITE_EMAILJS_SERVICE
+  const TID = import.meta.env.VITE_EMAILJS_TEMPLATE
+  const PUB = import.meta.env.VITE_EMAILJS_PUBLIC
+  if (!SID || !TID || !PUB) return { ok:false, reason:'not_configured' }
+  try {
+    const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ service_id:SID, template_id:TID, user_id:PUB,
+        template_params:{ to_email:toEmail, reset_link:resetLink, username:username||'' } })
+    })
+    return { ok: res.ok }
+  } catch(e) { return { ok:false, reason:'error' } }
+}
+
+export async function requestPasswordReset(email) {
+  const e = (email||'').trim().toLowerCase()
+  if (!e) return { ok:false, reason:'empty' }
+  const bloggers = (USE_FIREBASE ? await fbGet('bloggers') : lsGet('wp_bloggers', INIT_BLOGGERS)) || {}
+  const entry = Object.values(bloggers).find(b => (b.email||'').toLowerCase() === e)
+  if (!entry) return { ok:false, reason:'not_found' }
+  const token = 'rt' + Date.now().toString(36) + Math.random().toString(36).slice(2,10)
+  const rec = { username: entry.username, email: entry.email, expires: Date.now() + 3600000 }
+  if (USE_FIREBASE) await fbSet(`passwordResets/${token}`, rec)
+  else { const all = lsGet('wp_resets', {}); all[token] = rec; lsSet('wp_resets', all) }
+  return { ok:true, token, username: entry.username, email: entry.email }
+}
+
+export async function applyPasswordReset(token, newPass) {
+  if (!token || !newPass || newPass.length < 6) return { ok:false, reason:'invalid_input' }
+  let rec
+  if (USE_FIREBASE) rec = await fbGet(`passwordResets/${token}`)
+  else rec = (lsGet('wp_resets', {}))[token]
+  if (!rec) return { ok:false, reason:'invalid_token' }
+  if (rec.expires < Date.now()) return { ok:false, reason:'expired' }
+  if (USE_FIREBASE) {
+    const blogger = await fbGet(`bloggers/${rec.username}`)
+    if (!blogger) return { ok:false, reason:'no_user' }
+    blogger.pass = newPass
+    await fbSet(`bloggers/${rec.username}`, blogger)
+    await fbSet(`passwordResets/${token}`, null)
+  } else {
+    const all = lsGet('wp_bloggers', INIT_BLOGGERS)
+    if (!all[rec.username]) return { ok:false, reason:'no_user' }
+    all[rec.username].pass = newPass; lsSet('wp_bloggers', all)
+    const r = lsGet('wp_resets', {}); delete r[token]; lsSet('wp_resets', r)
+  }
+  return { ok:true, username: rec.username }
+}
+
 // ─── BLOGGERS ────────────────────────────────────────────────
 export async function getBloggers() {
   if (USE_FIREBASE) {

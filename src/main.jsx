@@ -8,6 +8,7 @@ import './index.css'
 const Landing      = lazy(() => import('./pages/Landing.jsx'))
 const Register     = lazy(() => import('./pages/Register.jsx'))
 const Dashboard    = lazy(() => import('./pages/Dashboard.jsx'))
+const ResetPassword = lazy(() => import('./pages/ResetPassword.jsx'))
 const About        = lazy(() => import('./pages/About.jsx'))
 const Benefits     = lazy(() => import('./pages/Benefits.jsx'))
 const Instructions = lazy(() => import('./pages/Instructions.jsx'))
@@ -36,6 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Dashboard />} />
+        <Route path="/reset" element={<ResetPassword />} />
         <Route path="/about" element={<About />} />
         <Route path="/benefits" element={<Benefits />} />
         <Route path="/instructions" element={<Instructions />} />

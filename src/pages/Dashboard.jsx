@@ -7,6 +7,7 @@ import {
   addCustomRequest, subscribeCustomRequests,
   addNotification,
   sendMessage, subscribeConversation, markConversationRead,
+  requestPasswordReset, sendResetEmail,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -255,6 +256,10 @@ function LoginScreen({ onLogin }) {
   const [pass, setPass] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [fpMode, setFpMode] = useState(false)
+  const [fpEmail, setFpEmail] = useState('')
+  const [fpMsg, setFpMsg] = useState('')
+  const [fpBusy, setFpBusy] = useState(false)
   const [lang, setLang] = useState(() => {
     const saved = localStorage.getItem('wp_lang')
     return ['ro','ru','en','tr','de','pt','pl'].includes(saved) ? saved : 'ro'
@@ -274,6 +279,23 @@ function LoginScreen({ onLogin }) {
       setError(lt.errConn)
       setLoading(false)
     }
+  }
+
+  const doForgot = async () => {
+    if (!fpEmail.trim() || !fpEmail.includes('@')) { setFpMsg('Introdu un email valid.'); return }
+    setFpBusy(true); setFpMsg('')
+    try {
+      const r = await requestPasswordReset(fpEmail.trim())
+      if (r.ok) {
+        const link = `${location.origin}/reset?token=${r.token}`
+        const sent = await sendResetEmail(r.email, link, r.username)
+        if (sent.ok) setFpMsg('✅ Ți-am trimis un link de resetare pe email. Verifică inbox-ul (și folderul spam).')
+        else setFpMsg('⚠️ Trimiterea pe email nu e încă activată. Contactează managerul pe Telegram (@winpartners_manager) pentru resetare.')
+      } else {
+        setFpMsg('✅ Dacă adresa e înregistrată, vei primi în scurt timp un email cu link de resetare.')
+      }
+    } catch(e) { setFpMsg('Eroare. Încearcă din nou.') }
+    setFpBusy(false)
   }
 
   const gold2 = '#f5a623'
@@ -319,6 +341,20 @@ function LoginScreen({ onLogin }) {
             style={{width:'100%',padding:'13px',fontSize:15,fontWeight:700,cursor:loading?'wait':'pointer',border:'none',borderRadius:8,background:gold2,color:'#000',opacity:loading?0.7:1}}>
             {loading ? lt.loading : lt.btn}
           </button>
+          {!fpMode && (
+            <div style={{textAlign:'center',marginTop:12}}>
+              <button onClick={()=>{setFpMode(true);setFpMsg('')}} style={{background:'none',border:'none',color:'rgba(255,255,255,0.4)',fontSize:12,cursor:'pointer',textDecoration:'underline'}}>Am uitat parola</button>
+            </div>
+          )}
+          {fpMode && (
+            <div style={{marginTop:14,paddingTop:14,borderTop:'1px solid rgba(255,255,255,0.08)'}}>
+              <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>Resetare parolă — emailul contului tău</div>
+              <input style={{width:'100%',padding:'11px 14px',fontSize:14,border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,background:'rgba(255,255,255,0.05)',color:'#e2e8f0',outline:'none',boxSizing:'border-box',marginBottom:10}} type="email" placeholder="email@exemplu.com" value={fpEmail} onChange={e=>setFpEmail(e.target.value)} onKeyDown={e=>e.key==='Enter'&&doForgot()} />
+              {fpMsg && <div style={{fontSize:12,color:'rgba(255,255,255,0.7)',marginBottom:10,lineHeight:1.5}}>{fpMsg}</div>}
+              <button disabled={fpBusy} onClick={doForgot} style={{width:'100%',padding:'11px',fontSize:14,fontWeight:700,cursor:fpBusy?'wait':'pointer',border:'none',borderRadius:8,background:gold2,color:'#000',opacity:fpBusy?0.7:1,marginBottom:8}}>{fpBusy?'⏳ ...':'Trimite link de resetare'}</button>
+              <button onClick={()=>{setFpMode(false);setFpMsg('')}} style={{width:'100%',background:'none',border:'none',color:'rgba(255,255,255,0.4)',fontSize:12,cursor:'pointer'}}>← Înapoi la login</button>
+            </div>
+          )}
           <div style={{textAlign:'center',marginTop:16,fontSize:12,color:'rgba(255,255,255,0.3)'}}>
             {lt.noAcc} <a href="/register" style={{color:gold2,textDecoration:'none',fontWeight:600}}>{lt.apply}</a>
           </div>
