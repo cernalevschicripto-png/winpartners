@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /sys/
+Disallow: /m/
+Disallow: /dashboard
+
+Sitemap: https://winpartners.pro/sitemap.xml
