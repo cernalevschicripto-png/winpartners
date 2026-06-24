@@ -190,14 +190,14 @@ const CASINOS_BASE = [
 const MELBET_AFF_ID = '5666408'
 const MELBET_CAMPAIGN = '2170'
 function getMelbetPlayerLink(promoCode) {
-  return `https://refpa3665.com/L?tag=d_${MELBET_AFF_ID}m_${MELBET_CAMPAIGN}c_${promoCode}`
+  return `https://refpa3665.com/L?tag=d_${MELBET_AFF_ID}m_${MELBET_CAMPAIGN}c_${promoCode}&site=${MELBET_AFF_ID}&ad=${MELBET_CAMPAIGN}`
 }
 
 // Link jucători 1xBet — format: https://refpa86112.pro/L?tag=s_{AffID}m_{campanie}c_{cod}
 const XBET_AFF_ID = '5751730'
 const XBET_CAMPAIGN = '355'
 function get1xBetPlayerLink(promoCode) {
-  return `https://refpa86112.pro/L?tag=s_${XBET_AFF_ID}m_${XBET_CAMPAIGN}c_${promoCode}`
+  return `https://refpa86112.pro/L?tag=s_${XBET_AFF_ID}m_${XBET_CAMPAIGN}c_${promoCode}&site=${XBET_AFF_ID}&ad=${XBET_CAMPAIGN}`
 }
 
 // Link jucători per cazino (null dacă nu există încă)
