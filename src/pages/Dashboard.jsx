@@ -802,7 +802,7 @@ function DashboardContent({ blogger, onLogout }) {
                             {it.l}: 0
                           </span>
                           <div style={{display:'flex',gap:3}}>
-                            {['1 s','1 I','Toate'].map(f=><span key={f} style={{fontSize:10,color:txtSub,padding:'1px 6px',borderRadius:3,border:`1px solid ${bdr}`,cursor:'pointer',background:'#15151e'}}>{f}</span>)}
+                            {['1 s','1 I',L({ro:'Toate',ru:'Все',en:'All',tr:'Tümü',de:'Alle',pt:'Todos',pl:'Wszystkie'})].map(f=><span key={f} style={{fontSize:10,color:txtSub,padding:'1px 6px',borderRadius:3,border:`1px solid ${bdr}`,cursor:'pointer',background:'#15151e'}}>{f}</span>)}
                           </div>
                         </div>
                         <LineChart data={D.daily} field={it.f} color={it.c} h={55}/>
@@ -837,7 +837,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                         <td style={{...TD,color:'#10b981',fontWeight:700}}>${totComm}</td>
                       </tr>
                       <tr style={{background:'#15151e'}}>
-                        <td colSpan={10} style={{...TD,fontStyle:'italic',color:txtSub,fontSize:11,textAlign:'center'}}>Fără informații pentru perioada selectată</td>
+                        <td colSpan={10} style={{...TD,fontStyle:'italic',color:txtSub,fontSize:11,textAlign:'center'}}>{L({ro:'Fără informații pentru perioada selectată',ru:'Нет данных за выбранный период',en:'No data for the selected period',tr:'Seçilen dönem için veri yok',de:'Keine Daten für den gewählten Zeitraum',pt:'Sem dados para o período selecionado',pl:'Brak danych dla wybranego okresu'})}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -1215,9 +1215,9 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span>
                 <select style={inp}><option>USD</option></select>
-                <span style={{fontSize:13,color:txtSub}}>Site web</span>
-                <select style={{...inp,width:150}}><option>Toate</option></select>
-                {page==='summary'&&<><span style={{fontSize:13,color:txtSub}}>ID instrument</span><input style={{...inp,width:120}} placeholder=""/></>}
+                <span style={{fontSize:13,color:txtSub}}>{L({ro:'Site web',ru:'Сайт',en:'Website',tr:'Web sitesi',de:'Webseite',pt:'Site',pl:'Strona'})}</span>
+                <select style={{...inp,width:150}}><option>{L({ro:'Toate',ru:'Все',en:'All',tr:'Tümü',de:'Alle',pt:'Todos',pl:'Wszystkie'})}</option></select>
+                {page==='summary'&&<><span style={{fontSize:13,color:txtSub}}>{L({ro:'ID instrument',ru:'ID инструмента',en:'Tool ID',tr:'Araç ID',de:'Tool-ID',pt:'ID da ferramenta',pl:'ID narzędzia'})}</span><input style={{...inp,width:120}} placeholder=""/></>}
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Perioada','ru':'Период','en':'Period','tr':'Dönem','de':'Zeitraum','pt':'Período','pl':'Okres'})[lang]||'Perioada'}</span>
                 <select style={{...inp,width:130}}><option>{({'ro':'Perioada exactă','ru':'Точный период','en':'Exact period','tr':'Tam dönem','de':'Genauer Zeitraum','pt':'Período exato','pl':'Dokładny okres'})[lang]||'Perioada exactă'}</option></select>
                 <input type="date" style={inp} defaultValue={new Date().toISOString().slice(0,10)}/>
@@ -1249,7 +1249,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                           ))}
                         </tr>
                       )}
-                      <tr style={{background:'#15151e'}}><td colSpan={20} style={{...TD,fontStyle:'italic',color:txtSub,textAlign:'center',padding:'16px'}}>Fără informații pentru perioada selectată</td></tr>
+                      <tr style={{background:'#15151e'}}><td colSpan={20} style={{...TD,fontStyle:'italic',color:txtSub,textAlign:'center',padding:'16px'}}>{L({ro:'Fără informații pentru perioada selectată',ru:'Нет данных за выбранный период',en:'No data for the selected period',tr:'Seçilen dönem için veri yok',de:'Keine Daten für den gewählten Zeitraum',pt:'Sem dados para o período selecionado',pl:'Brak danych dla wybranego okresu'})}</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -1262,14 +1262,14 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             <div>
               <div style={filterRow}>
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span><select style={inp}><option>USD</option></select>
-                <span style={{fontSize:13,color:txtSub}}>Site web</span><select style={{...inp,width:150}}><option>Toate</option></select>
+                <span style={{fontSize:13,color:txtSub}}>{L({ro:'Site web',ru:'Сайт',en:'Website',tr:'Web sitesi',de:'Webseite',pt:'Site',pl:'Strona'})}</span><select style={{...inp,width:150}}><option>{L({ro:'Toate',ru:'Все',en:'All',tr:'Tümü',de:'Alle',pt:'Todos',pl:'Wszystkie'})}</option></select>
                 <span style={{fontSize:13,color:txtSub}}>{L({ro:'Jucător',ru:'Игрок',en:'Player',tr:'Oyuncu',de:'Spieler',pt:'Jogador',pl:'Gracz'})}</span><input style={{...inp,width:120}} placeholder={L({ro:'ID jucător',ru:'ID игрока',en:'Player ID',tr:'Oyuncu ID',de:'Spieler-ID',pt:'ID do jogador',pl:'ID gracza'})}/>
                 <span style={{fontSize:13,color:txtSub}}>{L({ro:'Perioada',ru:'Период',en:'Period',tr:'Dönem',de:'Zeitraum',pt:'Período',pl:'Okres'})}</span><select style={inp}><option>{L({ro:'1 lună',ru:'1 месяц',en:'1 month',tr:'1 ay',de:'1 Monat',pt:'1 mês',pl:'1 miesiąc'})}</option></select>
               </div>
               <div style={{...card,padding:0,overflowX:'auto'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                   <thead><tr>{['Jucător','Data înregistrării','Prima depunere','Numărul de depuneri','Suma depunerilor','Venituri','Comisionul meu'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
-                  <tbody><tr><td colSpan={7} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>Fără informații pentru perioada selectată</td></tr></tbody>
+                  <tbody><tr><td colSpan={7} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>{L({ro:'Fără informații pentru perioada selectată',ru:'Нет данных за выбранный период',en:'No data for the selected period',tr:'Seçilen dönem için veri yok',de:'Keine Daten für den gewählten Zeitraum',pt:'Sem dados para o período selecionado',pl:'Brak danych dla wybranego okresu'})}</td></tr></tbody>
                 </table>
               </div>
             </div>
