@@ -854,10 +854,33 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             const reqSent = customRequests.find(r=>r.casinoId===cid && r.type==='casino_access')
             const codeReqSent = customRequests.find(r=>r.casinoId===cid && r.type==='code_request')
             const theCode = (myCode||gen) ? (myCode?myCode.code:gen.code) : null
+            // Unelte blogger: link de referință proeminent + cod QR (apare oriunde există cod)
+            const renderTools = (code) => {
+              const link = getCasinoPlayerLink(cid, code)
+              if (!link) return null
+              const qr = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=0&data=' + encodeURIComponent(link)
+              return (
+                <div style={{display:'flex',gap:14,flexWrap:'wrap',alignItems:'stretch'}}>
+                  <div style={{flex:'1 1 320px',minWidth:240,background:'#fff',border:('1.5px solid '+accent+'55'),borderRadius:12,padding:'16px 18px',display:'flex',flexDirection:'column',gap:10}}>
+                    <div style={{fontSize:11,fontWeight:800,color:accent,textTransform:'uppercase',letterSpacing:'.08em'}}>🔗 Link de referință — pune-l în bio, stories, descriere</div>
+                    <div style={{fontFamily:'monospace',fontSize:13,color:txt,background:bg,border:('1px solid '+bdr),padding:'10px 12px',borderRadius:8,wordBreak:'break-all',lineHeight:1.5}}>{link}</div>
+                    <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                      <button onClick={()=>copy(link,'cw_link')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>{copied==='cw_link'?'✓ Copiat!':'📋 Copiază linkul'}</button>
+                      <a href={link} target="_blank" rel="noreferrer" style={{...btnOutline(accent),padding:'9px 16px',fontSize:13,textDecoration:'none',display:'inline-flex',alignItems:'center'}}>Deschide ↗</a>
+                    </div>
+                    <div style={{fontSize:12,color:txtSub,lineHeight:1.5}}>Jucătorul care intră pe acest link rămâne legat de tine — primești comision din pierderile lui pe viață, chiar dacă nu mai postezi.</div>
+                  </div>
+                  <div style={{flex:'0 0 auto',background:'#fff',border:('1.5px solid '+accent+'55'),borderRadius:12,padding:16,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:8}}>
+                    <img src={qr} alt={'Cod QR '+c.name} width={140} height={140} style={{display:'block',borderRadius:6}} />
+                    <div style={{fontSize:10.5,fontWeight:700,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em'}}>Scanează în video</div>
+                  </div>
+                </div>
+              )
+            }
             return (
             <div>
-              {/* Strip taburi cazinouri — comutare rapidă */}
-              <div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:6,marginBottom:'1.25rem',WebkitOverflowScrolling:'touch'}}>
+              {/* Strip taburi cazinouri — doar pe mobil (pe desktop navigația e bara laterală) */}
+              {isMobile && (<div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:6,marginBottom:'1.25rem',WebkitOverflowScrolling:'touch'}}>
                 {CASINOS.map(x=>{
                   const sel = x.id===cid
                   return (
@@ -871,7 +894,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     </button>
                   )
                 })}
-              </div>
+              </div>)}
 
               {/* Notă: cere cazinouri noi (fără parteneriat fals) */}
               <div style={{display:'flex',alignItems:'flex-start',gap:8,background:'#f8fafc',border:('1px dashed '+bdr),borderRadius:10,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12.5,color:txtSub,lineHeight:1.55}}>
@@ -946,15 +969,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                       </div>
                       <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
                     </div>
-                    {getCasinoPlayerLink(c.id, myCode.code) && (
-                      <div style={{background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
-                        <div style={{fontSize:11,color:'#1d4ed8',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🔗 Link de afiliat — pune în bio, stories, descriere</div>
-                        <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
-                          <div style={{flex:1,minWidth:200,fontFamily:'monospace',fontSize:12,color:'#1d4ed8',background:'#dbeafe',padding:'8px 10px',borderRadius:6,wordBreak:'break-all',lineHeight:1.5}}>{getCasinoPlayerLink(c.id, myCode.code)}</div>
-                          <button onClick={()=>copy(getCasinoPlayerLink(c.id, myCode.code),'cw_link')} style={{...btnPrimary,padding:'8px 16px',fontSize:13,background:'#2563eb'}}>{copied==='cw_link'?'✓':'📋 Copiază'}</button>
-                        </div>
-                      </div>
-                    )}
+                    <div style={{marginBottom:14}}>{renderTools(myCode.code)}</div>
                     <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(accent),padding:'9px 20px',fontSize:13}}>✨ Vreau cod personalizat cu numele meu</button>
                   </div>
                 </div>
@@ -972,11 +987,19 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     </div>
                   </div>
                 ) : (
-                  <div style={{...card,textAlign:'center',padding:'24px',marginBottom:'1.5rem'}}>
-                    <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.08em'}}>✅ Codul tău {c.name}</div>
-                    <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:4,marginBottom:8}}>{gen.code}</div>
-                    <div style={{fontSize:12,color:'#16a34a',marginBottom:12}}>@{gen.bloggerUsername}</div>
-                    <button onClick={()=>copy(gen.code,'cw_code')} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază codul'}</button>
+                  <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
+                    <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Codul tău {c.name}</div>
+                    <div style={{padding:'20px 24px'}}>
+                      <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:14}}>
+                        <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Cod promoțional — spune-l în video</div>
+                        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
+                          <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{gen.code}</div>
+                          <button onClick={()=>copy(gen.code,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază'}</button>
+                        </div>
+                        <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
+                      </div>
+                      {renderTools(gen.code)}
+                    </div>
                   </div>
                 )
               ) : codeReqSent ? (
