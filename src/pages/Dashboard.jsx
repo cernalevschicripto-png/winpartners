@@ -420,6 +420,7 @@ function DashboardContent({ blogger, onLogout }) {
   }
 
   const [selectedCasino, setSelectedCasino] = useState('melbet')
+  const [casinoMenuOpen, setCasinoMenuOpen] = useState(false)
   const [generatedCode, setGeneratedCode] = useState(null)
   const [codeGenerating, setCodeGenerating] = useState(false)
   // Codurile mele atribuite — din Firebase
@@ -675,15 +676,47 @@ function DashboardContent({ blogger, onLogout }) {
 
         {/* SIDEBAR - responsive */}
         <div style={Object.assign({},{width:220,background:bgSide,flexShrink:0,overflowY:'auto',paddingBottom:20,borderRight:'1px solid rgba(255,255,255,0.05)'},isMobile?{position:'fixed',top:52,left:sidebarOpen?0:-220,height:'calc(100vh - 52px)',zIndex:50,transition:'left .25s ease',boxShadow:sidebarOpen?'4px 0 20px rgba(0,0,0,0.4)':'none'}:{})}>
-          {MENU.map((m)=>{
-            const isActiveItem = m.casinoId ? (page==='casino' && selectedCasino===m.casinoId) : page===m.id
+                    {/* SELECTOR CAZINO pliabil — caseta cu cazinoul activ + sageata pentru a alege altul */}
+          {(() => {
+            const cur = CASINOS_BASE.find(c=>c.id===selectedCasino) || CASINOS_BASE[0]
+            return (
+            <div style={{padding:'12px 12px 6px'}}>
+              <div style={{padding:'0 2px 6px',fontSize:9,color:'rgba(255,255,255,0.25)',textTransform:'uppercase',letterSpacing:'.12em',fontWeight:600}}>{secCas}</div>
+              <div onClick={()=>{setPage('casino');setGeneratedCode(null);if(isMobile)setSidebarOpen(false)}} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 10px 10px 12px',cursor:'pointer',borderRadius:11,background:'rgba(245,166,35,0.1)',border:`1px solid ${page==='casino'?'rgba(245,166,35,0.5)':'rgba(245,166,35,0.28)'}`,transition:'all .15s'}}>
+                <div style={{width:38,height:38,borderRadius:10,background:(cur.color+'22'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:21,flexShrink:0}}>{cur.logo}</div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:15,fontWeight:800,color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{cur.name}</div>
+                  <div style={{fontSize:10,fontWeight:600,color:gold}}>{cur.commissionPct}% RevShare</div>
+                </div>
+                <span onClick={(e)=>{e.stopPropagation();setCasinoMenuOpen(o=>!o)}} title={L({ro:'Schimbă cazinoul',ru:'Сменить казино',en:'Switch casino',tr:'Kumarhane değiştir',de:'Casino wechseln',pt:'Mudar casino',pl:'Zmień kasyno'})} style={{fontSize:13,color:'rgba(255,255,255,0.55)',padding:'6px',marginRight:-2,borderRadius:6,transition:'transform .2s',transform:casinoMenuOpen?'rotate(180deg)':'rotate(0deg)'}}>▾</span>
+              </div>
+              {casinoMenuOpen && (
+                <div style={{marginTop:5,background:'rgba(0,0,0,0.22)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:9,padding:4}}>
+                  {CASINOS_BASE.map(c=>{
+                    const sel = c.id===selectedCasino
+                    return (
+                    <div key={c.id} onClick={()=>{setSelectedCasino(c.id);setPage('casino');setGeneratedCode(null);setCasinoMenuOpen(false);if(isMobile)setSidebarOpen(false)}} style={{display:'flex',alignItems:'center',gap:9,padding:'8px 9px',borderRadius:7,cursor:'pointer',fontSize:13,fontWeight:sel?700:500,color:sel?gold:'rgba(255,255,255,0.6)',background:sel?'rgba(245,166,35,0.1)':'none',transition:'all .12s'}}>
+                      <span style={{fontSize:16,width:20,textAlign:'center'}}>{c.logo}</span>
+                      <span style={{flex:1,minWidth:0,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.name}</span>
+                      {c.comingSoon&&<span style={{fontSize:8,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.04em'}}>{L({ro:'curând',ru:'скоро',en:'soon',tr:'yakında',de:'bald',pt:'em breve',pl:'wkrótce'})}</span>}
+                      {sel&&!c.comingSoon&&<span style={{fontSize:12,color:gold}}>✓</span>}
+                    </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+            )
+          })()}
+
+          {MENU.filter(m=>!m.casinoId).map((m)=>{
+            const isActiveItem = page===m.id
             return (
             <div key={m.id}>
               {m.section&&<div style={{padding:'12px 14px 4px',fontSize:9,color:'rgba(255,255,255,0.25)',textTransform:'uppercase',letterSpacing:'.12em',fontWeight:600}}>{m.section}</div>}
-              <div onClick={()=>{ if(m.casinoId){setSelectedCasino(m.casinoId);setPage('casino');setGeneratedCode(null)} else {setPage(m.id)} ; if(isMobile) setSidebarOpen(false) }} style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px 9px 16px',cursor:'pointer',fontSize:13,color:isActiveItem?gold:'rgba(255,255,255,0.55)',background:isActiveItem?'rgba(245,166,35,0.1)':'none',borderLeft:isActiveItem?`3px solid ${gold}`:'3px solid transparent',transition:'all .12s'}}>
+              <div onClick={()=>{ setPage(m.id) ; if(isMobile) setSidebarOpen(false) }} style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px 9px 16px',cursor:'pointer',fontSize:13,color:isActiveItem?gold:'rgba(255,255,255,0.55)',background:isActiveItem?'rgba(245,166,35,0.1)':'none',borderLeft:isActiveItem?`3px solid ${gold}`:'3px solid transparent',transition:'all .12s'}}>
                 <span style={{fontSize:14}}>{m.icon}</span>
                 <span style={{flex:1}}>{m.label}</span>
-                {m.comingSoon&&<span style={{fontSize:8,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.04em'}}>{L({ro:'curând',ru:'скоро',en:'soon',tr:'yakında',de:'bald',pt:'em breve',pl:'wkrótce'})}</span>}
                 {m.id==='contact'&&myChatUnread>0&&<span style={{fontSize:10,fontWeight:700,minWidth:18,height:18,borderRadius:9,background:'#ef4444',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 5px'}}>{myChatUnread}</span>}
               </div>
             </div>
