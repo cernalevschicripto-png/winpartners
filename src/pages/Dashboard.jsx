@@ -10,13 +10,14 @@ import {
 } from '../db.js'
 
 const gold = '#f5a623'
-const bg = '#f0f2f5'
-const bgCard = '#ffffff'
-const bgSide = '#1e1e30'
-const bgHeader = '#1e1e30'
-const bdr = 'rgba(0,0,0,0.1)'
-const txt = '#1a1a2e'
-const txtSub = '#6b7280'
+const goldSoft = '#f7cd7a'
+const bg = '#0d0d15'
+const bgCard = '#191922'
+const bgSide = '#141420'
+const bgHeader = '#141420'
+const bdr = 'rgba(255,255,255,0.08)'
+const txt = '#f3f2ec'
+const txtSub = '#9a9aa6'
 
 // ============================================================
 // STORAGE — Firebase Realtime Database (sync în timp real)
@@ -609,12 +610,12 @@ function DashboardContent({ blogger, onLogout }) {
   const totComm=Math.round(totRv*D.commission/100)
 
   // Styles
-  const inp = {padding:'7px 12px',fontSize:13,border:`1px solid #d1d5db`,borderRadius:4,background:'#fff',color:txt,outline:'none',fontFamily:'inherit',minWidth:120}
+  const inp = {padding:'7px 12px',fontSize:13,border:`1px solid rgba(255,255,255,0.12)`,borderRadius:4,background:bgCard,color:txt,outline:'none',fontFamily:'inherit',minWidth:120}
   const btnPrimary = {padding:'8px 22px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:20,background:gold,color:'#000',fontFamily:'inherit',letterSpacing:'.02em'}
   const btnOutline = (c=gold)=>({padding:'6px 14px',fontSize:12,fontWeight:600,cursor:'pointer',border:`1px solid ${c}`,borderRadius:4,background:'none',color:c,fontFamily:'inherit'})
-  const TH = {textAlign:'left',padding:'10px 14px',color:'#fff',fontWeight:600,fontSize:12,whiteSpace:'nowrap',background:'#2d2d3d',cursor:'pointer',userSelect:'none'}
-  const TD = {padding:'10px 14px',borderBottom:`1px solid #f3f4f6`,color:txt,fontSize:13}
-  const card = {background:bgCard,border:`1px solid ${bdr}`,borderRadius:8,padding:'16px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}
+  const TH = {textAlign:'left',padding:'10px 14px',color:'#fff',fontWeight:600,fontSize:12,whiteSpace:'nowrap',background:'#22222e',cursor:'pointer',userSelect:'none'}
+  const TD = {padding:'10px 14px',borderBottom:`1px solid rgba(255,255,255,0.08)`,color:txt,fontSize:13}
+  const card = {background:bgCard,border:`1px solid ${bdr}`,borderRadius:8,padding:'16px',boxShadow:'0 2px 10px rgba(0,0,0,0.4)'}
   const label = {fontSize:11,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4,display:'block',fontWeight:500}
   const filterRow = {display:'flex',alignItems:'center',gap:10,marginBottom:16,flexWrap:'wrap'}
   const pageTitle = {fontSize:20,fontWeight:700,color:txt,marginBottom:'1.5rem'}
@@ -752,7 +753,7 @@ function DashboardContent({ blogger, onLogout }) {
               {/* Câștigurile mele pe cazino — de unde vin banii */}
               {D.bal.byCasino && D.bal.byCasino.length > 0 && (
                 <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.25rem'}}>
-                  <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,background:'#fafafa',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:6}}>
+                  <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,background:'#15151e',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:6}}>
                     <span style={{fontSize:13,fontWeight:700,color:txt}}>{({'ro':'Câștigurile mele pe cazino','ru':'Мои доходы по казино','en':'My earnings by casino','tr':'Kumarhaneye göre kazançlarım','de':'Meine Einnahmen pro Casino','pt':'Os meus ganhos por casino','pl':'Moje zarobki według kasyna'})[lang]||'Câștigurile mele pe cazino'}</span>
                     <span style={{fontSize:12,color:txtSub}}>{({'ro':'comision total','ru':'общая комиссия','en':'total commission','tr':'toplam komisyon','de':'Gesamtprovision','pt':'comissão total','pl':'całkowita prowizja'})[lang]||'comision total'}: <b style={{color:'#10b981'}}>${(D.bal.total||0).toLocaleString()}</b></span>
                   </div>
@@ -800,7 +801,7 @@ function DashboardContent({ blogger, onLogout }) {
                             {it.l}: 0
                           </span>
                           <div style={{display:'flex',gap:3}}>
-                            {['1 s','1 I','Toate'].map(f=><span key={f} style={{fontSize:10,color:txtSub,padding:'1px 6px',borderRadius:3,border:`1px solid ${bdr}`,cursor:'pointer',background:'#f9fafb'}}>{f}</span>)}
+                            {['1 s','1 I','Toate'].map(f=><span key={f} style={{fontSize:10,color:txtSub,padding:'1px 6px',borderRadius:3,border:`1px solid ${bdr}`,cursor:'pointer',background:'#15151e'}}>{f}</span>)}
                           </div>
                         </div>
                         <LineChart data={D.daily} field={it.f} color={it.c} h={55}/>
@@ -812,7 +813,7 @@ function DashboardContent({ blogger, onLogout }) {
 
               {/* Summary table */}
               <div style={{...card,padding:0,overflow:'hidden'}}>
-                <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,display:'flex',justifyContent:'space-between',alignItems:'center',background:'#fafafa'}}>
+                <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,display:'flex',justifyContent:'space-between',alignItems:'center',background:'#15151e'}}>
                   <span style={{fontSize:13,fontWeight:600,color:txt}}>{dt.chartSummary||'Sumar statistici'}</span>
                   <select style={{...inp,fontSize:12}}>
                     <option>{({'ro':'Ieri','ru':'Вчера','en':'Yesterday','tr':'Dün','de':'Gestern','pt':'Ontem','pl':'Wczoraj'})[lang]||'Ieri'}</option><option>Azi</option><option>Săptămâna</option>
@@ -834,7 +835,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                         {[currency,'0',totCl,'0',totRg,totDp,'$'+totRv,'0','0'].map((v,i)=><td key={i} style={TD}>{v}</td>)}
                         <td style={{...TD,color:'#10b981',fontWeight:700}}>${totComm}</td>
                       </tr>
-                      <tr style={{background:'#fafafa'}}>
+                      <tr style={{background:'#15151e'}}>
                         <td colSpan={10} style={{...TD,fontStyle:'italic',color:txtSub,fontSize:11,textAlign:'center'}}>Fără informații pentru perioada selectată</td>
                       </tr>
                     </tbody>
@@ -861,7 +862,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               const qr = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=0&data=' + encodeURIComponent(link)
               return (
                 <div style={{display:'flex',gap:14,flexWrap:'wrap',alignItems:'stretch'}}>
-                  <div style={{flex:'1 1 320px',minWidth:240,background:'#fff',border:('1.5px solid '+accent+'55'),borderRadius:12,padding:'16px 18px',display:'flex',flexDirection:'column',gap:10}}>
+                  <div style={{flex:'1 1 320px',minWidth:240,background:bgCard,border:('1.5px solid '+accent+'55'),borderRadius:12,padding:'16px 18px',display:'flex',flexDirection:'column',gap:10}}>
                     <div style={{fontSize:11,fontWeight:800,color:accent,textTransform:'uppercase',letterSpacing:'.08em'}}>🔗 Link de referință — pune-l în bio, stories, descriere</div>
                     <div style={{fontFamily:'monospace',fontSize:13,color:txt,background:bg,border:('1px solid '+bdr),padding:'10px 12px',borderRadius:8,wordBreak:'break-all',lineHeight:1.5}}>{link}</div>
                     <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
@@ -870,7 +871,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     </div>
                     <div style={{fontSize:12,color:txtSub,lineHeight:1.5}}>Jucătorul care intră pe acest link rămâne legat de tine — primești comision din pierderile lui pe viață, chiar dacă nu mai postezi.</div>
                   </div>
-                  <div style={{flex:'0 0 auto',background:'#fff',border:('1.5px solid '+accent+'55'),borderRadius:12,padding:16,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:8}}>
+                  <div style={{flex:'0 0 auto',background:'#ffffff',border:('1.5px solid '+accent+'55'),borderRadius:12,padding:16,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:8}}>
                     <img src={qr} alt={'Cod QR '+c.name} width={140} height={140} style={{display:'block',borderRadius:6}} />
                     <div style={{fontSize:10.5,fontWeight:700,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em'}}>Scanează în video</div>
                   </div>
@@ -890,14 +891,14 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                         background: sel?(x.color+'15'):'#fff',
                         color: sel?x.color:txt}}>
                       <span style={{fontSize:16}}>{x.logo}</span>{x.name}
-                      {x.comingSoon && <span style={{fontSize:9,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'#f1f5f9',color:'#94a3b8'}}>curând</span>}
+                      {x.comingSoon && <span style={{fontSize:9,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'#1e1e2a',color:'#94a3b8'}}>curând</span>}
                     </button>
                   )
                 })}
               </div>)}
 
               {/* Notă: cere cazinouri noi (fără parteneriat fals) */}
-              <div style={{display:'flex',alignItems:'flex-start',gap:8,background:'#f8fafc',border:('1px dashed '+bdr),borderRadius:10,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12.5,color:txtSub,lineHeight:1.55}}>
+              <div style={{display:'flex',alignItems:'flex-start',gap:8,background:'#15151e',border:('1px dashed '+bdr),borderRadius:10,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12.5,color:txtSub,lineHeight:1.55}}>
                 <span style={{fontSize:15,flexShrink:0}}>💡</span>
                 <span>Adăugăm constant cazinouri noi. Nu-l vezi pe al tău preferat? Deschide orice cazino marcat <b style={{color:txt}}>„în curând"</b> și apasă <b style={{color:txt}}>„Vreau să lucrez cu..."</b> — îți activăm afilierea cu prioritate.</span>
               </div>
@@ -910,7 +911,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     <div style={{fontSize:22,fontWeight:900,color:txt}}>{c.name}</div>
                     {c.comingSoon
                       ? <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'#fef3c7',color:'#92400e'}}>În curând</span>
-                      : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'#dcfce7',color:'#16a34a'}}>Activ</span>}
+                      : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'#dcfce7',color:'#34d399'}}>Activ</span>}
                   </div>
                   <div style={{fontSize:13,color:accent,fontWeight:700,marginTop:3}}>{c.commission}</div>
                   <div style={{fontSize:12,color:txtSub,marginTop:4}}>{c.description}</div>
@@ -946,7 +947,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                       Lucrăm la activarea afilierii cu <b style={{color:txt}}>{c.name}</b>. Trimite o cerere acum — apari pe lista de așteptare și ești printre primii care primesc cod imediat ce afilierea e aprobată. Te anunțăm pe Telegram.
                     </p>
                     {reqSent ? (
-                      <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#15803d',fontWeight:600}}>
+                      <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#4ade80',fontWeight:600}}>
                         ✓ Cerere trimisă{reqSent.date?(' pe '+reqSent.date):''} — ești pe lista de așteptare
                       </div>
                     ) : (
@@ -961,13 +962,13 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
                   <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Codul tău {c.name}</div>
                   <div style={{padding:'20px 24px'}}>
-                    <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
-                      <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Cod promoțional — spune-l în video</div>
+                    <div style={{background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                      <div style={{fontSize:11,color:'#34d399',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Cod promoțional — spune-l în video</div>
                       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
-                        <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{myCode.code}</div>
+                        <div style={{fontSize:30,fontWeight:900,color:'#4ade80',fontFamily:'monospace',letterSpacing:3}}>{myCode.code}</div>
                         <button onClick={()=>copy(myCode.code,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază'}</button>
                       </div>
-                      <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
+                      <div style={{fontSize:12,color:'#34d399',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
                     </div>
                     <div style={{marginBottom:14}}>{renderTools(myCode.code)}</div>
                     <button onClick={()=>setShowCustomCode(true)} style={{...btnOutline(accent),padding:'9px 20px',fontSize:13}}>✨ Vreau cod personalizat cu numele meu</button>
@@ -980,7 +981,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     <div style={{padding:'20px 24px'}}>
                       <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:16}}>Toate codurile {c.name} sunt momentan alocate. Trimite o cerere și primești un cod nou imediat ce reumplem rezerva. Te anunțăm pe Telegram.</p>
                       {codeReqSent ? (
-                        <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#15803d',fontWeight:600}}>✓ Cerere trimisă{codeReqSent.date?(' pe '+codeReqSent.date):''} — ești pe listă</div>
+                        <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#4ade80',fontWeight:600}}>✓ Cerere trimisă{codeReqSent.date?(' pe '+codeReqSent.date):''} — ești pe listă</div>
                       ) : (
                         <button onClick={()=>requestNewCode(cid, c.name)} style={{...btnPrimary,padding:'12px 26px',fontSize:14,background:accent,borderColor:accent}}>📩 Solicită un cod {c.name}</button>
                       )}
@@ -990,13 +991,13 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
                     <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Codul tău {c.name}</div>
                     <div style={{padding:'20px 24px'}}>
-                      <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'16px 20px',marginBottom:14}}>
-                        <div style={{fontSize:11,color:'#16a34a',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Cod promoțional — spune-l în video</div>
+                      <div style={{background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'16px 20px',marginBottom:14}}>
+                        <div style={{fontSize:11,color:'#34d399',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>🎟 Cod promoțional — spune-l în video</div>
                         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
-                          <div style={{fontSize:30,fontWeight:900,color:'#15803d',fontFamily:'monospace',letterSpacing:3}}>{gen.code}</div>
+                          <div style={{fontSize:30,fontWeight:900,color:'#4ade80',fontFamily:'monospace',letterSpacing:3}}>{gen.code}</div>
                           <button onClick={()=>copy(gen.code,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?'✓ Copiat!':'📋 Copiază'}</button>
                         </div>
-                        <div style={{fontSize:12,color:'#16a34a',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
+                        <div style={{fontSize:12,color:'#34d399',marginTop:6}}>Jucătorul îl introduce la înregistrare pe {c.name} → tu primești {c.commissionPct}% din pierderile lui.</div>
                       </div>
                       {renderTools(gen.code)}
                     </div>
@@ -1007,7 +1008,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
                   <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Cerere de cod {c.name} în curs</div>
                   <div style={{padding:'20px 24px'}}>
-                    <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#f0fdf4',border:'1px solid #86efac',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#15803d',fontWeight:600}}>✓ Cerere trimisă{codeReqSent.date?(' pe '+codeReqSent.date):''} — primești cod imediat ce reumplem rezerva. Te anunțăm pe Telegram.</div>
+                    <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'10px 16px',fontSize:13,color:'#4ade80',fontWeight:600}}>✓ Cerere trimisă{codeReqSent.date?(' pe '+codeReqSent.date):''} — primești cod imediat ce reumplem rezerva. Te anunțăm pe Telegram.</div>
                   </div>
                 </div>
               ) : (
@@ -1067,7 +1068,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     ))}</tbody>
                   </table>
                 </div>
-                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} {D.commStructure.length} ({D.commStructure.length} {dt.tblTotal})</div>
+                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#15151e'}}>{dt.tblShow} {D.commStructure.length} ({D.commStructure.length} {dt.tblTotal})</div>
               </div>
             </div>
           )}
@@ -1125,7 +1126,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     {payTab==='status'&&<tr><td colSpan={6} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>Fără solicitări active</td></tr>}
                   </tbody>
                 </table>
-                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#fafafa'}}>{dt.tblShow} {D.pays.length}</div>
+                <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#15151e'}}>{dt.tblShow} {D.pays.length}</div>
               </div>
               <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12}}>
                 <div style={card}>
@@ -1247,7 +1248,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                           ))}
                         </tr>
                       )}
-                      <tr style={{background:'#fafafa'}}><td colSpan={20} style={{...TD,fontStyle:'italic',color:txtSub,textAlign:'center',padding:'16px'}}>Fără informații pentru perioada selectată</td></tr>
+                      <tr style={{background:'#15151e'}}><td colSpan={20} style={{...TD,fontStyle:'italic',color:txtSub,textAlign:'center',padding:'16px'}}>Fără informații pentru perioada selectată</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -1276,7 +1277,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           {/* === SUB-AFILIATI === */}
           {page==='subaff'&&(
             <div>
-              <div style={{background:'#f0fdf4',border:'1px solid #bbf7d0',borderRadius:8,padding:'14px 16px',marginBottom:'1.25rem'}}>
+              <div style={{background:'#10231a',border:'1px solid #bbf7d0',borderRadius:8,padding:'14px 16px',marginBottom:'1.25rem'}}>
                 <div style={{fontSize:13,fontWeight:600,color:'#065f46',marginBottom:5}}>💰 Câștigă 3% din comisioanele bloggerilor pe care îi inviți — pe viață!</div>
                 <div style={{fontFamily:'monospace',fontSize:12,color:'#047857',background:'rgba(0,0,0,0.04)',padding:'6px 10px',borderRadius:4,marginBottom:8,wordBreak:'break-all'}}>{refLink}</div>
                 <button style={btnPrimary} onClick={()=>copy(refLink,'ref')}>{copied==='ref'?'✓ Copiat!':'Copiează linkul de referral'}</button>
@@ -1341,11 +1342,11 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
 
               {/* Chat direct cu managerul */}
               <div style={{...card,padding:0,overflow:'hidden',display:'flex',flexDirection:'column',height:isMobile?'62vh':470}}>
-                <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,background:'#fafafa',display:'flex',alignItems:'center',gap:10}}>
+                <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,background:'#15151e',display:'flex',alignItems:'center',gap:10}}>
                   <div style={{width:38,height:38,borderRadius:'50%',background:'rgba(16,185,129,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>💬</div>
                   <div><div style={{fontSize:14,fontWeight:700,color:txt}}>{CHAT.title}</div><div style={{fontSize:11,color:'#10b981'}}>● {CHAT.online}</div></div>
                 </div>
-                <div style={{flex:1,overflowY:'auto',padding:'16px',display:'flex',flexDirection:'column',gap:10,background:'#fff'}}>
+                <div style={{flex:1,overflowY:'auto',padding:'16px',display:'flex',flexDirection:'column',gap:10,background:bgCard}}>
                   {chatMsgs.length===0 ? (
                     <div style={{margin:'auto',textAlign:'center',color:txtSub,fontSize:13,maxWidth:320,lineHeight:1.6}}>{CHAT.empty}</div>
                   ) : chatMsgs.map(m=>(
@@ -1357,7 +1358,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     </div>
                   ))}
                 </div>
-                <div style={{padding:'10px 12px',borderTop:`1px solid ${bdr}`,display:'flex',gap:8,background:'#fafafa'}}>
+                <div style={{padding:'10px 12px',borderTop:`1px solid ${bdr}`,display:'flex',gap:8,background:'#15151e'}}>
                   <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatMsg()}}}
                     placeholder={CHAT.ph} style={{flex:1,padding:'10px 14px',fontSize:13,border:`1px solid ${bdr}`,borderRadius:20,outline:'none',fontFamily:'inherit',color:txt,boxSizing:'border-box'}}/>
                   <button onClick={sendChatMsg} disabled={!chatInput.trim()} style={{...btnPrimary,padding:'10px 18px',borderRadius:20,flexShrink:0,opacity:chatInput.trim()?1:0.5,cursor:chatInput.trim()?'pointer':'default'}}>{CHAT.send}</button>
@@ -1389,10 +1390,10 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             ):(
               <>
                 <div style={{fontSize:15,fontWeight:700,color:txt,marginBottom:4}}>{({'ro':'Solicită plată comisioane','ru':'Запросить выплату комиссий','en':'Request commission payment','tr':'Komisyon ödemesi talep et','de':'Provisionszahlung anfordern','pt':'Solicitar pagamento de comissões','pl':'Zażądaj wypłaty prowizji'})[lang]}</div>
-                <div style={{background:'#f0fdf4',border:'1px solid #86efac',borderRadius:6,padding:'10px 14px',marginBottom:14,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <div style={{background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:6,padding:'10px 14px',marginBottom:14,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                   <div>
                     <div style={{fontSize:11,color:txtSub,marginBottom:1}}>Disponibil pentru retragere</div>
-                    <div style={{fontSize:22,fontWeight:900,color:'#15803d'}}>${D.bal.available}</div>
+                    <div style={{fontSize:22,fontWeight:900,color:'#4ade80'}}>${D.bal.available}</div>
                   </div>
                   <div style={{textAlign:'right'}}>
                     <div style={{fontSize:11,color:txtSub,marginBottom:1}}>Minim retragere</div>
