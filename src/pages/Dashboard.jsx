@@ -1058,7 +1058,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                     <thead><tr>{[dt.thCur+' ↕',dt.thStruct+' ↕',dt.thGroup+' ↕',dt.thStart+' ↕',dt.thDesc+' ↕',dt.thEnd+' ↕'].map(h=><th key={h} style={{...TH,cursor:'pointer'}}>{h}</th>)}</tr></thead>
                     <tbody>{D.commStructure.map((r,i)=>(
-                      <tr key={i} style={{background:i%2===0?'#fff':'#fafafa'}}>
+                      <tr key={i} style={{background:i%2===0?'transparent':'rgba(255,255,255,0.03)'}}>
                         <td style={TD}>{r.val}</td>
                         <td style={TD}>{r.struct}</td>
                         <td style={TD}>{r.group}</td>
@@ -1115,7 +1115,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <thead><tr>{[dt.thCur+' ↕',dt.thDate+' ↕',dt.thPay+' ↕',dt.thRev+' ↕',dt.thBal+' ↕',dt.thStatus+' ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>
                     {payTab==='history'&&D.pays.map((p,i)=>(
-                      <tr key={i} style={{background:i%2===0?'#fff':'#fafafa'}}>
+                      <tr key={i} style={{background:i%2===0?'transparent':'rgba(255,255,255,0.03)'}}>
                         <td style={TD}>USD</td>
                         <td style={TD}>{p.dt}</td>
                         <td style={{...TD,color:'#10b981',fontWeight:600}}>${p.am}</td>
@@ -1229,13 +1229,13 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <table style={{width:'100%',borderCollapse:'collapse',minWidth:600}}>
                     <thead><tr>
                       {(page==='summary'
-                        ?['Vizualizări','Clickuri','Linkuri directe','Click/Vizualizări','Înregistrări','Înreg./Clickuri','Înreg. cu depuneri','Suma noilor depuneri','Depunători noi','Conturi cu depuneri','Suma depuneri','Venituri','Nr. depuneri','Jucători activi','Media profit/jucător','Suma bonus','Total comision RS','CPA','Suma comisionului','Comision sub-afiliați']
-                        :['Data','Valută','Clickuri','Înregistrări','Depunători noi','Venituri','Suma comisionului']
+                        ?[dt.thViews,dt.thClicks,dt.thDirect,L({ro:'Click/Vizualizări',ru:'Клики/Показы',en:'Clicks/Views',tr:'Tıklama/Görüntüleme',de:'Klicks/Ansichten',pt:'Cliques/Visualizações',pl:'Kliknięcia/Wyświetlenia'}),dt.thRegs,L({ro:'Înreg./Clickuri',ru:'Рег./Клики',en:'Regs/Clicks',tr:'Kayıt/Tıklama',de:'Reg./Klicks',pt:'Reg./Cliques',pl:'Rej./Kliknięcia'}),L({ro:'Înreg. cu depuneri',ru:'Рег. с депозитом',en:'Regs with deposits',tr:'Yatırımlı kayıtlar',de:'Reg. mit Einzahlung',pt:'Reg. com depósitos',pl:'Rej. z wpłatami'}),L({ro:'Suma noilor depuneri',ru:'Сумма новых депозитов',en:'New deposits amount',tr:'Yeni yatırım tutarı',de:'Betrag neuer Einzahlungen',pt:'Valor de novos depósitos',pl:'Kwota nowych wpłat'}),dt.thDep,L({ro:'Conturi cu depuneri',ru:'Счета с депозитами',en:'Accounts with deposits',tr:'Yatırımlı hesaplar',de:'Konten mit Einzahlungen',pt:'Contas com depósitos',pl:'Konta z wpłatami'}),L({ro:'Suma depuneri',ru:'Сумма депозитов',en:'Deposits amount',tr:'Yatırım tutarı',de:'Einzahlungsbetrag',pt:'Valor de depósitos',pl:'Kwota wpłat'}),dt.thRev,L({ro:'Nr. depuneri',ru:'Кол-во депозитов',en:'No. of deposits',tr:'Yatırım sayısı',de:'Anz. Einzahlungen',pt:'Nº de depósitos',pl:'Liczba wpłat'}),L({ro:'Jucători activi',ru:'Активные игроки',en:'Active players',tr:'Aktif oyuncular',de:'Aktive Spieler',pt:'Jogadores ativos',pl:'Aktywni gracze'}),L({ro:'Media profit/jucător',ru:'Ср. прибыль/игрок',en:'Avg profit/player',tr:'Ort. kâr/oyuncu',de:'Ø Gewinn/Spieler',pt:'Lucro médio/jogador',pl:'Śr. zysk/gracz'}),L({ro:'Suma bonus',ru:'Сумма бонусов',en:'Bonus amount',tr:'Bonus tutarı',de:'Bonusbetrag',pt:'Valor de bónus',pl:'Kwota bonusu'}),L({ro:'Total comision RS',ru:'Итого комиссия RS',en:'Total RS commission',tr:'Toplam RS komisyonu',de:'RS-Provision gesamt',pt:'Comissão RS total',pl:'Łączna prowizja RS'}),'CPA',dt.lComm,L({ro:'Comision sub-afiliați',ru:'Комиссия суб-партнёров',en:'Sub-affiliate commission',tr:'Alt ortak komisyonu',de:'Sub-Affiliate-Provision',pt:'Comissão de subafiliados',pl:'Prowizja subpartnerów'})]
+                        :[dt.thDate,dt.thCur,dt.thClicks,dt.thRegs,dt.thDep,dt.thRev,dt.lComm]
                       ).map(h=><th key={h} style={TH}>{h}</th>)}
                     </tr></thead>
                     <tbody>
                       {page==='report'&&D.daily.map((r,i)=>(
-                        <tr key={r.d} style={{background:i%2===0?'#fff':'#fafafa'}}>
+                        <tr key={r.d} style={{background:i%2===0?'transparent':'rgba(255,255,255,0.03)'}}>
                           <td style={TD}>{r.d}</td><td style={TD}>USD</td>
                           <td style={TD}>{r.cl}</td><td style={TD}>{r.rg}</td>
                           <td style={TD}>{r.dp}</td><td style={TD}>${r.rv}</td>
@@ -1245,7 +1245,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                       {page==='summary'&&(
                         <tr>
                           {['0','0','0','0','0','0','0','$0','0','0','$0','$0','0','0','$0','$0','$0','0','$'+totComm,'$0'].map((v,i)=>(
-                            <td key={i} style={{...TD,background:i%2===0?'#fffbf0':'#fff',color:i===18?'#10b981':txt}}>{v}</td>
+                            <td key={i} style={{...TD,background:i%2===0?'rgba(245,166,35,0.05)':'transparent',color:i===18?'#10b981':txt}}>{v}</td>
                           ))}
                         </tr>
                       )}
@@ -1303,7 +1303,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                       {L({ro:'Niciun blogger invitat încă. Copiază linkul de referral și trimite-l colegilor tăi bloggeri!',ru:'Пока нет приглашённых блогеров. Скопируй реферальную ссылку и отправь её коллегам-блогерам!',en:'No invited bloggers yet. Copy your referral link and send it to your fellow bloggers!',tr:'Henüz davet edilen blogcu yok. Referans bağlantını kopyala ve blogcu arkadaşlarına gönder!',de:'Noch keine eingeladenen Blogger. Kopiere deinen Empfehlungslink und sende ihn an deine Blogger-Kollegen!',pt:'Ainda sem bloggers convidados. Copia o teu link de indicação e envia aos teus colegas bloggers!',pl:'Brak zaproszonych blogerów. Skopiuj link polecający i wyślij go znajomym blogerom!'})}
                     </td></tr>
                   ):myReferrals.map((r,i)=>(
-                    <tr key={r.name} style={{background:i%2===0?'#fff':'#fafafa'}}>
+                    <tr key={r.name} style={{background:i%2===0?'transparent':'rgba(255,255,255,0.03)'}}>
                       <td style={{...TD,fontWeight:600}}>{r.name}</td>
                       <td style={TD}>{r.pl||'-'}</td>
                       <td style={{...TD,color:txtSub}}>{r.dt}</td>
