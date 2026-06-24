@@ -118,15 +118,16 @@ export async function loginBlogger(username, pass) {
 
 // ─── RESETARE PAROLA PRIN EMAIL ──────────────────────────────
 export async function sendResetEmail(toEmail, resetLink, username) {
-  const SID = import.meta.env.VITE_EMAILJS_SERVICE
-  const TID = import.meta.env.VITE_EMAILJS_TEMPLATE
-  const PUB = import.meta.env.VITE_EMAILJS_PUBLIC
+  const SID = import.meta.env.VITE_EMAILJS_SERVICE || 'service_ljyjtom'
+  const TID = import.meta.env.VITE_EMAILJS_TEMPLATE || 'template_2sldrzn'
+  const PUB = import.meta.env.VITE_EMAILJS_PUBLIC || 'slTZStxmHvt80W3cp'
   if (!SID || !TID || !PUB) return { ok:false, reason:'not_configured' }
+  const message = `Ai cerut resetarea parolei pentru contul tău WinPartners.\n\nDeschide acest link (valabil 1 oră) ca să setezi o parolă nouă:\n${resetLink}\n\nDacă nu ai cerut tu resetarea, ignoră acest email.\n\n— Echipa WinPartners`
   try {
     const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ service_id:SID, template_id:TID, user_id:PUB,
-        template_params:{ to_email:toEmail, reset_link:resetLink, username:username||'' } })
+        template_params:{ email:toEmail, to_email:toEmail, name:username||'utilizator', username:username||'', reset_link:resetLink, message } })
     })
     return { ok: res.ok }
   } catch(e) { return { ok:false, reason:'error' } }
