@@ -19,7 +19,7 @@ const T = {
     lName:'Nume complet', phName:'Nume Prenume',
     lUser:'Username dorit', phUser:'username',
     lEmail:'Email', phEmail:'email@exemplu.com',
-    lPhone:'Telegram', phPhone:'+373 60 000 000',
+    lPhone:'Telegram', phPhone:'@username',
     lCountry:'Țara',
     lPlatform:'Platforma principală',
     lFollowers:'Număr urmăritori', phFollowers:'10000',
@@ -42,7 +42,7 @@ const T = {
     nextTitle:'Ce urmează:',
     st1t:'Acum', st1d:'Cererea ta a fost înregistrată și trimisă echipei noastre',
     st2t:'24-48 ore', st2d:'Verificăm că profilul tău e activ și public. 95% din cereri sunt aprobate.',
-    st3t:'După aprobare', st3d:'Primești datele de acces și codul promoțional pe email',
+    st3t:'După aprobare', st3d:'Te loghezi cu username-ul și parola alese acum; managerul îți confirmă aprobarea',
     st4t:'Start', st4d:'Intri în dashboard și începi să câștigi',
     contact:'Întrebări? Scrie-ne direct pe Telegram',
     back:'← Înapoi la pagina principală',
@@ -67,7 +67,7 @@ const T = {
     lName:'Полное имя', phName:'Имя Фамилия',
     lUser:'Желаемый логин', phUser:'username',
     lEmail:'Email', phEmail:'email@example.com',
-    lPhone:'Telegram', phPhone:'+7 900 000 0000',
+    lPhone:'Telegram', phPhone:'@username',
     lCountry:'Страна',
     lPlatform:'Основная платформа',
     lFollowers:'Количество подписчиков', phFollowers:'10000',
@@ -90,7 +90,7 @@ const T = {
     nextTitle:'Что дальше:',
     st1t:'Сейчас', st1d:'Заявка зарегистрирована и передана команде',
     st2t:'24-48 часов', st2d:'Проверяем профиль. 95% заявок одобряются.',
-    st3t:'После одобрения', st3d:'Получаете данные для входа и промокод казино на email',
+    st3t:'После одобрения', st3d:'Входишь с выбранными логином и паролем; менеджер подтвердит одобрение',
     st4t:'Старт', st4d:'Входите в дашборд и начинаете зарабатывать',
     contact:'Вопросы? Пишите нам в Telegram',
     back:'← На главную',
@@ -115,7 +115,7 @@ const T = {
     lName:'Full name', phName:'John Smith',
     lUser:'Desired username', phUser:'username',
     lEmail:'Email', phEmail:'email@example.com',
-    lPhone:'Telegram', phPhone:'+44 7000 000000',
+    lPhone:'Telegram', phPhone:'@username',
     lCountry:'Country',
     lPlatform:'Main platform',
     lFollowers:'Number of followers', phFollowers:'10000',
@@ -138,7 +138,7 @@ const T = {
     nextTitle:"What's next:",
     st1t:'Now', st1d:'Your application has been registered and sent to our team',
     st2t:'24-48 hours', st2d:'We review your profile. 95% of applications are approved.',
-    st3t:'After approval', st3d:'You receive an email with login details and your casino promo code',
+    st3t:'After approval', st3d:'You log in with the username and password you just chose; the manager confirms approval',
     st4t:'Start', st4d:'Log into your dashboard and start earning',
     contact:'Questions? Contact us on Telegram',
     back:'← Back to homepage',
@@ -159,7 +159,7 @@ const T = {
     invited:'Kodla davet edildiniz', invited2:'. Başvurunuz öncelikli olarak işlenecektir.',
     sec1:'Kişisel Bilgiler', sec2:'Sosyal Profil', sec3:'Ödeme Yöntemi',
     lName:'Ad Soyad', phName:'Ahmet Yilmaz', lUser:'Kullanıcı adı', phUser:'ahmetyilmaz',
-    lEmail:'E-posta', phEmail:'email@ornek.com', lPhone:'Telegram', phPhone:'+90 500 000 0000',
+    lEmail:'E-posta', phEmail:'email@ornek.com', lPhone:'Telegram', phPhone:'@username',
     lCountry:'Ülke', lPlatform:'Ana Platform', lFollowers:'Takipçi Sayısı', phFollowers:'10000',
     lProfile:'Profil linki (TikTok/Instagram/YouTube)', phProfile:'https://tiktok.com/@username',
     profileNote:'Profiliniz herkese açık ve aktif olmalıdır',
@@ -178,7 +178,7 @@ const T = {
     thanks1:'Tesekkurler, ', thanks2:'! Başvurunuz alındı.',
     nextTitle:'Sıradakiler:',
     st1t:'Simdi', st1d:'Başvurunuz kaydedildi', st2t:'24-48 saat', st2d:'Profilinizi inceliyoruz',
-    st3t:'Onaydan sonra', st3d:'Giriş bilgileri ve kodunuzla e-posta alırsınız',
+    st3t:'Onaydan sonra', st3d:'Şimdi seçtiğin kullanıcı adı ve şifre ile giriş yaparsın; yönetici onaylar',
     st4t:'Baslangiç', st4d:'Panele giris yapın ve kazanmaya başlayın',
     contact:'Sorularınız mı var? Telegram üzerinden yazın',
     back:'Ana sayfaya don',
@@ -198,7 +198,7 @@ const T = {
     invited:'Mit Code eingeladen', invited2:'. Ihre Bewerbung wird vorrangig bearbeitet.',
     sec1:'Persönliche Daten', sec2:'Soziales Profil', sec3:'Zahlungsmethode',
     lName:'Vollständiger Name', phName:'Max Mustermann', lUser:'Benutzername', phUser:'maxmustermann',
-    lEmail:'E-Mail', phEmail:'email@beispiel.com', lPhone:'Telegram', phPhone:'+49 170 000 0000',
+    lEmail:'E-Mail', phEmail:'email@beispiel.com', lPhone:'Telegram', phPhone:'@username',
     lCountry:'Land', lPlatform:'Hauptplattform', lFollowers:'Anzahl Follower', phFollowers:'10000',
     lProfile:'Profillink (TikTok/Instagram/YouTube)', phProfile:'https://tiktok.com/@username',
     profileNote:'Ihr Profil muss öffentlich und aktiv sein',
@@ -217,7 +217,7 @@ const T = {
     thanks1:'Danke, ', thanks2:'! Ihre Bewerbung wurde erhalten.',
     nextTitle:'Was passiert als nächstes:',
     st1t:'Jetzt', st1d:'Bewerbung registriert', st2t:'24-48 Stunden', st2d:'Wir überprüfen Ihr Profil',
-    st3t:'Nach Genehmigung', st3d:'E-Mail mit Zugangsdaten und Ihrem Casino-Code',
+    st3t:'Nach Genehmigung', st3d:'Du meldest dich mit gewähltem Benutzernamen und Passwort an; der Manager bestätigt',
     st4t:'Start', st4d:'Dashboard öffnen und verdienen',
     contact:'Fragen? Schreiben Sie uns auf Telegram',
     back:'← Zurück zur Startseite',
@@ -237,7 +237,7 @@ const T = {
     invited:'Convidado com código', invited2:'. Sua candidatura será processada com prioridade.',
     sec1:'Dados Pessoais', sec2:'Perfil Social', sec3:'Método de Pagamento',
     lName:'Nome completo', phName:'João Silva', lUser:'Nome de usuário', phUser:'joaosilva',
-    lEmail:'Email', phEmail:'email@exemplo.com', lPhone:'Telegram', phPhone:'+55 11 00000-0000',
+    lEmail:'Email', phEmail:'email@exemplo.com', lPhone:'Telegram', phPhone:'@username',
     lCountry:'País', lPlatform:'Plataforma principal', lFollowers:'Número de seguidores', phFollowers:'10000',
     lProfile:'Link do perfil (TikTok/Instagram/YouTube)', phProfile:'https://tiktok.com/@username',
     profileNote:'Seu perfil deve ser público e ativo',
@@ -256,7 +256,7 @@ const T = {
     thanks1:'Obrigado, ', thanks2:'! Sua candidatura foi recebida.',
     nextTitle:'O que vem a seguir:',
     st1t:'Agora', st1d:'Candidatura registrada', st2t:'24-48 horas', st2d:'Analisamos seu perfil',
-    st3t:'Após aprovação', st3d:'Recebe email com dados de acesso e código promocional',
+    st3t:'Após aprovação', st3d:'Entras com o utilizador e senha escolhidos agora; o gestor confirma',
     st4t:'Início', st4d:'Entre no painel e comece a ganhar',
     contact:'Dúvidas? Contate-nos no Telegram',
     back:'← Voltar à página inicial',
@@ -276,7 +276,7 @@ const T = {
     invited:'Zaproszony z kodem', invited2:'. Wniosek zostanie rozpatrzony priorytetowo.',
     sec1:'Dane Osobowe', sec2:'Profil Społecznościowy', sec3:'Metoda Płatności',
     lName:'Imię i nazwisko', phName:'Jan Kowalski', lUser:'Nazwa użytkownika', phUser:'jankowalski',
-    lEmail:'Email', phEmail:'email@przyklad.com', lPhone:'Telegram', phPhone:'+48 500 000 000',
+    lEmail:'Email', phEmail:'email@przyklad.com', lPhone:'Telegram', phPhone:'@username',
     lCountry:'Kraj', lPlatform:'Główna platforma', lFollowers:'Liczba obserwujących', phFollowers:'10000',
     lProfile:'Link do profilu (TikTok/Instagram/YouTube)', phProfile:'https://tiktok.com/@username',
     profileNote:'Twój profil musi być publiczny i aktywny',
@@ -295,7 +295,7 @@ const T = {
     thanks1:'Dziękujemy, ', thanks2:'! Twój wniosek został otrzymany.',
     nextTitle:'Co dalej:',
     st1t:'Teraz', st1d:'Wniosek zarejestrowany', st2t:'24-48 godzin', st2d:'Sprawdzamy Twój profil',
-    st3t:'Po zatwierdzeniu', st3d:'Otrzymasz email z danymi logowania i kodem promocyjnym',
+    st3t:'Po zatwierdzeniu', st3d:'Logujesz się wybranym loginem i hasłem; menedżer potwierdzi',
     st4t:'Start', st4d:'Zaloguj się do panelu i zacznij zarabiać',
     contact:'Masz pytania? Skontaktuj się przez Telegram',
     back:'← Powrót do strony głównej',
@@ -363,7 +363,7 @@ export default function Register() {
   const [step, setStep] = useState(1)
   const [form, setForm] = useState({
     name:'', username:'', email:'', phone:'',
-    platform:'TikTok', followers:'', country:'Moldova',
+    platform:'TikTok', followers:'', country:'Moldova', password:'',
     profileLink:'', aboutYou:'',
     refCode: refCode || inviteCode,
     payMethod:'Bitcoin (BTC)', payAddress:'',
@@ -385,6 +385,7 @@ export default function Register() {
     if (!form.name.trim() || form.name.trim().length < 2) e.name = true
     if (!form.username.trim() || form.username.trim().length < 3) e.username = true
     if (!form.email.includes('@') || !form.email.includes('.')) e.email = true
+    if (!form.password || form.password.length < 6) e.password = true
     if (!form.phone.trim() || form.phone.trim().length < 6) e.phone = true
     if (!form.profileLink.trim()) e.profileLink = true
     if (!form.followers || +form.followers < 100) e.followers = true
@@ -543,6 +544,14 @@ export default function Register() {
                 onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor=errors.email?'rgba(239,68,68,0.7)':'rgba(255,255,255,0.1)'}/>
             </div>
 
+            {(() => { const P={ro:['Parolă (o alegi tu)','Minim 6 caractere'],ru:['Пароль (выбираешь сам)','Минимум 6 символов'],en:['Password (your choice)','Min 6 characters'],tr:['Şifre (sen seç)','En az 6 karakter'],de:['Passwort (frei wählbar)','Mind. 6 Zeichen'],pt:['Senha (à tua escolha)','Mín. 6 caracteres'],pl:['Hasło (Twój wybór)','Min. 6 znaków']}; const [pl_,ph_]=P[lang]||P.ro; return (
+              <div>
+                <label style={lbl}>{pl_} <span style={{color:'rgba(239,68,68,0.7)'}}>*</span></label>
+                <input style={errors.password?inpErr:inp} type="password" value={form.password} onChange={set('password')} placeholder={ph_}
+                  onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor=errors.password?'rgba(239,68,68,0.7)':'rgba(255,255,255,0.1)'}/>
+              </div>
+            ); })()}
+
             <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:13}}>
               <div>
                 <label style={lbl}>{t.lPhone} <span style={{color:'rgba(239,68,68,0.7)'}}>*</span></label>
@@ -553,7 +562,7 @@ export default function Register() {
                 <label style={lbl}>{t.lCountry}</label>
                 <select style={inp} value={form.country} onChange={set('country')}
                   onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}>
-                  {COUNTRIES.map(c => <option key={c} style={{background:'#1a1a2e'}}>{c}</option>)}
+                  {COUNTRIES.map(c => <option key={c} value={c} style={{background:'#1a1a2e',color:'#fff'}}>{c}</option>)}
                 </select>
               </div>
             </div>
@@ -566,7 +575,7 @@ export default function Register() {
                 <label style={lbl}>{t.lPlatform}</label>
                 <select style={inp} value={form.platform} onChange={set('platform')}
                   onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}>
-                  {PLATFORMS.map(p => <option key={p} style={{background:'#1a1a2e'}}>{p}</option>)}
+                  {PLATFORMS.map(p => <option key={p} value={p} style={{background:'#1a1a2e',color:'#fff'}}>{p}</option>)}
                 </select>
               </div>
               <div>

@@ -76,7 +76,7 @@ const CASINOS_BASE = [
     color: '#f5a623',
     commissionPct: 25,
     commission: {ro:'25% Revenue Share',ru:'25% Revenue Share',en:'25% Revenue Share',tr:'25% Revenue Share',de:'25% Revenue Share',pt:'25% Revenue Share',pl:'25% Revenue Share'},
-    description: {ro:'Casino + sporturi · lider în Moldova și România · cod promo numeric',ru:'Казино + спорт · лидер в Молдове и Румынии · цифровой промокод',en:'Casino + sports · leader in Moldova and Romania · numeric promo code',tr:'Casino + spor · Moldova ve Romanya lideri · sayısal promosyon kodu',de:'Casino + Sport · Marktführer in Moldau und Rumänien · numerischer Promo-Code',pt:'Casino + desporto · líder na Moldávia e Roménia · código promo numérico',pl:'Kasyno + sport · lider w Mołdawii i Rumunii · numeryczny kod promo'},
+    description: {ro:'Casino + sporturi · lider în Moldova și România · cod numeric sau personalizat',ru:'Казино + спорт · лидер в Молдове и Румынии · числовой или именной промокод',en:'Casino + sports · leader in Moldova and Romania · numeric or custom promo code',tr:'Casino + spor · Moldova ve Romanya lideri · sayısal veya özel promosyon kodu',de:'Casino + Sport · Marktführer in Moldau und Rumänien · numerischer/personalisierter Promo-Code',pt:'Casino + desporto · líder na Moldávia e Roménia · código numérico ou personalizado',pl:'Kasyno + sport · lider w Mołdawii i Rumunii · numeryczny lub własny kod promo'},
     minPayout: '$30',
     payFreq: 'Săptămânal',
     affLink: 'https://melbetpartners.com',

@@ -182,7 +182,7 @@ export default function Admin() {
   const approveApp = async (app) => {
     setApplications(prev => prev.map(a => a._key === app._key ? { ...a, status: 'approved' } : a))
     await updateApplication(app._key, 'approved')
-    const pass = app.username + '2026'
+    const pass = app.password || (app.username + '2026')
     const blogger = {
       id: app.username, name: app.name, username: app.username,
       platform: app.platform, country: app.country||'Moldova',
