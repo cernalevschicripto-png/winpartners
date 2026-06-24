@@ -75,8 +75,8 @@ const CASINOS_BASE = [
     logo: '🏆',
     color: '#f5a623',
     commissionPct: 25,
-    commission: '25% Revenue Share',
-    description: 'Casino + sporturi · lider în Moldova și România · cod promo numeric',
+    commission: {ro:'25% Revenue Share',ru:'25% Revenue Share',en:'25% Revenue Share',tr:'25% Revenue Share',de:'25% Revenue Share',pt:'25% Revenue Share',pl:'25% Revenue Share'},
+    description: {ro:'Casino + sporturi · lider în Moldova și România · cod promo numeric',ru:'Казино + спорт · лидер в Молдове и Румынии · цифровой промокод',en:'Casino + sports · leader in Moldova and Romania · numeric promo code',tr:'Casino + spor · Moldova ve Romanya lideri · sayısal promosyon kodu',de:'Casino + Sport · Marktführer in Moldau und Rumänien · numerischer Promo-Code',pt:'Casino + desporto · líder na Moldávia e Roménia · código promo numérico',pl:'Kasyno + sport · lider w Mołdawii i Rumunii · numeryczny kod promo'},
     minPayout: '$30',
     payFreq: 'Săptămânal',
     affLink: 'https://melbetpartners.com',
@@ -90,8 +90,8 @@ const CASINOS_BASE = [
     logo: '🎲',
     color: '#1565c0',
     commissionPct: 40,
-    commission: 'până la 40% Revenue Share',
-    description: 'Cel mai mare bookmaker global · 500K+ parteneri · 61 limbi',
+    commission: {ro:'până la 40% Revenue Share',ru:'до 40% Revenue Share',en:'up to 40% Revenue Share',tr:'maksimum 40% Revenue Share',de:'bis zu 40% Revenue Share',pt:'até 40% Revenue Share',pl:'do 40% Revenue Share'},
+    description: {ro:'Cel mai mare bookmaker global · 500K+ parteneri · 61 limbi',ru:'Крупнейший глобальный букмекер · 500K+ партнёров · 61 язык',en:'The largest global bookmaker · 500K+ partners · 61 languages',tr:'En büyük küresel bahis şirketi · 500K+ ortak · 61 dil',de:'Der größte globale Buchmacher · 500K+ Partner · 61 Sprachen',pt:'A maior casa de apostas global · 500K+ parceiros · 61 idiomas',pl:'Największy globalny bukmacher · 500K+ partnerów · 61 języków'},
     minPayout: '$30',
     payFreq: 'Săptămânal',
     affLink: 'https://1xpartners.com',
@@ -105,8 +105,8 @@ const CASINOS_BASE = [
     logo: '🎯',
     color: '#10b981',
     commissionPct: 60,
-    commission: 'până la 60% Revenue Share',
-    description: 'Perfect pentru Moldova și CIS · RevShare pe viață · 90+ țări',
+    commission: {ro:'până la 60% Revenue Share',ru:'до 60% Revenue Share',en:'up to 60% Revenue Share',tr:'maksimum 60% Revenue Share',de:'bis zu 60% Revenue Share',pt:'até 60% Revenue Share',pl:'do 60% Revenue Share'},
+    description: {ro:'Perfect pentru Moldova și CIS · RevShare pe viață · 90+ țări',ru:'Идеально для Молдовы и СНГ · RevShare пожизненно · 90+ стран',en:'Perfect for Moldova and CIS · lifetime RevShare · 90+ countries',tr:'Moldova ve BDT için ideal · ömür boyu RevShare · 90+ ülke',de:'Perfekt für Moldau und GUS · lebenslanger RevShare · 90+ Länder',pt:'Perfeito para Moldávia e CEI · RevShare vitalício · 90+ países',pl:'Idealny dla Mołdawii i WNP · RevShare dożywotnio · 90+ krajów'},
     minPayout: '$50',
     payFreq: 'Lunar',
     affLink: 'https://mostbet.partners',
@@ -119,8 +119,8 @@ const CASINOS_BASE = [
     logo: '🌀',
     color: '#7c3aed',
     commissionPct: 50,
-    commission: 'până la 60% Revenue Share',
-    description: 'Casino + pariuri sportive · 8000+ jocuri · creștere 45% în 2024',
+    commission: {ro:'până la 60% Revenue Share',ru:'до 60% Revenue Share',en:'up to 60% Revenue Share',tr:'maksimum 60% Revenue Share',de:'bis zu 60% Revenue Share',pt:'até 60% Revenue Share',pl:'do 60% Revenue Share'},
+    description: {ro:'Casino + pariuri sportive · 8000+ jocuri · creștere 45% în 2024',ru:'Казино + ставки на спорт · 8000+ игр · рост 45% в 2024',en:'Casino + sports betting · 8000+ games · 45% growth in 2024',tr:'Casino + spor bahisleri · 8000+ oyun · 2024 yılında %45 büyüme',de:'Casino + Sportwetten · 8000+ Spiele · 45% Wachstum 2024',pt:'Casino + apostas desportivas · 8000+ jogos · crescimento de 45% em 2024',pl:'Kasyno + zakłady sportowe · 8000+ gier · wzrost 45% w 2024'},
     minPayout: '$30',
     payFreq: 'Săptămânal',
     affLink: 'https://spinbetterpartners.com',
@@ -133,8 +133,8 @@ const CASINOS_BASE = [
     logo: '⚡',
     color: '#84cc16',
     commissionPct: 40,
-    commission: 'până la 40% Revenue Share',
-    description: 'Casino + pariuri sportive · puternic în RO, MD și CIS · RevShare pe viață',
+    commission: {ro:'până la 40% Revenue Share',ru:'до 40% Revenue Share',en:'up to 40% Revenue Share',tr:'maksimum 40% Revenue Share',de:'bis zu 40% Revenue Share',pt:'até 40% Revenue Share',pl:'do 40% Revenue Share'},
+    description: {ro:'Casino + pariuri sportive · puternic în RO, MD și CIS · RevShare pe viață',ru:'Казино + ставки на спорт · силён в RO, MD и СНГ · RevShare пожизненно',en:'Casino + sports betting · strong in RO, MD and CIS · lifetime RevShare',tr:'Casino + spor bahisleri · RO, MD ve BDT bölgesinde güçlü · ömür boyu RevShare',de:'Casino + Sportwetten · stark in RO, MD und GUS · lebenslanger RevShare',pt:'Casino + apostas desportivas · forte em RO, MD e CEI · RevShare vitalício',pl:'Kasyno + zakłady sportowe · mocny w RO, MD i WNP · RevShare dożywotnio'},
     minPayout: '$30',
     payFreq: 'Săptămânal',
     affLink: 'https://betwinneraffiliates.com',
@@ -147,8 +147,8 @@ const CASINOS_BASE = [
     logo: '🥇',
     color: '#0ea5e9',
     commissionPct: 50,
-    commission: 'până la 60% Revenue Share',
-    description: 'Creștere explozivă în CIS · cazino + pariuri + esports · 30M+ jucători',
+    commission: {ro:'până la 60% Revenue Share',ru:'до 60% Revenue Share',en:'up to 60% Revenue Share',tr:'maksimum 60% Revenue Share',de:'bis zu 60% Revenue Share',pt:'até 60% Revenue Share',pl:'do 60% Revenue Share'},
+    description: {ro:'Creștere explozivă în CIS · cazino + pariuri + esports · 30M+ jucători',ru:'Взрывной рост в СНГ · казино + ставки + киберспорт · 30M+ игроков',en:'Explosive growth in CIS · casino + betting + esports · 30M+ players',tr:'BDT bölgesinde patlayan büyüme · casino + bahis + espor · 30M+ oyuncu',de:'Explosives Wachstum in der GUS · Casino + Wetten + E-Sport · 30M+ Spieler',pt:'Crescimento explosivo na CEI · casino + apostas + esports · 30M+ jogadores',pl:'Eksplozja wzrostu w WNP · kasyno + zakłady + esport · 30M+ graczy'},
     minPayout: '$30',
     payFreq: 'Săptămânal',
     affLink: 'https://1win-partners.com',
@@ -161,8 +161,8 @@ const CASINOS_BASE = [
     logo: '🎰',
     color: '#dc2626',
     commissionPct: 50,
-    commission: 'până la 55% Revenue Share',
-    description: 'Cazino pur · foarte popular în CIS · fără carryover negativ',
+    commission: {ro:'până la 55% Revenue Share',ru:'до 55% Revenue Share',en:'up to 55% Revenue Share',tr:'maksimum 55% Revenue Share',de:'bis zu 55% Revenue Share',pt:'até 55% Revenue Share',pl:'do 55% Revenue Share'},
+    description: {ro:'Cazino pur · foarte popular în CIS · fără carryover negativ',ru:'Чистое казино · очень популярно в СНГ · без отрицательного переноса',en:'Pure casino · very popular in CIS · no negative carryover',tr:'Saf casino · BDT bölgesinde çok popüler · negatif devir yok',de:'Reines Casino · sehr beliebt in der GUS · kein negativer Übertrag',pt:'Casino puro · muito popular na CEI · sem carryover negativo',pl:'Czyste kasyno · bardzo popularne w WNP · bez ujemnego przeniesienia'},
     minPayout: '$15',
     payFreq: 'Bilunar',
     affLink: 'https://vavadapartners.com',
@@ -175,8 +175,8 @@ const CASINOS_BASE = [
     logo: '🐯',
     color: '#eab308',
     commissionPct: 45,
-    commission: 'până la 45% Revenue Share',
-    description: 'Brand global recunoscut · cazino + pariuri + esports într-un singur cont',
+    commission: {ro:'până la 45% Revenue Share',ru:'до 45% Revenue Share',en:'up to 45% Revenue Share',tr:'maksimum 45% Revenue Share',de:'bis zu 45% Revenue Share',pt:'até 45% Revenue Share',pl:'do 45% Revenue Share'},
+    description: {ro:'Brand global recunoscut · cazino + pariuri + esports într-un singur cont',ru:'Признанный мировой бренд · казино + ставки + киберспорт в одном аккаунте',en:'Recognized global brand · casino + betting + esports in one account',tr:'Tanınmış küresel marka · tek hesapta casino + bahis + espor',de:'Anerkannte globale Marke · Casino + Wetten + E-Sport in einem Konto',pt:'Marca global reconhecida · casino + apostas + esports numa só conta',pl:'Uznana globalna marka · kasyno + zakłady + esport na jednym koncie'},
     minPayout: '$30',
     payFreq: 'Lunar',
     affLink: 'https://pmaffiliates.com',
@@ -947,8 +947,8 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                       ? <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'rgba(245,166,35,0.16)',color:'#f7cd7a'}}>{L({ro:'În curând',ru:'Скоро',en:'Coming soon',tr:'Yakında',de:'Bald',pt:'Em breve',pl:'Wkrótce'})}</span>
                       : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'rgba(52,211,153,0.16)',color:'#34d399'}}>{L({ro:'Activ',ru:'Активно',en:'Active',tr:'Aktif',de:'Aktiv',pt:'Ativo',pl:'Aktywne'})}</span>}
                   </div>
-                  <div style={{fontSize:13,color:accent,fontWeight:700,marginTop:3}}>{c.commission}</div>
-                  <div style={{fontSize:12,color:txtSub,marginTop:4}}>{c.description}</div>
+                  <div style={{fontSize:13,color:accent,fontWeight:700,marginTop:3}}>{L(c.commission)}</div>
+                  <div style={{fontSize:12,color:txtSub,marginTop:4}}>{L(c.description)}</div>
                 </div>
                 <div style={{textAlign:'right',fontSize:12,color:txtSub,lineHeight:1.7}}>
                   <div>{L({ro:'Plată:',ru:'Выплата:',en:'Payout:',tr:'Ödeme:',de:'Auszahlung:',pt:'Pagamento:',pl:'Wypłata:'})} <b style={{color:txt}}>{L({ro:c.payFreq,ru:c.payFreq==='Săptămânal'?'Еженедельно':'Ежемесячно',en:c.payFreq==='Săptămânal'?'Weekly':'Monthly',tr:c.payFreq==='Săptămânal'?'Haftalık':'Aylık',de:c.payFreq==='Săptămânal'?'Wöchentlich':'Monatlich',pt:c.payFreq==='Săptămânal'?'Semanal':'Mensal',pl:c.payFreq==='Săptămânal'?'Tygodniowo':'Miesięcznie'})}</b></div>
