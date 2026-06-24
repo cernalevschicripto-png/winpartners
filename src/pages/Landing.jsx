@@ -421,13 +421,13 @@ export default function Landing() {
       try {
         const r = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) })
         const d = await r.json()
-        const detectedLang = countryToLang[d.country_code]
+        const _c = d.country_code; const detectedLang = (_c && _c.length===2) ? (countryToLang[_c] || 'en') : null
         if (detectedLang) { setLang(detectedLang); localStorage.setItem('wp_lang', detectedLang) }
       } catch {
         try {
           const r2 = await fetch('https://api.country.is/', { signal: AbortSignal.timeout(3000) })
           const d2 = await r2.json()
-          const detectedLang = countryToLang[d2.country]
+          const _c2 = d2.country; const detectedLang = (_c2 && _c2.length===2) ? (countryToLang[_c2] || 'en') : null
           if (detectedLang) { setLang(detectedLang); localStorage.setItem('wp_lang', detectedLang) }
         } catch { /* rămâne ro */ }
       }

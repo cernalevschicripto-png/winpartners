@@ -357,7 +357,7 @@ export default function Register() {
   useEffect(() => {
     if (localStorage.getItem('wp_lang')) return
     const m = {MD:'ro',RO:'ro',RU:'ru',BY:'ru',KZ:'ru',UA:'ru',UZ:'ru',AM:'ru',AZ:'ru',GE:'ru',TJ:'ru',TM:'ru',KG:'ru',TR:'tr',DE:'de',AT:'de',CH:'de',PT:'pt',BR:'pt',PL:'pl'}
-    fetch('https://ipapi.co/json/',{signal:AbortSignal.timeout(3000)}).then(r=>r.json()).then(d=>{const l=m[d.country_code];if(l){setLang(l);localStorage.setItem('wp_lang',l)}}).catch(()=>{})
+    fetch('https://ipapi.co/json/',{signal:AbortSignal.timeout(3000)}).then(r=>r.json()).then(d=>{const _c=d.country_code;const l=(_c&&_c.length===2)?(m[_c]||'en'):null;if(l){setLang(l);localStorage.setItem('wp_lang',l)}}).catch(()=>{})
   }, [])
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [step, setStep] = useState(1)

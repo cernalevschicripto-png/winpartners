@@ -10,8 +10,8 @@ function useLang() {
   useEffect(() => {
     if (localStorage.getItem('wp_lang')) return
     const detect = async () => {
-      try { const r = await fetch('https://ipapi.co/json/',{signal:AbortSignal.timeout(3000)}); const d = await r.json(); const l = COUNTRY_MAP[d.country_code]; if(l){setLang(l);localStorage.setItem('wp_lang',l)} } catch {
-        try { const r2 = await fetch('https://api.country.is/',{signal:AbortSignal.timeout(3000)}); const d2 = await r2.json(); const l2 = COUNTRY_MAP[d2.country]; if(l2){setLang(l2);localStorage.setItem('wp_lang',l2)} } catch {}
+      try { const r = await fetch('https://ipapi.co/json/',{signal:AbortSignal.timeout(3000)}); const d = await r.json(); const _c=d.country_code;const l=(_c&&_c.length===2)?(COUNTRY_MAP[_c]||'en'):null; if(l){setLang(l);localStorage.setItem('wp_lang',l)} } catch {
+        try { const r2 = await fetch('https://api.country.is/',{signal:AbortSignal.timeout(3000)}); const d2 = await r2.json(); const _c2=d2.country;const l2=(_c2&&_c2.length===2)?(COUNTRY_MAP[_c2]||'en'):null; if(l2){setLang(l2);localStorage.setItem('wp_lang',l2)} } catch {}
       }
     }
     detect()
