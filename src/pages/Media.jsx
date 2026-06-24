@@ -30,6 +30,26 @@ const TEXTS = {
     t2:`💰 How I earn from casino without playing | WinPartners affiliate\n\nIn this video:\n✅ What RevShare 25% means and how it works\n✅ How much I actually earn per month\n✅ How to apply and get your promo code\n\nMy code: [CODE]\nRegister on Melbet with the code above — we both win.\n\n🔗 Link: winpartners.pro`,
     t3:`💰 Passive casino income | Code: [CODE] | winpartners.pro`,
   },
+  tr:{
+    t1:`🎰 Casino ortaklık programlarını duydun mu?\n\nGetirdiğim her oyuncudan ömür boyu %25 kazanıyorum. Onlar oynar, ben her hafta komisyon alırım.\n\nMelbet kaydında [KOD] kodumu kullan.\n\n👉 Bio'da link\n#casino #melbet #kazanç #ortaklık #winpartners`,
+    t2:`💰 Oynamadan casinodan nasıl kazanıyorum | WinPartners ortaklık\n\nBu videoda:\n✅ RevShare %25 nedir ve nasıl çalışır\n✅ Ayda gerçekte ne kadar kazanıyorum\n✅ Nasıl başvurulur ve promosyon kodu alınır\n\nKodum: [KOD]\nYukarıdaki kodla Melbet'e kaydol — ikimiz de kazanırız.\n\n🔗 Link: winpartners.pro`,
+    t3:`💰 Pasif casino geliri | Kod: [KOD] | winpartners.pro`,
+  },
+  de:{
+    t1:`🎰 Schon von Casino-Partnerprogrammen gehört?\n\nIch verdiene 25% von jedem geworbenen Spieler — lebenslang. Sie spielen, ich bekomme wöchentlich Provision.\n\nNutze meinen Code [CODE] bei der Anmeldung auf Melbet.\n\n👉 Link in der Bio\n#casino #melbet #verdienst #affiliate #winpartners`,
+    t2:`💰 Wie ich ohne zu spielen mit Casino verdiene | WinPartners Affiliate\n\nIn diesem Video:\n✅ Was RevShare 25% bedeutet und wie es funktioniert\n✅ Wie viel ich tatsächlich pro Monat verdiene\n✅ Wie du dich bewirbst und deinen Promo-Code erhältst\n\nMein Code: [CODE]\nMelde dich mit dem Code oben auf Melbet an — wir gewinnen beide.\n\n🔗 Link: winpartners.pro`,
+    t3:`💰 Passives Casino-Einkommen | Code: [CODE] | winpartners.pro`,
+  },
+  pt:{
+    t1:`🎰 Já ouviste falar de programas de afiliados de casino?\n\nGanho 25% de cada jogador que indico — para sempre. Eles jogam, eu recebo comissão semanal.\n\nUsa o meu código [CÓDIGO] ao registar-te na Melbet.\n\n👉 Link na bio\n#casino #melbet #ganhos #afiliado #winpartners`,
+    t2:`💰 Como ganho com casino sem jogar | Afiliado WinPartners\n\nNeste vídeo:\n✅ O que é RevShare 25% e como funciona\n✅ Quanto ganho realmente por mês\n✅ Como te candidatas e recebes o teu código promo\n\nO meu código: [CÓDIGO]\nRegista-te na Melbet com o código acima — ganhamos os dois.\n\n🔗 Link: winpartners.pro`,
+    t3:`💰 Renda passiva de casino | Código: [CÓDIGO] | winpartners.pro`,
+  },
+  pl:{
+    t1:`🎰 Słyszałeś o programach partnerskich kasyn?\n\nZarabiam 25% z każdego poleconego gracza — dożywotnio. Oni grają, ja co tydzień dostaję prowizję.\n\nUżyj mojego kodu [KOD] przy rejestracji na Melbet.\n\n👉 Link w bio\n#casino #melbet #zarobki #partnerstwo #winpartners`,
+    t2:`💰 Jak zarabiam na kasynie bez grania | Partner WinPartners\n\nW tym filmie:\n✅ Czym jest RevShare 25% i jak działa\n✅ Ile naprawdę zarabiam miesięcznie\n✅ Jak aplikować i otrzymać kod promo\n\nMój kod: [KOD]\nZarejestruj się na Melbet z kodem powyżej — oboje wygrywamy.\n\n🔗 Link: winpartners.pro`,
+    t3:`💰 Pasywny dochód z kasyna | Kod: [KOD] | winpartners.pro`,
+  },
 }
 
 function CopyBox({ title, text, t }) {
