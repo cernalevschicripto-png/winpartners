@@ -44,7 +44,7 @@ const CODE_QUEUE = {
   xbet:        [],
   mostbet:     [],
   spinbetter:  [],
-  pinup:       [],
+  betwinner:  [],
 }
 
 // Lăsat stub pentru compatibilitate
@@ -128,17 +128,17 @@ const CASINOS_BASE = [
     comingSoon: true,
   },
   {
-    id: 'pinup',
-    name: 'PIN-UP Casino',
-    logo: '📌',
-    color: '#e91e63',
-    commissionPct: 50,
-    commission: 'până la 50% Revenue Share',
-    description: 'Câștigător Affiliate of the Year 2025 · 25000+ parteneri activi',
+    id: 'betwinner',
+    name: 'BetWinner',
+    logo: '⚡',
+    color: '#84cc16',
+    commissionPct: 40,
+    commission: 'până la 40% Revenue Share',
+    description: 'Casino + pariuri sportive · puternic în RO, MD și CIS · RevShare pe viață',
     minPayout: '$30',
-    payFreq: 'Lunar',
-    affLink: 'https://pin-up.partners',
-    geo: 'MD, RU, CIS, LATAM',
+    payFreq: 'Săptămânal',
+    affLink: 'https://betwinneraffiliates.com',
+    geo: 'RO, MD, RU, CIS, EU',
     comingSoon: true,
   },
   {
@@ -214,7 +214,7 @@ const DEMO_CODES = {
   xbet:       ['1X001','1X002','1X003','1X004','1X005'],
   mostbet:    ['MB001','MB002','MB003','MB004','MB005'],
   spinbetter: ['SB001','SB002','SB003','SB004','SB005'],
-  pinup:      ['PU001','PU002','PU003','PU004','PU005'],
+  betwinner:  ['BW001','BW002','BW003','BW004','BW005'],
 }
 
 
@@ -934,7 +934,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               {/* Notă: cere cazinouri noi (fără parteneriat fals) */}
               <div style={{display:'flex',alignItems:'flex-start',gap:8,background:'#15151e',border:('1px dashed '+bdr),borderRadius:10,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12.5,color:txtSub,lineHeight:1.55}}>
                 <span style={{fontSize:15,flexShrink:0}}>💡</span>
-                <span>{L({ro:'Adăugăm constant cazinouri noi. Nu-l vezi pe al tău preferat? Deschide orice cazino marcat „în curând" și apasă „Vreau să lucrez cu..." — îți activăm afilierea cu prioritate.',ru:'Мы постоянно добавляем новые казино. Не видишь своё любимое? Открой любое казино с пометкой «скоро» и нажми «Хочу работать с...» — подключим партнёрку в приоритете.',en:'We constantly add new casinos. Do not see your favourite? Open any casino marked „coming soon" and tap „I want to work with..." — we will activate your affiliation as a priority.',tr:'Sürekli yeni kumarhaneler ekliyoruz. Favorini göremiyor musun? „yakında" etiketli bir kumarhaneyi aç ve „... ile çalışmak istiyorum" butonuna bas — ortaklığını öncelikli aktif ederiz.',de:'Wir fügen ständig neue Casinos hinzu. Dein Favorit fehlt? Öffne ein als „bald" markiertes Casino und tippe auf „Ich möchte mit ... arbeiten" — wir aktivieren deine Partnerschaft bevorzugt.',pt:'Adicionamos sempre novos casinos. Não vês o teu favorito? Abre qualquer casino marcado „em breve" e toca em „Quero trabalhar com..." — ativamos a tua afiliação com prioridade.',pl:'Stale dodajemy nowe kasyna. Nie widzisz swojego ulubionego? Otwórz dowolne kasyno oznaczone „wkrótce" i kliknij „Chcę współpracować z..." — aktywujemy współpracę priorytetowo.'})}</span>
+                <span>{L({ro:'Vrei să lucrezi și cu alte cazinouri? Deschide orice cazino marcat „în curând" și apasă „Vreau să lucrez cu..." — managerul analizează dacă profilul tău corespunde cerințelor de afiliere ale cazinoului și te anunță pe Telegram.',ru:'Хочешь работать и с другими казино? Открой любое казино с пометкой «скоро» и нажми «Хочу работать с...» — менеджер проверит, соответствует ли твой профиль требованиям партнёрки казино, и сообщит в Telegram.',en:'Want to work with other casinos too? Open any casino marked „coming soon" and tap „I want to work with..." — the manager will review whether your profile meets the casino affiliate requirements and reply on Telegram.',tr:'Başka kumarhanelerle de çalışmak ister misin? „yakında" etiketli bir kumarhaneyi aç ve „... ile çalışmak istiyorum" butonuna bas — yönetici profilinin kumarhanenin ortaklık koşullarına uygun olup olmadığını inceler ve Telegram üzerinden yanıt verir.',de:'Möchtest du auch mit anderen Casinos arbeiten? Öffne ein als „bald" markiertes Casino und tippe auf „Ich möchte mit ... arbeiten" — der Manager prüft, ob dein Profil die Partner-Anforderungen des Casinos erfüllt, und antwortet auf Telegram.',pt:'Queres trabalhar também com outros casinos? Abre qualquer casino marcado „em breve" e toca em „Quero trabalhar com..." — o gestor avalia se o teu perfil cumpre os requisitos de afiliação do casino e responde no Telegram.',pl:'Chcesz pracować także z innymi kasynami? Otwórz dowolne kasyno oznaczone „wkrótce" i kliknij „Chcę współpracować z..." — menedżer sprawdzi, czy Twój profil spełnia wymagania afiliacyjne kasyna, i odpowie na Telegramie.'})}</span>
               </div>
 
               {/* Header brand cazino */}
