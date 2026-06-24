@@ -139,7 +139,7 @@ const CASINOS_BASE = [
     payFreq: 'Săptămânal',
     affLink: 'https://betwinneraffiliates.com',
     geo: 'RO, MD, RU, CIS, EU',
-    comingSoon: true,
+    comingSoon: false,
   },
   {
     id: 'onewin',
