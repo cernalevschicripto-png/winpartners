@@ -23,7 +23,7 @@ const CASINOS = [
   { id:'xbet',       name:'1xBet',         color:'#1565c0' },
   { id:'mostbet',    name:'Mostbet',       color:green },
   { id:'spinbetter', name:'SpinBetter',    color:'#7c3aed' },
-  { id:'pinup',      name:'PIN-UP Casino', color:red },
+  { id:'betwinner', name:'BetWinner', color:'#84cc16' },
 ]
 
 // ── Butoane mari pentru touch ──
@@ -73,7 +73,7 @@ export default function AdminMobile() {
   const [apps, setApps] = useState([])
   const [bloggers, setBloggers] = useState([])
   const [notifications, setNotifications] = useState([])
-  const [promoCodes, setPromoCodes] = useState({ melbet:[], xbet:[], mostbet:[], spinbetter:[], pinup:[] })
+  const [promoCodes, setPromoCodes] = useState({ melbet:[], xbet:[], mostbet:[], spinbetter:[], betwinner:[] })
 
   // UI state
   const [selBlogger, setSelBlogger] = useState(null)
@@ -175,7 +175,7 @@ export default function AdminMobile() {
   // ── Salvează stats ──
   const saveStats = async () => {
     if (!selBlogger) return
-    const commPct = { melbet:25, xbet:40, mostbet:60, spinbetter:50, pinup:50 }[selCasino] || 25
+    const commPct = { melbet:25, xbet:40, mostbet:60, spinbetter:50, betwinner:40 }[selCasino] || 25
     const s = {
       clicks: Number(statsForm.clicks) || 0,
       regs: Number(statsForm.regs) || 0,
@@ -395,7 +395,7 @@ export default function AdminMobile() {
                 <Input
                   type="number" value={statsForm.commission}
                   onChange={e => setStatsForm(p => ({...p, commission: e.target.value}))}
-                  placeholder={Math.round((Number(statsForm.revenue)||0)*(({melbet:25,xbet:40,mostbet:60,spinbetter:50,pinup:50}[selCasino]||25)/100)) || '0'}
+                  placeholder={Math.round((Number(statsForm.revenue)||0)*(({melbet:25,xbet:40,mostbet:60,spinbetter:50,betwinner:40}[selCasino]||25)/100)) || '0'}
                 />
               </div>
               <Btn label="💾 Salvează în Firebase" color={gold} textColor="#000" onClick={saveStats} />

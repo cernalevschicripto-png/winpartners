@@ -449,7 +449,7 @@ export default function Landing() {
     {name:'1xBet',      color:'#60a5fa', bg:'rgba(96,165,250,0.10)', icon:'1', rs:'25%', geo:'62+ GEO', since:'2007', badge:'Global'},
     {name:'Mostbet',    color:'#f87171', bg:'rgba(248,113,113,0.10)', icon:'M', rs:'25%', geo:'90+ GEO', since:'2016', badge:'Fast Pay'},
     {name:'SpinBetter', color:'#a78bfa', bg:'rgba(167,139,250,0.10)', icon:'S', rs:'25%', geo:'100+ GEO', since:'2019', badge:'New'},
-    {name:'PIN-UP',     color:'#34d399', bg:'rgba(52,211,153,0.10)',  icon:'P', rs:'25%', geo:'50+ GEO', since:'2016', badge:'Casino'},
+    {name:'BetWinner', color:'#84cc16', bg:'rgba(132,204,22,0.10)', icon:'B', rs:'40%', geo:'CIS, RO, EU', since:'2018', badge:'Casino + Sport'},
   ]
 
   return (
@@ -921,13 +921,13 @@ export default function Landing() {
               {
                 icon:'≡', color:'#60a5fa', bg:'rgba(96,165,250,0.12)',
                 title: lang==='ru'?'5 казино, 1 аккаунт':lang==='en'?'5 casinos, 1 account':lang==='tr'?'5 kumarhane, 1 hesap':lang==='de'?'5 Casinos, 1 Konto':lang==='pt'?'5 cassinos, 1 conta':lang==='pl'?'5 kasyn, 1 konto':'5 cazinouri, 1 cont',
-                items: lang==='ru'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Единая статистика в одном дашборде','Один менеджер, одна выплата']:
-                       lang==='en'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Unified stats in a single dashboard','One manager, one payout']:
-                       lang==='tr'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Tek panelde birleşik istatistikler','Tek yönetici, tek ödeme']:
-                       lang==='de'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Einheitliche Statistiken im Dashboard','Ein Manager, eine Auszahlung']:
-                       lang==='pt'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Estatísticas unificadas num painel','Um gestor, um pagamento']:
-                       lang==='pl'?['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Ujednolicone statystyki w jednym panelu','Jeden menedżer, jedna wypłata']:
-                       ['Melbet, 1xBet, Mostbet, SpinBetter, PIN-UP','Statistici unificate într-un singur dashboard','Un singur manager, o singură plată'],
+                items: lang==='ru'?['Melbet, 1xBet, Mostbet, SpinBetter, BetWinner','Единая статистика в одном дашборде','Один менеджер, одна выплата']:
+                       lang==='en'?['Melbet, 1xBet, Mostbet, SpinBetter, BetWinner','Unified stats in a single dashboard','One manager, one payout']:
+                       lang==='tr'?['Melbet, 1xBet, Mostbet, SpinBetter, BetWinner','Tek panelde birleşik istatistikler','Tek yönetici, tek ödeme']:
+                       lang==='de'?['Melbet, 1xBet, Mostbet, SpinBetter, BetWinner','Einheitliche Statistiken im Dashboard','Ein Manager, eine Auszahlung']:
+                       lang==='pt'?['Melbet, 1xBet, Mostbet, SpinBetter, BetWinner','Estatísticas unificadas num painel','Um gestor, um pagamento']:
+                       lang==='pl'?['Melbet, 1xBet, Mostbet, SpinBetter, BetWinner','Ujednolicone statystyki w jednym panelu','Jeden menedżer, jedna wypłata']:
+                       ['Melbet, 1xBet, Mostbet, SpinBetter, BetWinner','Statistici unificate într-un singur dashboard','Un singur manager, o singură plată'],
               },
               {
                 icon:'⚡', color:'#10b981', bg:'rgba(16,185,129,0.12)',
@@ -1037,7 +1037,7 @@ export default function Landing() {
                 {name:'1xBet',   color:'#60a5fa', rs:'25%', ref:'3%', geo:'62+ GEO', pay:'Marți'},
                 {name:'Mostbet', color:'#f87171', rs:'25%', ref:'3%', geo:'90+ GEO', pay:'Marți'},
                 {name:'SpinBetter',color:'#a78bfa',rs:'25%',ref:'3%',geo:'100+ GEO',pay:'Marți'},
-                {name:'PIN-UP',  color:'#34d399', rs:'25%', ref:'3%', geo:'50+ GEO', pay:'Marți'},
+                {name:'BetWinner', color:'#84cc16', rs:'40%', ref:'3%', geo:'CIS, RO, EU', pay:'Vineri'},
               ].map(c=>(
                 <div key={c.name} style={{background:'rgba(255,255,255,0.025)',border:`1px solid ${c.color}25`,borderRadius:10,padding:'0.875rem',textAlign:'center'}}>
                   <div style={{fontSize:13,fontWeight:800,color:c.color,marginBottom:8}}>{c.name}</div>
@@ -1154,7 +1154,7 @@ export default function Landing() {
             </div>
             {/* Casino partners */}
             <div style={{display:'flex',gap:10,marginTop:14,justifyContent:'center',flexWrap:'wrap'}}>
-              {[['Melbet','#f5a623'],['1xBet','#60a5fa'],['Mostbet','#10b981'],['SpinBetter','#a78bfa'],['PIN-UP','#f87171']].map(([name,color])=>(
+              {[['Melbet','#f5a623'],['1xBet','#60a5fa'],['Mostbet','#10b981'],['SpinBetter','#a78bfa'],['BetWinner','#84cc16']].map(([name,color])=>(
                 <span key={name} style={{padding:'3px 12px',border:`1px solid ${color}30`,borderRadius:4,fontSize:10,fontWeight:700,color:`${color}70`,letterSpacing:'.04em'}}>{name}</span>
               ))}
             </div>
