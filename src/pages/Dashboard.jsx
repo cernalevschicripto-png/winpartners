@@ -910,8 +910,8 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
                     <div style={{fontSize:22,fontWeight:900,color:txt}}>{c.name}</div>
                     {c.comingSoon
-                      ? <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'#fef3c7',color:'#92400e'}}>În curând</span>
-                      : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'#dcfce7',color:'#34d399'}}>Activ</span>}
+                      ? <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'rgba(245,166,35,0.16)',color:'#f7cd7a'}}>În curând</span>
+                      : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'rgba(52,211,153,0.16)',color:'#34d399'}}>Activ</span>}
                   </div>
                   <div style={{fontSize:13,color:accent,fontWeight:700,marginTop:3}}>{c.commission}</div>
                   <div style={{fontSize:12,color:txtSub,marginTop:4}}>{c.description}</div>
@@ -1025,7 +1025,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
 
               {/* Cum promovezi — doar pentru active cu cod */}
               {!c.comingSoon && theCode && (
-                <div style={{background:'#fefce8',border:'1px solid #fde047',borderRadius:8,padding:'14px 18px',fontSize:12.5,color:'#854d0e',lineHeight:1.8}}>
+                <div style={{background:'rgba(245,166,35,0.08)',border:'1px solid rgba(245,166,35,0.28)',borderRadius:8,padding:'14px 18px',fontSize:12.5,color:'#e8c074',lineHeight:1.8}}>
                   <strong>💡 Cum promovezi {c.name}:</strong><br/>
                   • <strong>Bio TikTok/Instagram:</strong> pune linkul/codul → „Înregistrează-te pe {c.name}"<br/>
                   • <strong>În video/stories:</strong> „Folosiți codul <strong>{theCode}</strong> la înregistrare"<br/>
@@ -1120,7 +1120,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                         <td style={{...TD,color:'#10b981',fontWeight:600}}>${p.am}</td>
                         <td style={TD}>${p.venituri}</td>
                         <td style={TD}>${p.sold}</td>
-                        <td style={TD}><span style={{background:'#d1fae5',color:'#065f46',padding:'2px 8px',borderRadius:12,fontSize:11,fontWeight:600}}>{p.st}</span></td>
+                        <td style={TD}><span style={{background:'rgba(52,211,153,0.14)',color:'#065f46',padding:'2px 8px',borderRadius:12,fontSize:11,fontWeight:600}}>{p.st}</span></td>
                       </tr>
                     ))}
                     {payTab==='status'&&<tr><td colSpan={6} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>Fără solicitări active</td></tr>}
@@ -1382,7 +1382,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <p style={{color:txtSub,fontSize:13,marginBottom:8,lineHeight:1.6}}>
                   Cererea ta de plată a fost înregistrată. Suma va fi procesată în <strong>48 ore</strong> pe adresa ta {payMethod}.
                 </p>
-                <div style={{background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,padding:'8px 12px',fontSize:12,color:'#854d0e',marginBottom:16}}>
+                <div style={{background:'rgba(245,166,35,0.08)',border:'1px solid rgba(245,166,35,0.28)',borderRadius:6,padding:'8px 12px',fontSize:12,color:'#e8c074',marginBottom:16}}>
                   💡 Primești notificare pe Telegram când plata e confirmată.
                 </div>
                 <button style={btnPrimary} onClick={()=>{setShowPay(false);setPaySent(false)}}>{({'ro':'Închide','ru':'Закрыть','en':'Close','tr':'Kapat','de':'Schließen','pt':'Fechar','pl':'Zamknij'})[lang]||'Închide'}</button>
@@ -1445,7 +1445,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <p style={{color:txtSub,fontSize:13,marginBottom:20,lineHeight:1.6}}>
                 Trimite o cerere pentru a promova <strong>{casino?.name}</strong>. Echipa noastră îți va activa accesul și îți va aloca un cod promoțional dedicat.
               </p>
-              <div style={{background:'#fef9c3',border:'1px solid #fde047',borderRadius:6,padding:'10px 14px',marginBottom:20,fontSize:12,color:'#854d0e'}}>
+              <div style={{background:'rgba(245,166,35,0.08)',border:'1px solid rgba(245,166,35,0.28)',borderRadius:6,padding:'10px 14px',marginBottom:20,fontSize:12,color:'#e8c074'}}>
                 ⏱ Procesare în 24-48 ore. Vei fi notificat pe email și Telegram.
               </div>
               <button
