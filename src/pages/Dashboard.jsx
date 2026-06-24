@@ -683,7 +683,7 @@ function DashboardContent({ blogger, onLogout }) {
               <div onClick={()=>{ if(m.casinoId){setSelectedCasino(m.casinoId);setPage('casino');setGeneratedCode(null)} else {setPage(m.id)} ; if(isMobile) setSidebarOpen(false) }} style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px 9px 16px',cursor:'pointer',fontSize:13,color:isActiveItem?gold:'rgba(255,255,255,0.55)',background:isActiveItem?'rgba(245,166,35,0.1)':'none',borderLeft:isActiveItem?`3px solid ${gold}`:'3px solid transparent',transition:'all .12s'}}>
                 <span style={{fontSize:14}}>{m.icon}</span>
                 <span style={{flex:1}}>{m.label}</span>
-                {m.comingSoon&&<span style={{fontSize:8,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.04em'}}>curând</span>}
+                {m.comingSoon&&<span style={{fontSize:8,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:'.04em'}}>{L({ro:'curând',ru:'скоро',en:'soon',tr:'yakında',de:'bald',pt:'em breve',pl:'wkrótce'})}</span>}
                 {m.id==='contact'&&myChatUnread>0&&<span style={{fontSize:10,fontWeight:700,minWidth:18,height:18,borderRadius:9,background:'#ef4444',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 5px'}}>{myChatUnread}</span>}
               </div>
             </div>
@@ -892,7 +892,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                         background: sel?(x.color+'15'):'#fff',
                         color: sel?x.color:txt}}>
                       <span style={{fontSize:16}}>{x.logo}</span>{x.name}
-                      {x.comingSoon && <span style={{fontSize:9,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'#1e1e2a',color:'#94a3b8'}}>curând</span>}
+                      {x.comingSoon && <span style={{fontSize:9,fontWeight:700,padding:'2px 6px',borderRadius:8,background:'#1e1e2a',color:'#94a3b8'}}>{L({ro:'curând',ru:'скоро',en:'soon',tr:'yakında',de:'bald',pt:'em breve',pl:'wkrótce'})}</span>}
                     </button>
                   )
                 })}
