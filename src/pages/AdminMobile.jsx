@@ -322,8 +322,15 @@ export default function AdminMobile() {
                 ))}
               </div>
 
-              {app.email && <div style={{ fontSize:12, color:'rgba(255,255,255,0.5)', marginBottom:4 }}>📧 {app.email}</div>}
-              {app.phone && <div style={{ fontSize:12, color:'rgba(255,255,255,0.5)', marginBottom:4 }}>📱 {app.phone}</div>}
+              {(() => {
+                const raw = (app.profileLink || '').trim()
+                const href = raw && !/^https?:\/\//i.test(raw) ? 'https://' + raw : raw
+                return href
+                  ? <a href={href} target="_blank" rel="noopener noreferrer" style={{ display:'block', background:gold+'18', border:`1px solid ${gold}55`, borderRadius:8, padding:'10px 12px', marginBottom:8, textDecoration:'none', color:gold, fontWeight:700, fontSize:13, wordBreak:'break-all' }}>🔗 Deschide profilul {app.platform} ↗<div style={{ fontSize:11, fontWeight:400, color:'rgba(255,255,255,0.5)', marginTop:2 }}>{raw}</div></a>
+                  : <div style={{ background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.3)', borderRadius:8, padding:'10px 12px', marginBottom:8, color:'#f87171', fontSize:12 }}>⚠️ Fără link de profil — verifică pe Telegram</div>
+              })()}
+              {app.email && <div style={{ fontSize:12, marginBottom:4 }}>📧 <a href={`mailto:${app.email}`} style={{ color:'#60a5fa', textDecoration:'none' }}>{app.email}</a></div>}
+              {app.phone && <div style={{ fontSize:12, marginBottom:4 }}>✈️ <a href={app.phone.trim().startsWith('@') ? 'https://t.me/'+app.phone.trim().slice(1) : app.phone} target="_blank" rel="noopener noreferrer" style={{ color:'#60a5fa', textDecoration:'none' }}>{app.phone} ↗</a></div>}
               {app.aboutYou && <div style={{ fontSize:12, color:'rgba(255,255,255,0.5)', fontStyle:'italic', marginBottom:10 }}>"{app.aboutYou}"</div>}
 
               {app.status === 'pending' && (

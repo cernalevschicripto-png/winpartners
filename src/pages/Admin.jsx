@@ -373,33 +373,83 @@ winpartners.pro`
             ? <div style={{ padding:40, textAlign:'center', color:'rgba(255,255,255,0.3)', fontSize:13 }}>Nicio cerere de înregistrare</div>
             : (
               <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
-                {applications.map(app => (
-                  <div key={app.id} style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${app.status==='pending'?'rgba(59,130,246,0.3)':app.status==='approved'?'rgba(16,185,129,0.3)':'rgba(239,68,68,0.3)'}`, borderRadius:12, padding:'1.25rem' }}>
-                    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:12 }}>
-                      <div>
-                        <div style={{ fontWeight:700, fontSize:15, marginBottom:4 }}>{app.name} <span style={{ fontSize:11, color:'rgba(255,255,255,0.4)' }}>@{app.username}</span></div>
-                        <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', display:'flex', gap:16, flexWrap:'wrap' }}>
-                          <span>📱 {app.platform}</span>
-                          <span>👥 {Number(app.followers||0).toLocaleString()} urmăritori</span>
-                          <span>🌍 {app.country}</span>
-                          <span>📧 {app.email}</span>
-                          <span>📞 {app.phone}</span>
-                        </div>
-                        {app.aboutYou && <div style={{ fontSize:12, color:'rgba(255,255,255,0.4)', marginTop:6, fontStyle:'italic' }}>"{app.aboutYou}"</div>}
-                        <div style={{ fontSize:11, color:'rgba(255,255,255,0.3)', marginTop:4 }}>{app.date}</div>
-                      </div>
-                      <div style={{ display:'flex', gap:8, alignItems:'center' }}>
-                        <span style={{ background: app.status==='pending'?'#3b82f622':app.status==='approved'?'#10b98122':'#ef444422', color: app.status==='pending'?'#3b82f6':app.status==='approved'?'#10b981':'#ef4444', padding:'3px 10px', borderRadius:4, fontSize:11, fontWeight:700 }}>{app.status}</span>
-                        {app.status==='pending' && (
-                          <>
-                            <button onClick={() => approveApp(app)} style={{ padding:'6px 14px', fontSize:12, fontWeight:700, cursor:'pointer', border:'none', borderRadius:6, background:'#10b981', color:'#fff' }}>✓ Aprobă</button>
-                            <button onClick={() => { setApplications(prev => prev.map(a => a._key === app._key ? { ...a, status: 'rejected' } : a)); updateApplication(app._key, 'rejected') }} style={{ padding:'6px 14px', fontSize:12, fontWeight:700, cursor:'pointer', border:'none', borderRadius:6, background:'#ef4444', color:'#fff' }}>✗ Respinge</button>
-                          </>
-                        )}
-                      </div>
+                {applications.map(app => {
+                  const stColor = app.status==='pending'?'#3b82f6':app.status==='approved'?'#10b981':'#ef4444'
+                  const stLabel = app.status==='pending'?'În așteptare':app.status==='approved'?'Aprobat':'Respins'
+                  // normalize the profile link (accept with/without https://)
+                  const rawProfile = (app.profileLink || '').trim()
+                  const profileHref = rawProfile && !/^https?:\/\//i.test(rawProfile) ? 'https://' + rawProfile : rawProfile
+                  // normalize telegram handle → t.me link
+                  const tg = (app.phone || '').trim()
+                  const tgHref = tg.startsWith('@') ? 'https://t.me/' + tg.slice(1) : (/^https?:\/\//i.test(tg) ? tg : (tg ? 'https://t.me/' + tg.replace(/^@/,'') : ''))
+                  const pIcon = { TikTok:'🎵', Instagram:'📸', YouTube:'▶️', Telegram:'✈️', Facebook:'👤' }[app.platform] || '📱'
+                  const Field = ({ label, children }) => (
+                    <div style={{ minWidth:0 }}>
+                      <div style={{ fontSize:10, textTransform:'uppercase', letterSpacing:'.5px', color:'rgba(255,255,255,0.3)', marginBottom:2 }}>{label}</div>
+                      <div style={{ fontSize:13, color:'rgba(255,255,255,0.85)', wordBreak:'break-word' }}>{children}</div>
                     </div>
+                  )
+                  return (
+                  <div key={app.id} style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${stColor}55`, borderLeft:`3px solid ${stColor}`, borderRadius:12, padding:'1.25rem' }}>
+                    {/* header row: identity + status */}
+                    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:12, marginBottom:14 }}>
+                      <div>
+                        <div style={{ fontWeight:700, fontSize:16, color:'#fff' }}>{app.name} <span style={{ fontSize:12, color:gold, fontWeight:500 }}>@{app.username}</span></div>
+                        <div style={{ fontSize:11, color:'rgba(255,255,255,0.3)', marginTop:3 }}>Aplicat: {app.date}</div>
+                      </div>
+                      <span style={{ background:`${stColor}22`, color:stColor, padding:'4px 12px', borderRadius:20, fontSize:11, fontWeight:700, whiteSpace:'nowrap' }}>{stLabel}</span>
+                    </div>
+
+                    {/* PROFILE — the key verification action */}
+                    {profileHref
+                      ? <a href={profileHref} target="_blank" rel="noopener noreferrer"
+                           style={{ display:'flex', alignItems:'center', gap:10, background:`${gold}14`, border:`1px solid ${gold}55`, borderRadius:10, padding:'12px 14px', marginBottom:14, textDecoration:'none', color:gold, fontWeight:700, fontSize:14 }}>
+                          <span style={{ fontSize:20 }}>{pIcon}</span>
+                          <span style={{ flex:1, minWidth:0 }}>
+                            <span style={{ display:'block' }}>Deschide profilul {app.platform} ↗</span>
+                            <span style={{ display:'block', fontSize:11, fontWeight:400, color:'rgba(255,255,255,0.5)', wordBreak:'break-all', marginTop:2 }}>{rawProfile}</span>
+                          </span>
+                        </a>
+                      : <div style={{ display:'flex', alignItems:'center', gap:10, background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.3)', borderRadius:10, padding:'12px 14px', marginBottom:14, color:'#f87171', fontSize:13 }}>
+                          ⚠️ Fără link de profil — nu poate fi verificat. Contactează-l pe Telegram înainte de aprobare.
+                        </div>
+                    }
+
+                    {/* data grid */}
+                    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))', gap:'12px 18px', marginBottom: app.aboutYou ? 14 : 0 }}>
+                      <Field label="Platformă">{pIcon} {app.platform}</Field>
+                      <Field label="Urmăritori">👥 {Number(app.followers||0).toLocaleString()}</Field>
+                      <Field label="Țară">🌍 {app.country || '—'}</Field>
+                      <Field label="Email">
+                        {app.email
+                          ? <a href={`mailto:${app.email}`} style={{ color:'#60a5fa', textDecoration:'none' }}>{app.email}</a>
+                          : '—'}
+                      </Field>
+                      <Field label="Telegram">
+                        {tg
+                          ? <a href={tgHref} target="_blank" rel="noopener noreferrer" style={{ color:'#60a5fa', textDecoration:'none' }}>{tg} ↗</a>
+                          : '—'}
+                      </Field>
+                    </div>
+
+                    {/* about */}
+                    {app.aboutYou && (
+                      <div style={{ background:'rgba(255,255,255,0.03)', borderRadius:8, padding:'10px 12px', marginBottom:14 }}>
+                        <div style={{ fontSize:10, textTransform:'uppercase', letterSpacing:'.5px', color:'rgba(255,255,255,0.3)', marginBottom:4 }}>Despre el</div>
+                        <div style={{ fontSize:13, color:'rgba(255,255,255,0.7)', fontStyle:'italic' }}>"{app.aboutYou}"</div>
+                      </div>
+                    )}
+
+                    {/* actions */}
+                    {app.status==='pending' && (
+                      <div style={{ display:'flex', gap:10, borderTop:'1px solid rgba(255,255,255,0.06)', paddingTop:14 }}>
+                        <button onClick={() => approveApp(app)} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:'none', borderRadius:8, background:'#10b981', color:'#fff' }}>✓ Aprobă</button>
+                        <button onClick={() => { if(!confirm(`Respingi cererea lui ${app.name}?`)) return; setApplications(prev => prev.map(a => a._key === app._key ? { ...a, status: 'rejected' } : a)); updateApplication(app._key, 'rejected') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:'1px solid rgba(239,68,68,0.4)', borderRadius:8, background:'transparent', color:'#f87171' }}>✗ Respinge</button>
+                      </div>
+                    )}
                   </div>
-                ))}
+                  )
+                })}
               </div>
             )
           }
