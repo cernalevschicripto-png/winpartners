@@ -161,25 +161,29 @@ export async function sendWelcomeEmail(toEmail, name, username, pass) {
   const PUB = import.meta.env.VITE_EMAILJS_PUBLIC || 'slTZStxmHvt80W3cp'
   if (!toEmail || !SID || !TID || !PUB) return { ok:false, reason:'not_configured' }
   const message =
-    `Felicitări, ${name}! 🎉\n\n` +
-    `Cererea ta de afiliere WinPartners a fost APROBATĂ. Ai acum acces la platformă și poți începe să câștigi.\n\n` +
-    `Date de acces:\n` +
-    `• Link: https://winpartners.pro/login\n` +
+    `Dear ${name},\n\n` +
+    `Congratulations — your WinPartners affiliate application has been approved. Your account is now active and you can begin earning right away.\n\n` +
+    `Your login details:\n` +
+    `• Portal: https://winpartners.pro/login\n` +
     `• Username: ${username}\n` +
-    `• Parola: cea pe care ai ales-o la înregistrare\n\n` +
-    `Primii pași:\n` +
-    `1. Intră pe https://winpartners.pro/login și loghează-te\n` +
-    `2. Alege cazinoul care ți se potrivește și generează-ți codul promoțional\n` +
-    `3. Promovează cu codul/linkul tău și câștigă de la 25% RevShare pe viață din fiecare jucător adus (unele cazinouri plătesc mai mult)\n\n` +
-    `Ai nevoie de ajutor? Scrie-ne oricând:\n` +
+    `• Password: the one you chose during registration\n\n` +
+    `Getting started:\n` +
+    `1. Sign in to your dashboard at https://winpartners.pro/login\n` +
+    `2. Select a casino brand and generate your unique promo code and referral link\n` +
+    `3. Share your code and start earning — commissions begin at 25% lifetime revenue share on every player you refer, with higher rates available on select brands\n\n` +
+    `Your earnings accumulate automatically and are paid out weekly. You can track your performance and request withdrawals directly from your dashboard at any time.\n\n` +
+    `Should you need any assistance, our team is here to help:\n` +
     `• Telegram: https://t.me/winpartners_manager\n` +
     `• Email: supportwinpartners@gmail.com\n\n` +
-    `Succes!\nEchipa WinPartners\nwinpartners.pro`
+    `We look forward to a successful partnership.\n\n` +
+    `Best regards,\n` +
+    `The WinPartners Team\n` +
+    `winpartners.pro`
   try {
     const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ service_id:SID, template_id:TID, user_id:PUB,
-        template_params:{ email:toEmail, to_email:toEmail, name:name||'partener', username:username||'', reset_link:'https://winpartners.pro/login', subject:'🎉 Cont aprobat — Bun venit la WinPartners!', message } })
+        template_params:{ email:toEmail, to_email:toEmail, name:name||'Partner', username:username||'', reset_link:'https://winpartners.pro/login', subject:'Your WinPartners application has been approved', message } })
     })
     return { ok: res.ok }
   } catch(e) { return { ok:false, reason:'error' } }
