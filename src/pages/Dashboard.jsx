@@ -764,7 +764,7 @@ function DashboardContent({ blogger, onLogout }) {
         </div>
 
         {/* MAIN CONTENT - light white background like Melbet */}
-        <div style={{flex:1,overflowY:'auto',padding:isMobile?'1rem 0.75rem':'1.5rem',minWidth:0}}>
+        <div style={{flex:1,overflowY:'auto',overflowX:'hidden',padding:isMobile?'1rem 0.75rem':'1.5rem',minWidth:0,maxWidth:'100%'}}>
 
           {/* PAGE TITLE */}
           {/* Page title bar - like Melbet's yellow title */}
@@ -892,7 +892,7 @@ function DashboardContent({ blogger, onLogout }) {
                     <option>{({'ro':'Ieri','ru':'Вчера','en':'Yesterday','tr':'Dün','de':'Gestern','pt':'Ontem','pl':'Wczoraj'})[lang]||'Ieri'}</option><option>{({'ro':'Azi','ru':'Сегодня','en':'Today','tr':'Bugün','de':'Heute','pt':'Hoje','pl':'Dziś'})[lang]||'Azi'}</option><option>{({'ro':'Săptămâna','ru':'Неделя','en':'Week','tr':'Hafta','de':'Woche','pt':'Semana','pl':'Tydzień'})[lang]||'Săptămâna'}</option>
                   </select>
                 </div>
-                <div style={{overflowX:'auto'}}>
+                <div style={{overflowX:'auto',width:'100%',maxWidth:'100%'}}>
                   <table style={{width:'100%',borderCollapse:'collapse',minWidth:900}}>
                     <thead><tr>
                       {(({ro:['Valută','Vizualizări','Clickuri','Linkuri directe','Înregistrări','Depunători noi','Profit companie','RP','CPA','Comision'],
@@ -1138,7 +1138,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               </div>
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12,padding:'6px 12px'}}><option>{L({ro:'6 articole selectate ▼',ru:'Выбрано 6 элементов ▼',en:'6 items selected ▼',tr:'6 öğe seçildi ▼',de:'6 Einträge ausgewählt ▼',pt:'6 itens selecionados ▼',pl:'Wybrano 6 elementów ▼'})}</option></select></div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
-                <div style={{overflowX:'auto'}}>
+                <div style={{overflowX:'auto',width:'100%',maxWidth:'100%'}}>
                   <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                     <thead><tr>{[dt.thCur+' ↕',dt.thStruct+' ↕',dt.thGroup+' ↕',dt.thStart+' ↕',dt.thDesc+' ↕',dt.thEnd+' ↕'].map(h=><th key={h} style={{...TH,cursor:'pointer'}}>{h}</th>)}</tr></thead>
                     <tbody>{D.commStructure.map((r,i)=>(
@@ -1194,7 +1194,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <div style={{flex:1}}/>
               </div>
               <div style={{marginBottom:'0.75rem'}}><select style={{...inp,fontSize:12}}><option>{L({ro:'6 articole selectate ▼',ru:'Выбрано 6 элементов ▼',en:'6 items selected ▼',tr:'6 öğe seçildi ▼',de:'6 Einträge ausgewählt ▼',pt:'6 itens selecionados ▼',pl:'Wybrano 6 elementów ▼'})}</option></select></div>
-              <div style={{...card,padding:0,overflowX:'auto'}}>
+              <div style={{...card,padding:0,overflowX:'auto',maxWidth:'100%'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:500}}>
                   <thead><tr>{[dt.thCur+' ↕',dt.thDate+' ↕',dt.thPay+' ↕',dt.thRev+' ↕',dt.thBal+' ↕',dt.thStatus+' ↕'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>
@@ -1309,7 +1309,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <input type="date" style={inp} defaultValue={new Date().toISOString().slice(0,10)}/>
               </div>
               <div style={{...card,padding:0,overflow:'hidden'}}>
-                <div style={{overflowX:'auto'}}>
+                <div style={{overflowX:'auto',width:'100%',maxWidth:'100%'}}>
                   <table style={{width:'100%',borderCollapse:'collapse',minWidth:600}}>
                     <thead><tr>
                       {(page==='summary'
@@ -1350,7 +1350,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <span style={{fontSize:13,color:txtSub}}>{L({ro:'Jucător',ru:'Игрок',en:'Player',tr:'Oyuncu',de:'Spieler',pt:'Jogador',pl:'Gracz'})}</span><input style={{...inp,width:120}} placeholder={L({ro:'ID jucător',ru:'ID игрока',en:'Player ID',tr:'Oyuncu ID',de:'Spieler-ID',pt:'ID do jogador',pl:'ID gracza'})}/>
                 <span style={{fontSize:13,color:txtSub}}>{L({ro:'Perioada',ru:'Период',en:'Period',tr:'Dönem',de:'Zeitraum',pt:'Período',pl:'Okres'})}</span><select style={inp}><option>{L({ro:'1 lună',ru:'1 месяц',en:'1 month',tr:'1 ay',de:'1 Monat',pt:'1 mês',pl:'1 miesiąc'})}</option></select>
               </div>
-              <div style={{...card,padding:0,overflowX:'auto'}}>
+              <div style={{...card,padding:0,overflowX:'auto',maxWidth:'100%'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                   <thead><tr>{['Jucător','Data înregistrării','Prima depunere','Numărul de depuneri','Suma depunerilor','Venituri','Comisionul meu'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody><tr><td colSpan={7} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>{L({ro:'Fără informații pentru perioada selectată',ru:'Нет данных за выбранный период',en:'No data for the selected period',tr:'Seçilen dönem için veri yok',de:'Keine Daten für den gewählten Zeitraum',pt:'Sem dados para o período selecionado',pl:'Brak danych dla wybranego okresu'})}</td></tr></tbody>
@@ -1379,7 +1379,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Valută','ru':'Валюта','en':'Currency','tr':'Para birimi','de':'Währung','pt':'Moeda','pl':'Waluta'})[lang]||'Valută'}</span><select style={inp}><option>USD</option></select>
                 <span style={{fontSize:13,color:txtSub}}>{L({ro:'Perioada',ru:'Период',en:'Period',tr:'Dönem',de:'Zeitraum',pt:'Período',pl:'Okres'})}</span><select style={inp}><option>{L({ro:'1 lună',ru:'1 месяц',en:'1 month',tr:'1 ay',de:'1 Monat',pt:'1 mês',pl:'1 miesiąc'})}</option></select>
               </div>
-              <div style={{...card,padding:0,overflowX:'auto'}}>
+              <div style={{...card,padding:0,overflowX:'auto',maxWidth:'100%'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
                   <thead><tr>{[dt.thBlogger,dt.thPlatform,dt.thRegDate,dt.thRegsBrought,dt.thHisEarnings,dt.thMyComm].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
                   <tbody>{myReferrals.length===0?(
