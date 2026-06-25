@@ -265,6 +265,7 @@ function LoginScreen({ onLogin }) {
     return ['ro','ru','en','tr','de','pt','pl'].includes(saved) ? saved : 'ro'
   })
   const lt = LOGIN_T[lang] || LOGIN_T.ro
+  const L = (o) => o[lang] || o.ro
 
   const doLogin = async () => {
     if (!username.trim() || !pass.trim()) { setError(lt.errEmpty); return }
@@ -282,19 +283,19 @@ function LoginScreen({ onLogin }) {
   }
 
   const doForgot = async () => {
-    if (!fpEmail.trim() || !fpEmail.includes('@')) { setFpMsg('Introdu un email valid.'); return }
+    if (!fpEmail.trim() || !fpEmail.includes('@')) { setFpMsg(L({ro:'Introdu un email valid.',ru:'Введите корректный email.',en:'Enter a valid email.',tr:'Geçerli bir e-posta girin.',de:'Geben Sie eine gültige E-Mail ein.',pt:'Introduza um email válido.',pl:'Wprowadź poprawny e-mail.'})); return }
     setFpBusy(true); setFpMsg('')
     try {
       const r = await requestPasswordReset(fpEmail.trim())
       if (r.ok) {
         const link = `${location.origin}/reset?token=${r.token}`
         const sent = await sendResetEmail(r.email, link, r.username)
-        if (sent.ok) setFpMsg('✅ Ți-am trimis un link de resetare pe email. Verifică inbox-ul (și folderul spam).')
-        else setFpMsg('⚠️ Trimiterea pe email nu e încă activată. Contactează managerul pe Telegram (@winpartners_manager) pentru resetare.')
+        if (sent.ok) setFpMsg(L({ro:'✅ Ți-am trimis un link de resetare pe email. Verifică inbox-ul (și folderul spam).',ru:'✅ Мы отправили ссылку для сброса на email. Проверьте входящие (и папку спам).',en:'✅ We sent a reset link to your email. Check your inbox (and spam folder).',tr:'✅ E-postanıza sıfırlama bağlantısı gönderdik. Gelen kutunuzu (ve spam klasörünü) kontrol edin.',de:'✅ Wir haben einen Reset-Link an Ihre E-Mail gesendet. Prüfen Sie Ihren Posteingang (und den Spam-Ordner).',pt:'✅ Enviámos um link de reposição para o seu email. Verifique a caixa de entrada (e a pasta de spam).',pl:'✅ Wysłaliśmy link do resetu na email. Sprawdź skrzynkę (i folder spam).'}))
+        else setFpMsg(L({ro:'⚠️ Trimiterea pe email nu e încă activată. Contactează managerul pe Telegram (@winpartners_manager) pentru resetare.',ru:'⚠️ Отправка на email пока недоступна. Напишите менеджеру в Telegram (@winpartners_manager) для сброса.',en:'⚠️ Email sending is not active yet. Contact the manager on Telegram (@winpartners_manager) to reset.',tr:'⚠️ E-posta gönderimi henüz aktif değil. Sıfırlama için Telegram\'dan yöneticiye yazın (@winpartners_manager).',de:'⚠️ E-Mail-Versand ist noch nicht aktiv. Kontaktieren Sie den Manager auf Telegram (@winpartners_manager) zum Zurücksetzen.',pt:'⚠️ O envio por email ainda não está ativo. Contacte o gestor no Telegram (@winpartners_manager) para repor.',pl:'⚠️ Wysyłka e-mail nie jest jeszcze aktywna. Napisz do menedżera na Telegramie (@winpartners_manager), aby zresetować.'}))
       } else {
-        setFpMsg('✅ Dacă adresa e înregistrată, vei primi în scurt timp un email cu link de resetare.')
+        setFpMsg(L({ro:'✅ Dacă adresa e înregistrată, vei primi în scurt timp un email cu link de resetare.',ru:'✅ Если адрес зарегистрирован, вы скоро получите email со ссылкой для сброса.',en:'✅ If the address is registered, you will shortly receive an email with a reset link.',tr:'✅ Adres kayıtlıysa, kısa süre içinde sıfırlama bağlantılı bir e-posta alacaksınız.',de:'✅ Wenn die Adresse registriert ist, erhalten Sie in Kürze eine E-Mail mit einem Reset-Link.',pt:'✅ Se o endereço estiver registado, receberá em breve um email com o link de reposição.',pl:'✅ Jeśli adres jest zarejestrowany, wkrótce otrzymasz e-mail z linkiem do resetu.'}))
       }
-    } catch(e) { setFpMsg('Eroare. Încearcă din nou.') }
+    } catch(e) { setFpMsg(L({ro:'Eroare. Încearcă din nou.',ru:'Ошибка. Попробуйте снова.',en:'Error. Try again.',tr:'Hata. Tekrar deneyin.',de:'Fehler. Versuchen Sie es erneut.',pt:'Erro. Tente novamente.',pl:'Błąd. Spróbuj ponownie.'})) }
     setFpBusy(false)
   }
 
@@ -343,16 +344,16 @@ function LoginScreen({ onLogin }) {
           </button>
           {!fpMode && (
             <div style={{textAlign:'center',marginTop:12}}>
-              <button onClick={()=>{setFpMode(true);setFpMsg('')}} style={{background:'none',border:'none',color:'rgba(255,255,255,0.4)',fontSize:12,cursor:'pointer',textDecoration:'underline'}}>Am uitat parola</button>
+              <button onClick={()=>{setFpMode(true);setFpMsg('')}} style={{background:'none',border:'none',color:'rgba(255,255,255,0.4)',fontSize:12,cursor:'pointer',textDecoration:'underline'}}>{L({ro:'Am uitat parola',ru:'Забыли пароль',en:'Forgot password',tr:'Şifremi unuttum',de:'Passwort vergessen',pt:'Esqueci a senha',pl:'Nie pamiętam hasła'})}</button>
             </div>
           )}
           {fpMode && (
             <div style={{marginTop:14,paddingTop:14,borderTop:'1px solid rgba(255,255,255,0.08)'}}>
-              <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>Resetare parolă — emailul contului tău</div>
-              <input style={{width:'100%',padding:'11px 14px',fontSize:14,border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,background:'rgba(255,255,255,0.05)',color:'#e2e8f0',outline:'none',boxSizing:'border-box',marginBottom:10}} type="email" placeholder="email@exemplu.com" value={fpEmail} onChange={e=>setFpEmail(e.target.value)} onKeyDown={e=>e.key==='Enter'&&doForgot()} />
+              <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginBottom:5,textTransform:'uppercase',fontWeight:600}}>{L({ro:'Resetare parolă — emailul contului tău',ru:'Сброс пароля — email вашего аккаунта',en:'Password reset — your account email',tr:'Şifre sıfırlama — hesap e-postanız',de:'Passwort zurücksetzen — Ihre Konto-E-Mail',pt:'Reposição de senha — o email da sua conta',pl:'Reset hasła — email twojego konta'})}</div>
+              <input style={{width:'100%',padding:'11px 14px',fontSize:14,border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,background:'rgba(255,255,255,0.05)',color:'#e2e8f0',outline:'none',boxSizing:'border-box',marginBottom:10}} type="email" placeholder="email@example.com" value={fpEmail} onChange={e=>setFpEmail(e.target.value)} onKeyDown={e=>e.key==='Enter'&&doForgot()} />
               {fpMsg && <div style={{fontSize:12,color:'rgba(255,255,255,0.7)',marginBottom:10,lineHeight:1.5}}>{fpMsg}</div>}
-              <button disabled={fpBusy} onClick={doForgot} style={{width:'100%',padding:'11px',fontSize:14,fontWeight:700,cursor:fpBusy?'wait':'pointer',border:'none',borderRadius:8,background:gold2,color:'#000',opacity:fpBusy?0.7:1,marginBottom:8}}>{fpBusy?'⏳ ...':'Trimite link de resetare'}</button>
-              <button onClick={()=>{setFpMode(false);setFpMsg('')}} style={{width:'100%',background:'none',border:'none',color:'rgba(255,255,255,0.4)',fontSize:12,cursor:'pointer'}}>← Înapoi la login</button>
+              <button disabled={fpBusy} onClick={doForgot} style={{width:'100%',padding:'11px',fontSize:14,fontWeight:700,cursor:fpBusy?'wait':'pointer',border:'none',borderRadius:8,background:gold2,color:'#000',opacity:fpBusy?0.7:1,marginBottom:8}}>{fpBusy?'⏳ ...':L({ro:'Trimite link de resetare',ru:'Отправить ссылку для сброса',en:'Send reset link',tr:'Sıfırlama bağlantısı gönder',de:'Reset-Link senden',pt:'Enviar link de reposição',pl:'Wyślij link do resetu'})}</button>
+              <button onClick={()=>{setFpMode(false);setFpMsg('')}} style={{width:'100%',background:'none',border:'none',color:'rgba(255,255,255,0.4)',fontSize:12,cursor:'pointer'}}>{L({ro:'← Înapoi la login',ru:'← Назад ко входу',en:'← Back to login',tr:'← Girişe dön',de:'← Zurück zum Login',pt:'← Voltar ao login',pl:'← Powrót do logowania'})}</button>
             </div>
           )}
           <div style={{textAlign:'center',marginTop:16,fontSize:12,color:'rgba(255,255,255,0.3)'}}>
@@ -886,7 +887,7 @@ function DashboardContent({ blogger, onLogout }) {
                 <div style={{padding:'12px 16px',borderBottom:`1px solid ${bdr}`,display:'flex',justifyContent:'space-between',alignItems:'center',background:'#15151e'}}>
                   <span style={{fontSize:13,fontWeight:600,color:txt}}>{dt.chartSummary||'Sumar statistici'}</span>
                   <select style={{...inp,fontSize:12}}>
-                    <option>{({'ro':'Ieri','ru':'Вчера','en':'Yesterday','tr':'Dün','de':'Gestern','pt':'Ontem','pl':'Wczoraj'})[lang]||'Ieri'}</option><option>Azi</option><option>Săptămâna</option>
+                    <option>{({'ro':'Ieri','ru':'Вчера','en':'Yesterday','tr':'Dün','de':'Gestern','pt':'Ontem','pl':'Wczoraj'})[lang]||'Ieri'}</option><option>{({'ro':'Azi','ru':'Сегодня','en':'Today','tr':'Bugün','de':'Heute','pt':'Hoje','pl':'Dziś'})[lang]||'Azi'}</option><option>{({'ro':'Săptămâna','ru':'Неделя','en':'Week','tr':'Hafta','de':'Woche','pt':'Semana','pl':'Tydzień'})[lang]||'Săptămâna'}</option>
                   </select>
                 </div>
                 <div style={{overflowX:'auto'}}>
@@ -1193,7 +1194,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                         <td style={TD}><span style={{background:'rgba(52,211,153,0.14)',color:'#065f46',padding:'2px 8px',borderRadius:12,fontSize:11,fontWeight:600}}>{p.st}</span></td>
                       </tr>
                     ))}
-                    {payTab==='status'&&<tr><td colSpan={6} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>Fără solicitări active</td></tr>}
+                    {payTab==='status'&&<tr><td colSpan={6} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>{L({ro:'Fără solicitări active',ru:'Нет активных заявок',en:'No active requests',tr:'Aktif talep yok',de:'Keine aktiven Anfragen',pt:'Sem solicitações ativas',pl:'Brak aktywnych wniosków'})}</td></tr>}
                   </tbody>
                 </table>
                 <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#15151e'}}>{dt.tblShow} {D.pays.length}</div>
@@ -1205,7 +1206,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <button style={btnPrimary} onClick={()=>setShowPay(true)}>{({'ro':'Solicită plată','ru':'Запросить выплату','en':'Request payment','tr':'Ödeme talep et','de':'Zahlung anfordern','pt':'Solicitar pagamento','pl':'Zażądaj płatności'})[lang]||'Solicită plată'} → ${D.bal.available}</button>
                 </div>
                 <div style={card}>
-                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7}}>Contactați managerii noștri prin <span style={{color:gold,cursor:'pointer',fontWeight:600}}>datele de contact</span> disponibile pe site.</p>
+                  <p style={{fontSize:13,color:txtSub,lineHeight:1.7}}>{L({ro:'Contactați managerii noștri prin ',ru:'Свяжитесь с нашими менеджерами через ',en:'Contact our managers via the ',tr:'Yöneticilerimizle ',de:'Kontaktieren Sie unsere Manager über die ',pt:'Contacte os nossos gestores através dos ',pl:'Skontaktuj się z naszymi menedżerami przez '})}<span style={{color:gold,cursor:'pointer',fontWeight:600}}>{L({ro:'datele de contact',ru:'контактные данные',en:'contact details',tr:'iletişim bilgileri',de:'Kontaktdaten',pt:'dados de contacto',pl:'dane kontaktowe'})}</span>{L({ro:' disponibile pe site.',ru:', доступные на сайте.',en:' available on the site.',tr:' aracılığıyla iletişime geçin.',de:', die auf der Website verfügbar sind.',pt:' disponíveis no site.',pl:' dostępne na stronie.'})}</p>
                 </div>
               </div>
             </div>
@@ -1214,30 +1215,30 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           {/* === CONT === */}
           {page==='account'&&(
             <div>
-              <div style={{fontSize:13,marginBottom:'1rem',color:txtSub}}>Utilizator: <span style={{color:gold,fontWeight:600}}>@{D.username}</span></div>
+              <div style={{fontSize:13,marginBottom:'1rem',color:txtSub}}>{L({ro:'Utilizator:',ru:'Пользователь:',en:'User:',tr:'Kullanıcı:',de:'Benutzer:',pt:'Utilizador:',pl:'Użytkownik:'})} <span style={{color:gold,fontWeight:600}}>@{D.username}</span></div>
               <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr 1fr',gap:16}}>
                 <div style={card}>
-                  <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Informații de contact</div>
+                  <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>{L({ro:'Informații de contact',ru:'Контактная информация',en:'Contact information',tr:'İletişim bilgileri',de:'Kontaktinformationen',pt:'Informações de contacto',pl:'Dane kontaktowe'})}</div>
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
-                    <div><label style={label}>Prenume</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={(D.name||'').split(' ')[0]||''} readOnly/></div>
-                    <div><label style={label}>Nume</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={(D.name||'').split(' ').slice(1).join(' ')} readOnly/></div>
+                    <div><label style={label}>{L({ro:'Prenume',ru:'Имя',en:'First name',tr:'Ad',de:'Vorname',pt:'Nome',pl:'Imię'})}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={(D.name||'').split(' ')[0]||''} readOnly/></div>
+                    <div><label style={label}>{L({ro:'Nume',ru:'Фамилия',en:'Last name',tr:'Soyad',de:'Nachname',pt:'Apelido',pl:'Nazwisko'})}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={(D.name||'').split(' ').slice(1).join(' ')} readOnly/></div>
                   </div>
-                  <div style={{marginBottom:8}}><label style={label}>Număr de telefon</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.phone||''} readOnly/></div>
+                  <div style={{marginBottom:8}}><label style={label}>{L({ro:'Număr de telefon',ru:'Номер телефона',en:'Phone number',tr:'Telefon numarası',de:'Telefonnummer',pt:'Número de telefone',pl:'Numer telefonu'})}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.phone||''} readOnly/></div>
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12}}>
-                    <div><label style={label}>Platformă</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.platform||''} readOnly/></div>
-                    <div><label style={label}>Țară</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.country||''} readOnly/></div>
+                    <div><label style={label}>{L({ro:'Platformă',ru:'Платформа',en:'Platform',tr:'Platform',de:'Plattform',pt:'Plataforma',pl:'Platforma'})}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.platform||''} readOnly/></div>
+                    <div><label style={label}>{L({ro:'Țară',ru:'Страна',en:'Country',tr:'Ülke',de:'Land',pt:'País',pl:'Kraj'})}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.country||''} readOnly/></div>
                   </div>
-                  <div style={{fontSize:11,color:txtSub}}>pentru a modifica datele de contact, contactați managerul dvs.</div>
+                  <div style={{fontSize:11,color:txtSub}}>{L({ro:'pentru a modifica datele de contact, contactați managerul dvs.',ru:'для изменения контактных данных свяжитесь с вашим менеджером',en:'to change your contact details, contact your manager',tr:'iletişim bilgilerini değiştirmek için yöneticinizle iletişime geçin',de:'um Ihre Kontaktdaten zu ändern, wenden Sie sich an Ihren Manager',pt:'para alterar os dados de contacto, contacte o seu gestor',pl:'aby zmienić dane kontaktowe, skontaktuj się ze swoim menedżerem'})}</div>
                 </div>
                 <div style={card}>
-                  <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>Detaliile plății</div>
+                  <div style={{fontSize:14,fontWeight:700,marginBottom:14,color:txt,paddingBottom:8,borderBottom:`1px solid ${bdr}`}}>{L({ro:'Detaliile plății',ru:'Платёжные данные',en:'Payment details',tr:'Ödeme bilgileri',de:'Zahlungsdetails',pt:'Detalhes de pagamento',pl:'Dane płatności'})}</div>
                   <div style={{marginBottom:8}}><label style={label}>{({'ro':'Metoda de plată preferată','ru':'Предпочтительный метод оплаты','en':'Preferred payment method','tr':'Tercih edilen ödeme yöntemi','de':'Bevorzugte Zahlungsmethode','pt':'Método de pagamento preferido','pl':'Preferowana metoda płatności'})[lang]}</label><input style={{...inp,width:'100%',boxSizing:'border-box'}} value={D.payMethod||'Bitcoin'} readOnly/></div>
-                  <div style={{marginBottom:12}}><label style={label}>Numărul portofelului</label><input style={{...inp,width:'100%',boxSizing:'border-box',fontFamily:'monospace',fontSize:11}} value={D.payAddress||''} readOnly placeholder={({'ro':'necompletat','ru':'не указан','en':'not set','tr':'belirtilmemiş','de':'nicht angegeben','pt':'não definido','pl':'nie ustawiono'})[lang]||'necompletat'}/></div>
-                  <div style={{fontSize:11,color:txtSub,marginBottom:16}}>* pentru a modifica detaliile de plată, contactați Asistența Pentru Parteneri.</div>
+                  <div style={{marginBottom:12}}><label style={label}>{L({ro:'Numărul portofelului',ru:'Номер кошелька',en:'Wallet address',tr:'Cüzdan adresi',de:'Wallet-Adresse',pt:'Endereço da carteira',pl:'Adres portfela'})}</label><input style={{...inp,width:'100%',boxSizing:'border-box',fontFamily:'monospace',fontSize:11}} value={D.payAddress||''} readOnly placeholder={({'ro':'necompletat','ru':'не указан','en':'not set','tr':'belirtilmemiş','de':'nicht angegeben','pt':'não definido','pl':'nie ustawiono'})[lang]||'necompletat'}/></div>
+                  <div style={{fontSize:11,color:txtSub,marginBottom:16}}>{L({ro:'* pentru a modifica detaliile de plată, contactați Asistența pentru Parteneri.',ru:'* для изменения платёжных данных обратитесь в Поддержку для партнёров.',en:'* to change payment details, contact Partner Support.',tr:'* ödeme bilgilerini değiştirmek için Ortak Desteğine başvurun.',de:'* um Zahlungsdetails zu ändern, wenden Sie sich an den Partner-Support.',pt:'* para alterar os detalhes de pagamento, contacte o Suporte para Parceiros.',pl:'* aby zmienić dane płatności, skontaktuj się ze Wsparciem dla Partnerów.'})}</div>
                   <div style={{borderTop:`1px solid ${bdr}`,paddingTop:12}}>
-                    <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:8}}>Abonamente</div>
+                    <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:8}}>{L({ro:'Abonamente',ru:'Подписки',en:'Subscriptions',tr:'Abonelikler',de:'Abonnements',pt:'Subscrições',pl:'Subskrypcje'})}</div>
                     <label style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',fontSize:13,color:txtSub}}>
-                      <input type="checkbox" defaultChecked style={{accentColor:gold}}/> Informațiile companiei
+                      <input type="checkbox" defaultChecked style={{accentColor:gold}}/> {L({ro:'Informațiile companiei',ru:'Информация о компании',en:'Company information',tr:'Şirket bilgileri',de:'Unternehmensinformationen',pt:'Informações da empresa',pl:'Informacje o firmie'})}
                     </label>
                   </div>
                 </div>
@@ -1249,11 +1250,11 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   {passMsg && <div style={{marginBottom:10,fontSize:12,color:passMsg.startsWith('✅')?'#10b981':'#ef4444'}}>{passMsg}</div>}
                   <button onClick={changePassword} style={btnPrimary}>{dt.changeBtn}</button>
                   <div style={{borderTop:`1px solid ${bdr}`,paddingTop:12,marginTop:16}}>
-                    <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:6}}>Gestionarea autentificării cu doi factori</div>
-                    <div style={{fontSize:12,color:txtSub}}>Google Authenticator activat: <span style={{color:'#ef4444',fontWeight:600}}>Nu</span></div>
+                    <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:6}}>{L({ro:'Gestionarea autentificării cu doi factori',ru:'Управление двухфакторной аутентификацией',en:'Two-factor authentication management',tr:'İki faktörlü kimlik doğrulama yönetimi',de:'Verwaltung der Zwei-Faktor-Authentifizierung',pt:'Gestão da autenticação de dois fatores',pl:'Zarządzanie uwierzytelnianiem dwuskładnikowym'})}</div>
+                    <div style={{fontSize:12,color:txtSub}}>{L({ro:'Google Authenticator activat:',ru:'Google Authenticator включён:',en:'Google Authenticator enabled:',tr:'Google Authenticator etkin:',de:'Google Authenticator aktiviert:',pt:'Google Authenticator ativado:',pl:'Google Authenticator włączony:'})} <span style={{color:'#ef4444',fontWeight:600}}>{L({ro:'Nu',ru:'Нет',en:'No',tr:'Hayır',de:'Nein',pt:'Não',pl:'Nie'})}</span></div>
                   </div>
                   <div style={{borderTop:`1px solid ${bdr}`,paddingTop:12,marginTop:12}}>
-                    <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:4}}>Confirmarea adresei de e-mail</div>
+                    <div style={{fontSize:13,fontWeight:600,color:txt,marginBottom:4}}>{L({ro:'Confirmarea adresei de e-mail',ru:'Подтверждение адреса эл. почты',en:'Email address confirmation',tr:'E-posta adresi onayı',de:'E-Mail-Adressbestätigung',pt:'Confirmação do endereço de e-mail',pl:'Potwierdzenie adresu e-mail'})}</div>
                     <div style={{fontSize:12,color:txtSub}}>Email: {D.email}</div>
                   </div>
                 </div>
@@ -1470,7 +1471,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     <div style={{fontSize:14,fontWeight:700,color:txtSub}}>$30</div>
                   </div>
                 </div>
-                <label style={label}>Metodă de plată</label>
+                <label style={label}>{L({ro:'Metodă de plată',ru:'Метод оплаты',en:'Payment method',tr:'Ödeme yöntemi',de:'Zahlungsmethode',pt:'Método de pagamento',pl:'Metoda płatności'})}</label>
                 <select style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:10}} value={payMethod} onChange={e=>setPayMethod(e.target.value)}>
                   {['Bitcoin (BTC)','USDT (TRC20)','USDT (ERC20)','Ethereum (ETH)','Binance Pay','Skrill','Neteller'].map(m=><option key={m}>{m}</option>)}
                 </select>
@@ -1516,7 +1517,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 {L({ro:'Trimite o cerere pentru a promova '+(casino?.name||'')+'. Echipa noastră îți va activa accesul și îți va aloca un cod promoțional dedicat.',ru:'Отправь заявку на продвижение '+(casino?.name||'')+'. Наша команда активирует доступ и выделит тебе персональный промокод.',en:'Send a request to promote '+(casino?.name||'')+'. Our team will activate your access and assign you a dedicated promo code.',tr:(casino?.name||'')+' tanıtmak için talep gönder. Ekibimiz erişimini aktif edecek ve sana özel bir promosyon kodu atayacak.',de:'Sende eine Anfrage, um '+(casino?.name||'')+' zu bewerben. Unser Team aktiviert deinen Zugang und weist dir einen eigenen Promo-Code zu.',pt:'Envia um pedido para promover '+(casino?.name||'')+'. A nossa equipa ativará o teu acesso e atribuirá um código promo dedicado.',pl:'Wyślij wniosek o promowanie '+(casino?.name||'')+'. Nasz zespół aktywuje dostęp i przypisze Ci dedykowany kod promocyjny.'})}
               </p>
               <div style={{background:'rgba(245,166,35,0.08)',border:'1px solid rgba(245,166,35,0.28)',borderRadius:6,padding:'10px 14px',marginBottom:20,fontSize:12,color:'#e8c074'}}>
-                ⏱ Procesare în 24-48 ore. Vei fi notificat pe email și Telegram.
+                ⏱ {L({ro:'Procesare în 24-48 ore. Vei fi notificat pe email și Telegram.',ru:'Обработка за 24-48 часов. Вы получите уведомление на email и в Telegram.',en:'Processed in 24-48 hours. You will be notified by email and Telegram.',tr:'24-48 saat içinde işlenir. E-posta ve Telegram ile bilgilendirilirsiniz.',de:'Bearbeitung in 24-48 Stunden. Sie werden per E-Mail und Telegram benachrichtigt.',pt:'Processado em 24-48 horas. Será notificado por email e Telegram.',pl:'Przetwarzane w 24-48 godzin. Otrzymasz powiadomienie e-mailem i na Telegramie.'})}
               </div>
               <button
                 onClick={async ()=>{
@@ -1530,7 +1531,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     })
                   }
                   setShowCasinoRequest(null)
-                  showToast('✅ Cererea a fost trimisă! Te anunțăm în 24-48 ore.')
+                  showToast(L({ro:'✅ Cererea a fost trimisă! Te anunțăm în 24-48 ore.',ru:'✅ Заявка отправлена! Сообщим в течение 24-48 часов.',en:'✅ Request sent! We will notify you within 24-48 hours.',tr:'✅ Talep gönderildi! 24-48 saat içinde bilgilendireceğiz.',de:'✅ Anfrage gesendet! Wir benachrichtigen Sie innerhalb von 24-48 Stunden.',pt:'✅ Pedido enviado! Avisamos dentro de 24-48 horas.',pl:'✅ Wniosek wysłany! Powiadomimy w ciągu 24-48 godzin.'}))
                 }}
                 style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6}}>
                 {L({ro:'Trimite cererea',ru:'Отправить заявку',en:'Send request',tr:'Talebi gönder',de:'Anfrage senden',pt:'Enviar pedido',pl:'Wyślij wniosek'})}
@@ -1549,8 +1550,8 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               <div style={{textAlign:'center',padding:'1rem'}}>
                 <div style={{fontSize:40,marginBottom:10}}>✅</div>
                 <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>{L({ro:'Cerere trimisă!',ru:'Заявка отправлена!',en:'Request sent!',tr:'Talep gönderildi!',de:'Anfrage gesendet!',pt:'Pedido enviado!',pl:'Wniosek wysłany!'})}</h3>
-                <p style={{color:txtSub,fontSize:13,marginBottom:4}}>Managerul tău va procesa cererea pentru <strong style={{color:gold,fontFamily:'monospace'}}>{customCodeText||'codul tău'}</strong> în 24-48 ore.</p>
-                <p style={{color:txtSub,fontSize:12,marginBottom:16}}>Vei fi notificat când codul este activat.</p>
+                <p style={{color:txtSub,fontSize:13,marginBottom:4}}>{L({ro:'Managerul tău va procesa cererea pentru ',ru:'Ваш менеджер обработает заявку на ',en:'Your manager will process the request for ',tr:'Yöneticiniz şu kod için talebi işleyecek: ',de:'Ihr Manager bearbeitet die Anfrage für ',pt:'O seu gestor irá processar o pedido para ',pl:'Twój menedżer przetworzy wniosek o '})}<strong style={{color:gold,fontFamily:'monospace'}}>{customCodeText||L({ro:'codul tău',ru:'ваш код',en:'your code',tr:'kodunuz',de:'Ihr Code',pt:'o teu código',pl:'twój kod'})}</strong>{L({ro:' în 24-48 ore.',ru:' за 24-48 часов.',en:' within 24-48 hours.',tr:' 24-48 saat içinde.',de:' innerhalb von 24-48 Stunden.',pt:' dentro de 24-48 horas.',pl:' w ciągu 24-48 godzin.'})}</p>
+                <p style={{color:txtSub,fontSize:12,marginBottom:16}}>{L({ro:'Vei fi notificat când codul este activat.',ru:'Вы получите уведомление, когда код будет активирован.',en:'You will be notified when the code is activated.',tr:'Kod etkinleştirildiğinde bilgilendirileceksiniz.',de:'Sie werden benachrichtigt, wenn der Code aktiviert ist.',pt:'Será notificado quando o código for ativado.',pl:'Otrzymasz powiadomienie, gdy kod zostanie aktywowany.'})}</p>
                 <button style={btnPrimary} onClick={()=>{setShowCustomCode(false);setCustomCodeSent(false)}}>{({'ro':'Închide','ru':'Закрыть','en':'Close','tr':'Kapat','de':'Schließen','pt':'Fechar','pl':'Zamknij'})[lang]||'Închide'}</button>
               </div>
             ):(
@@ -1564,7 +1565,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <select style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:12}} value={customCasinoId} onChange={e=>setCustomCasinoId(e.target.value)}>
                   {CASINOS.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
-                <label style={label}>Codul dorit (fără spații, litere și cifre)</label>
+                <label style={label}>{L({ro:'Codul dorit (fără spații, litere și cifre)',ru:'Желаемый код (без пробелов, буквы и цифры)',en:'Desired code (no spaces, letters and digits)',tr:'İstediğiniz kod (boşluksuz, harf ve rakam)',de:'Gewünschter Code (keine Leerzeichen, Buchstaben und Zahlen)',pt:'Código desejado (sem espaços, letras e dígitos)',pl:'Żądany kod (bez spacji, litery i cyfry)'})}</label>
                 <input
                   style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:6,textTransform:'uppercase',fontFamily:'monospace',fontSize:16,fontWeight:700,letterSpacing:2}}
                   placeholder="IONEL23"

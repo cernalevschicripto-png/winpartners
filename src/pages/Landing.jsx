@@ -883,11 +883,11 @@ export default function Landing() {
                   <span style={{fontSize:12,fontWeight:700,color:c.color}}>{c.rs}</span>
                 </div>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                  <span style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.05em'}}>Piețe</span>
+                  <span style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.05em'}}>{({ro:'Piețe',ru:'Рынки',en:'Markets',tr:'Pazarlar',de:'Märkte',pt:'Mercados',pl:'Rynki'})[lang]||'Piețe'}</span>
                   <span style={{fontSize:11,fontWeight:600,color:'rgba(255,255,255,0.55)'}}>{c.geo}</span>
                 </div>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                  <span style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.05em'}}>Din</span>
+                  <span style={{fontSize:10,color:'rgba(255,255,255,0.35)',textTransform:'uppercase',letterSpacing:'.05em'}}>{({ro:'Din',ru:'С',en:'Since',tr:'Yıl',de:'Seit',pt:'Desde',pl:'Od'})[lang]||'Din'}</span>
                   <span style={{fontSize:11,fontWeight:600,color:'rgba(255,255,255,0.45)'}}>{c.since}</span>
                 </div>
               </div>
