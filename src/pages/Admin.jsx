@@ -388,11 +388,10 @@ winpartners.pro`
                   color: isFirebaseEnabled ? C.green : gold }}>
                   {isFirebaseEnabled ? '🔥 Firebase activ' : '💾 Local'}
                 </span>
-                <div style={{ display:'flex', gap:6 }}>
-                  <button onClick={runSeed} style={{ flex:1, padding:'6px', fontSize:11, cursor:'pointer', border:`1px solid ${C.borderHi}`, borderRadius:6, background:'none', color:gold }}>🌱 Seed</button>
-                  <button onClick={runForceReseed} style={{ flex:1, padding:'6px', fontSize:11, cursor:'pointer', border:`1px solid rgba(239,68,68,0.4)`, borderRadius:6, background:'none', color:C.red }}>🔄 Reseed</button>
-                </div>
-                {seedStatus && <span style={{ fontSize:10, color:C.green, textAlign:'center' }}>{seedStatus}</span>}
+                <button onClick={() => { try{sessionStorage.removeItem('wp_admin_auth')}catch{}; setAuth(false); setPass('') }}
+                  style={{ padding:'8px', fontSize:12, fontWeight:600, cursor:'pointer', border:`1px solid ${C.border}`, borderRadius:8, background:'none', color:C.textDim }}>
+                  🔒 Logout
+                </button>
               </div>
             )}
           </aside>
