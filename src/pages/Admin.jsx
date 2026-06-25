@@ -284,8 +284,9 @@ winpartners.pro`
   const saveCasinoStats = async (casinoId) => {
     if (!updateBlogger) return
     const commPct = { melbet:25, xbet:40, mostbet:60, spinbetter:50, betwinner:25, onewin:50, vavada:50, parimatch:45 }[casinoId] || 25
-    const s = casinoStatsEdit[casinoId] || {}
-    if (!s.commission && s.revenue) s.commission = Math.round(s.revenue * commPct / 100)
+    const s = { ...(casinoStatsEdit[casinoId] || {}) }
+    // plasă de siguranță: dacă există venit dar comisionul lipsește/0, îl calculăm din RevShare%
+    if (s.revenue && !s.commission) s.commission = Math.round(s.revenue * commPct / 100)
     await setCasinoStats(updateBlogger.username, casinoId, s)
     // Sursă unică de adevăr: comisionul total al bloggerului = suma comisioanelor pe toate cazinourile
     const merged = { ...casinoStatsEdit, [casinoId]: s }
@@ -814,9 +815,17 @@ winpartners.pro`
                       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(130px,1fr))',gap:10}}>
                         {[['Clickuri','clicks'],['Înregistrări','regs'],['Depunători','deposits'],['Venit net ($)','revenue'],['Comision ($)','commission']].map(([label,field]) => (
                           <div key={field}>
-                            <div style={{fontSize:10,color:'rgba(255,255,255,0.35)',marginBottom:3,textTransform:'uppercase'}}>{label}</div>
-                            <input style={inp} type="number" value={s[field]||0}
-                              onChange={e => setCasinoStatsEdit(prev => ({...prev, [casino.id]:{ ...(prev[casino.id]||{}), [field]:+e.target.value }}))}
+                            <div style={{fontSize:10,color:'rgba(255,255,255,0.35)',marginBottom:3,textTransform:'uppercase'}}>{label}{field==='commission' ? ` · auto ${commPct}%` : ''}</div>
+                            <input style={inp} type="number" value={(s[field]===0||s[field]==null)?'':s[field]}
+                              onChange={e => {
+                                const val = e.target.value === '' ? 0 : +e.target.value
+                                setCasinoStatsEdit(prev => {
+                                  const cur = { ...(prev[casino.id]||{}), [field]: val }
+                                  // când se schimbă venitul, recalculăm automat comisionul (RevShare%)
+                                  if (field==='revenue') cur.commission = Math.round(val * commPct / 100)
+                                  return { ...prev, [casino.id]: cur }
+                                })
+                              }}
                             />
                           </div>
                         ))}
