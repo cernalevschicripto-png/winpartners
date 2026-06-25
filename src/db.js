@@ -166,11 +166,11 @@ export async function sendWelcomeEmail(toEmail, name, username, pass) {
     `Date de acces:\n` +
     `• Link: https://winpartners.pro/login\n` +
     `• Username: ${username}\n` +
-    `• Parolă: ${pass}\n\n` +
+    `• Parola: cea pe care ai ales-o la înregistrare\n\n` +
     `Primii pași:\n` +
     `1. Intră pe https://winpartners.pro/login și loghează-te\n` +
-    `2. Alege un cazino (Melbet e activ) și generează-ți codul promoțional\n` +
-    `3. Promovează cu codul/linkul tău și câștigă 25% RevShare pe viață din fiecare jucător adus\n\n` +
+    `2. Alege cazinoul care ți se potrivește și generează-ți codul promoțional\n` +
+    `3. Promovează cu codul/linkul tău și câștigă de la 25% RevShare pe viață din fiecare jucător adus (unele cazinouri plătesc mai mult)\n\n` +
     `Ai nevoie de ajutor? Scrie-ne oricând:\n` +
     `• Telegram: https://t.me/winpartners_manager\n` +
     `• Email: supportwinpartners@gmail.com\n\n` +
