@@ -193,7 +193,9 @@ export async function applyPasswordReset(token, newPass) {
 export async function getBloggers() {
   if (USE_FIREBASE) {
     const data = await fbGet('bloggers')
-    return data ? Object.values(data) : Object.values(INIT_BLOGGERS)
+    // Firebase e sursa de adevăr: dacă răspunde (chiar și gol), returnăm exact ce e acolo.
+    // Nu mai cădem pe demo când lista e goală — altfel bloggerii șterși ar reapărea.
+    return data ? Object.values(data) : []
   }
   const data = lsGet('wp_bloggers', INIT_BLOGGERS)
   return Object.values(data)

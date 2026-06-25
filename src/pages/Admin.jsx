@@ -42,7 +42,9 @@ const CASINOS_LIST = [
 
 export default function Admin() {
   const [pass, setPass] = useState('')
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(() => {
+    try { return sessionStorage.getItem('wp_admin_auth') === '1' } catch { return false }
+  })
   const [tab, setTab] = useState('bloggers')
   const [loading, setLoading] = useState(false)
   const [seedStatus, setSeedStatus] = useState('')
@@ -145,11 +147,11 @@ export default function Admin() {
               placeholder="Parola admin"
               value={pass}
               onChange={e => setPass(e.target.value)}
-              onKeyDown={e => e.key==='Enter' && pass===PASS && setAuth(true)}
+              onKeyDown={e => { if(e.key==='Enter' && pass===PASS){ try{sessionStorage.setItem('wp_admin_auth','1')}catch{}; setAuth(true) } }}
             />
             <button
               style={{ width:'100%', padding:'10px', fontSize:14, fontWeight:700, cursor:'pointer', border:'none', borderRadius:6, background:gold, color:'#000' }}
-              onClick={() => { if(pass===PASS) { setAuth(true) } else { setPass(''); document.querySelector('input')?.focus() } }}
+              onClick={() => { if(pass===PASS) { try{sessionStorage.setItem('wp_admin_auth','1')}catch{}; setAuth(true) } else { setPass(''); document.querySelector('input')?.focus() } }}
             >INTRĂ</button>
           </div>
         </div>
