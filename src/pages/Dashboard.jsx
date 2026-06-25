@@ -303,9 +303,11 @@ function LoginScreen({ onLogin }) {
   return (
     <div style={{minHeight:'100vh',background:'#0a0a0f',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Inter,sans-serif'}}>
       <div style={{textAlign:'center',maxWidth:380,width:'100%',padding:'2rem'}}>
-        <div style={{fontSize:28,fontWeight:900,marginBottom:8,color:'#fff'}}>
-          WIN<span style={{color:gold2}}>PARTNERS</span>
-        </div>
+        <a href="/" style={{textDecoration:'none',display:'inline-block',cursor:'pointer'}}>
+          <div style={{fontSize:28,fontWeight:900,marginBottom:8,color:'#fff'}}>
+            WIN<span style={{color:gold2}}>PARTNERS</span>
+          </div>
+        </a>
         <div style={{fontSize:13,color:'rgba(255,255,255,0.35)',marginBottom:16}}>{lt.sub}</div>
         {/* Lang switcher */}
         <div style={{display:'flex',gap:4,justifyContent:'center',marginBottom:24}}>
