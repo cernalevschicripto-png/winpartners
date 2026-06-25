@@ -5,7 +5,7 @@ import {
   getCasinoStats, subscribeCasinoStats,
   getNextAvailableCode, subscribePromoCodes, updateBloggerFields,
   addCustomRequest, subscribeCustomRequests,
-  addNotification,
+  addNotification, requestPayout,
   sendMessage, subscribeConversation, markConversationRead,
   requestPasswordReset, sendResetEmail,
 } from '../db.js'
@@ -1009,6 +1009,18 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 ))}
               </div>
 
+              {/* Link de afiliere atribuit manual de admin (dacă există) */}
+              {c.stats.affLink && (
+                <div style={{background:('linear-gradient(135deg,'+accent+'1a,'+accent+'06)'),border:('1.5px solid '+accent+'55'),borderRadius:12,padding:'16px 18px',marginBottom:'1.5rem'}}>
+                  <div style={{fontSize:11,fontWeight:800,color:accent,textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>{L({ro:'🔗 Linkul tău de afiliere '+c.name,ru:'🔗 Твоя партнёрская ссылка '+c.name,en:'🔗 Your '+c.name+' affiliate link',tr:'🔗 '+c.name+' ortaklık bağlantın',de:'🔗 Dein '+c.name+'-Affiliate-Link',pt:'🔗 O teu link de afiliado '+c.name,pl:'🔗 Twój link afiliacyjny '+c.name})}</div>
+                  <div style={{fontFamily:'monospace',fontSize:13,color:txt,background:bg,border:('1px solid '+bdr),padding:'10px 12px',borderRadius:8,wordBreak:'break-all',lineHeight:1.5,marginBottom:10}}>{c.stats.affLink}</div>
+                  <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                    <button onClick={()=>copy(c.stats.affLink,'aff_'+cid)} style={{...btnPrimary,padding:'10px 20px',fontSize:13}}>{copied==='aff_'+cid?L({ro:'✓ Copiat!',ru:'✓ Скопировано!',en:'✓ Copied!',tr:'✓ Kopyalandı!',de:'✓ Kopiert!',pt:'✓ Copiado!',pl:'✓ Skopiowano!'}):L({ro:'📋 Copiază linkul',ru:'📋 Копировать ссылку',en:'📋 Copy link',tr:'📋 Bağlantıyı kopyala',de:'📋 Link kopieren',pt:'📋 Copiar link',pl:'📋 Kopiuj link'})}</button>
+                    <a href={c.stats.affLink} target="_blank" rel="noreferrer" style={{...btnOutline(accent),padding:'9px 16px',fontSize:13,textDecoration:'none',display:'inline-flex',alignItems:'center'}}>{L({ro:'Deschide',ru:'Открыть',en:'Open',tr:'Aç',de:'Öffnen',pt:'Abrir',pl:'Otwórz'})} ↗</a>
+                  </div>
+                </div>
+              )}
+
               {c.comingSoon ? (
                 /* Cazino neaprobat încă — cerere de acces */
                 <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
@@ -1493,6 +1505,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   disabled={!payAddr||D.bal.available<30}
                   onClick={async ()=>{
                     if(payAddr&&D.bal.available>=30){
+                      await requestPayout({ username:D.username, name:D.name, amount:D.bal.available, method:payMethod, detail:payAddr })
                       await addNotification({type:'pay_request',blogger:D.username,bloggerName:D.name,amount:D.bal.available,address:payAddr,method:payMethod,detail:`Cerere plată \$${D.bal.available} → ${payAddr}`})
                       setPaySent(true)
                     }

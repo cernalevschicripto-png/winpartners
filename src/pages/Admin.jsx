@@ -8,11 +8,28 @@ import {
   getApplications, updateApplication, subscribeApplications,
   getNotifications, markRead, addNotification, subscribeNotifications,
   getCustomRequests, updateCustomRequest, subscribeCustomRequests,
+  getPayoutRequests, updatePayoutRequest, subscribePayoutRequests,
   subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead,
   seedDatabase, forceReseedDatabase, isFirebaseEnabled, firebaseDebug, sendTelegramNotif,
 } from '../db.js'
 
 const gold = '#f5a623'
+// Slate palette — lighter, modern admin look
+const C = {
+  bg:        '#1e2433',   // page background (slate-800-ish)
+  panel:     '#2a3140',   // cards / panels
+  panel2:    '#323a4d',   // raised / hover
+  sidebar:   '#252b3a',   // left control bar
+  border:    'rgba(255,255,255,0.10)',
+  borderHi:  'rgba(245,166,35,0.35)',
+  text:      '#e8ecf3',   // primary text
+  textDim:   'rgba(232,236,243,0.55)',
+  textFaint: 'rgba(232,236,243,0.35)',
+  green:     '#22c55e',
+  red:       '#ef4444',
+  blue:      '#3b82f6',
+  purple:    '#a78bfa',
+}
 const PASS = _p
 
 const CASINOS_LIST = [
@@ -37,6 +54,8 @@ export default function Admin() {
   const [applications, setApplications] = useState([])
   const [notifications, setNotifications] = useState([])
   const [customRequests, setCustomRequests] = useState([])
+  const [payoutRequests, setPayoutRequests] = useState([])
+  const [affLinkEdit, setAffLinkEdit] = useState({})
 
   // UI state
   const [editId, setEditId]     = useState(null)
@@ -75,6 +94,7 @@ export default function Admin() {
       subscribeApplications(setApplications),
       subscribeNotifications(setNotifications),
       subscribeCustomRequests(setCustomRequests),
+      subscribePayoutRequests(setPayoutRequests),
       subscribeAllConversations(setConversations),
     ]
     return () => unsubs.forEach(fn => fn && fn())
@@ -105,9 +125,9 @@ export default function Admin() {
     getCasinoStats(updateBlogger.username).then(setCasinoStatsEdit)
   }, [updateBlogger])
 
-  const inp = { width:'100%', padding:'8px 12px', fontSize:13, border:'1px solid rgba(255,255,255,0.1)', borderRadius:6, background:'rgba(255,255,255,0.05)', color:'#e2e8f0', outline:'none', boxSizing:'border-box' }
-  const th = { padding:'10px 14px', textAlign:'left', fontSize:11, color:'rgba(255,255,255,0.35)', fontWeight:600, textTransform:'uppercase', letterSpacing:'.07em', background:'rgba(0,0,0,0.2)', whiteSpace:'nowrap' }
-  const td = { padding:'10px 14px', fontSize:13, color:'rgba(255,255,255,0.75)', borderBottom:'1px solid rgba(255,255,255,0.04)', verticalAlign:'middle' }
+  const inp = { width:'100%', padding:'9px 12px', fontSize:13, border:`1px solid ${C.border}`, borderRadius:8, background:'rgba(255,255,255,0.06)', color:C.text, outline:'none', boxSizing:'border-box' }
+  const th = { padding:'11px 14px', textAlign:'left', fontSize:11, color:C.textDim, fontWeight:700, textTransform:'uppercase', letterSpacing:'.06em', background:'rgba(255,255,255,0.04)', whiteSpace:'nowrap' }
+  const td = { padding:'11px 14px', fontSize:13, color:C.text, borderBottom:`1px solid ${C.border}`, verticalAlign:'middle' }
 
   if (!auth) {
     return (
@@ -295,46 +315,110 @@ winpartners.pro`
   }
 
   return (
-    <div style={{ minHeight:'100vh', background:'#0a0a0f', fontFamily:'Inter,sans-serif', color:'#e2e8f0', padding: isMobile ? '0.75rem' : '1.5rem', overflowX:'hidden' }}>
-      {/* HEADER */}
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1rem', flexWrap:'wrap', gap:8 }}>
-        <div style={{ fontSize: isMobile ? 16 : 20, fontWeight:900, color:'#fff' }}>
-          WIN<span style={{ color:gold }}>PARTNERS</span>
-          {!isMobile && <span style={{ fontSize:11, color:'rgba(255,255,255,0.3)', marginLeft:12, fontWeight:400 }}>Admin Panel · Firebase Sync</span>}
-        </div>
-        <div style={{ display:'flex', gap: isMobile ? 6 : 12, alignItems:'center' }}>
-          {seedStatus && <span style={{ fontSize:11, color:'#10b981' }}>{seedStatus}</span>}
-          {!isMobile && <>
-            <button onClick={runSeed} style={{ padding:'6px 14px', fontSize:12, cursor:'pointer', border:'1px solid rgba(245,166,35,0.3)', borderRadius:6, background:'none', color:gold }}>
-              🌱 Seed DB
-            </button>
-            <button onClick={runForceReseed} style={{ padding:'6px 14px', fontSize:12, cursor:'pointer', border:'1px solid rgba(239,68,68,0.4)', borderRadius:6, background:'none', color:'#ef4444' }}>
-              🔄 Force Reseed
-            </button>
-          </>}
-          <button onClick={() => setShowNotifPanel(p => !p)} style={{ position:'relative', padding:'6px 12px', fontSize:12, cursor:'pointer', border:'1px solid rgba(255,255,255,0.1)', borderRadius:6, background:'none', color:'#e2e8f0' }}>
-            🔔 {unreadCount > 0 && <span style={{ background:'#ef4444', color:'#fff', borderRadius:10, fontSize:10, padding:'1px 5px', position:'absolute', top:-6, right:-6 }}>{unreadCount}</span>}
-          </button>
-          {loading && <span style={{ fontSize:11, color:'rgba(255,255,255,0.3)' }}>⏳</span>}
-          <span style={{ fontSize:11, padding:'2px 8px', borderRadius:4, fontWeight:600,
-            background: isFirebaseEnabled ? 'rgba(16,185,129,0.12)' : 'rgba(245,166,35,0.12)',
-            color: isFirebaseEnabled ? '#10b981' : '#f59e0b' }}>
-            {isFirebaseEnabled ? '🔥 Firebase' : '💾 Local' + (firebaseDebug === 'NOT_CONFIGURED' ? '' : ': '+firebaseDebug.slice(0,15))}
-          </span>
-        </div>
+    <div style={{ minHeight:'100vh', background:C.bg, fontFamily:'Inter,sans-serif', color:C.text, display:'flex', flexDirection: isMobile ? 'column' : 'row', overflowX:'hidden' }}>
+
+      {/* ═══════ SIDEBAR / CONTROL BAR ═══════ */}
+      {(() => {
+        const NAV = [
+          ['applications', '📥', 'Aplicații', pendingApps],
+          ['bloggers',     '👥', 'Bloggeri', null],
+          ['update',       '📊', 'Actualizare stats', null],
+          ['payments',     '💸', 'Plăți', null],
+          ['payout-requests','🏦','Cereri plată', payoutRequests.filter(p=>p.status==='pending').length],
+          ['promo',        '🎟', 'Promocoduri', null],
+          ['special',      '✨', 'Coduri speciale', customRequests.filter(r=>r.status==='pending').length],
+          ['chat',         '💬', 'Mesaje', chatUnread],
+          ['notif',        '🔔', 'Notificări', unreadCount],
+        ]
+        return (
+          <aside style={{
+            background:C.sidebar,
+            borderRight: isMobile ? 'none' : `1px solid ${C.border}`,
+            borderBottom: isMobile ? `1px solid ${C.border}` : 'none',
+            width: isMobile ? '100%' : 230,
+            flexShrink:0,
+            display:'flex',
+            flexDirection: isMobile ? 'row' : 'column',
+            alignItems: isMobile ? 'center' : 'stretch',
+            padding: isMobile ? '0.5rem 0.75rem' : '1.25rem 0',
+            gap: isMobile ? 6 : 0,
+            overflowX: isMobile ? 'auto' : 'visible',
+            position: isMobile ? 'sticky' : 'sticky',
+            top:0, height: isMobile ? 'auto' : '100vh', zIndex:50,
+          }}>
+            {/* logo */}
+            <div style={{ fontSize:18, fontWeight:900, color:'#fff', padding: isMobile ? '0 12px 0 4px' : '0 1.5rem', marginBottom: isMobile ? 0 : 24, whiteSpace:'nowrap', flexShrink:0 }}>
+              WIN<span style={{ color:gold }}>P</span>
+              {!isMobile && <span style={{ color:gold }}>ARTNERS</span>}
+            </div>
+
+            {/* nav */}
+            <nav style={{ display:'flex', flexDirection: isMobile ? 'row' : 'column', gap: isMobile ? 6 : 2, flex: isMobile ? 'none' : 1, padding: isMobile ? 0 : '0 0.75rem' }}>
+              {NAV.map(([id, icon, lbl, badge]) => {
+                const active = tab === id
+                return (
+                  <button key={id} onClick={() => setTab(id)} style={{
+                    display:'flex', alignItems:'center', gap:10,
+                    padding: isMobile ? '8px 12px' : '10px 14px',
+                    fontSize:13, fontWeight: active?700:500, cursor:'pointer',
+                    border:'none', borderRadius:10,
+                    background: active ? gold : 'transparent',
+                    color: active ? '#1a1a2e' : C.textDim,
+                    whiteSpace:'nowrap', flexShrink:0, textAlign:'left', width: isMobile ? 'auto' : '100%',
+                    transition:'background .12s',
+                  }}>
+                    <span style={{ fontSize:15 }}>{icon}</span>
+                    {!isMobile && <span style={{ flex:1 }}>{lbl}</span>}
+                    {isMobile && <span>{lbl}</span>}
+                    {badge>0 && <span style={{ background: active?'#1a1a2e':C.red, color:'#fff', fontSize:10, fontWeight:700, minWidth:18, height:18, borderRadius:9, display:'flex', alignItems:'center', justifyContent:'center', padding:'0 5px' }}>{badge}</span>}
+                  </button>
+                )
+              })}
+            </nav>
+
+            {/* bottom: db status + seed (desktop only) */}
+            {!isMobile && (
+              <div style={{ padding:'0 1.25rem', display:'flex', flexDirection:'column', gap:8, marginTop:12 }}>
+                <span style={{ fontSize:11, padding:'5px 10px', borderRadius:6, fontWeight:600, textAlign:'center',
+                  background: isFirebaseEnabled ? 'rgba(34,197,94,0.14)' : 'rgba(245,166,35,0.14)',
+                  color: isFirebaseEnabled ? C.green : gold }}>
+                  {isFirebaseEnabled ? '🔥 Firebase activ' : '💾 Local'}
+                </span>
+                <div style={{ display:'flex', gap:6 }}>
+                  <button onClick={runSeed} style={{ flex:1, padding:'6px', fontSize:11, cursor:'pointer', border:`1px solid ${C.borderHi}`, borderRadius:6, background:'none', color:gold }}>🌱 Seed</button>
+                  <button onClick={runForceReseed} style={{ flex:1, padding:'6px', fontSize:11, cursor:'pointer', border:`1px solid rgba(239,68,68,0.4)`, borderRadius:6, background:'none', color:C.red }}>🔄 Reseed</button>
+                </div>
+                {seedStatus && <span style={{ fontSize:10, color:C.green, textAlign:'center' }}>{seedStatus}</span>}
+              </div>
+            )}
+          </aside>
+        )
+      })()}
+
+      {/* ═══════ MAIN CONTENT ═══════ */}
+      <main style={{ flex:1, minWidth:0, padding: isMobile ? '1rem 0.75rem' : '1.5rem 2rem', overflowX:'hidden' }}>
+
+      {/* top bar: page title + bell */}
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1.25rem', gap:12 }}>
+        <h2 style={{ fontSize: isMobile?17:20, fontWeight:800, color:'#fff', margin:0 }}>
+          {{applications:'Cereri de înregistrare', bloggers:'Bloggeri', update:'Actualizare statistici', payments:'Plăți', 'payout-requests':'Cereri de plată', promo:'Promocoduri', special:'Coduri speciale', chat:'Mesaje', notif:'Notificări'}[tab] || 'Admin'}
+        </h2>
+        <button onClick={() => setShowNotifPanel(p => !p)} style={{ position:'relative', padding:'8px 12px', fontSize:13, cursor:'pointer', border:`1px solid ${C.border}`, borderRadius:8, background:C.panel, color:C.text }}>
+          🔔 {unreadCount > 0 && <span style={{ background:C.red, color:'#fff', borderRadius:10, fontSize:10, padding:'1px 5px', position:'absolute', top:-6, right:-6 }}>{unreadCount}</span>}
+        </button>
       </div>
 
       {/* NOTIF PANEL */}
       {showNotifPanel && (
-        <div style={{ position:'fixed', top: isMobile ? 0 : 60, right: isMobile ? 0 : 24, left: isMobile ? 0 : 'auto', width: isMobile ? '100%' : 380, maxHeight: isMobile ? '60vh' : 440, overflowY:'auto', background:'#0d0d1f', border:'1px solid rgba(245,166,35,0.2)', borderRadius: isMobile ? '0 0 12px 12px' : 12, padding:'1rem', zIndex:300 }}>
+        <div style={{ position:'fixed', top: isMobile ? 0 : 60, right: isMobile ? 0 : 24, left: isMobile ? 0 : 'auto', width: isMobile ? '100%' : 380, maxHeight: isMobile ? '60vh' : 440, overflowY:'auto', background:C.panel, border:`1px solid ${C.borderHi}`, borderRadius: isMobile ? '0 0 12px 12px' : 12, padding:'1rem', zIndex:300, boxShadow:'0 12px 40px rgba(0,0,0,0.4)' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
             <span style={{ fontWeight:700, fontSize:14 }}>Notificări</span>
             <button onClick={() => { notifications.forEach(n => !n.read && n._key && markRead(n._key)) }} style={{ fontSize:11, cursor:'pointer', border:'none', background:'none', color:gold }}>Marchează toate</button>
           </div>
-          {notifications.length === 0 ? <p style={{ color:'rgba(255,255,255,0.3)', fontSize:13 }}>Nicio notificare</p> : notifications.slice(0,15).map(n => (
-            <div key={n.id} onClick={() => n._key && markRead(n._key)} style={{ padding:'10px', borderRadius:8, marginBottom:6, background: n.read ? 'rgba(255,255,255,0.02)' : 'rgba(245,166,35,0.08)', border:'1px solid rgba(255,255,255,0.05)', cursor:'pointer' }}>
-              <div style={{ fontSize:12, fontWeight:600, color: n.read ? 'rgba(255,255,255,0.5)' : '#fff' }}>{n.blogger} · {n.detail}</div>
-              <div style={{ fontSize:10, color:'rgba(255,255,255,0.3)', marginTop:2 }}>{n.timestamp}</div>
+          {notifications.length === 0 ? <p style={{ color:C.textDim, fontSize:13 }}>Nicio notificare</p> : notifications.slice(0,15).map(n => (
+            <div key={n.id} onClick={() => n._key && markRead(n._key)} style={{ padding:'10px', borderRadius:8, marginBottom:6, background: n.read ? 'rgba(255,255,255,0.03)' : 'rgba(245,166,35,0.10)', border:`1px solid ${C.border}`, cursor:'pointer' }}>
+              <div style={{ fontSize:12, fontWeight:600, color: n.read ? C.textDim : '#fff' }}>{n.blogger} · {n.detail}</div>
+              <div style={{ fontSize:10, color:C.textFaint, marginTop:2 }}>{n.timestamp}</div>
             </div>
           ))}
         </div>
@@ -343,33 +427,16 @@ winpartners.pro`
       {/* KPI CARDS */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))', gap:12, marginBottom:'1.5rem' }}>
         {[
-          ['Bloggeri activi', bloggers.filter(b=>b.status==='active').length, '#10b981'],
+          ['Bloggeri activi', bloggers.filter(b=>b.status==='active').length, C.green],
           ['Venit total',     '$'+totalRevenue.toLocaleString(), gold],
-          ['De plătit',       '$'+Math.round(totalPending).toLocaleString(), '#ef4444'],
-          ['Coduri disponibile', Object.values(promoCodes).flat().filter(c=>c.status==='disponibil').length, '#a78bfa'],
-          ['Aplicații noi',  pendingApps, '#3b82f6'],
+          ['De plătit',       '$'+Math.round(totalPending).toLocaleString(), C.red],
+          ['Coduri disponibile', Object.values(promoCodes).flat().filter(c=>c.status==='disponibil').length, C.purple],
+          ['Aplicații noi',  pendingApps, C.blue],
         ].map(([l,v,c]) => (
-          <div key={l} style={{ background:'rgba(255,255,255,0.03)', border:'1px solid rgba(245,166,35,0.08)', borderRadius:12, padding:'1rem' }}>
-            <div style={{ fontSize:10, color:'rgba(255,255,255,0.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:4 }}>{l}</div>
-            <div style={{ fontSize:22, fontWeight:800, color:c }}>{v}</div>
+          <div key={l} style={{ background:C.panel, border:`1px solid ${C.border}`, borderRadius:14, padding:'1.1rem 1.25rem' }}>
+            <div style={{ fontSize:10, color:C.textDim, textTransform:'uppercase', letterSpacing:'.08em', marginBottom:6 }}>{l}</div>
+            <div style={{ fontSize:24, fontWeight:800, color:c }}>{v}</div>
           </div>
-        ))}
-      </div>
-
-      {/* TABS */}
-      <div style={{ display:'flex', gap:0, borderBottom:'1px solid rgba(255,255,255,0.07)', marginBottom:'1.25rem', overflowX:'auto', WebkitOverflowScrolling:'touch', scrollbarWidth:'none' }}>
-        {[
-          ['applications','Aplicații (' + pendingApps + ')'],
-          ['bloggers','Bloggeri'],
-          ['promo','Promcoduri'],
-          ['special','Coduri speciale'],
-          ['chat','Mesaje' + (chatUnread>0?' ('+chatUnread+')':'')],
-          ['update','Actualizare stats'],
-          ['payments','Plăți'],
-          ['notif','Notificări' + (unreadCount>0?' ('+unreadCount+')':'')],
-        ].map(([id,lbl]) => (
-          <button key={id} style={{ padding:'8px 12px', fontSize: isMobile ? 11 : 12, cursor:'pointer', border:'none', background:'none', color:tab===id?gold:'rgba(255,255,255,0.4)', borderBottom:tab===id?`2px solid ${gold}`:'2px solid transparent', marginBottom:-1, fontWeight:tab===id?700:400, whiteSpace:'nowrap', flexShrink:0 }}
-            onClick={() => setTab(id)}>{lbl}</button>
         ))}
       </div>
 
@@ -753,6 +820,12 @@ winpartners.pro`
                           </div>
                         ))}
                       </div>
+                      <div style={{marginTop:10}}>
+                        <div style={{fontSize:10,color:'rgba(255,255,255,0.35)',marginBottom:3,textTransform:'uppercase'}}>🔗 Link de afiliere ({casino.name}) — îl vede bloggerul pe site</div>
+                        <input style={inp} type="text" placeholder={`https://${casino.id}.com/?ref=...`} value={s.affLink||''}
+                          onChange={e => setCasinoStatsEdit(prev => ({...prev, [casino.id]:{ ...(prev[casino.id]||{}), affLink:e.target.value }}))}
+                        />
+                      </div>
                       <div style={{marginTop:10,display:'flex',justifyContent:'flex-end',alignItems:'center',gap:10}}>
                         {saveMsg && <span style={{fontSize:12,color:'#10b981',fontWeight:700}}>{saveMsg}</span>}
                         <button onClick={() => saveCasinoStats(casino.id)}
@@ -836,20 +909,61 @@ winpartners.pro`
         </div>
       )}
 
+      {/* ── TAB: CERERI DE PLATĂ ── */}
+      {tab==='payout-requests' && (
+        <div>
+          {payoutRequests.length === 0
+            ? <div style={{ padding:40, textAlign:'center', color:C.textDim, fontSize:13, background:C.panel, borderRadius:14, border:`1px solid ${C.border}` }}>Nicio cerere de plată momentan</div>
+            : (
+              <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+                {[...payoutRequests].sort((a,b)=> (a.status==='pending'?-1:1) - (b.status==='pending'?-1:1)).map(r => {
+                  const stColor = r.status==='pending'?gold : r.status==='paid'||r.status==='approved'?C.green : C.red
+                  const stLabel = r.status==='pending'?'În așteptare' : r.status==='paid'?'Plătit' : r.status==='approved'?'Aprobat' : 'Respins'
+                  return (
+                    <div key={r.id} style={{ background:C.panel, border:`1px solid ${C.border}`, borderLeft:`3px solid ${stColor}`, borderRadius:14, padding:'1.25rem' }}>
+                      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:12 }}>
+                        <div>
+                          <div style={{ fontSize:15, fontWeight:700, color:'#fff' }}>{r.name} <span style={{ fontSize:12, color:gold, fontWeight:500 }}>@{r.username}</span></div>
+                          <div style={{ display:'flex', gap:18, flexWrap:'wrap', marginTop:8 }}>
+                            <div><div style={{ fontSize:10, textTransform:'uppercase', color:C.textFaint }}>Sumă cerută</div><div style={{ fontSize:20, fontWeight:800, color:gold }}>${Number(r.amount||0).toLocaleString()}</div></div>
+                            <div><div style={{ fontSize:10, textTransform:'uppercase', color:C.textFaint }}>Metodă</div><div style={{ fontSize:14, color:C.text, marginTop:3 }}>{r.method || '—'}</div></div>
+                            {r.detail && <div style={{ minWidth:0 }}><div style={{ fontSize:10, textTransform:'uppercase', color:C.textFaint }}>Adresă / detalii</div><div style={{ fontSize:13, color:C.text, marginTop:3, fontFamily:'monospace', wordBreak:'break-all' }}>{r.detail}</div></div>}
+                          </div>
+                          <div style={{ fontSize:11, color:C.textFaint, marginTop:8 }}>Cerut: {r.date}{r.resolvedAt && ` · Rezolvat: ${r.resolvedAt}`}</div>
+                        </div>
+                        <span style={{ background:`${stColor}22`, color:stColor, padding:'4px 12px', borderRadius:20, fontSize:11, fontWeight:700, whiteSpace:'nowrap' }}>{stLabel}</span>
+                      </div>
+                      {r.status==='pending' && (
+                        <div style={{ display:'flex', gap:10, marginTop:14, borderTop:`1px solid ${C.border}`, paddingTop:14 }}>
+                          <button onClick={() => { const b = bloggers.find(x=>x.username===r.username); if(b){ setPayModal(b); setPayAmount(String(r.amount||payableOf(b))) } updatePayoutRequest(r._key, 'paid') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:'none', borderRadius:8, background:C.green, color:'#fff' }}>✓ Marchează plătit & procesează</button>
+                          <button onClick={() => { if(confirm('Respingi cererea de plată?')) updatePayoutRequest(r._key, 'rejected') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:`1px solid rgba(239,68,68,0.4)`, borderRadius:8, background:'transparent', color:C.red }}>✗ Respinge</button>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            )
+          }
+        </div>
+      )}
+
       {/* MODAL PLATĂ */}
       {payModal && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:200}} onClick={()=>setPayModal(null)}>
-          <div style={{background:'#0d0d1f',border:'1px solid rgba(255,255,255,0.1)',borderRadius:16,padding:'1.5rem',width: isMobile ? '90vw' : 380, maxWidth:'95vw'}} onClick={e=>e.stopPropagation()}>
+          <div style={{background:C.panel,border:`1px solid ${C.border}`,borderRadius:16,padding:'1.5rem',width: isMobile ? '90vw' : 380, maxWidth:'95vw'}} onClick={e=>e.stopPropagation()}>
             <h3 style={{color:'#fff',fontWeight:700,marginBottom:4}}>Procesează plată</h3>
-            <p style={{color:'rgba(255,255,255,0.4)',fontSize:13,marginBottom:4}}>Blogger: <strong style={{color:'#fff'}}>{payModal.name}</strong></p>
-            <p style={{color:'rgba(255,255,255,0.4)',fontSize:12,marginBottom:16}}>Metodă: {payModal.payMethod||'Bitcoin'} · {payModal.payAddress||'adresă nesetată'}</p>
-            <div style={{fontSize:12,color:'rgba(255,255,255,0.4)',marginBottom:4}}>Sumă ($)</div>
+            <p style={{color:C.textDim,fontSize:13,marginBottom:4}}>Blogger: <strong style={{color:'#fff'}}>{payModal.name}</strong></p>
+            <p style={{color:C.textDim,fontSize:12,marginBottom:16}}>Metodă: {payModal.payMethod||'Bitcoin'} · {payModal.payAddress||'adresă nesetată'}</p>
+            <div style={{fontSize:12,color:C.textDim,marginBottom:4}}>Sumă ($)</div>
             <input style={{...inp,marginBottom:16}} type="number" value={payAmount} onChange={e=>setPayAmount(e.target.value)}/>
             <button style={{width:'100%',padding:'11px',fontSize:14,fontWeight:700,cursor:'pointer',border:'none',borderRadius:8,background:gold,color:'#000'}} onClick={processPay}>Confirmă plata</button>
-            <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,background:'none',color:'#94a3b8',marginTop:8}} onClick={()=>setPayModal(null)}>Anulează</button>
+            <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${C.border}`,borderRadius:8,background:'none',color:C.textDim,marginTop:8}} onClick={()=>setPayModal(null)}>Anulează</button>
           </div>
         </div>
       )}
+
+      </main>
     </div>
   )
 }

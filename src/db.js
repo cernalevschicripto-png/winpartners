@@ -339,6 +339,42 @@ export function subscribeApplications(callback, interval = 2000) {
   return () => clearInterval(id)
 }
 
+// ─── CERERI DE PLATĂ (payout requests) ───────────────────────
+export async function requestPayout(payload) {
+  // payload: { username, name, amount, method, detail }
+  const data = { ...payload, id:Date.now(), status:'pending', date:new Date().toLocaleString('ro-RO') }
+  if (USE_FIREBASE) return fbPush('payoutRequests', data)
+  const all = lsGet('wp_payouts', [])
+  all.push(data)
+  lsSet('wp_payouts', all)
+  return data
+}
+
+export async function getPayoutRequests() {
+  if (USE_FIREBASE) return toArr(await fbGet('payoutRequests'))
+  return lsGet('wp_payouts', [])
+}
+
+export async function updatePayoutRequest(key, status) {
+  if (USE_FIREBASE) return fbPatch(`payoutRequests/${key}`, { status, resolvedAt:new Date().toLocaleString('ro-RO') })
+  const all = lsGet('wp_payouts', [])
+  const upd = all.map(p => p.id == key ? { ...p, status } : p)
+  lsSet('wp_payouts', upd)
+}
+
+export function subscribePayoutRequests(callback, interval = 3000) {
+  getPayoutRequests().then(callback)
+  const id = setInterval(() => getPayoutRequests().then(callback), interval)
+  return () => clearInterval(id)
+}
+
+// has this blogger already got a pending payout request?
+export async function getMyPayoutRequests(username) {
+  const all = await getPayoutRequests()
+  return all.filter(p => p.username === username)
+}
+
+
 // ─── NOTIFICATIONS ────────────────────────────────────────────
 export async function addNotification(notif) {
   const data = { ...notif, id:Date.now(), read:false, timestamp:new Date().toLocaleString('ro-RO') }
