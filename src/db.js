@@ -143,12 +143,12 @@ export async function sendResetEmail(toEmail, resetLink, username) {
   const TID = import.meta.env.VITE_EMAILJS_TEMPLATE || 'template_2sldrzn'
   const PUB = import.meta.env.VITE_EMAILJS_PUBLIC || 'slTZStxmHvt80W3cp'
   if (!SID || !TID || !PUB) return { ok:false, reason:'not_configured' }
-  const message = `Ai cerut resetarea parolei pentru contul tău WinPartners.\n\nDeschide acest link (valabil 1 oră) ca să setezi o parolă nouă:\n${resetLink}\n\nDacă nu ai cerut tu resetarea, ignoră acest email.\n\n— Echipa WinPartners`
+  const message = `We received a request to reset the password for your WinPartners account.\n\nTo set a new password, please open the link below (valid for 1 hour):\n${resetLink}\n\nIf you did not request a password reset, you can safely ignore this email — your account remains secure.\n\nBest regards,\nThe WinPartners Team`
   try {
     const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ service_id:SID, template_id:TID, user_id:PUB,
-        template_params:{ email:toEmail, to_email:toEmail, name:username||'utilizator', username:username||'', reset_link:resetLink, subject:'Resetare parolă WinPartners', message } })
+        template_params:{ email:toEmail, to_email:toEmail, name:username||'user', username:username||'', reset_link:resetLink, subject:'Reset your WinPartners password', message } })
     })
     return { ok: res.ok }
   } catch(e) { return { ok:false, reason:'error' } }
