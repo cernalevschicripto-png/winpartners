@@ -370,9 +370,40 @@ export default function Register() {
   })
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [openDD, setOpenDD] = useState(null)
   const navigate = useNavigate()
   const set = k => e => setForm(f => ({...f, [k]: e.target.value}))
   const t = T[lang] || T.ro
+
+  // Dropdown custom — nu folosește <select> nativ (care e capricios pe Windows/Chrome)
+  const Dropdown = ({ id, value, options, onPick }) => {
+    const open = openDD === id
+    return (
+      <div style={{ position:'relative' }}>
+        <button type="button"
+          onClick={() => setOpenDD(open ? null : id)}
+          style={{ ...inp, textAlign:'left', cursor:'pointer', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+          <span>{value}</span>
+          <span style={{ fontSize:10, opacity:0.6, transform: open?'rotate(180deg)':'none', transition:'transform .15s' }}>▼</span>
+        </button>
+        {open && (
+          <>
+            <div onClick={() => setOpenDD(null)} style={{ position:'fixed', inset:0, zIndex:40 }} />
+            <div style={{ position:'absolute', top:'calc(100% + 4px)', left:0, right:0, zIndex:50, background:'#1a1a2e', border:'1px solid rgba(245,166,35,0.3)', borderRadius:8, maxHeight:240, overflowY:'auto', boxShadow:'0 10px 30px rgba(0,0,0,0.5)' }}>
+              {options.map(opt => (
+                <div key={opt} onClick={() => { onPick(opt); setOpenDD(null) }}
+                  style={{ padding:'10px 13px', fontSize:14, cursor:'pointer', color: opt===value ? '#f5a623' : '#e2e8f0', background: opt===value ? 'rgba(245,166,35,0.1)' : 'transparent', fontWeight: opt===value ? 700 : 400 }}
+                  onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.06)'}
+                  onMouseLeave={e=>e.currentTarget.style.background = opt===value ? 'rgba(245,166,35,0.1)' : 'transparent'}>
+                  {opt}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    )
+  }
 
   useEffect(() => {
     const fn = () => setIsMobile(window.innerWidth < 768)
@@ -560,10 +591,7 @@ export default function Register() {
               </div>
               <div>
                 <label style={lbl}>{t.lCountry}</label>
-                <select style={inp} value={form.country} onChange={set('country')} onInput={set('country')}
-                  onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}>
-                  {COUNTRIES.map(c => <option key={c} value={c} style={{background:'#1a1a2e',color:'#fff'}}>{c}</option>)}
-                </select>
+                <Dropdown id="country" value={form.country} options={COUNTRIES} onPick={v => setForm(f => ({...f, country:v}))} />
               </div>
             </div>
 
@@ -573,10 +601,7 @@ export default function Register() {
             <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:13}}>
               <div>
                 <label style={lbl}>{t.lPlatform}</label>
-                <select style={inp} value={form.platform} onChange={set('platform')} onInput={set('platform')}
-                  onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}>
-                  {PLATFORMS.map(p => <option key={p} value={p} style={{background:'#1a1a2e',color:'#fff'}}>{p}</option>)}
-                </select>
+                <Dropdown id="platform" value={form.platform} options={PLATFORMS} onPick={v => setForm(f => ({...f, platform:v}))} />
               </div>
               <div>
                 <label style={lbl}>{t.lFollowers} <span style={{color:'rgba(239,68,68,0.7)'}}>*</span></label>
@@ -606,12 +631,7 @@ export default function Register() {
               <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:13}}>
                 <div>
                   <label style={lbl}>{t.lPayMethod}</label>
-                  <select style={inp} value={form.payMethod} onChange={set('payMethod')} onInput={set('payMethod')}
-                    onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}>
-                    {['Bitcoin (BTC)','USDT (TRC20)','USDT (ERC20)','Ethereum (ETH)','Binance Pay','Skrill','Neteller'].map(m => (
-                      <option key={m} style={{background:'#1a1a2e'}}>{m}</option>
-                    ))}
-                  </select>
+                  <Dropdown id="payMethod" value={form.payMethod} options={['Bitcoin (BTC)','USDT (TRC20)','USDT (ERC20)','Ethereum (ETH)','Binance Pay','Skrill','Neteller']} onPick={v => setForm(f => ({...f, payMethod:v}))} />
                 </div>
                 <div>
                   <label style={lbl}>{t.lPayAddr}</label>
