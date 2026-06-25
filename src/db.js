@@ -103,14 +103,27 @@ async function autoSeed() {
 autoSeed()
 
 // ─── LOGIN ────────────────────────────────────────────────────
-export async function loginBlogger(username, pass) {
+export async function loginBlogger(identifier, pass) {
+  const id = (identifier || '').trim().toLowerCase()
+  if (!id) return null
   if (USE_FIREBASE) {
-    const blogger = await fbGet(`bloggers/${username}`)
+    let blogger = null
+    if (id.includes('@')) {
+      const all = await fbGet('bloggers') || {}
+      blogger = Object.values(all).find(b => (b.email || '').toLowerCase() === id) || null
+    } else {
+      blogger = await fbGet(`bloggers/${id}`)
+    }
     if (!blogger || blogger.pass !== pass) return null
     return blogger
   } else {
     const bloggers = lsGet('wp_bloggers', INIT_BLOGGERS)
-    const blogger = bloggers[username]
+    let blogger = null
+    if (id.includes('@')) {
+      blogger = Object.values(bloggers).find(b => (b.email || '').toLowerCase() === id) || null
+    } else {
+      blogger = bloggers[id]
+    }
     if (!blogger || blogger.pass !== pass) return null
     return blogger
   }
