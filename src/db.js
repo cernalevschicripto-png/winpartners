@@ -154,6 +154,37 @@ export async function sendResetEmail(toEmail, resetLink, username) {
   } catch(e) { return { ok:false, reason:'error' } }
 }
 
+// Email de bun-venit la aprobarea bloggerului (felicitări + credențiale + pași + Telegram)
+export async function sendWelcomeEmail(toEmail, name, username, pass) {
+  const SID = import.meta.env.VITE_EMAILJS_SERVICE || 'service_ljyjtom'
+  const TID = import.meta.env.VITE_EMAILJS_TEMPLATE || 'template_2sldrzn'
+  const PUB = import.meta.env.VITE_EMAILJS_PUBLIC || 'slTZStxmHvt80W3cp'
+  if (!toEmail || !SID || !TID || !PUB) return { ok:false, reason:'not_configured' }
+  const message =
+    `Felicitări, ${name}! 🎉\n\n` +
+    `Cererea ta de afiliere WinPartners a fost APROBATĂ. Ai acum acces la platformă și poți începe să câștigi.\n\n` +
+    `Date de acces:\n` +
+    `• Link: https://winpartners.pro/login\n` +
+    `• Username: ${username}\n` +
+    `• Parolă: ${pass}\n\n` +
+    `Primii pași:\n` +
+    `1. Intră pe https://winpartners.pro/login și loghează-te\n` +
+    `2. Alege un cazino (Melbet e activ) și generează-ți codul promoțional\n` +
+    `3. Promovează cu codul/linkul tău și câștigă 25% RevShare pe viață din fiecare jucător adus\n\n` +
+    `Ai nevoie de ajutor? Scrie-ne oricând:\n` +
+    `• Telegram: https://t.me/winpartners_manager\n` +
+    `• Email: supportwinpartners@gmail.com\n\n` +
+    `Succes!\nEchipa WinPartners\nwinpartners.pro`
+  try {
+    const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ service_id:SID, template_id:TID, user_id:PUB,
+        template_params:{ email:toEmail, to_email:toEmail, name:name||'partener', username:username||'', reset_link:'https://winpartners.pro/login', message } })
+    })
+    return { ok: res.ok }
+  } catch(e) { return { ok:false, reason:'error' } }
+}
+
 export async function requestPasswordReset(email) {
   const e = (email||'').trim().toLowerCase()
   if (!e) return { ok:false, reason:'empty' }

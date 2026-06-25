@@ -10,7 +10,7 @@ import {
   getCustomRequests, updateCustomRequest, subscribeCustomRequests,
   getPayoutRequests, updatePayoutRequest, subscribePayoutRequests,
   subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead,
-  seedDatabase, forceReseedDatabase, isFirebaseEnabled, firebaseDebug, sendTelegramNotif,
+  seedDatabase, forceReseedDatabase, isFirebaseEnabled, firebaseDebug, sendTelegramNotif, sendWelcomeEmail,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -224,61 +224,22 @@ export default function Admin() {
       payMethod: app.payMethod||'Bitcoin', payAddress: app.payAddress||'',
     }
     await setBlogger(blogger)
-    // Trimite email cu credențialele prin Formspree
+    // Trimite email de bun-venit (felicitări + credențiale + pași + Telegram) prin EmailJS
+    let emailResult = { ok:false }
     try {
-      await fetch('https://formspree.io/f/mnjyoylo', {
-        method:'POST',
-        headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body: JSON.stringify({
-          _subject: '🎉 Cererea ta WinPartners a fost aprobată!',
-          _replyto: app.email,
-          to_email: app.email,
-          name: app.name,
-          message: `Felicitări, ${app.name}!
-
-Cererea ta de afiliere WinPartners a fost aprobată!
-
-` +
-            `Date de acces la dashboard:
-` +
-            `🔗 Link: https://winpartners.pro/dashboard
-` +
-            `👤 Username: ${app.username}
-` +
-            `🔑 Parolă: ${pass}
-
-` +
-            `Următorii pași:
-` +
-            `1. Intră pe https://winpartners.pro/dashboard
-` +
-            `2. Loghează-te cu username și parola de mai sus
-` +
-            `3. Generează-ți codul promoțional Melbet din secțiunea "Melbet" (Cazinourile mele)
-` +
-            `4. Începe să promovezi și să câștigi 25% RevShare!
-
-` +
-            `Ai întrebări? Scrie-ne pe Telegram: https://t.me/winpartners_manager
-
-` +
-            `Cu respect,
-Echipa WinPartners
-winpartners.pro`
-        })
-      })
-    } catch(e) { console.warn('Email notification failed:', e) }
+      emailResult = await sendWelcomeEmail(app.email, app.name, app.username, pass)
+    } catch(e) { console.warn('Welcome email failed:', e) }
     await addNotification({
       type:'new_blogger',
       blogger: app.name,
-      detail:`Aprobat · user: ${app.username} · pass: ${pass} · email trimis la ${app.email||'N/A'}`
+      detail:`Aprobat · user: ${app.username} · pass: ${pass} · email ${emailResult.ok ? 'trimis ✅' : 'NEEXPEDIAT ⚠️'} la ${app.email||'N/A'}`
     })
     await sendTelegramNotif(
       `✅ <b>Blogger aprobat!</b>\n` +
       `👤 ${app.name} (@${app.username})\n` +
       `📱 ${app.platform} · ${app.country || '—'}\n` +
       `🔑 Parolă: <code>${pass}</code>\n` +
-      `📧 Email: ${app.email || '—'}`
+      `📧 Email: ${app.email || '—'} ${emailResult.ok ? '(bun-venit trimis ✅)' : '(email NEEXPEDIAT ⚠️ — anunță-l manual)'}`
     )
     getBloggers().then(setBloggers)
   }
