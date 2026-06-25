@@ -69,6 +69,7 @@ export default function Admin() {
   const [newCodeInput, setNewCodeInput] = useState('')
   const [addCodeMode, setAddCodeMode] = useState(false)
   const [updateBlogger, setUpdateBlogger] = useState(null)
+  const [casinoStatsEdit, setCasinoStatsEdit] = useState({})
   const [showNotifPanel, setShowNotifPanel] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
   // Chat cu bloggerii
