@@ -560,7 +560,7 @@ export default function Register() {
               </div>
               <div>
                 <label style={lbl}>{t.lCountry}</label>
-                <select style={inp} value={form.country} onChange={set('country')}
+                <select style={inp} value={form.country} onChange={set('country')} onInput={set('country')}
                   onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}>
                   {COUNTRIES.map(c => <option key={c} value={c} style={{background:'#1a1a2e',color:'#fff'}}>{c}</option>)}
                 </select>
@@ -573,7 +573,7 @@ export default function Register() {
             <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:13}}>
               <div>
                 <label style={lbl}>{t.lPlatform}</label>
-                <select style={inp} value={form.platform} onChange={set('platform')}
+                <select style={inp} value={form.platform} onChange={set('platform')} onInput={set('platform')}
                   onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}>
                   {PLATFORMS.map(p => <option key={p} value={p} style={{background:'#1a1a2e',color:'#fff'}}>{p}</option>)}
                 </select>
@@ -606,7 +606,7 @@ export default function Register() {
               <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:13}}>
                 <div>
                   <label style={lbl}>{t.lPayMethod}</label>
-                  <select style={inp} value={form.payMethod} onChange={set('payMethod')}
+                  <select style={inp} value={form.payMethod} onChange={set('payMethod')} onInput={set('payMethod')}
                     onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}>
                     {['Bitcoin (BTC)','USDT (TRC20)','USDT (ERC20)','Ethereum (ETH)','Binance Pay','Skrill','Neteller'].map(m => (
                       <option key={m} style={{background:'#1a1a2e'}}>{m}</option>
