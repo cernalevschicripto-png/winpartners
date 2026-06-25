@@ -110,6 +110,17 @@
         var path = window.location.pathname;
         var excluded = ['/sys/', '/m/', '/dashboard', '/register', '/contact', '/faq', '/about', '/benefits', '/terms', '/instructions'];
         if (excluded.some(function(p){ return path.indexOf(p) !== -1; })) return;
+        var _l = localStorage.getItem('wp_lang'); if (['ro','ru','en','tr','de','pt','pl'].indexOf(_l) === -1) _l = 'ro';
+        var _T = {
+          ro:{title:'Instalează WinPartners',sub:'Adaugă pe ecranul principal pentru acces rapid',install:'Instalează',dismiss:'Nu acum'},
+          ru:{title:'Установить WinPartners',sub:'Добавь на главный экран для быстрого доступа',install:'Установить',dismiss:'Не сейчас'},
+          en:{title:'Install WinPartners',sub:'Add to home screen for quick access',install:'Install',dismiss:'Not now'},
+          tr:{title:'WinPartners\u0027ı yükle',sub:'Hızlı erişim için ana ekrana ekle',install:'Yükle',dismiss:'Şimdi değil'},
+          de:{title:'WinPartners installieren',sub:'Zum Startbildschirm hinzufügen für schnellen Zugriff',install:'Installieren',dismiss:'Später'},
+          pt:{title:'Instalar WinPartners',sub:'Adiciona ao ecrã principal para acesso rápido',install:'Instalar',dismiss:'Agora não'},
+          pl:{title:'Zainstaluj WinPartners',sub:'Dodaj do ekranu głównego dla szybkiego dostępu',install:'Zainstaluj',dismiss:'Nie teraz'}
+        };
+        var _t = _T[_l] || _T.ro;
         var banner = document.createElement('div');
         banner.id = 'pwa-banner';
         banner.style.cssText = [
@@ -121,12 +132,12 @@
         ].join(';');
         banner.innerHTML = '<img src="/icons/icon-192.png" width="44" height="44" style="border-radius:10px;flex-shrink:0"/>'
           + '<div style="flex:1;min-width:0">'
-          + '<div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">Instaleaza WinPartners</div>'
-          + '<div style="font-size:12px;color:rgba(255,255,255,0.5)">Adauga pe ecranul principal pentru acces rapid</div>'
+          + '<div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">' + _t.title + '</div>'
+          + '<div style="font-size:12px;color:rgba(255,255,255,0.5)">' + _t.sub + '</div>'
           + '</div>'
           + '<div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">'
-          + '<button id="pwa-install" style="padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;border:none;border-radius:8px;background:#f5a623;color:#000;font-family:Inter,sans-serif">Instaleaza</button>'
-          + '<button id="pwa-dismiss" style="padding:4px 14px;font-size:11px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:none;color:rgba(255,255,255,0.4);font-family:Inter,sans-serif">Nu acum</button>'
+          + '<button id="pwa-install" style="padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;border:none;border-radius:8px;background:#f5a623;color:#000;font-family:Inter,sans-serif">' + _t.install + '</button>'
+          + '<button id="pwa-dismiss" style="padding:4px 14px;font-size:11px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:none;color:rgba(255,255,255,0.4);font-family:Inter,sans-serif">' + _t.dismiss + '</button>'
           + '</div>';
         document.body.appendChild(banner);
 
