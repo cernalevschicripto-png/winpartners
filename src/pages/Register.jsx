@@ -612,7 +612,7 @@ export default function Register() {
 
             <div>
               <label style={lbl}>{t.lProfile} <span style={{color:'rgba(239,68,68,0.7)'}}>*</span></label>
-              <input style={errors.profileLink?inpErr:inp} value={form.profileLink} onChange={set('profileLink')} placeholder={t.phProfile}
+              <input style={errors.profileLink?inpErr:inp} value={form.profileLink} onChange={set('profileLink')} placeholder={({TikTok:'https://tiktok.com/@username',Instagram:'https://instagram.com/username',YouTube:'https://youtube.com/@channel',Telegram:'https://t.me/channel',Facebook:'https://facebook.com/page','Twitter/X':'https://x.com/username',Other:'https://...'})[form.platform] || t.phProfile}
                 onFocus={e=>e.target.style.borderColor='rgba(245,166,35,0.4)'} onBlur={e=>e.target.style.borderColor=errors.profileLink?'rgba(239,68,68,0.7)':'rgba(255,255,255,0.1)'}/>
               <div style={{fontSize:11,color:'rgba(255,255,255,0.25)',marginTop:4}}>{t.profileNote}</div>
             </div>
