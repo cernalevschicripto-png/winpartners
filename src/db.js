@@ -148,7 +148,7 @@ export async function sendResetEmail(toEmail, resetLink, username) {
     const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ service_id:SID, template_id:TID, user_id:PUB,
-        template_params:{ email:toEmail, to_email:toEmail, name:username||'utilizator', username:username||'', reset_link:resetLink, message } })
+        template_params:{ email:toEmail, to_email:toEmail, name:username||'utilizator', username:username||'', reset_link:resetLink, subject:'Resetare parolă WinPartners', message } })
     })
     return { ok: res.ok }
   } catch(e) { return { ok:false, reason:'error' } }
@@ -179,7 +179,7 @@ export async function sendWelcomeEmail(toEmail, name, username, pass) {
     const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ service_id:SID, template_id:TID, user_id:PUB,
-        template_params:{ email:toEmail, to_email:toEmail, name:name||'partener', username:username||'', reset_link:'https://winpartners.pro/login', message } })
+        template_params:{ email:toEmail, to_email:toEmail, name:name||'partener', username:username||'', reset_link:'https://winpartners.pro/login', subject:'🎉 Cont aprobat — Bun venit la WinPartners!', message } })
     })
     return { ok: res.ok }
   } catch(e) { return { ok:false, reason:'error' } }
