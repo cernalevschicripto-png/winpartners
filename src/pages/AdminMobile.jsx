@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { _p } from '../cfg.js'
 import {
-  getBloggers, setBlogger, updateBloggerFields,
+  getBloggers, setBlogger, updateBloggerFields, deleteBlogger,
   getApplications, updateApplication,
   getPromoCodes, addPromoCode,
   getCasinoStats, setCasinoStats,
@@ -172,6 +172,13 @@ export default function AdminMobile() {
     showToast('❌ ' + app.name + ' respins')
   }
 
+  const deleteBloggerFn = async (b) => {
+    if (!confirm(`Ștergi definitiv "${b.name}" (@${b.username})? Acțiunea nu poate fi anulată.`)) return
+    setBloggers(prev => prev.filter(x => x.username !== b.username))
+    const ok = await deleteBlogger(b.username)
+    showToast(ok ? '🗑 ' + b.name + ' șters' : '⚠️ Ștergere eșuată')
+  }
+
   // ── Salvează stats ──
   const saveStats = async () => {
     if (!selBlogger) return
@@ -266,7 +273,10 @@ export default function AdminMobile() {
                   <div style={{ fontWeight:700, fontSize:15 }}>{b.name}</div>
                   <div style={{ fontSize:12, color:'rgba(255,255,255,0.4)' }}>@{b.username} · {b.platform}</div>
                 </div>
-                <Badge text={b.status} color={b.status==='active' ? green : gold} />
+                <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                  <Badge text={b.status} color={b.status==='active' ? green : gold} />
+                  <button onClick={() => deleteBloggerFn(b)} style={{ padding:'4px 9px', fontSize:13, cursor:'pointer', border:'1px solid rgba(239,68,68,0.4)', borderRadius:6, background:'transparent', color:'#ef4444' }}>🗑</button>
+                </div>
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:6, marginTop:10 }}>
                 {[

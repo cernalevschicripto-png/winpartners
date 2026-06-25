@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { _p } from '../cfg.js'
 import {
-  getBloggers, setBlogger, updateBloggerFields, subscribeBloggers,
+  getBloggers, setBlogger, updateBloggerFields, deleteBlogger, subscribeBloggers,
   getCasinoStats, setCasinoStats,
   getPromoCodes, addPromoCode, subscribePromoCodes,
   getApplications, updateApplication, subscribeApplications,
@@ -149,6 +149,14 @@ export default function Admin() {
   const saveEdit = async () => {
     await setBlogger(editData)
     setEditId(null)
+  }
+
+  const deleteBloggerFn = async (b) => {
+    if (!confirm(`Ștergi definitiv bloggerul "${b.name}" (@${b.username})?\n\nSe șterge contul din baza de date. Acțiunea NU poate fi anulată.`)) return
+    setBloggers(prev => prev.filter(x => x.username !== b.username))
+    const ok = await deleteBlogger(b.username)
+    if (!ok) { alert('Ștergerea a eșuat. Reîncarcă pagina și încearcă din nou.'); return }
+    await addNotification({ type:'blogger_deleted', blogger: b.name, detail: '@' + b.username + ' · șters de admin' }).catch(()=>{})
   }
 
   const addBloggerFn = async () => {
@@ -531,6 +539,7 @@ winpartners.pro`
                           <div style={{display:'flex',gap:6}}>
                             <button onClick={()=>{setEditId(b.username);setEditData({...b})}} style={{padding:'4px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(245,166,35,0.3)',borderRadius:4,background:'none',color:gold}}>✏️</button>
                             <button onClick={()=>{setPayModal(b);setPayAmount(payableOf(b).toString())}} style={{padding:'4px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(16,185,129,0.3)',borderRadius:4,background:'none',color:'#10b981'}}>💰</button>
+                            <button onClick={()=>deleteBloggerFn(b)} title="Șterge blogger" style={{padding:'4px 10px',fontSize:11,cursor:'pointer',border:'1px solid rgba(239,68,68,0.3)',borderRadius:4,background:'none',color:'#ef4444'}}>🗑</button>
                           </div>
                         </td>
                       </>

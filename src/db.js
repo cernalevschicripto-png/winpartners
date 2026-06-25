@@ -40,6 +40,14 @@ async function fbPush(path, data) {
   } catch { return null }
 }
 
+async function fbDelete(path) {
+  try {
+    const url = `${FB_URL}/${path}.json`
+    const res = await fetch(url, { method:'DELETE', signal: AbortSignal.timeout(5000) })
+    return res.ok
+  } catch { return false }
+}
+
 function toArr(obj) {
   if (!obj || typeof obj !== 'object') return []
   return Object.entries(obj).map(([k, v]) => ({ ...v, _key: k }))
@@ -203,6 +211,15 @@ export async function updateBloggerFields(username, fields) {
   const all = lsGet('wp_bloggers', INIT_BLOGGERS)
   if (all[username]) all[username] = { ...all[username], ...fields }
   lsSet('wp_bloggers', all)
+}
+
+export async function deleteBlogger(username) {
+  if (!username) return false
+  if (USE_FIREBASE) return fbDelete(`bloggers/${username}`)
+  const all = lsGet('wp_bloggers', INIT_BLOGGERS)
+  delete all[username]
+  lsSet('wp_bloggers', all)
+  return true
 }
 
 export function subscribeBloggers(callback, interval = 5000) {
