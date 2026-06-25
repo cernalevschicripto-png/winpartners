@@ -312,31 +312,16 @@ const T = {
 
 async function saveApplication(data) {
   await addApplication(data)
-  try {
-    await fetch('https://formspree.io/f/mnjyoylo', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({
-        _subject: '🆕 New affiliate application — ' + data.name + ' (' + data.platform + ' · ' + Number(data.followers||0).toLocaleString() + ' followers)',
-        name: data.name, username: '@' + data.username, email: data.email,
-        phone: data.phone, country: data.country, platform: data.platform,
-        followers: data.followers, profile: data.profileLink,
-        about: data.aboutYou || '—', pay_method: data.payMethod,
-        pay_address: data.payAddress || 'not provided',
-        invite_code: data.refCode || '—',
-        date: new Date().toLocaleString('ro-RO'),
-      })
-    })
-  } catch(e) {}
-  // Notificare Telegram
-  await sendTelegramNotif(
+  // Notificare Telegram — fără await, ca să nu blocheze trecerea la pasul de confirmare.
+  // Cererea e deja salvată în Firebase; notificarea pleacă în fundal.
+  sendTelegramNotif(
     `🆕 <b>Cerere nouă!</b>\n` +
     `👤 ${data.name} (@${data.username})\n` +
     `📱 ${data.platform} · ${Number(data.followers||0).toLocaleString()} urmăritori\n` +
     `🌍 ${data.country||'—'} · ${data.email}\n` +
     `🔗 ${data.profileLink||'—'}\n` +
     `📋 Admin: https://winpartners.pro/sys/ctrl/p8x4`
-  )
+  ).catch(()=>{})
 }
 
 // Inline styles
