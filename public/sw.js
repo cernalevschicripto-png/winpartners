@@ -1,45 +1,48 @@
-// WinPartners Service Worker v1.0
-const CACHE_NAME = 'winpartners-v1'
-const STATIC_ASSETS = [
-  '/',
-  '/dashboard',
-  '/manifest.json',
-]
+// WinPartners Service Worker v2.0
+const CACHE_NAME = 'winpartners-v2'
 
-// Install — cache static assets
+// Install — activează imediat noua versiune
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(STATIC_ASSETS).catch(() => {})
-    })
-  )
   self.skipWaiting()
 })
 
-// Activate — clean old caches
+// Activate — șterge TOATE cache-urile vechi
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
+      Promise.all(keys.map(k => caches.delete(k)))
+    ).then(() => self.clients.claim())
   )
-  self.clients.claim()
 })
 
-// Fetch — network first, fallback to cache
+// Fetch — pentru navigare (HTML) și JS/CSS: MEREU din rețea (fără cache vechi).
+// Doar dacă rețeaua eșuează complet (offline), încearcă cache-ul.
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return
   if (!event.request.url.startsWith(self.location.origin)) return
 
+  const url = new URL(event.request.url)
+  // HTML, JS, CSS, manifest — network only (cu fallback offline)
+  const isAppShell = event.request.mode === 'navigate' ||
+                     /\.(js|css|json)$/.test(url.pathname)
+
+  if (isAppShell) {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(event.request))
+    )
+    return
+  }
+
+  // restul (imagini, iconițe) — cache first pentru viteză
   event.respondWith(
-    fetch(event.request)
-      .then(response => {
+    caches.match(event.request).then(cached =>
+      cached || fetch(event.request).then(response => {
         if (response.ok) {
           const clone = response.clone()
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone))
         }
         return response
       })
-      .catch(() => caches.match(event.request))
+    )
   )
 })
