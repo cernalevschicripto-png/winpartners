@@ -1404,9 +1404,9 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <div style={{width:42,height:42,borderRadius:10,background:'rgba(34,158,217,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>✈️</div>
                   <div><div style={{fontSize:14,fontWeight:700,color:txt}}>Telegram</div><div style={{fontSize:12,color:'#229ED9',fontWeight:600}}>@winpartners_manager</div></div>
                 </a>
-                <a href="mailto:support@winpartners.pro" style={{...card,display:'flex',alignItems:'center',gap:12,textDecoration:'none',cursor:'pointer'}}>
+                <a href="mailto:supportwinpartners@gmail.com" style={{...card,display:'flex',alignItems:'center',gap:12,textDecoration:'none',cursor:'pointer'}}>
                   <div style={{width:42,height:42,borderRadius:10,background:'rgba(245,166,35,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>✉️</div>
-                  <div><div style={{fontSize:14,fontWeight:700,color:txt}}>Email</div><div style={{fontSize:12,color:gold,fontWeight:600}}>support@winpartners.pro</div></div>
+                  <div><div style={{fontSize:14,fontWeight:700,color:txt}}>Email</div><div style={{fontSize:12,color:gold,fontWeight:600}}>supportwinpartners@gmail.com</div></div>
                 </a>
               </div>
 

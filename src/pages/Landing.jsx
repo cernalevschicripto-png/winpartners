@@ -1111,7 +1111,7 @@ export default function Landing() {
                 ['terms', t.f_terms],
                 ['terms', t.f_priv]],
               ['Contact',
-                ['','support@winpartners.pro'],
+                ['','supportwinpartners@gmail.com'],
                 ['','Telegram: @winpartners_manager'],
                 ['',t.f_wa],
                 ['','24/7']],
