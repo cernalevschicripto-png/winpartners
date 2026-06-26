@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   loginBlogger,
+  getBloggers,
   getCasinoStats, subscribeCasinoStats,
   getNextAvailableCode, subscribePromoCodes, updateBloggerFields,
   addCustomRequest, subscribeCustomRequests,
@@ -388,7 +389,11 @@ export default function Dashboard() {
   return <DashboardContent blogger={blogger} onLogout={handleLogout} />
 }
 
-function DashboardContent({ blogger, onLogout }) {
+function DashboardContent({ blogger: bloggerProp, onLogout }) {
+  // Reîmprospătare automată din Firebase (paid/revenue/earned), ca soldul „Disponibil"
+  // să fie mereu corect — ex: după ce admin marchează o plată, scade imediat (nu rămâne stale din sesiune).
+  const [liveFields, setLiveFields] = useState({})
+  const blogger = { ...bloggerProp, ...liveFields }
   // Înlocuiește D cu datele reale ale bloggerului
   const _affId = blogger.affId || 'WP-' + (Math.abs([...(blogger.username||blogger.id||'wp')].reduce((a,c)=>((a<<5)-a+c.charCodeAt(0))|0,0))%9000000+1000000)
   const D = {
@@ -559,6 +564,23 @@ function DashboardContent({ blogger, onLogout }) {
     const unsub = subscribeCasinoStats(D.username, setCasinoStatsState)
     return unsub
   }, [D.username])
+
+  // Reîmprospătare câmpuri blogger (paid/revenue/earned) din Firebase la 5s — sold mereu corect
+  useEffect(() => {
+    let alive = true
+    const refresh = async () => {
+      try {
+        const all = await getBloggers()
+        const fresh = Array.isArray(all) ? all.find(b => b && b.username === bloggerProp.username) : null
+        if (alive && fresh) {
+          setLiveFields({ paid: Number(fresh.paid)||0, revenue: Number(fresh.revenue)||0, earned: Number(fresh.earned)||0 })
+        }
+      } catch(e) {}
+    }
+    refresh()
+    const id = setInterval(refresh, 5000)
+    return () => { alive = false; clearInterval(id) }
+  }, [bloggerProp.username])
 
   useEffect(() => {
     const handleResize = () => {
