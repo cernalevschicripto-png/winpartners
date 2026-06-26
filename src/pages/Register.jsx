@@ -419,7 +419,7 @@ export default function Register() {
 
   const Nav = () => (
     <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.1)',padding:'0 1rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:56,position:'sticky',top:0,zIndex:50,backdropFilter:'blur(10px)'}}>
-      <div onClick={() => navigate('/')} style={{fontSize:17,fontWeight:900,cursor:'pointer',display:'flex',alignItems:'center',gap:6}}>
+      <div onClick={() => navigate(sessionStorage.getItem('wp_blogger')?'/dashboard':'/')} style={{fontSize:17,fontWeight:900,cursor:'pointer',display:'flex',alignItems:'center',gap:6}}>
         <img src="/icons/logo.png" width="24" height="24" alt="W" style={{borderRadius:3}}/>
         <span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span>
       </div>
@@ -500,7 +500,7 @@ export default function Register() {
             </a>
           </div>
 
-          <button onClick={() => navigate('/')} style={{width:'100%',padding:'11px',fontSize:14,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.1)',borderRadius:7,background:'transparent',color:'rgba(255,255,255,0.5)',fontFamily:'inherit',transition:'border-color .15s'}} onMouseOver={e=>e.currentTarget.style.borderColor='rgba(255,255,255,0.25)'} onMouseOut={e=>e.currentTarget.style.borderColor='rgba(255,255,255,0.1)'}>
+          <button onClick={() => navigate(sessionStorage.getItem('wp_blogger')?'/dashboard':'/')} style={{width:'100%',padding:'11px',fontSize:14,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.1)',borderRadius:7,background:'transparent',color:'rgba(255,255,255,0.5)',fontFamily:'inherit',transition:'border-color .15s'}} onMouseOver={e=>e.currentTarget.style.borderColor='rgba(255,255,255,0.25)'} onMouseOut={e=>e.currentTarget.style.borderColor='rgba(255,255,255,0.1)'}>
             {t.back}
           </button>
         </div>

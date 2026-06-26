@@ -83,7 +83,7 @@ export default function Media() {
   return (
     <div style={{background:'#0a0a0f',minHeight:'100vh',color:'#fff',fontFamily:"'Inter',sans-serif",overflowX:'hidden'}}>
       <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:56,position:'sticky',top:0,zIndex:50}}>
-        <div onClick={()=>nav('/')} style={{fontSize:16,fontWeight:900,cursor:'pointer'}}>
+        <div onClick={()=>nav(sessionStorage.getItem('wp_blogger')?'/dashboard':'/')} style={{fontSize:16,fontWeight:900,cursor:'pointer'}}>
           <span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span>
         </div>
         <div style={{display:'flex',gap:4,alignItems:'center'}}>

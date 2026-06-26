@@ -457,7 +457,7 @@ export default function Landing() {
 
       {/* ─── NAV ─── */}
       <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:100,background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:60,backdropFilter:'blur(12px)'}}>
-        <div onClick={()=>navigate('/')} style={{cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
+        <div onClick={()=>navigate(sessionStorage.getItem('wp_blogger')?'/dashboard':'/')} style={{cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
           <img src="/icons/logo.png" width="28" height="28" alt="WinPartners" style={{borderRadius:4}}/>
           <span style={{fontSize:17,fontWeight:900,letterSpacing:'.02em'}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></span>
         </div>

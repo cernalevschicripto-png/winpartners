@@ -25,7 +25,7 @@ function PageNav({ lang, setL, t, nav }) {
   const isMobile = window.innerWidth < 768
   return (
     <nav style={{background:'rgba(10,10,15,0.97)',borderBottom:'1px solid rgba(245,166,35,0.12)',padding:'0 1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:60,position:'sticky',top:0,zIndex:100,backdropFilter:'blur(12px)'}}>
-      <div onClick={()=>nav('/')} style={{cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
+      <div onClick={()=>nav(sessionStorage.getItem('wp_blogger')?'/dashboard':'/')} style={{cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
         <img src="/icons/logo.png" width="26" height="26" alt="W" style={{borderRadius:3}}/>
         <span style={{fontSize:16,fontWeight:900}}><span style={{color:'#fff'}}>WIN</span><span style={{color:gold}}>PARTNERS</span></span>
       </div>
