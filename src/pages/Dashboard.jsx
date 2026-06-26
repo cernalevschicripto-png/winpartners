@@ -1603,8 +1603,8 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
       )}
 
       {/* Footer - like Melbet */}
-      <div style={{background:'#1e1e30',borderTop:'1px solid rgba(255,255,255,0.06)',padding:'12px 24px',display:'flex',alignItems:'center',gap:24,flexShrink:0}}>
-        <div style={{display:'flex',gap:20,flex:1}}>
+      <div style={{background:'#1e1e30',borderTop:'1px solid rgba(255,255,255,0.06)',padding:isMobile?'14px 16px':'12px 24px',display:'flex',flexDirection:isMobile?'column':'row',alignItems:isMobile?'flex-start':'center',gap:isMobile?10:24,flexShrink:0,maxWidth:'100%',boxSizing:'border-box'}}>
+        <div style={{display:'flex',gap:isMobile?14:20,flex:isMobile?'none':1,flexWrap:'wrap'}}>
           {L({ro:['Contacte','Știri','Politica de confidențialitate','Politica cookie'],ru:['Контакты','Новости','Политика конфиденциальности','Политика cookie'],en:['Contacts','News','Privacy Policy','Cookie Policy'],tr:['İletişim','Haberler','Gizlilik Politikası','Çerez Politikası'],de:['Kontakte','News','Datenschutz','Cookie-Richtlinie'],pt:['Contactos','Notícias','Política de Privacidade','Política de Cookies'],pl:['Kontakt','Aktualności','Polityka prywatności','Polityka cookie']}).map(l=>(
             <span key={l} style={{fontSize:11,color:'rgba(255,255,255,0.35)',cursor:'pointer'}}>{l}</span>
           ))}
