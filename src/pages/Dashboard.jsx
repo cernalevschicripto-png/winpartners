@@ -143,48 +143,6 @@ const CASINOS_BASE = [
     geo: 'RO, MD, RU, CIS, EU',
     comingSoon: false,
   },
-  {
-    id: 'onewin',
-    name: '1win',
-    logo: '🥇',
-    color: '#0ea5e9',
-    commissionPct: 50,
-    commission: {ro:'50% Revenue Share',ru:'50% Revenue Share',en:'50% Revenue Share',tr:'50% Revenue Share',de:'50% Revenue Share',pt:'50% Revenue Share',pl:'50% Revenue Share'},
-    description: {ro:'Creștere explozivă în CIS · cazino + pariuri + esports · 30M+ jucători',ru:'Взрывной рост в СНГ · казино + ставки + киберспорт · 30M+ игроков',en:'Explosive growth in CIS · casino + betting + esports · 30M+ players',tr:'BDT bölgesinde patlayan büyüme · casino + bahis + espor · 30M+ oyuncu',de:'Explosives Wachstum in der GUS · Casino + Wetten + E-Sport · 30M+ Spieler',pt:'Crescimento explosivo na CEI · casino + apostas + esports · 30M+ jogadores',pl:'Eksplozja wzrostu w WNP · kasyno + zakłady + esport · 30M+ graczy'},
-    minPayout: '$30',
-    payFreq: 'Săptămânal',
-    affLink: 'https://1win-partners.com',
-    geo: 'RO, MD, RU, CIS',
-    comingSoon: true,
-  },
-  {
-    id: 'vavada',
-    name: 'Vavada',
-    logo: '🎰',
-    color: '#dc2626',
-    commissionPct: 50,
-    commission: {ro:'50% Revenue Share',ru:'50% Revenue Share',en:'50% Revenue Share',tr:'50% Revenue Share',de:'50% Revenue Share',pt:'50% Revenue Share',pl:'50% Revenue Share'},
-    description: {ro:'Cazino pur · foarte popular în CIS · fără carryover negativ',ru:'Чистое казино · очень популярно в СНГ · без отрицательного переноса',en:'Pure casino · very popular in CIS · no negative carryover',tr:'Saf casino · BDT bölgesinde çok popüler · negatif devir yok',de:'Reines Casino · sehr beliebt in der GUS · kein negativer Übertrag',pt:'Casino puro · muito popular na CEI · sem carryover negativo',pl:'Czyste kasyno · bardzo popularne w WNP · bez ujemnego przeniesienia'},
-    minPayout: '$15',
-    payFreq: 'Bilunar',
-    affLink: 'https://vavadapartners.com',
-    geo: 'RU, MD, CIS, EU',
-    comingSoon: true,
-  },
-  {
-    id: 'parimatch',
-    name: 'Parimatch',
-    logo: '🐯',
-    color: '#eab308',
-    commissionPct: 45,
-    commission: {ro:'45% Revenue Share',ru:'45% Revenue Share',en:'45% Revenue Share',tr:'45% Revenue Share',de:'45% Revenue Share',pt:'45% Revenue Share',pl:'45% Revenue Share'},
-    description: {ro:'Brand global recunoscut · cazino + pariuri + esports într-un singur cont',ru:'Признанный мировой бренд · казино + ставки + киберспорт в одном аккаунте',en:'Recognized global brand · casino + betting + esports in one account',tr:'Tanınmış küresel marka · tek hesapta casino + bahis + espor',de:'Anerkannte globale Marke · Casino + Wetten + E-Sport in einem Konto',pt:'Marca global reconhecida · casino + apostas + esports numa só conta',pl:'Uznana globalna marka · kasyno + zakłady + esport na jednym koncie'},
-    minPayout: '$30',
-    payFreq: 'Lunar',
-    affLink: 'https://pmaffiliates.com',
-    geo: 'RO, MD, RU, EU',
-    comingSoon: true,
-  },
 ]
 
 // Generează linkul de jucători Melbet pentru un cod promoțional
@@ -376,11 +334,13 @@ export default function Dashboard() {
 
   const handleLogin = (bloggerData) => {
     sessionStorage.setItem('wp_blogger', JSON.stringify(bloggerData))
+    sessionStorage.removeItem('wp_page'); sessionStorage.removeItem('wp_casino')
     setBlogger(bloggerData)
   }
 
   const handleLogout = () => {
     sessionStorage.removeItem('wp_blogger')
+    sessionStorage.removeItem('wp_page'); sessionStorage.removeItem('wp_casino')
     setBlogger(null)
   }
 
@@ -413,7 +373,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
   }
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [page,setPage]=useState('main')
+  const [page,setPage]=useState(() => sessionStorage.getItem('wp_page') || 'main')
   const [lang, setLang] = useState(() => {
     const s = localStorage.getItem('wp_lang')
     return ['ro','ru','en','tr','de','pt','pl'].includes(s) ? s : 'ro'
@@ -463,7 +423,9 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
     }
   }
 
-  const [selectedCasino, setSelectedCasino] = useState('melbet')
+  const [selectedCasino, setSelectedCasino] = useState(() => sessionStorage.getItem('wp_casino') || 'melbet')
+  useEffect(() => { try { sessionStorage.setItem('wp_page', page) } catch(e){} }, [page])
+  useEffect(() => { try { sessionStorage.setItem('wp_casino', selectedCasino) } catch(e){} }, [selectedCasino])
   const [casinoMenuOpen, setCasinoMenuOpen] = useState(false)
   const [generatedCode, setGeneratedCode] = useState(null)
   const [codeGenerating, setCodeGenerating] = useState(false)
