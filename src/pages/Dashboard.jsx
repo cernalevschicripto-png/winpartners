@@ -660,6 +660,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
   const [showPay,setShowPay]=useState(false)
   const [payAddr,setPayAddr]=useState('')
   const [payMethod,setPayMethod]=useState('Bitcoin')
+  const [payAmount,setPayAmount]=useState('')
   const [codeText,setCodeText]=useState('')
   const [paySent,setPaySent]=useState(false)
   const [codeSent,setCodeSent]=useState(false)
@@ -1297,7 +1298,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <div style={card}>
                   <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:8}}>{({'ro':'Câștigurile se acumulează automat pe măsură ce jucătorii tăi joacă. Când soldul ajunge la $30, soliciți plata mai jos — o procesăm săptămânal pe metoda ta preferată.','ru':'Доход накапливается автоматически по мере игры ваших игроков. Когда баланс достигнет $30, запросите выплату ниже — мы обрабатываем её еженедельно удобным вам способом.','en':'Earnings accumulate automatically as your players play. When your balance reaches $30, request a payout below — we process it weekly via your preferred method.','tr':'Oyuncularınız oynadıkça kazançlar otomatik birikir. Bakiyeniz $30 olunca aşağıdan ödeme talep edin — tercih ettiğiniz yöntemle haftalık işleriz.','de':'Die Einnahmen sammeln sich automatisch an, während Ihre Spieler spielen. Bei $30 Guthaben fordern Sie unten eine Auszahlung an — wir bearbeiten sie wöchentlich über Ihre bevorzugte Methode.','pt':'Os ganhos acumulam-se automaticamente à medida que os seus jogadores jogam. Quando o saldo atingir $30, solicite o pagamento abaixo — processamos semanalmente pelo método preferido.','pl':'Zarobki kumulują się automatycznie w miarę gry Twoich graczy. Gdy saldo osiągnie $30, poproś o wypłatę poniżej — przetwarzamy ją tygodniowo wybraną metodą.'})[lang]||'Câștigurile se acumulează automat. Când soldul ajunge la $30, soliciți plata mai jos.'}</p>
                   <p style={{fontSize:13,fontWeight:600,color:txt,marginBottom:12}}>{({'ro':'Suma minimă de plată este de $30 pe săptămână','ru':'Минимальная сумма выплаты $30 в неделю','en':'Minimum payment amount is $30 per week','tr':'Minimum ödeme tutarı haftada $30','de':'Mindestauszahlungsbetrag beträgt $30 pro Woche','pt':'O valor mínimo de pagamento é $30 por semana','pl':'Minimalna kwota płatności to $30 tygodniowo'})[lang]}</p>
-                  <button style={btnPrimary} onClick={()=>setShowPay(true)}>{({'ro':'Solicită plată','ru':'Запросить выплату','en':'Request payment','tr':'Ödeme talep et','de':'Zahlung anfordern','pt':'Solicitar pagamento','pl':'Zażądaj płatności'})[lang]||'Solicită plată'} → ${D.bal.available}</button>
+                  <button style={btnPrimary} onClick={()=>{setPayAmount(String(D.bal.available));setShowPay(true)}}>{({'ro':'Solicită plată','ru':'Запросить выплату','en':'Request payment','tr':'Ödeme talep et','de':'Zahlung anfordern','pt':'Solicitar pagamento','pl':'Zażądaj płatności'})[lang]||'Solicită plată'} → ${D.bal.available}</button>
                 </div>
                 <div style={card}>
                   <p style={{fontSize:13,color:txtSub,lineHeight:1.7}}>{L({ro:'Contactați managerii noștri prin ',ru:'Свяжитесь с нашими менеджерами через ',en:'Contact our managers via the ',tr:'Yöneticilerimizle ',de:'Kontaktieren Sie unsere Manager über die ',pt:'Contacte os nossos gestores através dos ',pl:'Skontaktuj się z naszymi menedżerami przez '})}<span style={{color:gold,cursor:'pointer',fontWeight:600}}>{L({ro:'datele de contact',ru:'контактные данные',en:'contact details',tr:'iletişim bilgileri',de:'Kontaktdaten',pt:'dados de contacto',pl:'dane kontaktowe'})}</span>{L({ro:' disponibile pe site.',ru:', доступные на сайте.',en:' available on the site.',tr:' aracılığıyla iletişime geçin.',de:', die auf der Website verfügbar sind.',pt:' disponíveis no site.',pl:' dostępne na stronie.'})}</p>
@@ -1565,6 +1566,16 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     <div style={{fontSize:14,fontWeight:700,color:txtSub}}>$30</div>
                   </div>
                 </div>
+                <label style={label}>{({'ro':'Suma de retras','ru':'Сумма вывода','en':'Amount to withdraw','tr':'Çekilecek tutar','de':'Auszahlungsbetrag','pt':'Valor a retirar','pl':'Kwota wypłaty'})[lang]||'Suma de retras'}</label>
+                <div style={{display:'flex',gap:8,marginBottom:4}}>
+                  <div style={{position:'relative',flex:1}}>
+                    <span style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',color:txtSub,fontWeight:700,fontSize:14}}>$</span>
+                    <input type="number" min={30} max={D.bal.available} style={{...inp,width:'100%',boxSizing:'border-box',paddingLeft:24,fontWeight:700}}
+                      value={payAmount} onChange={e=>setPayAmount(e.target.value)} placeholder={String(D.bal.available)}/>
+                  </div>
+                  <button style={{padding:'0 14px',fontSize:12,fontWeight:700,cursor:'pointer',border:`1px solid ${gold}`,borderRadius:6,background:gold+'18',color:gold,whiteSpace:'nowrap'}} onClick={()=>setPayAmount(String(D.bal.available))}>{({'ro':'Tot','ru':'Всё','en':'All','tr':'Tümü','de':'Alles','pt':'Tudo','pl':'Wszystko'})[lang]||'Tot'}</button>
+                </div>
+                <div style={{fontSize:11,color:txtSub,marginBottom:12}}>{({'ro':'Poți retrage parțial. Restul rămâne în sold.','ru':'Можно вывести частично. Остаток останется на балансе.','en':'You can withdraw partially. The rest stays in your balance.','tr':'Kısmi çekebilirsin. Kalanı bakiyende kalır.','de':'Teilauszahlung möglich. Der Rest bleibt im Guthaben.','pt':'Podes retirar parcialmente. O resto fica no saldo.','pl':'Możesz wypłacić częściowo. Reszta zostaje na saldzie.'})[lang]||'Poți retrage parțial. Restul rămâne în sold.'}</div>
                 <label style={label}>{L({ro:'Metodă de plată',ru:'Метод оплаты',en:'Payment method',tr:'Ödeme yöntemi',de:'Zahlungsmethode',pt:'Método de pagamento',pl:'Metoda płatności'})}</label>
                 <select style={{...inp,width:'100%',boxSizing:'border-box',marginBottom:10}} value={payMethod} onChange={e=>setPayMethod(e.target.value)}>
                   {['Bitcoin (BTC)','USDT (TRC20)','USDT (ERC20)','Ethereum (ETH)','Binance Pay','Skrill','Neteller'].map(m=><option key={m}>{m}</option>)}
@@ -1575,25 +1586,27 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   value={payAddr} onChange={e=>setPayAddr(e.target.value)}/>
                 <div style={{background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:6,padding:'10px 12px',marginBottom:10,fontSize:12,color:txtSub}}>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                    <strong>{({'ro':'Primești integral:','ru':'Получаете полностью:','en':'You receive in full:','tr':'Tam alırsınız:','de':'Sie erhalten vollständig:','pt':'Recebe na totalidade:','pl':'Otrzymujesz w całości:'})[lang]||'Primești integral:'}</strong>
-                    <strong style={{color:'#10b981',fontSize:16}}>${D.bal.available}</strong>
+                    <strong>{({'ro':'Primești:','ru':'Получаете:','en':'You receive:','tr':'Alırsınız:','de':'Sie erhalten:','pt':'Recebe:','pl':'Otrzymujesz:'})[lang]||'Primești:'}</strong>
+                    <strong style={{color:'#10b981',fontSize:16}}>${Math.min(Number(payAmount)||0, D.bal.available)}</strong>
                   </div>
                   <div style={{fontSize:11,color:txtSub,marginTop:4}}>{({'ro':'Fără comisioane de procesare — primești 100% din sold.','ru':'Без комиссий за обработку — вы получаете 100% баланса.','en':'No processing fees — you receive 100% of your balance.','tr':'İşlem ücreti yok — bakiyenizin %100ünü alırsınız.','de':'Keine Bearbeitungsgebühren — Sie erhalten 100% Ihres Guthabens.','pt':'Sem taxas de processamento — recebe 100% do saldo.','pl':'Bez opłat za przetwarzanie — otrzymujesz 100% salda.'})[lang]||'Fără comisioane de procesare — primești 100% din sold.'}</div>
                 </div>
                 <div style={{fontSize:11,color:txtSub,marginBottom:10}}>
                   {({'ro':'Verifică adresa cu atenție. Tranzacțiile crypto sunt ireversibile.','ru':'Проверьте адрес тщательно. Крипто-транзакции необратимы.','en':'Check the address carefully. Crypto transactions are irreversible.','tr':'Adresi dikkatlice kontrol edin. Kripto işlemler geri alınamaz.','de':'Adresse sorgfältig prüfen. Krypto-Transaktionen sind unwiderruflich.','pt':'Verifique o endereço com atenção. Transações cripto são irreversíveis.','pl':'Sprawdź adres uważnie. Transakcje krypto są nieodwracalne.'})[lang]||'Verifică adresa cu atenție.'}
                 </div>
-                <button style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6,opacity:(!payAddr||D.bal.available<30)?0.5:1}}
-                  disabled={!payAddr||D.bal.available<30}
+                {(()=>{ const amt=Math.floor(Number(payAmount)||0); const valid=payAddr&&amt>=30&&amt<=D.bal.available; return (
+                <button style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6,opacity:valid?1:0.5}}
+                  disabled={!valid}
                   onClick={async ()=>{
-                    if(payAddr&&D.bal.available>=30){
-                      await requestPayout({ username:D.username, name:D.name, amount:D.bal.available, method:payMethod, detail:payAddr })
-                      await addNotification({type:'pay_request',blogger:D.username,bloggerName:D.name,amount:D.bal.available,address:payAddr,method:payMethod,detail:`Cerere plată \$${D.bal.available} → ${payAddr}`})
+                    if(valid){
+                      await requestPayout({ username:D.username, name:D.name, amount:amt, method:payMethod, detail:payAddr })
+                      await addNotification({type:'pay_request',blogger:D.username,bloggerName:D.name,amount:amt,address:payAddr,method:payMethod,detail:`Cerere plată \$${amt} → ${payAddr}`})
                       setPaySent(true)
                     }
                   }}>
-                  {D.bal.available<30?`${({'ro':'Minim $30 (ai','ru':'Минимум $30 (у вас','en':'Minimum $30 (you have','tr':'Minimum $30 (bakiyeniz','de':'Mindest $30 (Sie haben','pt':'Mínimo $30 (você tem','pl':'Minimum $30 (masz'})[lang]||'Minim $30 (ai'} $${D.bal.available})`  :({'ro':'Solicită plata →','ru':'Запросить выплату →','en':'Request payment →','tr':'Ödeme talep et →','de':'Zahlung anfordern →','pt':'Solicitar pagamento →','pl':'Zażądaj płatności →'})[lang]||'Solicită plata →'}
+                  {amt<30?`${({'ro':'Minim $30','ru':'Минимум $30','en':'Minimum $30','tr':'Minimum $30','de':'Mindest $30','pt':'Mínimo $30','pl':'Minimum $30'})[lang]||'Minim $30'}`:amt>D.bal.available?`${({'ro':'Maxim','ru':'Максимум','en':'Maximum','tr':'Maksimum','de':'Maximal','pt':'Máximo','pl':'Maksimum'})[lang]||'Maxim'} $${D.bal.available}`:`${({'ro':'Solicită','ru':'Запросить','en':'Request','tr':'Talep et','de':'Anfordern','pt':'Solicitar','pl':'Zażądaj'})[lang]||'Solicită'} $${amt} →`}
                 </button>
+                )})()}
                 <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${bdr}`,borderRadius:6,background:'none',color:txtSub,marginTop:8,fontFamily:'inherit'}} onClick={()=>setShowPay(false)}>{({'ro':'Anulează','ru':'Отмена','en':'Cancel','tr':'İptal','de':'Abbrechen','pt':'Cancelar','pl':'Anuluj'})[lang]||'Anulează'}</button>
               </>
             )}
