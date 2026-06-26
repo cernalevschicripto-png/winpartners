@@ -647,7 +647,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
   const totComm=D.agg?D.agg.commission:Math.round(totRv*D.commission/100)
 
   // Styles
-  const inp = {padding:'7px 12px',fontSize:13,border:`1px solid rgba(255,255,255,0.12)`,borderRadius:4,background:bgCard,color:txt,outline:'none',fontFamily:'inherit',minWidth:isMobile?0:120,maxWidth:'100%',boxSizing:'border-box'}
+  const inp = {padding:'7px 12px',fontSize:13,border:`1px solid rgba(255,255,255,0.12)`,borderRadius:4,background:bgCard,color:txt,outline:'none',fontFamily:'inherit',minWidth:isMobile?0:120,maxWidth:'100%',boxSizing:'border-box',flexShrink:0}
   const btnPrimary = {padding:'8px 22px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:20,background:gold,color:'#000',fontFamily:'inherit',letterSpacing:'.02em'}
   const btnOutline = (c=gold)=>({padding:'6px 14px',fontSize:12,fontWeight:600,cursor:'pointer',border:`1px solid ${c}`,borderRadius:4,background:'none',color:c,fontFamily:'inherit'})
   const TH = {textAlign:'left',padding:'10px 14px',color:'#fff',fontWeight:600,fontSize:12,whiteSpace:'nowrap',background:'#22222e',cursor:'pointer',userSelect:'none'}
@@ -1346,7 +1346,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <select style={{...inp,width:150}}><option>{L({ro:'Toate',ru:'Все',en:'All',tr:'Tümü',de:'Alle',pt:'Todos',pl:'Wszystkie'})}</option></select>
                 {page==='summary'&&<><span style={{fontSize:13,color:txtSub}}>{L({ro:'ID instrument',ru:'ID инструмента',en:'Tool ID',tr:'Araç ID',de:'Tool-ID',pt:'ID da ferramenta',pl:'ID narzędzia'})}</span><input style={{...inp,width:120}} placeholder=""/></>}
                 <span style={{fontSize:13,color:txtSub}}>{({'ro':'Perioada','ru':'Период','en':'Period','tr':'Dönem','de':'Zeitraum','pt':'Período','pl':'Okres'})[lang]||'Perioada'}</span>
-                <select style={{...inp,width:130}}><option>{({'ro':'Perioada exactă','ru':'Точный период','en':'Exact period','tr':'Tam dönem','de':'Genauer Zeitraum','pt':'Período exato','pl':'Dokładny okres'})[lang]||'Perioada exactă'}</option></select>
+                <select style={inp}><option>{({'ro':'Perioada exactă','ru':'Точный период','en':'Exact period','tr':'Tam dönem','de':'Genauer Zeitraum','pt':'Período exato','pl':'Dokładny okres'})[lang]||'Perioada exactă'}</option></select>
                 <input type="date" style={inp} defaultValue={new Date().toISOString().slice(0,10)}/>
                 <span style={{color:txtSub}}>→</span>
                 <input type="date" style={inp} defaultValue={new Date().toISOString().slice(0,10)}/>
