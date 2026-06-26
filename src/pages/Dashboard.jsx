@@ -790,9 +790,9 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
               {/* Welcome screen pentru bloggeri noi */}
               {(D.clicks===0 && D.regs===0) && (
                 <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.08),rgba(245,166,35,0.02))',border:'1px solid rgba(245,166,35,0.25)',borderRadius:12,padding:'1.5rem',marginBottom:'1.25rem'}}>
-                  <div style={{fontSize:16,fontWeight:800,color:'#f5a623',marginBottom:6}}>🎉 Bun venit în WinPartners, {D.name.split(' ')[0]}!</div>
+                  <div style={{fontSize:16,fontWeight:800,color:'#f5a623',marginBottom:6}}>🎉 {L({ro:'Bun venit în WinPartners',ru:'Добро пожаловать в WinPartners',en:'Welcome to WinPartners',tr:"WinPartners'a hoş geldin",de:'Willkommen bei WinPartners',pt:'Bem-vindo à WinPartners',pl:'Witaj w WinPartners'})}, {D.name.split(' ')[0]}!</div>
                   <div style={{fontSize:13,color:'rgba(255,255,255,0.6)',marginBottom:14,lineHeight:1.6}}>
-                    Contul tău este activ. Urmează 3 pași simpli pentru a începe să câștigi:
+                    {L({ro:'Contul tău este activ. Urmează 3 pași simpli pentru a începe să câștigi:',ru:'Твой аккаунт активен. Выполни 3 простых шага, чтобы начать зарабатывать:',en:'Your account is active. Follow 3 simple steps to start earning:',tr:'Hesabın aktif. Kazanmaya başlamak için 3 basit adımı izle:',de:'Dein Konto ist aktiv. Folge 3 einfachen Schritten, um zu verdienen:',pt:'A tua conta está ativa. Segue 3 passos simples para começares a ganhar:',pl:'Twoje konto jest aktywne. Wykonaj 3 proste kroki, aby zacząć zarabiać:'})}
                   </div>
                   <div style={{display:'flex',flexDirection:'column',gap:10}}>
                     {[
@@ -811,7 +811,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
                     ))}
                   </div>
                   <div style={{marginTop:14,fontSize:12,color:'rgba(255,255,255,0.35)'}}>
-                    Ai întrebări? Scrie-ne pe <a href="https://t.me/winpartners_manager" target="_blank" rel="noopener noreferrer" style={{color:'#f5a623',textDecoration:'none'}}>Telegram @winpartners_manager</a>
+                    {L({ro:'Ai întrebări? Scrie-ne pe',ru:'Есть вопросы? Напиши нам в',en:'Questions? Message us on',tr:'Sorun mu var? Bize yaz:',de:'Fragen? Schreib uns auf',pt:'Tens dúvidas? Escreve-nos no',pl:'Masz pytania? Napisz do nas na'})} <a href="https://t.me/winpartners_manager" target="_blank" rel="noopener noreferrer" style={{color:'#f5a623',textDecoration:'none'}}>Telegram @winpartners_manager</a>
                   </div>
                 </div>
               )}
