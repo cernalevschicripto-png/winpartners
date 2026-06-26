@@ -1,5 +1,5 @@
-// WinPartners Service Worker v2.0
-const CACHE_NAME = 'winpartners-v2'
+// WinPartners Service Worker v3.0
+const CACHE_NAME = 'winpartners-v3'
 
 // Install — activează imediat noua versiune
 self.addEventListener('install', event => {
