@@ -673,7 +673,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
         {isMobile && (
           <button onClick={()=>setSidebarOpen(o=>!o)} aria-label="Meniu" style={{background:'none',border:'none',color:'#fff',fontSize:24,cursor:'pointer',padding:0,lineHeight:1,display:'flex',alignItems:'center'}}>☰</button>
         )}
-        <div style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',marginRight:isMobile?0:8}} onClick={()=>{setPage('casino');setGeneratedCode(null);if(isMobile)setSidebarOpen(false)}}>
+        <div style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',marginRight:isMobile?0:8}} onClick={()=>{setPage('main');setGeneratedCode(null);if(isMobile)setSidebarOpen(false)}}>
           <svg width="22" height="22" viewBox="0 0 22 22">
             <polygon points="11,2 20,6.5 20,15.5 11,20 2,15.5 2,6.5" fill={gold} opacity=".2" stroke={gold} strokeWidth="1.2"/>
             <text x="11" y="15" textAnchor="middle" fontSize="9" fontWeight="900" fill={gold}>W</text>
