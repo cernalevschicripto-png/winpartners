@@ -408,7 +408,7 @@ function DashboardContent({ blogger, onLogout }) {
   }
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [page,setPage]=useState('casino')
+  const [page,setPage]=useState('main')
   const [lang, setLang] = useState(() => {
     const s = localStorage.getItem('wp_lang')
     return ['ro','ru','en','tr','de','pt','pl'].includes(s) ? s : 'ro'
@@ -779,6 +779,17 @@ function DashboardContent({ blogger, onLogout }) {
           {/* === PAGINA PRINCIPALA === */}
           {page==='main'&&(
             <div>
+              {/* Header profesional — salut + status cont */}
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:12,marginBottom:'1.25rem'}}>
+                <div>
+                  <div style={{fontSize:isMobile?20:24,fontWeight:800,color:txt,marginBottom:4}}>{({ro:'Bună',ru:'Привет',en:'Hello',tr:'Merhaba',de:'Hallo',pt:'Olá',pl:'Cześć'})[lang]||'Bună'}, {D.name.split(' ')[0]}! 👋</div>
+                  <div style={{fontSize:13,color:txtSub}}>{({ro:'Bine ai venit în panoul tău de afiliere multi-cazinou.',ru:'Добро пожаловать в твою мульти-казино партнёрскую панель.',en:'Welcome to your multi-casino affiliate dashboard.',tr:'Çok kumarhaneli ortaklık paneline hoş geldin.',de:'Willkommen in deinem Multi-Casino-Partner-Dashboard.',pt:'Bem-vindo ao teu painel de afiliação multi-casino.',pl:'Witaj w swoim panelu partnerskim multi-kasyno.'})[lang]}</div>
+                </div>
+                <div style={{display:'flex',alignItems:'center',gap:8,background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:20,padding:'6px 14px'}}>
+                  <span style={{width:8,height:8,borderRadius:'50%',background:'#10b981',display:'inline-block',boxShadow:'0 0 8px #10b981'}}/>
+                  <span style={{fontSize:12,fontWeight:700,color:'#10b981'}}>{({ro:'Cont activ',ru:'Аккаунт активен',en:'Account active',tr:'Hesap aktif',de:'Konto aktiv',pt:'Conta ativa',pl:'Konto aktywne'})[lang]||'Cont activ'}</span>
+                </div>
+              </div>
               {/* Welcome screen pentru bloggeri noi */}
               {(D.clicks===0 && D.regs===0) && (
                 <div style={{background:'linear-gradient(135deg,rgba(245,166,35,0.08),rgba(245,166,35,0.02))',border:'1px solid rgba(245,166,35,0.25)',borderRadius:12,padding:'1.5rem',marginBottom:'1.25rem'}}>
@@ -788,7 +799,7 @@ function DashboardContent({ blogger, onLogout }) {
                   </div>
                   <div style={{display:'flex',flexDirection:'column',gap:10}}>
                     {[
-                      {n:'1',t:L({ro:'Ia-ți codul promoțional Melbet',ru:'Получи свой промокод Melbet',en:'Get your Melbet promo code',tr:'Melbet promosyon kodunu al',de:'Hol dir deinen Melbet-Promo-Code',pt:'Obtém o teu código promo Melbet',pl:'Odbierz swój kod promo Melbet'}),d:L({ro:'Deschide secțiunea Melbet → generează codul tău unic',ru:'Открой раздел Melbet → сгенерируй свой уникальный код',en:'Open the Melbet section → generate your unique code',tr:'Melbet bölümünü aç → benzersiz kodunu oluştur',de:'Öffne den Melbet-Bereich → generiere deinen einzigartigen Code',pt:'Abre a secção Melbet → gera o teu código único',pl:'Otwórz sekcję Melbet → wygeneruj swój unikalny kod'}),p:'casino',btn:L({ro:'Generează cod →',ru:'Сгенерировать код →',en:'Generate code →',tr:'Kod oluştur →',de:'Code generieren →',pt:'Gerar código →',pl:'Wygeneruj kod →'})},
+                      {n:'1',t:L({ro:'Alege un cazinou și generează-ți codul',ru:'Выбери казино и сгенерируй код',en:'Pick a casino and generate your code',tr:'Bir kumarhane seç ve kodunu oluştur',de:'Wähle ein Casino und generiere deinen Code',pt:'Escolhe um casino e gera o teu código',pl:'Wybierz kasyno i wygeneruj swój kod'}),d:L({ro:'Deschide oricare dintre cazinourile noastre → generează codul tău promoțional unic',ru:'Открой любое из наших казино → сгенерируй свой уникальный промокод',en:'Open any of our casinos → generate your unique promo code',tr:'Kumarhanelerimizden herhangi birini aç → benzersiz promosyon kodunu oluştur',de:'Öffne eines unserer Casinos → generiere deinen einzigartigen Promo-Code',pt:'Abre qualquer um dos nossos casinos → gera o teu código promo único',pl:'Otwórz dowolne z naszych kasyn → wygeneruj swój unikalny kod promo'}),p:'casino',btn:L({ro:'Vezi cazinourile →',ru:'Смотреть казино →',en:'View casinos →',tr:'Kumarhaneleri gör →',de:'Casinos ansehen →',pt:'Ver casinos →',pl:'Zobacz kasyna →'})},
                       {n:'2',t:L({ro:'Promovează pe platforma ta',ru:'Продвигай на своей платформе',en:'Promote on your platform',tr:'Kendi platformunda tanıt',de:'Bewirb auf deiner Plattform',pt:'Promove na tua plataforma',pl:'Promuj na swojej platformie'}),d:L({ro:'Include codul în videoclipuri, descrieri și story-uri',ru:'Добавляй код в видео, описания и истории',en:'Include the code in videos, descriptions and stories',tr:'Kodu videolara, açıklamalara ve hikâyelere ekle',de:'Füge den Code in Videos, Beschreibungen und Stories ein',pt:'Inclui o código em vídeos, descrições e stories',pl:'Dodawaj kod do filmów, opisów i relacji'}),p:null,btn:null},
                       {n:'3',t:L({ro:'Urmărește câștigurile',ru:'Следи за заработком',en:'Track your earnings',tr:'Kazançlarını takip et',de:'Verfolge deine Einnahmen',pt:'Acompanha os teus ganhos',pl:'Śledź swoje zarobki'}),d:L({ro:'Statisticile se actualizează săptămânal de echipa WinPartners',ru:'Статистика обновляется еженедельно командой WinPartners',en:'Stats are updated weekly by the WinPartners team',tr:'İstatistikler WinPartners ekibi tarafından haftalık güncellenir',de:'Statistiken werden wöchentlich vom WinPartners-Team aktualisiert',pt:'As estatísticas são atualizadas semanalmente pela equipa WinPartners',pl:'Statystyki są aktualizowane co tydzień przez zespół WinPartners'}),p:null,btn:null},
                     ].map(s=>(
@@ -821,6 +832,30 @@ function DashboardContent({ blogger, onLogout }) {
                     <div style={{fontSize:9,color:txtSub,textTransform:'uppercase',letterSpacing:'.06em',lineHeight:1.3}}>{it.l}</div>
                   </div>
                 ))}
+              </div>
+
+              {/* Acces rapid — toate cazinourile */}
+              <div style={{marginBottom:'1.25rem'}}>
+                <div style={{fontSize:14,fontWeight:700,color:txt,marginBottom:10,display:'flex',alignItems:'center',gap:8}}>
+                  <span>{({ro:'Cazinourile tale','ru':'Твои казино','en':'Your casinos','tr':'Kumarhanelerin','de':'Deine Casinos','pt':'Os teus casinos','pl':'Twoje kasyna'})[lang]||'Cazinourile tale'}</span>
+                  <span style={{fontSize:11,fontWeight:600,color:txtSub,background:'#15151e',border:`1px solid ${bdr}`,borderRadius:10,padding:'2px 8px'}}>{CASINOS.filter(c=>!c.comingSoon).length} {({ro:'active','ru':'активны','en':'active','tr':'aktif','de':'aktiv','pt':'ativos','pl':'aktywne'})[lang]||'active'}</span>
+                </div>
+                <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(auto-fill,minmax(200px,1fr))',gap:10}}>
+                  {CASINOS.map(c=>(
+                    <div key={c.id} onClick={()=>{if(!c.comingSoon){setSelectedCasino(c.id);setPage('casino');setGeneratedCode(null);if(isMobile)setSidebarOpen(false)}}} style={{background:bgCard,border:`1px solid ${c.comingSoon?bdr:c.color+'55'}`,borderRadius:12,padding:'14px',cursor:c.comingSoon?'default':'pointer',opacity:c.comingSoon?0.6:1,transition:'all .15s',position:'relative'}} onMouseOver={e=>{if(!c.comingSoon){e.currentTarget.style.borderColor=c.color;e.currentTarget.style.transform='translateY(-2px)'}}} onMouseOut={e=>{if(!c.comingSoon){e.currentTarget.style.borderColor=c.color+'55';e.currentTarget.style.transform='none'}}}>
+                      <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                        <div style={{width:38,height:38,borderRadius:10,background:c.color+'22',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0}}>{c.logo}</div>
+                        <div style={{minWidth:0,flex:1}}>
+                          <div style={{fontSize:14,fontWeight:800,color:txt,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.name}</div>
+                          <div style={{fontSize:11,fontWeight:700,color:c.color}}>{c.commissionPct}% RevShare</div>
+                        </div>
+                      </div>
+                      {c.comingSoon
+                        ? <div style={{fontSize:11,fontWeight:700,color:txtSub,textAlign:'center',padding:'4px',background:'#15151e',borderRadius:6}}>{({ro:'În curând','ru':'Скоро','en':'Coming soon','tr':'Yakında','de':'Bald','pt':'Em breve','pl':'Wkrótce'})[lang]||'În curând'}</div>
+                        : <div style={{fontSize:12,fontWeight:700,color:c.color,textAlign:'center',padding:'5px',background:c.color+'14',borderRadius:6}}>{({ro:'Deschide →','ru':'Открыть →','en':'Open →','tr':'Aç →','de':'Öffnen →','pt':'Abrir →','pl':'Otwórz →'})[lang]||'Deschide →'}</div>}
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Câștigurile mele pe cazino — de unde vin banii */}
@@ -914,6 +949,23 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     </tbody>
                   </table>
                 </div>
+              </div>
+
+              {/* Bară de încredere */}
+              <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:12,marginTop:'1.25rem'}}>
+                {[
+                  {icon:'💰',t:({ro:'Plăți săptămânale','ru':'Еженедельные выплаты','en':'Weekly payments','tr':'Haftalık ödemeler','de':'Wöchentliche Zahlungen','pt':'Pagamentos semanais','pl':'Cotygodniowe wypłaty'})[lang],s:({ro:'Minim $30 · direct la tine','ru':'Минимум $30 · напрямую тебе','en':'Min $30 · straight to you','tr':'Min $30 · doğrudan sana','de':'Min. $30 · direkt an dich','pt':'Mín $30 · direto para ti','pl':'Min $30 · prosto do Ciebie'})[lang]},
+                  {icon:'💬',t:({ro:'Manager dedicat','ru':'Личный менеджер','en':'Dedicated manager','tr':'Özel yönetici','de':'Persönlicher Manager','pt':'Gestor dedicado','pl':'Dedykowany menedżer'})[lang],s:({ro:'Răspuns rapid pe Telegram','ru':'Быстрый ответ в Telegram','en':'Fast reply on Telegram','tr':'Telegram\'da hızlı yanıt','de':'Schnelle Antwort auf Telegram','pt':'Resposta rápida no Telegram','pl':'Szybka odpowiedź na Telegramie'})[lang]},
+                  {icon:'🔒',t:({ro:'Comision pe viață','ru':'Комиссия пожизненно','en':'Lifetime commission','tr':'Ömür boyu komisyon','de':'Lebenslange Provision','pt':'Comissão vitalícia','pl':'Dożywotnia prowizja'})[lang],s:({ro:'Jucătorii rămân legați de tine','ru':'Игроки остаются за тобой','en':'Players stay tied to you','tr':'Oyuncular sana bağlı kalır','de':'Spieler bleiben dir zugeordnet','pt':'Os jogadores ficam ligados a ti','pl':'Gracze pozostają przypisani do Ciebie'})[lang]},
+                ].map(it=>(
+                  <div key={it.t} style={{display:'flex',alignItems:'flex-start',gap:12,background:bgCard,border:`1px solid ${bdr}`,borderRadius:12,padding:'14px 16px'}}>
+                    <div style={{fontSize:24,flexShrink:0}}>{it.icon}</div>
+                    <div>
+                      <div style={{fontSize:13,fontWeight:700,color:txt,marginBottom:2}}>{it.t}</div>
+                      <div style={{fontSize:11,color:txtSub,lineHeight:1.4}}>{it.s}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
