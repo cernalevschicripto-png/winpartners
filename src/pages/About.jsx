@@ -36,7 +36,7 @@ function PageNav({ lang, setL, t, nav }) {
           ))}
         </div>
         <button onClick={()=>nav('/dashboard')} style={{padding:'6px 12px',fontSize:12,fontWeight:600,cursor:'pointer',border:'1px solid rgba(255,255,255,0.12)',borderRadius:5,background:'transparent',color:'rgba(255,255,255,0.6)'}}>{t.login}</button>
-        <button onClick={()=>nav('/register')} style={{padding:'6px 14px',fontSize:12,fontWeight:800,cursor:'pointer',border:'none',borderRadius:5,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.03em'}}>{t.reg}</button>
+        <button onClick={()=>nav('/login')} style={{padding:'6px 14px',fontSize:12,fontWeight:800,cursor:'pointer',border:'1.5px solid '+gold,borderRadius:5,background:'rgba(245,166,35,0.15)',color:gold,letterSpacing:'.03em',whiteSpace:'nowrap'}}>{t.login}</button><button onClick={()=>nav('/register')} style={{padding:'6px 14px',fontSize:12,fontWeight:800,cursor:'pointer',border:'none',borderRadius:5,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.03em'}}>{t.reg}</button>
       </div>
     </nav>
   )

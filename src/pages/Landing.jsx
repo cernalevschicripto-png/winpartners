@@ -489,6 +489,9 @@ export default function Landing() {
             <button onClick={()=>navigate('/register')} style={{padding:'7px 18px',fontSize:13,fontWeight:800,cursor:'pointer',border:'none',borderRadius:5,background:gold,color:'#000',textTransform:'uppercase',letterSpacing:'.03em',boxShadow:'0 4px 16px rgba(245,166,35,0.3)',transition:'box-shadow .15s'}} onMouseOver={e=>e.currentTarget.style.boxShadow='0 6px 24px rgba(245,166,35,0.45)'} onMouseOut={e=>e.currentTarget.style.boxShadow='0 4px 16px rgba(245,166,35,0.3)'}>{t.nav_reg}</button>
           </>}
           {isMobile && (
+            <button onClick={()=>navigate('/login')} style={{padding:'7px 16px',fontSize:13,fontWeight:800,cursor:'pointer',border:`1.5px solid ${gold}`,borderRadius:6,background:'rgba(245,166,35,0.15)',color:gold,whiteSpace:'nowrap'}}>{t.nav_login}</button>
+          )}
+          {isMobile && (
             <button onClick={()=>setMenuOpen(o=>!o)} style={{background:'none',border:'none',cursor:'pointer',padding:8,color:'#fff',display:'flex',flexDirection:'column',gap:5}}>
               <span style={{display:'block',width:22,height:2,background:menuOpen?gold:'#fff',transition:'all .2s',transform:menuOpen?'rotate(45deg) translate(5px,5px)':'none'}}/>
               <span style={{display:'block',width:22,height:2,background:'#fff',opacity:menuOpen?0:1,transition:'all .2s'}}/>
