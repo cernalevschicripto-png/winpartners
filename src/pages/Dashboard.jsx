@@ -647,7 +647,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
   const totComm=D.agg?D.agg.commission:Math.round(totRv*D.commission/100)
 
   // Styles
-  const inp = {padding:'7px 12px',fontSize:13,border:`1px solid rgba(255,255,255,0.12)`,borderRadius:4,background:bgCard,color:txt,outline:'none',fontFamily:'inherit',minWidth:120}
+  const inp = {padding:'7px 12px',fontSize:13,border:`1px solid rgba(255,255,255,0.12)`,borderRadius:4,background:bgCard,color:txt,outline:'none',fontFamily:'inherit',minWidth:isMobile?0:120,maxWidth:'100%',boxSizing:'border-box'}
   const btnPrimary = {padding:'8px 22px',fontSize:13,fontWeight:700,cursor:'pointer',border:'none',borderRadius:20,background:gold,color:'#000',fontFamily:'inherit',letterSpacing:'.02em'}
   const btnOutline = (c=gold)=>({padding:'6px 14px',fontSize:12,fontWeight:600,cursor:'pointer',border:`1px solid ${c}`,borderRadius:4,background:'none',color:c,fontFamily:'inherit'})
   const TH = {textAlign:'left',padding:'10px 14px',color:'#fff',fontWeight:600,fontSize:12,whiteSpace:'nowrap',background:'#22222e',cursor:'pointer',userSelect:'none'}
