@@ -676,7 +676,7 @@ function DashboardContent({ blogger, onLogout }) {
         {isMobile && (
           <button onClick={()=>setSidebarOpen(o=>!o)} aria-label="Meniu" style={{background:'none',border:'none',color:'#fff',fontSize:24,cursor:'pointer',padding:0,lineHeight:1,display:'flex',alignItems:'center'}}>☰</button>
         )}
-        <div style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',marginRight:isMobile?0:8}} onClick={()=>nav('/')}>
+        <div style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',marginRight:isMobile?0:8}} onClick={()=>{setPage('casino');setGeneratedCode(null);if(isMobile)setSidebarOpen(false)}}>
           <svg width="22" height="22" viewBox="0 0 22 22">
             <polygon points="11,2 20,6.5 20,15.5 11,20 2,15.5 2,6.5" fill={gold} opacity=".2" stroke={gold} strokeWidth="1.2"/>
             <text x="11" y="15" textAnchor="middle" fontSize="9" fontWeight="900" fill={gold}>W</text>
@@ -969,12 +969,6 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   )
                 })}
               </div>)}
-
-              {/* Notă: cere cazinouri noi (fără parteneriat fals) */}
-              <div style={{display:'flex',alignItems:'flex-start',gap:8,background:'#15151e',border:('1px dashed '+bdr),borderRadius:10,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12.5,color:txtSub,lineHeight:1.55}}>
-                <span style={{fontSize:15,flexShrink:0}}>💡</span>
-                <span>{L({ro:'Vrei să lucrezi și cu alte cazinouri? Deschide orice cazino marcat „în curând" și apasă „Vreau să lucrez cu..." — managerul analizează dacă profilul tău corespunde cerințelor de afiliere ale cazinoului și te anunță pe Telegram.',ru:'Хочешь работать и с другими казино? Открой любое казино с пометкой «скоро» и нажми «Хочу работать с...» — менеджер проверит, соответствует ли твой профиль требованиям партнёрки казино, и сообщит в Telegram.',en:'Want to work with other casinos too? Open any casino marked „coming soon" and tap „I want to work with..." — the manager will review whether your profile meets the casino affiliate requirements and reply on Telegram.',tr:'Başka kumarhanelerle de çalışmak ister misin? „yakında" etiketli bir kumarhaneyi aç ve „... ile çalışmak istiyorum" butonuna bas — yönetici profilinin kumarhanenin ortaklık koşullarına uygun olup olmadığını inceler ve Telegram üzerinden yanıt verir.',de:'Möchtest du auch mit anderen Casinos arbeiten? Öffne ein als „bald" markiertes Casino und tippe auf „Ich möchte mit ... arbeiten" — der Manager prüft, ob dein Profil die Partner-Anforderungen des Casinos erfüllt, und antwortet auf Telegram.',pt:'Queres trabalhar também com outros casinos? Abre qualquer casino marcado „em breve" e toca em „Quero trabalhar com..." — o gestor avalia se o teu perfil cumpre os requisitos de afiliação do casino e responde no Telegram.',pl:'Chcesz pracować także z innymi kasynami? Otwórz dowolne kasyno oznaczone „wkrótce" i kliknij „Chcę współpracować z..." — menedżer sprawdzi, czy Twój profil spełnia wymagania afiliacyjne kasyna, i odpowie na Telegramie.'})}</span>
-              </div>
 
               {/* Header brand cazino */}
               <div style={{background:('linear-gradient(135deg,'+accent+'1f,'+accent+'08)'),border:('1px solid '+accent+'44'),borderLeft:('5px solid '+accent),borderRadius:12,padding:isMobile?'16px':'20px 24px',marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:16,flexWrap:'wrap'}}>
@@ -1605,11 +1599,14 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
       {/* Footer - like Melbet */}
       <div style={{background:'#1e1e30',borderTop:'1px solid rgba(255,255,255,0.06)',padding:isMobile?'14px 16px':'12px 24px',display:'flex',flexDirection:isMobile?'column':'row',alignItems:isMobile?'flex-start':'center',gap:isMobile?10:24,flexShrink:0,maxWidth:'100%',boxSizing:'border-box'}}>
         <div style={{display:'flex',gap:isMobile?14:20,flex:isMobile?'none':1,flexWrap:'wrap'}}>
-          {L({ro:['Contacte','Știri','Politica de confidențialitate','Politica cookie'],ru:['Контакты','Новости','Политика конфиденциальности','Политика cookie'],en:['Contacts','News','Privacy Policy','Cookie Policy'],tr:['İletişim','Haberler','Gizlilik Politikası','Çerez Politikası'],de:['Kontakte','News','Datenschutz','Cookie-Richtlinie'],pt:['Contactos','Notícias','Política de Privacidade','Política de Cookies'],pl:['Kontakt','Aktualności','Polityka prywatności','Polityka cookie']}).map(l=>(
-            <span key={l} style={{fontSize:11,color:'rgba(255,255,255,0.35)',cursor:'pointer'}}>{l}</span>
+          {[
+            [L({ro:'Contacte',ru:'Контакты',en:'Contacts',tr:'İletişim',de:'Kontakte',pt:'Contactos',pl:'Kontakt'}), ()=>{setPage('contact');if(isMobile)setSidebarOpen(false)}],
+            [L({ro:'Politica de confidențialitate',ru:'Политика конфиденциальности',en:'Privacy Policy',tr:'Gizlilik Politikası',de:'Datenschutz',pt:'Política de Privacidade',pl:'Polityka prywatności'}), ()=>nav('/terms')],
+            [L({ro:'Politica cookie',ru:'Политика cookie',en:'Cookie Policy',tr:'Çerez Politikası',de:'Cookie-Richtlinie',pt:'Política de Cookies',pl:'Polityka cookie'}), ()=>nav('/terms')]
+          ].map(([label,action])=>(
+            <span key={label} onClick={action} style={{fontSize:11,color:'rgba(255,255,255,0.35)',cursor:'pointer'}} onMouseOver={e=>e.target.style.color='rgba(255,255,255,0.7)'} onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.35)'}>{label}</span>
           ))}
         </div>
-        <span style={{fontSize:11,color:'rgba(255,255,255,0.35)'}}>App for Android™</span>
         <span style={{fontSize:11,color:'rgba(255,255,255,0.2)'}}>Copyright © 2024-2026 WinPartners. {L({ro:'Toate drepturile rezervate.',ru:'Все права защищены.',en:'All rights reserved.',tr:'Tüm hakları saklıdır.',de:'Alle Rechte vorbehalten.',pt:'Todos os direitos reservados.',pl:'Wszelkie prawa zastrzeżone.'})}</span>
       </div>
     </div>
