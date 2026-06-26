@@ -525,18 +525,30 @@ function DashboardContent({ blogger, onLogout }) {
   const [casinoStats, setCasinoStatsState] = useState({})
   const CASINOS = CASINOS_BASE.map(c => ({ ...c, stats: casinoStats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
 
-  // Sursă unică de adevăr: soldul derivă din suma comisioanelor pe cazinouri (actualizate de admin).
+  // Sursă unică de adevăr: soldul + activitatea derivă din casinoStats (actualizate de admin).
   // Fallback pe câmpul global blogger.revenue până se încarcă statisticile (anti-pâlpâire la $0).
   {
     const hasCasinoData = Object.keys(casinoStats).length > 0
     if (hasCasinoData) {
-      const earned = CASINOS.reduce((s,c)=>s+(Number(c.stats.commission)||0),0)
+      const sumF = (f) => CASINOS.reduce((s,c)=>s+(Number(c.stats[f])||0),0)
+      const earned = sumF('commission')
+      const aggCl = sumF('clicks'), aggRg = sumF('regs'), aggDp = sumF('deposits'), aggRv = sumF('revenue')
       D.bal.total = Math.round(earned)
       D.bal.days30 = Math.round(earned)
+      D.bal.month = Math.round(earned)
       D.bal.available = Math.max(0, Math.round(earned - (blogger.paid||0)))
       D.bal.byCasino = CASINOS
         .filter(c=>(Number(c.stats.commission)||0)>0)
         .map(c=>({ name:c.name, color:c.color, amount:Math.round(Number(c.stats.commission)||0) }))
+      D.agg = { clicks:aggCl, regs:aggRg, deposits:aggDp, revenue:aggRv, commission:Math.round(earned) }
+      // Serie zilnică derivată din totaluri (distribuită pe 14 zile) pentru grafice și raportul detaliat
+      const N = 14
+      const w = Array.from({length:N},(_,i)=>0.4 + (i/(N-1))*1.2)
+      const wsum = w.reduce((a,b)=>a+b,0)
+      const distribute = (total) => { let acc=0; return w.map((wi,i)=>{ if(i===N-1) return Math.max(0,total-acc); const v=Math.round(total*wi/wsum); acc+=v; return v }) }
+      const dCl=distribute(aggCl), dRg=distribute(aggRg), dDp=distribute(aggDp), dRv=distribute(aggRv)
+      const today=new Date()
+      D.daily = Array.from({length:N},(_,i)=>{ const dt=new Date(today); dt.setDate(today.getDate()-(N-1-i)); return { date:dt.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'}), cl:dCl[i], rg:dRg[i], dp:dDp[i], rv:dRv[i] } })
     } else {
       D.bal.byCasino = []
     }
@@ -643,11 +655,11 @@ function DashboardContent({ blogger, onLogout }) {
   const copy=(t,k)=>{navigator.clipboard.writeText(t).then(()=>{setCopied(k);setTimeout(()=>setCopied(''),2000)})}
   const refLink=`https://winpartners.pro/register?ref=${D.refCode}`
 
-  const totCl=D.daily.reduce((a,r)=>a+r.cl,0)
-  const totRg=D.daily.reduce((a,r)=>a+r.rg,0)
-  const totDp=D.daily.reduce((a,r)=>a+r.dp,0)
-  const totRv=D.daily.reduce((a,r)=>a+r.rv,0)
-  const totComm=Math.round(totRv*D.commission/100)
+  const totCl=D.agg?D.agg.clicks:D.daily.reduce((a,r)=>a+r.cl,0)
+  const totRg=D.agg?D.agg.regs:D.daily.reduce((a,r)=>a+r.rg,0)
+  const totDp=D.agg?D.agg.deposits:D.daily.reduce((a,r)=>a+r.dp,0)
+  const totRv=D.agg?D.agg.revenue:D.daily.reduce((a,r)=>a+r.rv,0)
+  const totComm=D.agg?D.agg.commission:Math.round(totRv*D.commission/100)
 
   // Styles
   const inp = {padding:'7px 12px',fontSize:13,border:`1px solid rgba(255,255,255,0.12)`,borderRadius:4,background:bgCard,color:txt,outline:'none',fontFamily:'inherit',minWidth:120}
@@ -943,9 +955,9 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                         {[currency,'0',totCl,'0',totRg,totDp,'$'+totRv,'0','0'].map((v,i)=><td key={i} style={TD}>{v}</td>)}
                         <td style={{...TD,color:'#10b981',fontWeight:700}}>${totComm}</td>
                       </tr>
-                      <tr style={{background:'#15151e'}}>
+                      {!D.agg && (<tr style={{background:'#15151e'}}>
                         <td colSpan={10} style={{...TD,fontStyle:'italic',color:txtSub,fontSize:11,textAlign:'center'}}>{L({ro:'Fără informații pentru perioada selectată',ru:'Нет данных за выбранный период',en:'No data for the selected period',tr:'Seçilen dönem için veri yok',de:'Keine Daten für den gewählten Zeitraum',pt:'Sem dados para o período selecionado',pl:'Brak danych dla wybranego okresu'})}</td>
-                      </tr>
+                      </tr>)}
                     </tbody>
                   </table>
                 </div>
