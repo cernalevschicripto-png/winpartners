@@ -593,7 +593,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
         date: new Date().toLocaleDateString('ro-RO')
       })
     }
-    showToast('✅ Cerere de cod trimisă! Primești un cod imediat ce reumplem rezerva.')
+    showToast(({ro:'✅ Cerere de cod trimisă! Primești un cod imediat ce reumplem rezerva.',ru:'✅ Заявка на код отправлена! Получишь код, как только пополним резерв.',en:'✅ Code request sent! You will get a code as soon as we refill the reserve.',tr:'✅ Kod talebi gönderildi! Rezervi doldurur doldurmaz kod alacaksın.',de:'✅ Code-Anfrage gesendet! Du erhältst einen Code, sobald wir den Vorrat auffüllen.',pt:'✅ Pedido de código enviado! Receberás um código assim que repusermos a reserva.',pl:'✅ Wniosek o kod wysłany! Otrzymasz kod, gdy tylko uzupełnimy rezerwę.'})[lang])
   }
   const [period,setPeriod]=useState('1 lună')
   const [toast, setToast] = useState('')
@@ -634,7 +634,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
   const nav=useNavigate()
   // Logout
   const logout = () => {
-    if (confirm('Ești sigur că vrei să ieși?')) onLogout()
+    if (confirm(({ro:'Ești sigur că vrei să ieși?',ru:'Вы уверены, что хотите выйти?',en:'Are you sure you want to log out?',tr:'Çıkmak istediğine emin misin?',de:'Möchtest du dich wirklich abmelden?',pt:'Tens a certeza de que queres sair?',pl:'Czy na pewno chcesz się wylogować?'})[lang])) onLogout()
   }
 
   const copy=(t,k)=>{navigator.clipboard.writeText(t).then(()=>{setCopied(k);setTimeout(()=>setCopied(''),2000)})}
@@ -704,7 +704,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
             <div style={{fontSize:10,color:'rgba(255,255,255,0.4)'}}>@{D.username}</div>
           </div>
           )}
-          <button style={{...btnOutline('rgba(255,255,255,0.35)'),color:'rgba(255,255,255,0.6)',fontSize:11,padding:'4px 10px',borderRadius:4}} onClick={()=>{ if(window.confirm('Ești sigur că vrei să ieși?')) { sessionStorage.removeItem('wp_blogger'); onLogout() } }}>Logout</button>
+          <button style={{...btnOutline('rgba(255,255,255,0.35)'),color:'rgba(255,255,255,0.6)',fontSize:11,padding:'4px 10px',borderRadius:4}} onClick={()=>{ if(window.confirm(({ro:'Ești sigur că vrei să ieși?',ru:'Вы уверены, что хотите выйти?',en:'Are you sure you want to log out?',tr:'Çıkmak istediğine emin misin?',de:'Möchtest du dich wirklich abmelden?',pt:'Tens a certeza de que queres sair?',pl:'Czy na pewno chcesz się wylogować?'})[lang])) { sessionStorage.removeItem('wp_blogger'); onLogout() } }}>Logout</button>
         </div>
       </div>
 
@@ -887,7 +887,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
                   {['USD','EUR','MDL'].map(c=><option key={c}>{c}</option>)}
                 </select>
                 <button style={btnPrimary} onClick={()=>{const el=document.getElementById('apply-toast');if(el){el.style.opacity='1';setTimeout(()=>el.style.opacity='0',1500)}}}>{({'ro':'APLICAȚI','ru':'ПРИМЕНИТЬ','en':'APPLY','tr':'UYGULA','de':'ANWENDEN','pt':'APLICAR','pl':'ZASTOSUJ'})[lang]||'APLICAȚI'}</button>
-                <span id="apply-toast" style={{fontSize:11,color:'#10b981',transition:'opacity .3s',opacity:0}}>✓ Aplicat</span>
+                <span id="apply-toast" style={{fontSize:11,color:'#10b981',transition:'opacity .3s',opacity:0}}>{({ro:'✓ Aplicat',ru:'✓ Применено',en:'✓ Applied',tr:'✓ Uygulandı',de:'✓ Angewendet',pt:'✓ Aplicado',pl:'✓ Zastosowano'})[lang]||'✓ Aplicat'}</span>
               </div>
 
               {/* Charts */}
@@ -1069,7 +1069,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               {c.comingSoon ? (
                 /* Cazino neaprobat încă — cerere de acces */
                 <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
-                  <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>Vrei să promovezi {c.name}?</div>
+                  <div style={{background:(accent+'12'),padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:txt}}>{({ro:'Vrei să promovezi',ru:'Хочешь продвигать',en:'Want to promote',tr:'Tanıtmak ister misin',de:'Möchtest du bewerben',pt:'Queres promover',pl:'Chcesz promować'})[lang]||'Vrei să promovezi'} {c.name}?</div>
                   <div style={{padding:'20px 24px'}}>
                     <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:16}}>
                       {L({ro:'Lucrăm la activarea afilierii cu '+c.name+'. Trimite o cerere acum — apari pe lista de așteptare și ești printre primii care primesc cod imediat ce afilierea e aprobată. Te anunțăm pe Telegram.',ru:'Мы работаем над подключением партнёрки с '+c.name+'. Отправь заявку сейчас — попадёшь в список ожидания и получишь код одним из первых, как только её одобрят. Сообщим в Telegram.',en:'We are working on activating the '+c.name+' partnership. Send a request now — you will join the waiting list and be among the first to get a code once it is approved. We will notify you on Telegram.',tr:c.name+' ortaklığını aktifleştirmek için çalışıyoruz. Şimdi talep gönder — bekleme listesine girersin ve onaylanır onaylanmaz kod alan ilk kişilerden olursun. Telegram üzerinden haber veririz.',de:'Wir arbeiten an der Aktivierung der '+c.name+'-Partnerschaft. Sende jetzt eine Anfrage — du kommst auf die Warteliste und erhältst als einer der Ersten einen Code, sobald sie freigegeben ist. Wir benachrichtigen dich auf Telegram.',pt:'Estamos a ativar a parceria com a '+c.name+'. Envia um pedido agora — entras na lista de espera e ficas entre os primeiros a receber código assim que for aprovada. Avisamos no Telegram.',pl:'Pracujemy nad uruchomieniem współpracy z '+c.name+'. Wyślij wniosek teraz — trafisz na listę oczekujących i będziesz wśród pierwszych z kodem po zatwierdzeniu. Powiadomimy na Telegramie.'})}
@@ -1231,8 +1231,8 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <input type="date" style={inp} defaultValue={new Date().toISOString().slice(0,10)}/>
               </div>
               <div style={{display:'flex',gap:0,marginBottom:'1rem',borderBottom:`2px solid ${bdr}`}}>
-                {['Statusul solicitărilor','Istoricul plăților'].map((t,i)=>(
-                  <button key={t} onClick={()=>setPayTab(i===0?'status':'history')} style={payTab===(i===0?'status':'history')?tabActive:tabInactive}>{t}</button>
+                {[{ro:'Statusul solicitărilor',ru:'Статус заявок',en:'Request status',tr:'Talep durumu',de:'Anfragestatus',pt:'Estado dos pedidos',pl:'Status wniosków'},{ro:'Istoricul plăților',ru:'История выплат',en:'Payment history',tr:'Ödeme geçmişi',de:'Zahlungsverlauf',pt:'Histórico de pagamentos',pl:'Historia płatności'}].map((t,i)=>(
+                  <button key={t.ro} onClick={()=>setPayTab(i===0?'status':'history')} style={payTab===(i===0?'status':'history')?tabActive:tabInactive}>{t[lang]||t.ro}</button>
                 ))}
                 <div style={{flex:1}}/>
               </div>
@@ -1323,10 +1323,10 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
           {page==='media'&&(
             <div>
               <div style={filterRow}>
-                {[['Valută','select',['USD']],['Tip media','select',['Banner','Video']],['Limbă','select',['Română','Rusă','Engleză']],['Lățime','number','100'],['Înălțime','number','100'],['Campanie','select',['English']]].map(([l,type,opts])=>(
-                  <div key={l} style={{display:'flex',alignItems:'center',gap:5}}>
-                    <span style={{fontSize:13,color:txtSub,whiteSpace:'nowrap'}}>{l}</span>
-                    {type==='select'?<select style={inp}><option>Selectare...</option></select>:<input type="number" style={{...inp,width:70}} placeholder={opts}/>}
+                {[[{ro:'Valută',ru:'Валюта',en:'Currency',tr:'Para birimi',de:'Währung',pt:'Moeda',pl:'Waluta'},'select',['USD']],[{ro:'Tip media',ru:'Тип медиа',en:'Media type',tr:'Medya türü',de:'Medientyp',pt:'Tipo de média',pl:'Typ mediów'},'select',['Banner','Video']],[{ro:'Limbă',ru:'Язык',en:'Language',tr:'Dil',de:'Sprache',pt:'Idioma',pl:'Język'},'select',['—']],[{ro:'Lățime',ru:'Ширина',en:'Width',tr:'Genişlik',de:'Breite',pt:'Largura',pl:'Szerokość'},'number','100'],[{ro:'Înălțime',ru:'Высота',en:'Height',tr:'Yükseklik',de:'Höhe',pt:'Altura',pl:'Wysokość'},'number','100'],[{ro:'Campanie',ru:'Кампания',en:'Campaign',tr:'Kampanya',de:'Kampagne',pt:'Campanha',pl:'Kampania'},'select',['English']]].map(([l,type,opts])=>(
+                  <div key={l.ro} style={{display:'flex',alignItems:'center',gap:5}}>
+                    <span style={{fontSize:13,color:txtSub,whiteSpace:'nowrap'}}>{l[lang]||l.ro}</span>
+                    {type==='select'?<select style={inp}><option>{({ro:'Selectare...',ru:'Выбрать...',en:'Select...',tr:'Seç...',de:'Auswählen...',pt:'Selecionar...',pl:'Wybierz...'})[lang]||'Selectare...'}</option></select>:<input type="number" style={{...inp,width:70}} placeholder={opts}/>}
                   </div>
                 ))}
               </div>
@@ -1395,7 +1395,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
               </div>
               <div style={{...card,padding:0,overflowX:'auto',maxWidth:'100%'}}>
                 <table style={{width:'100%',borderCollapse:'collapse',minWidth:450}}>
-                  <thead><tr>{['Jucător','Data înregistrării','Prima depunere','Numărul de depuneri','Suma depunerilor','Venituri','Comisionul meu'].map(h=><th key={h} style={TH}>{h}</th>)}</tr></thead>
+                  <thead><tr>{[{ro:'Jucător',ru:'Игрок',en:'Player',tr:'Oyuncu',de:'Spieler',pt:'Jogador',pl:'Gracz'},{ro:'Data înregistrării',ru:'Дата регистрации',en:'Registration date',tr:'Kayıt tarihi',de:'Registrierungsdatum',pt:'Data de registo',pl:'Data rejestracji'},{ro:'Prima depunere',ru:'Первый депозит',en:'First deposit',tr:'İlk yatırım',de:'Erste Einzahlung',pt:'Primeiro depósito',pl:'Pierwszy depozyt'},{ro:'Numărul de depuneri',ru:'Количество депозитов',en:'Number of deposits',tr:'Yatırım sayısı',de:'Anzahl der Einzahlungen',pt:'Número de depósitos',pl:'Liczba depozytów'},{ro:'Suma depunerilor',ru:'Сумма депозитов',en:'Deposit amount',tr:'Yatırım tutarı',de:'Einzahlungsbetrag',pt:'Valor dos depósitos',pl:'Kwota depozytów'},{ro:'Venituri',ru:'Доход',en:'Revenue',tr:'Gelir',de:'Einnahmen',pt:'Receita',pl:'Przychód'},{ro:'Comisionul meu',ru:'Моя комиссия',en:'My commission',tr:'Komisyonum',de:'Meine Provision',pt:'A minha comissão',pl:'Moja prowizja'}].map(h=><th key={h.ro} style={TH}>{h[lang]||h.ro}</th>)}</tr></thead>
                   <tbody><tr><td colSpan={7} style={{...TD,textAlign:'center',color:txtSub,padding:'24px',fontStyle:'italic'}}>{L({ro:'Fără informații pentru perioada selectată',ru:'Нет данных за выбранный период',en:'No data for the selected period',tr:'Seçilen dönem için veri yok',de:'Keine Daten für den gewählten Zeitraum',pt:'Sem dados para o período selecionado',pl:'Brak danych dla wybranego okresu'})}</td></tr></tbody>
                 </table>
               </div>
@@ -1508,10 +1508,10 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <div style={{fontSize:40,marginBottom:10}}>✅</div>
                 <h3 style={{fontWeight:700,marginBottom:6,fontSize:16,color:txt}}>{L({ro:'Cerere trimisă!',ru:'Заявка отправлена!',en:'Request sent!',tr:'Talep gönderildi!',de:'Anfrage gesendet!',pt:'Pedido enviado!',pl:'Wniosek wysłany!'})}</h3>
                 <p style={{color:txtSub,fontSize:13,marginBottom:8,lineHeight:1.6}}>
-                  Cererea ta de plată a fost înregistrată. Suma va fi procesată în <strong>48 ore</strong> pe adresa ta {payMethod}.
+                  {({ro:<>Cererea ta de plată a fost înregistrată. Suma va fi procesată în <strong>48 ore</strong> pe adresa ta {payMethod}.</>,ru:<>Твоя заявка на выплату принята. Сумма будет обработана в течение <strong>48 часов</strong> на твой адрес {payMethod}.</>,en:<>Your payment request has been registered. The amount will be processed within <strong>48 hours</strong> to your {payMethod} address.</>,tr:<>Ödeme talebin kaydedildi. Tutar <strong>48 saat</strong> içinde {payMethod} adresine işlenecek.</>,de:<>Deine Auszahlungsanfrage wurde registriert. Der Betrag wird innerhalb von <strong>48 Stunden</strong> an deine {payMethod}-Adresse bearbeitet.</>,pt:<>O teu pedido de pagamento foi registado. O valor será processado em <strong>48 horas</strong> para o teu endereço {payMethod}.</>,pl:<>Twój wniosek o wypłatę został zarejestrowany. Kwota zostanie przetworzona w ciągu <strong>48 godzin</strong> na Twój adres {payMethod}.</>})[lang]}
                 </p>
                 <div style={{background:'rgba(245,166,35,0.08)',border:'1px solid rgba(245,166,35,0.28)',borderRadius:6,padding:'8px 12px',fontSize:12,color:'#e8c074',marginBottom:16}}>
-                  💡 Primești notificare pe Telegram când plata e confirmată.
+                  💡 {({ro:'Primești notificare pe Telegram când plata e confirmată.',ru:'Получишь уведомление в Telegram, когда выплата будет подтверждена.',en:'You will get a Telegram notification when the payment is confirmed.',tr:'Ödeme onaylandığında Telegram bildirimi alacaksın.',de:'Du erhältst eine Telegram-Benachrichtigung, sobald die Zahlung bestätigt ist.',pt:'Receberás uma notificação no Telegram quando o pagamento for confirmado.',pl:'Otrzymasz powiadomienie na Telegramie, gdy płatność zostanie potwierdzona.'})[lang]||'Primești notificare pe Telegram când plata e confirmată.'}
                 </div>
                 <button style={btnPrimary} onClick={()=>{setShowPay(false);setPaySent(false)}}>{({'ro':'Închide','ru':'Закрыть','en':'Close','tr':'Kapat','de':'Schließen','pt':'Fechar','pl':'Zamknij'})[lang]||'Închide'}</button>
               </div>
