@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { _r, _rm } from './cfg.js'
 import ErrorBoundary from './ErrorBoundary.jsx'
+import PullToRefresh from './PullToRefresh.jsx'
 import './index.css'
 
 const Landing      = lazy(() => import('./pages/Landing.jsx'))
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <ErrorBoundary>
+        <PullToRefresh>
         <Suspense fallback={<PageLoader />}>
           <Routes>
         <Route path="/" element={<Landing />} />
@@ -50,6 +52,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
+        </PullToRefresh>
       </ErrorBoundary>
     </BrowserRouter>
   </React.StrictMode>
