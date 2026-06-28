@@ -501,11 +501,9 @@ export default function Admin() {
                         <button onClick={() => { if(!confirm(`Respingi cererea lui ${app.name}?`)) return; setApplications(prev => prev.map(a => a._key === app._key ? { ...a, status: 'rejected' } : a)); updateApplication(app._key, 'rejected') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:'1px solid rgba(239,68,68,0.4)', borderRadius:8, background:'transparent', color:'#f87171' }}>✗ Respinge</button>
                       </div>
                     )}
-                    {app.status!=='pending' && (
-                      <div style={{ borderTop:'1px solid rgba(255,255,255,0.06)', paddingTop:12, marginTop:4, textAlign:'right' }}>
-                        <button onClick={() => { if(!window.confirm('Ștergi definitiv cererea lui '+app.name+'?')) return; setApplications(prev => prev.filter(a => a._key !== app._key)); deleteApplication(app._key) }} style={{ padding:'6px 12px', fontSize:12, cursor:'pointer', border:'1px solid rgba(239,68,68,0.3)', borderRadius:6, background:'none', color:'#ef4444' }}>🗑 Șterge cererea</button>
-                      </div>
-                    )}
+                    <div style={{ borderTop:'1px solid rgba(255,255,255,0.06)', paddingTop:12, marginTop:4, textAlign:'right' }}>
+                      <button onClick={() => { if(!window.confirm('Ștergi definitiv cererea lui '+app.name+'?')) return; setApplications(prev => prev.filter(a => a._key !== app._key)); deleteApplication(app._key) }} style={{ padding:'6px 12px', fontSize:12, cursor:'pointer', border:'1px solid rgba(239,68,68,0.3)', borderRadius:6, background:'none', color:'#ef4444' }}>🗑 Șterge cererea</button>
+                    </div>
                   </div>
                   )
                 })}
@@ -994,11 +992,9 @@ export default function Admin() {
                           <button onClick={() => { if(confirm('Respingi cererea de plată?')) updatePayoutRequest(r._key, 'rejected') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:`1px solid rgba(239,68,68,0.4)`, borderRadius:8, background:'transparent', color:C.red }}>✗ Respinge</button>
                         </div>
                       )}
-                      {r.status!=='pending' && (
-                        <div style={{ marginTop:14, borderTop:`1px solid ${C.border}`, paddingTop:12, textAlign:'right' }}>
-                          <button onClick={() => { if(!window.confirm('Ștergi cererea de plată a lui '+r.name+'?')) return; deletePayoutRequest(r._key) }} style={{ padding:'6px 12px', fontSize:12, cursor:'pointer', border:'1px solid rgba(239,68,68,0.3)', borderRadius:6, background:'none', color:'#ef4444' }}>🗑 Șterge</button>
-                        </div>
-                      )}
+                      <div style={{ marginTop:14, borderTop:`1px solid ${C.border}`, paddingTop:12, textAlign:'right' }}>
+                        <button onClick={() => { if(!window.confirm('Ștergi cererea de plată a lui '+r.name+'?')) return; deletePayoutRequest(r._key) }} style={{ padding:'6px 12px', fontSize:12, cursor:'pointer', border:'1px solid rgba(239,68,68,0.3)', borderRadius:6, background:'none', color:'#ef4444' }}>🗑 Șterge</button>
+                      </div>
                     </div>
                   )
                 })}

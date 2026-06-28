@@ -352,9 +352,7 @@ export default function AdminMobile() {
                   <Btn label="✗ Respinge" color={red} onClick={() => rejectApp(app)} />
                 </div>
               )}
-              {app.status !== 'pending' && (
-                <Btn label="🗑 Șterge cererea" color={red} onClick={() => { if(window.confirm('Ștergi cererea lui '+app.name+'?')){ setApps(prev=>prev.filter(a=>a._key!==app._key)); deleteApplication(app._key) } }} />
-              )}
+              <Btn label="🗑 Șterge cererea" color={red} onClick={() => { if(window.confirm('Ștergi cererea lui '+app.name+'?')){ setApps(prev=>prev.filter(a=>a._key!==app._key)); deleteApplication(app._key) } }} />
             </Card>
           ))}
         </>}
