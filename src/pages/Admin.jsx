@@ -665,13 +665,13 @@ export default function Admin() {
                           : r.type==='code_request'
                           ? <span style={{background:'#ef444422',color:'#ef4444',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>🎟 Cerere cod (rezervă goală)</span>
                           : <span style={{background:'#f5a62322',color:'#f5a623',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>✨ Cod personalizat</span>}</td>
-                        <td style={{...td,fontFamily:'monospace',color:gold,fontWeight:700}}>{r.requestedCode}</td>
+                        <td style={{...td,fontFamily:'monospace',color:gold,fontWeight:700}}>{r.requestedCode}{r.approvedCode&&r.approvedCode!==r.requestedCode?(' → '+r.approvedCode):''}</td>
                         <td style={td}><span style={{background:r.status==='pending'?'#f59e0b22':r.status==='approved'?'#10b98122':'#ef444422',color:r.status==='pending'?'#f59e0b':r.status==='approved'?'#10b981':'#ef4444',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:700}}>{r.status}</span></td>
                         <td style={td}>
                           {r.status==='pending' && (
                             <div style={{display:'flex',gap:6}}>
-                              <button onClick={()=>updateCustomRequest(r._key,'approved')} style={{padding:'4px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:'#10b981',color:'#fff'}}>Aprobă</button>
-                              <button onClick={()=>updateCustomRequest(r._key,'rejected')} style={{padding:'4px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:'#ef4444',color:'#fff'}}>Respinge</button>
+                              <button onClick={()=>{const isCustomName=!r.type&&r.requestedCode&&r.requestedCode!=='ACCES'&&r.requestedCode!=='REZERVĂ GOALĂ';if(isCustomName){const fc=(window.prompt('Cod final aprobat de cazinou (numele activ care apare la blogger):',r.requestedCode)||'').trim().toUpperCase();if(!fc)return;updateCustomRequest(r._key,'approved',{approvedCode:fc})}else{updateCustomRequest(r._key,'approved')}}} style={{padding:'4px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:'#10b981',color:'#fff'}}>Aprobă</button>
+                              <button onClick={()=>{if(window.confirm('Respingi cererea? Bloggerul va vedea că acest nume nu e disponibil.'))updateCustomRequest(r._key,'rejected')}} style={{padding:'4px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:'#ef4444',color:'#fff'}}>Respinge</button>
                             </div>
                           )}
                         </td>

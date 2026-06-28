@@ -976,7 +976,9 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
             const gen = (generatedCode && generatedCode.casinoId===cid) ? generatedCode : null
             const reqSent = customRequests.find(r=>r.casinoId===cid && r.type==='casino_access')
             const codeReqSent = customRequests.find(r=>r.casinoId===cid && r.type==='code_request')
-            const theCode = (myCode||gen) ? (myCode?myCode.code:gen.code) : null
+            const myCustomReq = customRequests.filter(r=>r.casinoId===cid && !r.type && r.requestedCode && r.requestedCode!=='ACCES' && r.requestedCode!=='REZERVĂ GOALĂ').sort((a,b)=>(b.id||0)-(a.id||0))[0]
+            const approvedCustomCode = (myCustomReq && myCustomReq.status==='approved') ? (myCustomReq.approvedCode||myCustomReq.requestedCode) : null
+            const theCode = approvedCustomCode || ((myCode||gen) ? (myCode?myCode.code:gen.code) : null)
             // Unelte blogger: link de referință proeminent + cod QR (apare oriunde există cod)
             const renderTools = (code) => {
               const link = getCasinoPlayerLink(cid, code)
@@ -1066,6 +1068,19 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 </div>
               )}
 
+              {!c.comingSoon && myCustomReq && myCustomReq.status==='pending' && (
+                <div style={{background:'rgba(245,158,11,0.1)',border:'1px solid rgba(245,158,11,0.35)',borderRadius:10,padding:'14px 18px',marginBottom:'1.25rem',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+                  <div style={{fontSize:22}}>⏳</div>
+                  <div style={{flex:'1 1 240px',fontSize:13,color:'#fbbf24',lineHeight:1.5}}>{L({ro:'Codul personalizat ',ru:'Персональный код ',en:'Custom code ',tr:'Özel kod ',de:'Eigener Code ',pt:'Código personalizado ',pl:'Własny kod '})}<strong style={{fontFamily:'monospace',color:'#fcd34d'}}>{myCustomReq.requestedCode}</strong>{L({ro:' este în verificare la cazinou. Te anunțăm aici și pe Telegram când devine activ — de obicei în 24-48 ore.',ru:' проверяется в казино. Сообщим здесь и в Telegram, когда станет активным — обычно за 24-48 часов.',en:' is being verified with the casino. We will notify you here and on Telegram once it is active — usually within 24-48 hours.',tr:' kumarhanede doğrulanıyor. Aktif olduğunda burada ve Telegram üzerinden haber veririz — genellikle 24-48 saat içinde.',de:' wird beim Casino geprüft. Wir benachrichtigen dich hier und auf Telegram, sobald er aktiv ist — meist innerhalb von 24-48 Stunden.',pt:' está a ser verificado no casino. Avisamos aqui e no Telegram quando estiver ativo — normalmente em 24-48 horas.',pl:' jest weryfikowany w kasynie. Powiadomimy tutaj i na Telegramie, gdy będzie aktywny — zwykle w ciągu 24-48 godzin.'})}</div>
+                </div>
+              )}
+              {!c.comingSoon && myCustomReq && myCustomReq.status==='rejected' && (
+                <div style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.35)',borderRadius:10,padding:'14px 18px',marginBottom:'1.25rem',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+                  <div style={{fontSize:22}}>⚠️</div>
+                  <div style={{flex:'1 1 240px',fontSize:13,color:'#f87171',lineHeight:1.5}}>{L({ro:'Numele ',ru:'Имя ',en:'The name ',tr:'İsim ',de:'Der Name ',pt:'O nome ',pl:'Nazwa '})}<strong style={{fontFamily:'monospace',color:'#fca5a5'}}>{myCustomReq.requestedCode}</strong>{L({ro:' nu este disponibil la cazinou. Încearcă alt nume.',ru:' недоступно в казино. Попробуй другое имя.',en:' is not available at the casino. Try another name.',tr:' kumarhanede mevcut değil. Başka bir isim dene.',de:' ist beim Casino nicht verfügbar. Versuche einen anderen Namen.',pt:' não está disponível no casino. Tenta outro nome.',pl:' jest niedostępna w kasynie. Spróbuj innej nazwy.'})}</div>
+                  <button onClick={()=>{setCustomCasinoId(cid);setCustomCodeSent(false);setShowCustomCode(true)}} style={{...btnOutline(accent),padding:'8px 16px',fontSize:13}}>✨ {L({ro:'Încearcă alt nume',ru:'Другое имя',en:'Try another name',tr:'Başka isim dene',de:'Anderen Namen',pt:'Outro nome',pl:'Inna nazwa'})}</button>
+                </div>
+              )}
               {c.comingSoon ? (
                 /* Cazino neaprobat încă — cerere de acces */
                 <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
@@ -1085,6 +1100,22 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                     )}
                   </div>
                 </div>
+              ) : approvedCustomCode ? (
+                /* COD PERSONALIZAT APROBAT — activ */
+                <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem',borderColor:'rgba(52,211,153,0.45)'}}>
+                  <div style={{background:'rgba(16,185,129,0.14)',padding:'14px 20px',borderBottom:('1px solid '+bdr),fontWeight:700,fontSize:14,color:'#34d399'}}>✅ {L({ro:'Codul tău personalizat e activ!',ru:'Твой персональный код активен!',en:'Your custom code is active!',tr:'Özel kodun aktif!',de:'Dein eigener Code ist aktiv!',pt:'O teu código personalizado está ativo!',pl:'Twój własny kod jest aktywny!'})}</div>
+                  <div style={{padding:'20px 24px'}}>
+                    <div style={{background:'#10231a',border:'1px solid rgba(52,211,153,0.28)',borderRadius:8,padding:'16px 20px',marginBottom:12}}>
+                      <div style={{fontSize:11,color:'#34d399',fontWeight:600,marginBottom:6,textTransform:'uppercase',letterSpacing:'.06em'}}>{L({ro:'🎟 Cod promoțional — spune-l în video',ru:'🎟 Промокод — назови его в видео',en:'🎟 Promo code — say it in your video',tr:'🎟 Promosyon kodu — videoda söyle',de:'🎟 Promo-Code — nenne ihn im Video',pt:'🎟 Código promo — diz no vídeo',pl:'🎟 Kod promocyjny — podaj go w wideo'})}</div>
+                      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
+                        <div style={{fontSize:30,fontWeight:900,color:'#4ade80',fontFamily:'monospace',letterSpacing:3}}>{approvedCustomCode}</div>
+                        <button onClick={()=>copy(approvedCustomCode,'cw_code')} style={{...btnPrimary,padding:'8px 18px',fontSize:13}}>{copied==='cw_code'?L({ro:'✓ Copiat!',ru:'✓ Скопировано!',en:'✓ Copied!',tr:'✓ Kopyalandı!',de:'✓ Kopiert!',pt:'✓ Copiado!',pl:'✓ Skopiowano!'}):L({ro:'📋 Copiază',ru:'📋 Копировать',en:'📋 Copy',tr:'📋 Kopyala',de:'📋 Kopieren',pt:'📋 Copiar',pl:'📋 Kopiuj'})}</button>
+                      </div>
+                      <div style={{fontSize:12,color:'#34d399',marginTop:6}}>{L({ro:'Jucătorul îl introduce la înregistrare pe '+c.name+' și tu câștigi comision pe viață.',ru:'Игрок вводит его при регистрации на '+c.name+', а ты получаешь комиссию пожизненно.',en:'The player enters it when signing up on '+c.name+' and you earn commission for life.',tr:'Oyuncu '+c.name+' kaydında bu kodu girer, sen ömür boyu komisyon kazanırsın.',de:'Der Spieler gibt ihn bei der Anmeldung auf '+c.name+' ein und du verdienst lebenslang Provision.',pt:'O jogador insere-o ao registar-se na '+c.name+' e ganhas comissão para sempre.',pl:'Gracz wpisuje go przy rejestracji na '+c.name+' i zarabiasz prowizję dożywotnio.'})}</div>
+                    </div>
+                    <div style={{marginBottom:14}}>{renderTools(approvedCustomCode)}</div>
+                  </div>
+                </div>
               ) : myCode ? (
                 /* Are cod — afișează cod + link */
                 <div style={{...card,padding:0,overflow:'hidden',marginBottom:'1.5rem'}}>
@@ -1099,7 +1130,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                       <div style={{fontSize:12,color:'#34d399',marginTop:6}}>{L({ro:'Jucătorul îl introduce la înregistrare pe '+c.name+' → tu primești '+c.commissionPct+'% din pierderile lui.',ru:'Игрок вводит его при регистрации на '+c.name+' → ты получаешь '+c.commissionPct+'% с его проигрышей.',en:'The player enters it when signing up on '+c.name+' → you get '+c.commissionPct+'% of their losses.',tr:'Oyuncu '+c.name+' kaydında girer → kayıplarının %'+c.commissionPct+'\'ini alırsın.',de:'Der Spieler gibt ihn bei der Anmeldung auf '+c.name+' ein → du erhältst '+c.commissionPct+'% seiner Verluste.',pt:'O jogador insere-o ao registar-se na '+c.name+' → recebes '+c.commissionPct+'% das perdas dele.',pl:'Gracz wpisuje go przy rejestracji na '+c.name+' → dostajesz '+c.commissionPct+'% jego przegranych.'})}</div>
                     </div>
                     <div style={{marginBottom:14}}>{renderTools(myCode.code)}</div>
-                    <button onClick={()=>{setCustomCasinoId(cid);setShowCustomCode(true)}} style={{...btnOutline(accent),padding:'9px 20px',fontSize:13}}>✨ {L({ro:'Vreau cod personalizat cu numele meu',ru:'Хочу персональный код с моим именем',en:'I want a custom code with my name',tr:'Adımla özel bir kod istiyorum',de:'Ich möchte einen eigenen Code mit meinem Namen',pt:'Quero um código personalizado com o meu nome',pl:'Chcę własny kod z moim imieniem'})}</button>
+                    {!myCustomReq && (<button onClick={()=>{setCustomCasinoId(cid);setCustomCodeSent(false);setShowCustomCode(true)}} style={{...btnOutline(accent),padding:'9px 20px',fontSize:13}}>✨ {L({ro:'Vreau cod personalizat cu numele meu',ru:'Хочу персональный код с моим именем',en:'I want a custom code with my name',tr:'Adımla özel bir kod istiyorum',de:'Ich möchte einen eigenen Code mit meinem Namen',pt:'Quero um código personalizado com o meu nome',pl:'Chcę własny kod z moim imieniem'})}</button>)}
                   </div>
                 </div>
               ) : gen ? (
@@ -1146,7 +1177,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <p style={{fontSize:13,color:txtSub,marginBottom:16,lineHeight:1.6}}>{L({ro:'Codul va fi asociat contului @'+D.username+' și câștigi '+c.commissionPct+'% din pierderile jucătorilor care îl folosesc.',ru:'Код будет привязан к аккаунту @'+D.username+', и ты получаешь '+c.commissionPct+'% с проигрышей игроков, которые его используют.',en:'The code will be linked to @'+D.username+' and you earn '+c.commissionPct+'% of the losses of players who use it.',tr:'Kod @'+D.username+' hesabına bağlanır ve onu kullanan oyuncuların kayıplarından %'+c.commissionPct+' kazanırsın.',de:'Der Code wird mit @'+D.username+' verknüpft und du verdienst '+c.commissionPct+'% der Verluste der Spieler, die ihn nutzen.',pt:'O código fica associado a @'+D.username+' e ganhas '+c.commissionPct+'% das perdas dos jogadores que o usam.',pl:'Kod zostanie powiązany z @'+D.username+' i zarabiasz '+c.commissionPct+'% przegranych graczy, którzy go użyją.'})}</p>
                   <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
                     <button onClick={()=>generatePromoCode(cid)} disabled={codeGenerating} style={{...btnPrimary,padding:'12px 28px',fontSize:14,background:accent,borderColor:accent,opacity:codeGenerating?0.7:1,cursor:codeGenerating?'wait':'pointer'}}>{codeGenerating?L({ro:'⏳ Se atribuie...',ru:'⏳ Назначается...',en:'⏳ Assigning...',tr:'⏳ Atanıyor...',de:'⏳ Wird zugewiesen...',pt:'⏳ A atribuir...',pl:'⏳ Przydzielanie...'}):L({ro:'🎁 Generează Cod Promoțional',ru:'🎁 Сгенерировать промокод',en:'🎁 Generate Promo Code',tr:'🎁 Promosyon Kodu Oluştur',de:'🎁 Promo-Code generieren',pt:'🎁 Gerar Código Promo',pl:'🎁 Wygeneruj kod promo'})}</button>
-                    <button onClick={()=>{setCustomCasinoId(cid);setShowCustomCode(true)}} style={{...btnOutline(accent),padding:'12px 20px',fontSize:13}}>✨ {L({ro:'Cod personalizat',ru:'Персональный код',en:'Custom code',tr:'Özel kod',de:'Eigener Code',pt:'Código personalizado',pl:'Własny kod'})}</button>
+                    {!myCustomReq && (<button onClick={()=>{setCustomCasinoId(cid);setCustomCodeSent(false);setShowCustomCode(true)}} style={{...btnOutline(accent),padding:'12px 20px',fontSize:13}}>✨ {L({ro:'Cod personalizat',ru:'Персональный код',en:'Custom code',tr:'Özel kod',de:'Eigener Code',pt:'Código personalizado',pl:'Własny kod'})}</button>)}
                   </div>
                 </div>
               )}

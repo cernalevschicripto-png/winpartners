@@ -459,10 +459,10 @@ export async function getCustomRequests() {
   return lsGet('wp_custom_requests', [])
 }
 
-export async function updateCustomRequest(key, status) {
-  if (USE_FIREBASE) return fbPatch(`customRequests/${key}`, { status })
+export async function updateCustomRequest(key, status, extra = {}) {
+  if (USE_FIREBASE) return fbPatch(`customRequests/${key}`, { status, ...extra })
   const all = lsGet('wp_custom_requests', [])
-  const updated = all.map(r => (String(r.id) === String(key) ? { ...r, status } : r))
+  const updated = all.map(r => (String(r.id) === String(key) ? { ...r, status, ...extra } : r))
   lsSet('wp_custom_requests', updated)
 }
 
