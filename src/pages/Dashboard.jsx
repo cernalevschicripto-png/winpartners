@@ -1536,7 +1536,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   ) : chatMsgs.map(m=>(
                     <div key={m._key||m.ts} style={{alignSelf:m.from==='blogger'?'flex-end':'flex-start',maxWidth:'80%'}}>
                       <div style={{padding:'9px 13px',borderRadius:12,fontSize:13,lineHeight:1.5,wordBreak:'break-word',
-                        background:m.from==='blogger'?gold:'#f1f3f5',color:m.from==='blogger'?'#1a1a2e':txt,
+                        background:m.from==='blogger'?gold:'rgba(255,255,255,0.08)',color:m.from==='blogger'?'#1a1a2e':txt,
                         borderBottomRightRadius:m.from==='blogger'?3:12,borderBottomLeftRadius:m.from==='blogger'?12:3}}>{m.text}</div>
                       <div style={{fontSize:10,color:txtSub,marginTop:3,textAlign:m.from==='blogger'?'right':'left'}}>{m.from==='blogger'?CHAT.you:CHAT.mgr}{m.timestamp?(' · '+m.timestamp):''}</div>
                     </div>
