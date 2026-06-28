@@ -266,6 +266,58 @@ export function subscribeBloggers(callback, interval = 5000) {
   return () => clearInterval(id)
 }
 
+// ─── REFERRAL / SUB-AFILIERE (bonus 3% din earned-ul invitatului) ───
+export const REFERRAL_PERCENT = 3
+
+// Setează legătura de invitație pe un blogger (cine l-a invitat)
+export async function setBloggerReferrer(username, referrerCode) {
+  if (!username || !referrerCode) return false
+  const code = String(referrerCode).trim()
+  if (USE_FIREBASE) { await fbPatch(`bloggers/${username}`, { invitedBy: code }); return true }
+  const all = lsGet('wp_bloggers', INIT_BLOGGERS)
+  if (all[username]) { all[username].invitedBy = code; lsSet('wp_bloggers', all) }
+  return true
+}
+
+// Normalizează un cod de invitație (REF_GRIGORE -> grigore) ca să-l putem lega de username
+export function normalizeRefToUsername(refCode) {
+  if (!refCode) return ''
+  let s = String(refCode).trim()
+  if (s.toUpperCase().startsWith('REF_')) s = s.slice(4)
+  return s.toLowerCase()
+}
+
+// Construiește rețeaua de referral: pentru fiecare invitator, lista invitaților + bonusul 3% acumulat
+export async function getReferralNetwork() {
+  const bloggers = await getBloggers()
+  // index username -> blogger
+  const byUser = {}
+  bloggers.forEach(b => { if (b.username) byUser[b.username.toLowerCase()] = b })
+
+  const network = {} // referrerUsername -> { referrer, invitees:[], totalBonus }
+  bloggers.forEach(b => {
+    if (!b.invitedBy) return
+    const refUser = normalizeRefToUsername(b.invitedBy)
+    if (!refUser || refUser === (b.username||'').toLowerCase()) return // nu se poate invita singur
+    if (!network[refUser]) {
+      network[refUser] = { referrerUsername: refUser, referrerName: (byUser[refUser]?.name) || refUser, invitees: [], totalBonus: 0 }
+    }
+    const earned = Number(b.earned) || 0
+    const bonus = Math.round((earned * REFERRAL_PERCENT / 100) * 100) / 100
+    network[refUser].invitees.push({ username: b.username, name: b.name||b.username, earned, bonus, status: b.status||'active', platform: b.platform||'', regDate: b.date||b.regDate||'', regs: Number(b.regs)||0, invitedByRaw: b.invitedBy })
+    network[refUser].totalBonus = Math.round((network[refUser].totalBonus + bonus) * 100) / 100
+  })
+  return Object.values(network)
+}
+
+// Bonusul de referral pentru UN blogger anume (cât a câștigat din invitați)
+export async function getMyReferralEarnings(username) {
+  if (!username) return { invitees: [], totalBonus: 0 }
+  const net = await getReferralNetwork()
+  const mine = net.find(n => n.referrerUsername === username.toLowerCase())
+  return mine || { invitees: [], totalBonus: 0 }
+}
+
 // ─── CASINO STATS ─────────────────────────────────────────────
 export async function getCasinoStats(username) {
   if (USE_FIREBASE) {

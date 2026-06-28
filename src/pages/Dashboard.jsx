@@ -9,6 +9,7 @@ import {
   addNotification, requestPayout,
   sendMessage, subscribeConversation, markConversationRead,
   requestPasswordReset, sendResetEmail,
+  getMyReferralEarnings,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -487,7 +488,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
 
   const [showCasinoRequest, setShowCasinoRequest] = useState(null)
   // Referrals
-  const [myReferrals] = useState([])
+  const [myReferrals, setMyReferrals] = useState([])
   // Cazinouri cu statistici live din Firebase (actualizate de admin)
   const [casinoStats, setCasinoStatsState] = useState({})
   const CASINOS = CASINOS_BASE.map(c => ({ ...c, stats: casinoStats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
@@ -525,6 +526,30 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
   useEffect(() => {
     const unsub = subscribeCasinoStats(D.username, setCasinoStatsState)
     return unsub
+  }, [D.username])
+
+  // Bloggeri invitați (referral 3%) — încărcați din Firebase la 10s
+  useEffect(() => {
+    if (!D.username) return
+    let alive = true
+    const load = async () => {
+      try {
+        const res = await getMyReferralEarnings(D.username)
+        if (!alive) return
+        const rows = (res.invitees || []).map(inv => ({
+          name: inv.name,
+          pl: inv.platform || '-',
+          dt: inv.regDate || '-',
+          rg: inv.regs || 0,
+          rv: inv.earned || 0,
+          cm: inv.bonus || 0,
+        }))
+        setMyReferrals(rows)
+      } catch(e) {}
+    }
+    load()
+    const id = setInterval(load, 10000)
+    return () => { alive = false; clearInterval(id) }
   }, [D.username])
 
   // Reîmprospătare câmpuri blogger (paid/revenue/earned) din Firebase la 5s — sold mereu corect

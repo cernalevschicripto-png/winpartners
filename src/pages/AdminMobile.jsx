@@ -162,6 +162,9 @@ export default function AdminMobile() {
       pass: app.username + '2026',
       payMethod: app.payMethod || 'Bitcoin', payAddress: app.payAddress || '',
     }
+    // Referral: păstrăm legătura de invitație dacă există cod
+    const _ref = (app.refCode || app.inviteCode || '').trim()
+    if (_ref) blogger.invitedBy = _ref
     await setBlogger(blogger)
     await addNotification({ type:'new_blogger', blogger: app.name, detail: 'Aprobat · parolă: ' + blogger.pass })
     showToast('✅ ' + app.name + ' aprobat!')

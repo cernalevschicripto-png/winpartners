@@ -11,6 +11,7 @@ import {
   getPayoutRequests, updatePayoutRequest, subscribePayoutRequests,
   subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead,
   seedDatabase, forceReseedDatabase, isFirebaseEnabled, firebaseDebug, sendTelegramNotif, sendWelcomeEmail,
+  getReferralNetwork, REFERRAL_PERCENT, setBloggerReferrer,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -58,6 +59,7 @@ export default function Admin() {
   const [customRequests, setCustomRequests] = useState([])
   const [payoutRequests, setPayoutRequests] = useState([])
   const [affLinkEdit, setAffLinkEdit] = useState({})
+  const [refNetwork, setRefNetwork] = useState([])
 
   // UI state
   const [editId, setEditId]     = useState(null)
@@ -102,6 +104,12 @@ export default function Admin() {
     ]
     return () => unsubs.forEach(fn => fn && fn())
   }, [auth])
+
+  // Rețeaua de referral — recalculată când se schimbă lista de bloggeri
+  useEffect(() => {
+    if (!auth) return
+    getReferralNetwork().then(setRefNetwork)
+  }, [auth, bloggers])
 
   // Conversația selectată în chat — subscribe + marchează citit
   useEffect(() => {
@@ -223,6 +231,9 @@ export default function Admin() {
       pass,
       payMethod: app.payMethod||'Bitcoin', payAddress: app.payAddress||'',
     }
+    // Referral: dacă cererea a venit cu cod de invitație, păstrăm legătura pe blogger
+    const _ref = (app.refCode || app.inviteCode || '').trim()
+    if (_ref) blogger.invitedBy = _ref
     await setBlogger(blogger)
     // Trimite email de bun-venit (felicitări + credențiale + pași + Telegram) prin EmailJS
     let emailResult = { ok:false }
@@ -287,6 +298,7 @@ export default function Admin() {
         const NAV = [
           ['applications', '📥', 'Aplicații', pendingApps],
           ['bloggers',     '👥', 'Bloggeri', null],
+          ['referrals',    '🔗', 'Invitați', null],
           ['update',       '📊', 'Actualizare stats', null],
           ['payments',     '💸', 'Plăți', null],
           ['payout-requests','🏦','Cereri plată', payoutRequests.filter(p=>p.status==='pending').length],
@@ -365,7 +377,7 @@ export default function Admin() {
       {/* top bar: page title + bell */}
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1.25rem', gap:12 }}>
         <h2 style={{ fontSize: isMobile?17:20, fontWeight:800, color:'#fff', margin:0 }}>
-          {{applications:'Cereri de înregistrare', bloggers:'Bloggeri', update:'Actualizare statistici', payments:'Plăți', 'payout-requests':'Cereri de plată', promo:'Promocoduri', special:'Coduri speciale', chat:'Mesaje', notif:'Notificări'}[tab] || 'Admin'}
+          {{applications:'Cereri de înregistrare', bloggers:'Bloggeri', referrals:'Bloggeri invitați (Referral)', update:'Actualizare statistici', payments:'Plăți', 'payout-requests':'Cereri de plată', promo:'Promocoduri', special:'Coduri speciale', chat:'Mesaje', notif:'Notificări'}[tab] || 'Admin'}
         </h2>
         <button onClick={() => setShowNotifPanel(p => !p)} style={{ position:'relative', padding:'8px 12px', fontSize:13, cursor:'pointer', border:`1px solid ${C.border}`, borderRadius:8, background:C.panel, color:C.text }}>
           🔔 {unreadCount > 0 && <span style={{ background:C.red, color:'#fff', borderRadius:10, fontSize:10, padding:'1px 5px', position:'absolute', top:-6, right:-6 }}>{unreadCount}</span>}
@@ -580,6 +592,67 @@ export default function Admin() {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {/* ── TAB: INVITAȚI (REFERRAL) ── */}
+      {tab==='referrals' && (
+        <div>
+          <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:'14px 16px', marginBottom:16 }}>
+            <p style={{ fontSize:13, color:C.text, margin:0, lineHeight:1.6 }}>
+              Aici vezi cine pe cine a invitat prin linkul de referral. Bonusul este <strong style={{ color:gold }}>{REFERRAL_PERCENT}% din câștigul (earned) fiecărui invitat</strong>, plătit de admin suplimentar (nu se scade din ce primește invitatul).
+            </p>
+          </div>
+
+          {refNetwork.length === 0 ? (
+            <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:'40px 20px', textAlign:'center' }}>
+              <div style={{ fontSize:32, marginBottom:10 }}>🔗</div>
+              <p style={{ color:C.textDim, fontSize:14, margin:0 }}>Niciun blogger invitat încă.</p>
+              <p style={{ color:C.textDim, fontSize:12, marginTop:6 }}>Când cineva se înregistrează printr-un link <code>?ref=...</code> și e aprobat, apare aici.</p>
+            </div>
+          ) : (
+            refNetwork.map(net => (
+              <div key={net.referrerUsername} style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, marginBottom:16, overflow:'hidden' }}>
+                <div style={{ padding:'14px 16px', borderBottom:`1px solid ${C.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:8 }}>
+                  <div>
+                    <div style={{ fontSize:15, fontWeight:700, color:C.text }}>👤 {net.referrerName}</div>
+                    <div style={{ fontSize:12, color:C.textDim }}>@{net.referrerUsername} · {net.invitees.length} invitat{net.invitees.length===1?'':'i'}</div>
+                  </div>
+                  <div style={{ textAlign:'right' }}>
+                    <div style={{ fontSize:11, color:C.textDim, textTransform:'uppercase', letterSpacing:'.05em' }}>Bonus total de plată</div>
+                    <div style={{ fontSize:20, fontWeight:800, color:C.green }}>${net.totalBonus.toFixed(2)}</div>
+                  </div>
+                </div>
+                <div style={{ overflowX:'auto' }}>
+                  <table style={{ width:'100%', borderCollapse:'collapse', fontSize:13, minWidth:520 }}>
+                    <thead><tr>
+                      <th style={th}>Invitat</th>
+                      <th style={th}>Status</th>
+                      <th style={th}>Câștig (earned)</th>
+                      <th style={th}>Bonus {REFERRAL_PERCENT}%</th>
+                    </tr></thead>
+                    <tbody>
+                      {net.invitees.map(inv => (
+                        <tr key={inv.username}>
+                          <td style={td}>
+                            <div style={{ fontWeight:600 }}>{inv.name}</div>
+                            <div style={{ fontSize:11, color:C.textDim }}>@{inv.username}</div>
+                          </td>
+                          <td style={td}>
+                            <span style={{ fontSize:11, fontWeight:700, padding:'2px 8px', borderRadius:6, background: inv.status==='active'?'rgba(16,185,129,0.15)':'rgba(148,163,184,0.15)', color: inv.status==='active'?'#10b981':C.textDim }}>
+                              {inv.status==='active'?'Activ':inv.status}
+                            </span>
+                          </td>
+                          <td style={{ ...td, fontWeight:600 }}>${(inv.earned||0).toFixed(2)}</td>
+                          <td style={{ ...td, color:C.green, fontWeight:700 }}>${(inv.bonus||0).toFixed(2)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       )}
 
