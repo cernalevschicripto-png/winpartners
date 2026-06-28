@@ -266,8 +266,8 @@ export function subscribeBloggers(callback, interval = 5000) {
   return () => clearInterval(id)
 }
 
-// ─── REFERRAL / SUB-AFILIERE (bonus 3% din earned-ul invitatului) ───
-export const REFERRAL_PERCENT = 3
+// ─── REFERRAL / SUB-AFILIERE (bonus 10% din earned-ul invitatului) ───
+export const REFERRAL_PERCENT = 10
 
 // Setează legătura de invitație pe un blogger (cine l-a invitat)
 export async function setBloggerReferrer(username, referrerCode) {
@@ -287,7 +287,7 @@ export function normalizeRefToUsername(refCode) {
   return s.toLowerCase()
 }
 
-// Construiește rețeaua de referral: pentru fiecare invitator, lista invitaților + bonusul 3% acumulat
+// Construiește rețeaua de referral: pentru fiecare invitator, lista invitaților + bonusul 10% acumulat
 export async function getReferralNetwork() {
   const bloggers = await getBloggers()
   // index username -> blogger

@@ -43,7 +43,7 @@ const T = {
     hsub:'Platformă multi-cazinou — Melbet, 1xBet, Mostbet și altele. Câștigați 25% Revenue Share din pierderile jucătorilor recomandați, pe viață.',
     hbtn:'ÎNCEPEȚI ACUM', hbtn2:'Cum funcționează',
     trust1:'Plăți garantate', trust2:'SSL Securizat', trust3:'Suport 24/7', trust4:'Parteneri verificați',
-    s1v:'25%', s1l:'Comision Revenue Share', s2v:'+3%', s2l:'Bonus referral bloggeri', s3v:'48h', s3l:'Procesare plăți', s4v:'$30', s4l:'Plată minimă/săptămână',
+    s1v:'25%', s1l:'Comision Revenue Share', s2v:'+10%', s2l:'Bonus referral bloggeri', s3v:'48h', s3l:'Procesare plăți', s4v:'$30', s4l:'Plată minimă/săptămână',
     hex1v:'5', hex1l:'Cazinouri partenere', hex2v:'25%', hex2l:'RevShare pe viață', hex3v:'$30+', hex3l:'Min. $30/săpt.',
     mgr_title:'MANAGERUL TĂU PERSONAL', mgr_name:'Manager WinPartners', mgr_role:'Parteneriat & Suport', mgr_text:'Îmi ocup personal de contul tău — de la primul cod până la prima plată. Scrie-mi direct pe Telegram.',mgr_btn:'Scrie pe Telegram',
     mgr_verify:'Verifică că vorbești cu managerul oficial',
@@ -52,7 +52,7 @@ const T = {
     b2t:'Statistici zilnice', b2d:'Dashboard complet cu clickuri, înregistrări, depuneri și comisioane.',
     b3t:'Cod promoțional unic', b3d:'Cod promoțional unic legat de contul tău. Jucătorii îl introduc la înregistrare — tu primești comisionul pe viață.',
     b4t:'Plăți săptămânale', b4d:'Bitcoin, Skrill, Neteller, Visa. Procesare în 48 ore.',
-    b5t:'Referrali 3%', b5d:'Câștigați 3% din comisioanele bloggerilor pe care îi invitați.',
+    b5t:'Referrali 10%', b5d:'Câștigați 10% din comisioanele bloggerilor pe care îi invitați.',
     b6t:'Manager dedicat', b6d:'Manager personal 24/7 pe Telegram.',
     how_title:'CUM FUNCȚIONEAZĂ',
     hw1:'Aplici pentru acces', hw2:'Primești codul promoțional', hw3:'Promovezi pe rețele', hw4:'Primești bani',
@@ -74,7 +74,7 @@ const T = {
     hsub:'Мультиказино платформа — Melbet, 1xBet, Mostbet и другие. Зарабатывайте 25% Revenue Share от потерь рекомендованных игроков, пожизненно.',
     hbtn:'НАЧАТЬ СЕЙЧАС', hbtn2:'Как это работает',
     trust1:'Гарантированные выплаты', trust2:'SSL Защита', trust3:'Поддержка 24/7', trust4:'Проверенные партнеры',
-    s1v:'25%', s1l:'Комиссия Revenue Share', s2v:'+3%', s2l:'Реферальный бонус', s3v:'48h', s3l:'Обработка выплат', s4v:'$30', s4l:'Мин. выплата/неделя',
+    s1v:'25%', s1l:'Комиссия Revenue Share', s2v:'+10%', s2l:'Реферальный бонус', s3v:'48h', s3l:'Обработка выплат', s4v:'$30', s4l:'Мин. выплата/неделя',
     hex1v:'5', hex1l:'Казино-партнёров', hex2v:'25%', hex2l:'RevShare навсегда', hex3v:'$30+', hex3l:'Min. $30/săpt.',
     mgr_title:'ВАШ ЛИЧНЫЙ МЕНЕДЖЕР', mgr_name:'Менеджер WinPartners', mgr_role:'Партнёрство и поддержка', mgr_text:'Я лично веду ваш аккаунт — от первого кода до первой выплаты. Пишите мне напрямую в Telegram.',mgr_btn:'Написать в Telegram',
     mgr_verify:'Проверьте, что вы общаетесь с официальным менеджером',
@@ -83,7 +83,7 @@ const T = {
     b2t:'Ежедневная статистика', b2d:'Полный дашборд с кликами, регистрациями, депозитами и комиссиями.',
     b3t:'Уникальный промокод', b3d:'Персональный промокод, привязанный к вашему аккаунту. Игроки вводят его при регистрации — вы получаете комиссию пожизненно.',
     b4t:'Еженедельные выплаты', b4d:'Bitcoin, Skrill, Neteller, Visa. Обработка в течение 48 часов.',
-    b5t:'Рефералы 3%', b5d:'Зарабатывайте 3% от комиссий блогеров, которых вы пригласили.',
+    b5t:'Рефералы 10%', b5d:'Зарабатывайте 10% от комиссий блогеров, которых вы пригласили.',
     b6t:'Личный менеджер', b6d:'Персональный менеджер 24/7 в Telegram.',
     how_title:'КАК ЭТО РАБОТАЕТ',
     hw1:'Подаёшь заявку', hw2:'Получаешь промокод', hw3:'Продвигаешь в сетях', hw4:'Получаешь деньги',
@@ -105,7 +105,7 @@ const T = {
     hsub:'Multi-casino platform — Melbet, 1xBet, Mostbet and more. Earn 25% Revenue Share from referred players\' losses, for life.',
     hbtn:'GET STARTED', hbtn2:'How it works',
     trust1:'Guaranteed payments', trust2:'SSL Secured', trust3:'24/7 Support', trust4:'Verified partners',
-    s1v:'25%', s1l:'Revenue Share commission', s2v:'+3%', s2l:'Blogger referral bonus', s3v:'48h', s3l:'Payment processing', s4v:'$30', s4l:'Min. payout/week',
+    s1v:'25%', s1l:'Revenue Share commission', s2v:'+10%', s2l:'Blogger referral bonus', s3v:'48h', s3l:'Payment processing', s4v:'$30', s4l:'Min. payout/week',
     hex1v:'5', hex1l:'Casino partners', hex2v:'25%', hex2l:'RevShare for life', hex3v:'$30+', hex3l:'Min. $30/week',
     mgr_title:'YOUR PERSONAL MANAGER', mgr_name:'WinPartners Manager', mgr_role:'Partnership & Support', mgr_text:'I personally manage your account — from your first code to your first payment. Message me directly on Telegram.',mgr_btn:'Message on Telegram',
     mgr_verify:'Verify you are speaking with the official manager',
@@ -114,7 +114,7 @@ const T = {
     b2t:'Daily statistics', b2d:'Full dashboard with clicks, registrations, deposits and commissions.',
     b3t:'Unique promo code', b3d:'Personal promo code linked to your account. Players enter it at registration — you earn commission for life.',
     b4t:'Weekly payments', b4d:'Bitcoin, Skrill, Neteller, Visa. Processing within 48 hours.',
-    b5t:'Referrals 3%', b5d:'Earn 3% from commissions of bloggers you invite.',
+    b5t:'Referrals 10%', b5d:'Earn 10% from commissions of bloggers you invite.',
     b6t:'Dedicated manager', b6d:'Personal manager 24/7 on Telegram.',
     how_title:'HOW IT WORKS',
     hw1:'Apply for access', hw2:'Get your promo code', hw3:'Promote on social media', hw4:'Get paid',
@@ -167,7 +167,7 @@ const T = {
     hsub:'Multi-Casino-Plattform — Melbet, 1xBet, Mostbet und mehr. Verdienen Sie 25% Revenue Share aus den Verlusten empfohlener Spieler, lebenslang.',
     hbtn:'JETZT STARTEN', hbtn2:'So funktioniert es',
     trust1:'Garantierte Auszahlungen', trust2:'SSL-Gesichert', trust3:'24/7 Support', trust4:'Geprüfte Partner',
-    s1v:'25%', s1l:'RevShare-Provision', s2v:'+3%', s2l:'Blogger-Empfehlungsbonus', s3v:'48h', s3l:'Zahlungsabwicklung', s4v:'$30', s4l:'Min. Auszahlung/Woche',
+    s1v:'25%', s1l:'RevShare-Provision', s2v:'+10%', s2l:'Blogger-Empfehlungsbonus', s3v:'48h', s3l:'Zahlungsabwicklung', s4v:'$30', s4l:'Min. Auszahlung/Woche',
     hex1v:'5', hex1l:'Casino-Partner', hex2v:'25%', hex2l:'RevShare lebenslang', hex3v:'$30+', hex3l:'Min. $30/Woche',
     mgr_title:'IHR PERSÖNLICHER MANAGER', mgr_name:'WinPartners Manager', mgr_role:'Partnerschaft & Support', mgr_text:'Ich betreue Ihr Konto persönlich — vom ersten Code bis zur ersten Auszahlung. Schreiben Sie mir direkt auf Telegram.', mgr_btn:'Auf Telegram schreiben',
     mgr_verify:'Überprüfen Sie, ob Sie mit dem offiziellen Manager sprechen',
@@ -176,7 +176,7 @@ const T = {
     b2t:'Tägliche Statistiken', b2d:'Vollständiges Dashboard mit Klicks, Registrierungen, Einzahlungen und Provisionen.',
     b3t:'Einzigartiger Promo-Code', b3d:'Persönlicher Promo-Code verknüpft mit Ihrem Konto.',
     b4t:'Wöchentliche Auszahlungen', b4d:'Bitcoin, Skrill, Neteller, Visa. Bearbeitung innerhalb von 48 Stunden.',
-    b5t:'Empfehlungen 3%', b5d:'Verdienen Sie 3% aus den Provisionen eingeladener Blogger.',
+    b5t:'Empfehlungen 10%', b5d:'Verdienen Sie 10% aus den Provisionen eingeladener Blogger.',
     b6t:'Dedizierter Manager', b6d:'Persönlicher Manager 24/7 auf Telegram.',
     how_title:'SO FUNKTIONIERT ES',
     hw1:'Zugang beantragen', hw2:'Promo-Code erhalten', hw3:'In sozialen Medien bewerben', hw4:'Bezahlt werden',
@@ -198,7 +198,7 @@ const T = {
     hsub:'Plataforma multi-casino — Melbet, 1xBet, Mostbet e mais. Ganhe 25% Revenue Share das perdas dos jogadores indicados, para sempre.',
     hbtn:'COMEÇAR AGORA', hbtn2:'Como funciona',
     trust1:'Pagamentos garantidos', trust2:'SSL Seguro', trust3:'Suporte 24/7', trust4:'Parceiros verificados',
-    s1v:'25%', s1l:'Comissão RevShare', s2v:'+3%', s2l:'Bônus de indicação', s3v:'48h', s3l:'Processamento', s4v:'$30', s4l:'Pagamento mín./semana',
+    s1v:'25%', s1l:'Comissão RevShare', s2v:'+10%', s2l:'Bônus de indicação', s3v:'48h', s3l:'Processamento', s4v:'$30', s4l:'Pagamento mín./semana',
     hex1v:'5', hex1l:'Cassinos parceiros', hex2v:'25%', hex2l:'RevShare vitalício', hex3v:'$30+', hex3l:'Mín. $30/sem.',
     mgr_title:'SEU GERENTE PESSOAL', mgr_name:'Gerente WinPartners', mgr_role:'Parceria & Suporte', mgr_text:'Cuido pessoalmente da sua conta — do primeiro código ao primeiro pagamento. Escreva-me diretamente no Telegram.', mgr_btn:'Escrever no Telegram',
     mgr_verify:'Verifique que está falando com o gerente oficial',
@@ -207,7 +207,7 @@ const T = {
     b2t:'Estatísticas diárias', b2d:'Dashboard completo com cliques, registros, depósitos e comissões.',
     b3t:'Código promocional único', b3d:'Código promocional pessoal vinculado à sua conta.',
     b4t:'Pagamentos semanais', b4d:'Bitcoin, Skrill, Neteller, Visa. Processamento em 48 horas.',
-    b5t:'Referrals 3%', b5d:'Ganhe 3% das comissões dos bloggers que você convidar.',
+    b5t:'Referrals 10%', b5d:'Ganhe 10% das comissões dos bloggers que você convidar.',
     b6t:'Gerente dedicado', b6d:'Gerente pessoal 24/7 no Telegram.',
     how_title:'COMO FUNCIONA',
     hw1:'Solicitar acesso', hw2:'Receber código promocional', hw3:'Promover nas redes', hw4:'Receber pagamento',
@@ -229,7 +229,7 @@ const T = {
     hsub:'Platforma multi-kasyno — Melbet, 1xBet, Mostbet i inne. Zarabiaj 25% Revenue Share od strat poleconych graczy, dożywotnio.',
     hbtn:'ZACZNIJ TERAZ', hbtn2:'Jak to działa',
     trust1:'Gwarantowane wypłaty', trust2:'SSL Zabezpieczony', trust3:'Wsparcie 24/7', trust4:'Zweryfikowani partnerzy',
-    s1v:'25%', s1l:'Prowizja RevShare', s2v:'+3%', s2l:'Bonus polecenia bloggera', s3v:'48h', s3l:'Realizacja płatności', s4v:'$30', s4l:'Min. wypłata/tydzień',
+    s1v:'25%', s1l:'Prowizja RevShare', s2v:'+10%', s2l:'Bonus polecenia bloggera', s3v:'48h', s3l:'Realizacja płatności', s4v:'$30', s4l:'Min. wypłata/tydzień',
     hex1v:'5', hex1l:'Partnerzy casino', hex2v:'25%', hex2l:'RevShare dożywotnio', hex3v:'$30+', hex3l:'Min. $30/tydz.',
     mgr_title:'TWÓJ OSOBISTY MENEDŻER', mgr_name:'Menedżer WinPartners', mgr_role:'Partnerstwo & Wsparcie', mgr_text:'Osobiście zarządzam Twoim kontem — od pierwszego kodu do pierwszej wypłaty. Napisz do mnie bezpośrednio na Telegramie.', mgr_btn:'Napisz na Telegramie',
     mgr_verify:'Zweryfikuj, że rozmawiasz z oficjalnym menedżerem',
@@ -238,7 +238,7 @@ const T = {
     b2t:'Codzienne statystyki', b2d:'Pełny panel z kliknięciami, rejestracjami, depozytami i prowizjami.',
     b3t:'Spersonalizowany kod', b3d:'Unikalny kod z Twoim imieniem. Gracze wpisują go przy rejestracji.',
     b4t:'Tygodniowe wypłaty', b4d:'Bitcoin, Skrill, Neteller, Visa. Realizacja w ciągu 48 godzin.',
-    b5t:'Polecenie 3%', b5d:'Zarabiaj 3% z prowizji bloggerów, których zaprosisz.',
+    b5t:'Polecenie 10%', b5d:'Zarabiaj 10% z prowizji bloggerów, których zaprosisz.',
     b6t:'Dedykowany menedżer', b6d:'Osobisty menedżer 24/7 na Telegramie.',
     how_title:'JAK TO DZIAŁA',
     hw1:'Złóż wniosek o dostęp', hw2:'Odbierz kod promocyjny', hw3:'Promuj w mediach społecznościowych', hw4:'Odbierz płatność',
@@ -609,7 +609,7 @@ export default function Landing() {
               <text x="318" y="119" textAnchor="middle" fontSize="11" fontWeight="800" fill="rgba(245,166,35,0.75)" fontFamily="Inter,sans-serif">25%</text>
               <text x="318" y="133" textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.35)" fontFamily="Inter,sans-serif">RevShare</text>
               <circle cx="82" cy="248" r="24" fill="rgba(96,165,250,0.09)" stroke="rgba(96,165,250,0.28)" strokeWidth="1.5"/>
-              <text x="82" y="245" textAnchor="middle" fontSize="9" fontWeight="700" fill="rgba(96,165,250,0.7)" fontFamily="Inter,sans-serif">+3%</text>
+              <text x="82" y="245" textAnchor="middle" fontSize="9" fontWeight="700" fill="rgba(96,165,250,0.7)" fontFamily="Inter,sans-serif">+10%</text>
               <text x="82" y="257" textAnchor="middle" fontSize="8" fill="rgba(255,255,255,0.35)" fontFamily="Inter,sans-serif">Referral</text>
               <circle cx="315" cy="270" r="22" fill="rgba(16,185,129,0.09)" stroke="rgba(16,185,129,0.28)" strokeWidth="1.5"/>
               <text x="315" y="267" textAnchor="middle" fontSize="9" fontWeight="700" fill="rgba(16,185,129,0.7)" fontFamily="Inter,sans-serif">$30</text>
@@ -1056,11 +1056,11 @@ export default function Landing() {
             </div>
             <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(5,1fr)',gap:10}}>
               {[
-                {name:'Melbet',  color:'#f5a623', rs:'25%', ref:'3%', geo:'40+ GEO', pay:'Marți'},
-                {name:'1xBet',   color:'#60a5fa', rs:'40%', ref:'3%', geo:'62+ GEO', pay:'Marți'},
-                {name:'Mostbet', color:'#f87171', rs:'60%', ref:'3%', geo:'90+ GEO', pay:'Marți'},
-                {name:'SpinBetter',color:'#a78bfa',rs:'50%',ref:'3%',geo:'100+ GEO',pay:'Marți'},
-                {name:'BetWinner', color:'#84cc16', rs:'25%', ref:'3%', geo:'CIS, RO, EU', pay:'Vineri'},
+                {name:'Melbet',  color:'#f5a623', rs:'25%', ref:'10%', geo:'40+ GEO', pay:'Marți'},
+                {name:'1xBet',   color:'#60a5fa', rs:'40%', ref:'10%', geo:'62+ GEO', pay:'Marți'},
+                {name:'Mostbet', color:'#f87171', rs:'60%', ref:'10%', geo:'90+ GEO', pay:'Marți'},
+                {name:'SpinBetter',color:'#a78bfa',rs:'50%',ref:'10%',geo:'100+ GEO',pay:'Marți'},
+                {name:'BetWinner', color:'#84cc16', rs:'25%', ref:'10%', geo:'CIS, RO, EU', pay:'Vineri'},
               ].map(c=>(
                 <div key={c.name} style={{background:'rgba(255,255,255,0.025)',border:`1px solid ${c.color}25`,borderRadius:10,padding:'0.875rem',textAlign:'center'}}>
                   <div style={{fontSize:13,fontWeight:800,color:c.color,marginBottom:8}}>{c.name}</div>
