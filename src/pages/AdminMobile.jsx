@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { _p } from '../cfg.js'
 import {
   getBloggers, setBlogger, updateBloggerFields, deleteBlogger,
-  getApplications, updateApplication,
+  getApplications, updateApplication, deleteApplication,
   getPromoCodes, addPromoCode,
   getCasinoStats, setCasinoStats,
   addNotification,
   subscribeApplications, subscribeBloggers, subscribeNotifications,
   getNotifications, markRead,
-  subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead,
+  subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead, deleteConversation,
 } from '../db.js'
 
 const gold = '#f5a623'
@@ -352,6 +352,9 @@ export default function AdminMobile() {
                   <Btn label="✗ Respinge" color={red} onClick={() => rejectApp(app)} />
                 </div>
               )}
+              {app.status !== 'pending' && (
+                <Btn label="🗑 Șterge cererea" color={red} onClick={() => { if(window.confirm('Ștergi cererea lui '+app.name+'?')){ setApps(prev=>prev.filter(a=>a._key!==app._key)); deleteApplication(app._key) } }} />
+              )}
             </Card>
           ))}
         </>}
@@ -513,6 +516,7 @@ export default function AdminMobile() {
                   <div style={{fontSize:15,fontWeight:700,color:'#fff'}}>{bloggers.find(x=>x.username===chatBlogger)?.name||chatBlogger}</div>
                   <div style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>@{chatBlogger}</div>
                 </div>
+                <button onClick={()=>{ if(!window.confirm('Ștergi toată conversația cu @'+chatBlogger+'?')) return; deleteConversation(chatBlogger); setChatBlogger(null) }} title="Șterge conversația" style={{marginLeft:'auto',background:'none',border:'1px solid rgba(239,68,68,0.3)',borderRadius:6,color:'#ef4444',fontSize:13,cursor:'pointer',padding:'4px 10px'}}>🗑</button>
               </div>
               <div style={{flex:1,overflowY:'auto',display:'flex',flexDirection:'column',gap:8,paddingBottom:8}}>
                 {chatMsgs.length===0

@@ -5,11 +5,11 @@ import {
   getBloggers, setBlogger, updateBloggerFields, deleteBlogger, subscribeBloggers,
   getCasinoStats, setCasinoStats,
   getPromoCodes, addPromoCode, subscribePromoCodes,
-  getApplications, updateApplication, subscribeApplications,
-  getNotifications, markRead, addNotification, subscribeNotifications,
-  getCustomRequests, updateCustomRequest, subscribeCustomRequests,
-  getPayoutRequests, updatePayoutRequest, subscribePayoutRequests,
-  subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead,
+  getApplications, updateApplication, subscribeApplications, deleteApplication,
+  getNotifications, markRead, addNotification, subscribeNotifications, deleteNotification, clearAllNotifications,
+  getCustomRequests, updateCustomRequest, subscribeCustomRequests, deleteCustomRequest,
+  getPayoutRequests, updatePayoutRequest, subscribePayoutRequests, deletePayoutRequest,
+  subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead, deleteConversation,
   seedDatabase, forceReseedDatabase, isFirebaseEnabled, firebaseDebug, sendTelegramNotif, sendWelcomeEmail,
   getReferralNetwork, REFERRAL_PERCENT, setBloggerReferrer,
 } from '../db.js'
@@ -389,11 +389,14 @@ export default function Admin() {
         <div style={{ position:'fixed', top: isMobile ? 0 : 60, right: isMobile ? 0 : 24, left: isMobile ? 0 : 'auto', width: isMobile ? '100%' : 380, maxHeight: isMobile ? '60vh' : 440, overflowY:'auto', background:C.panel, border:`1px solid ${C.borderHi}`, borderRadius: isMobile ? '0 0 12px 12px' : 12, padding:'1rem', zIndex:300, boxShadow:'0 12px 40px rgba(0,0,0,0.4)' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
             <span style={{ fontWeight:700, fontSize:14 }}>Notificări</span>
-            <button onClick={() => { notifications.forEach(n => !n.read && n._key && markRead(n._key)) }} style={{ fontSize:11, cursor:'pointer', border:'none', background:'none', color:gold }}>Marchează toate</button>
+            <div style={{display:'flex',gap:12}}><button onClick={() => { notifications.forEach(n => !n.read && n._key && markRead(n._key)) }} style={{ fontSize:11, cursor:'pointer', border:'none', background:'none', color:gold }}>Marchează toate</button><button onClick={() => { if(window.confirm('Ștergi toate notificările?')){ setNotifications([]); clearAllNotifications() } }} style={{ fontSize:11, cursor:'pointer', border:'none', background:'none', color:'#ef4444' }}>Șterge toate</button></div>
           </div>
           {notifications.length === 0 ? <p style={{ color:C.textDim, fontSize:13 }}>Nicio notificare</p> : notifications.slice(0,15).map(n => (
             <div key={n.id} onClick={() => n._key && markRead(n._key)} style={{ padding:'10px', borderRadius:8, marginBottom:6, background: n.read ? 'rgba(255,255,255,0.03)' : 'rgba(245,166,35,0.10)', border:`1px solid ${C.border}`, cursor:'pointer' }}>
-              <div style={{ fontSize:12, fontWeight:600, color: n.read ? C.textDim : '#fff' }}>{n.blogger} · {n.detail}</div>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:8 }}>
+                <div style={{ fontSize:12, fontWeight:600, color: n.read ? C.textDim : '#fff' }}>{n.blogger} · {n.detail}</div>
+                <button onClick={(e)=>{ e.stopPropagation(); setNotifications(prev=>prev.filter(x=>(x._key||x.id)!==(n._key||n.id))); deleteNotification(n._key||n.id) }} title="Șterge" style={{ background:'none', border:'none', color:'#ef4444', fontSize:14, cursor:'pointer', lineHeight:1, padding:0, flexShrink:0 }}>✕</button>
+              </div>
               <div style={{ fontSize:10, color:C.textFaint, marginTop:2 }}>{n.timestamp}</div>
             </div>
           ))}
@@ -496,6 +499,11 @@ export default function Admin() {
                       <div style={{ display:'flex', gap:10, borderTop:'1px solid rgba(255,255,255,0.06)', paddingTop:14 }}>
                         <button onClick={() => approveApp(app)} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:'none', borderRadius:8, background:'#10b981', color:'#fff' }}>✓ Aprobă</button>
                         <button onClick={() => { if(!confirm(`Respingi cererea lui ${app.name}?`)) return; setApplications(prev => prev.map(a => a._key === app._key ? { ...a, status: 'rejected' } : a)); updateApplication(app._key, 'rejected') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:'1px solid rgba(239,68,68,0.4)', borderRadius:8, background:'transparent', color:'#f87171' }}>✗ Respinge</button>
+                      </div>
+                    )}
+                    {app.status!=='pending' && (
+                      <div style={{ borderTop:'1px solid rgba(255,255,255,0.06)', paddingTop:12, marginTop:4, textAlign:'right' }}>
+                        <button onClick={() => { if(!window.confirm('Ștergi definitiv cererea lui '+app.name+'?')) return; setApplications(prev => prev.filter(a => a._key !== app._key)); deleteApplication(app._key) }} style={{ padding:'6px 12px', fontSize:12, cursor:'pointer', border:'1px solid rgba(239,68,68,0.3)', borderRadius:6, background:'none', color:'#ef4444' }}>🗑 Șterge cererea</button>
                       </div>
                     )}
                   </div>
@@ -747,6 +755,7 @@ export default function Admin() {
                               <button onClick={()=>{if(window.confirm('Respingi cererea? Bloggerul va vedea că acest nume nu e disponibil.'))updateCustomRequest(r._key,'rejected')}} style={{padding:'4px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:'none',borderRadius:4,background:'#ef4444',color:'#fff'}}>Respinge</button>
                             </div>
                           )}
+                          <button onClick={()=>{ if(window.confirm('Ștergi cererea de cod a lui '+r.blogger+'?')) deleteCustomRequest(r._key) }} title="Șterge cererea" style={{marginTop: r.status==='pending'?6:0, padding:'4px 10px', fontSize:11, cursor:'pointer', border:'1px solid rgba(239,68,68,0.3)', borderRadius:4, background:'none', color:'#ef4444'}}>🗑</button>
                         </td>
                       </tr>
                     ))}
@@ -793,6 +802,7 @@ export default function Admin() {
                       {isMobile && <button onClick={()=>setChatBlogger(null)} style={{background:'none',border:'none',color:gold,fontSize:18,cursor:'pointer',padding:0}}>←</button>}
                       <span style={{fontSize:14,fontWeight:700,color:'#fff'}}>{bloggers.find(x=>x.username===chatBlogger)?.name||chatBlogger}</span>
                       <span style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>@{chatBlogger}</span>
+                      <button onClick={()=>{ if(!window.confirm('Ștergi toată conversația cu @'+chatBlogger+'?')) return; deleteConversation(chatBlogger); setChatBlogger(null) }} title="Șterge conversația" style={{marginLeft:'auto',padding:'4px 10px',fontSize:12,cursor:'pointer',border:'1px solid rgba(239,68,68,0.3)',borderRadius:6,background:'none',color:'#ef4444'}}>🗑</button>
                     </div>
                     <div style={{flex:1,overflowY:'auto',padding:'14px',display:'flex',flexDirection:'column',gap:9,minHeight:260,maxHeight:isMobile?'48vh':undefined}}>
                       {adminChatMsgs.length===0
@@ -982,6 +992,11 @@ export default function Admin() {
                         <div style={{ display:'flex', gap:10, marginTop:14, borderTop:`1px solid ${C.border}`, paddingTop:14 }}>
                           <button onClick={() => { const b = bloggers.find(x=>x.username===r.username); if(b){ setPayModal(b); setPayAmount(String(r.amount||payableOf(b))) } updatePayoutRequest(r._key, 'paid') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:'none', borderRadius:8, background:C.green, color:'#fff' }}>✓ Marchează plătit & procesează</button>
                           <button onClick={() => { if(confirm('Respingi cererea de plată?')) updatePayoutRequest(r._key, 'rejected') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:`1px solid rgba(239,68,68,0.4)`, borderRadius:8, background:'transparent', color:C.red }}>✗ Respinge</button>
+                        </div>
+                      )}
+                      {r.status!=='pending' && (
+                        <div style={{ marginTop:14, borderTop:`1px solid ${C.border}`, paddingTop:12, textAlign:'right' }}>
+                          <button onClick={() => { if(!window.confirm('Ștergi cererea de plată a lui '+r.name+'?')) return; deletePayoutRequest(r._key) }} style={{ padding:'6px 12px', fontSize:12, cursor:'pointer', border:'1px solid rgba(239,68,68,0.3)', borderRadius:6, background:'none', color:'#ef4444' }}>🗑 Șterge</button>
                         </div>
                       )}
                     </div>

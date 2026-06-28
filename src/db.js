@@ -524,6 +524,41 @@ export function subscribeCustomRequests(callback, interval = 5000) {
   return () => clearInterval(id)
 }
 
+// ─── DELETE (curățare panou admin) ────────────────────────────
+export async function deleteApplication(key) {
+  if (!key) return
+  if (USE_FIREBASE) return fbDelete(`applications/${key}`)
+  const all = lsGet('wp_applications', [])
+  lsSet('wp_applications', all.filter(x => String(x.id)!==String(key) && String(x._key)!==String(key)))
+}
+export async function deletePayoutRequest(key) {
+  if (!key) return
+  if (USE_FIREBASE) return fbDelete(`payoutRequests/${key}`)
+  const all = lsGet('wp_payouts', [])
+  lsSet('wp_payouts', all.filter(x => String(x.id)!==String(key) && String(x._key)!==String(key)))
+}
+export async function deleteCustomRequest(key) {
+  if (!key) return
+  if (USE_FIREBASE) return fbDelete(`customRequests/${key}`)
+  const all = lsGet('wp_custom_requests', [])
+  lsSet('wp_custom_requests', all.filter(x => String(x.id)!==String(key) && String(x._key)!==String(key)))
+}
+export async function deleteNotification(key) {
+  if (!key) return
+  if (USE_FIREBASE) return fbDelete(`notifications/${key}`)
+  const all = lsGet('wp_notifications', [])
+  lsSet('wp_notifications', all.filter(x => String(x.id)!==String(key) && String(x._key)!==String(key)))
+}
+export async function clearAllNotifications() {
+  if (USE_FIREBASE) return fbSet('notifications', null)
+  lsSet('wp_notifications', [])
+}
+export async function deleteConversation(username) {
+  if (!username) return
+  if (USE_FIREBASE) return fbDelete(`messages/${username}`)
+  lsSet('wp_msgs_' + username, [])
+}
+
 // ─── SEED MANUAL (din Admin) ──────────────────────────────────
 export async function seedDatabase() {
   if (USE_FIREBASE) {
