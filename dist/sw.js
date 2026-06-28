@@ -1,28 +1,32 @@
-// WinPartners Service Worker v3.0
-const CACHE_NAME = 'winpartners-v3'
+// WinPartners Service Worker v4.0
+const CACHE_NAME = 'winpartners-v4'
 
-// Install — activează imediat noua versiune
+// Install — activează imediat noua versiune, fără să aștepte
 self.addEventListener('install', event => {
   self.skipWaiting()
 })
 
-// Activate — șterge TOATE cache-urile vechi
+// Permite paginii să forțeze activarea unui SW blocat în "waiting"
+self.addEventListener('message', event => {
+  if (event.data === 'SKIP_WAITING') self.skipWaiting()
+})
+
+// Activate — șterge TOATE cache-urile vechi și preia controlul imediat
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches.keys()
+      .then(keys => Promise.all(keys.map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   )
 })
 
-// Fetch — pentru navigare (HTML) și JS/CSS: MEREU din rețea (fără cache vechi).
-// Doar dacă rețeaua eșuează complet (offline), încearcă cache-ul.
+// Fetch — HTML/JS/CSS/JSON: MEREU din rețea (niciodată cache vechi).
+// Doar offline complet → fallback la cache. Imagini → cache-first pentru viteză.
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return
   if (!event.request.url.startsWith(self.location.origin)) return
 
   const url = new URL(event.request.url)
-  // HTML, JS, CSS, manifest — network only (cu fallback offline)
   const isAppShell = event.request.mode === 'navigate' ||
                      /\.(js|css|json)$/.test(url.pathname)
 
@@ -33,7 +37,6 @@ self.addEventListener('fetch', event => {
     return
   }
 
-  // restul (imagini, iconițe) — cache first pentru viteză
   event.respondWith(
     caches.match(event.request).then(cached =>
       cached || fetch(event.request).then(response => {

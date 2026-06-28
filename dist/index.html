@@ -82,11 +82,11 @@
         to   { transform: translateX(-50%) translateY(0);   opacity: 1; }
       }
     </style>
-    <script type="module" crossorigin src="/assets/index-BDcM-tKG.js"></script>
+    <script type="module" crossorigin src="/assets/index-DgVxw4DZ.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-NteHX9Kq.js">
     <link rel="modulepreload" crossorigin href="/assets/landing-D_p9iwUf.js">
-    <link rel="modulepreload" crossorigin href="/assets/dashboard-B3u-CWjQ.js">
-    <link rel="modulepreload" crossorigin href="/assets/admin-B51lcrZQ.js">
+    <link rel="modulepreload" crossorigin href="/assets/dashboard-DGcOyE1D.js">
+    <link rel="modulepreload" crossorigin href="/assets/admin-tx-HiZZ0.js">
     <link rel="stylesheet" crossorigin href="/assets/index-BbwCjvI1.css">
   </head>
   <body>
@@ -106,9 +106,21 @@
           navigator.serviceWorker.register('/sw.js', { scope: '/' })
             .then(function(reg) {
               console.log('SW registered:', reg.scope);
+              // Dacă există deja un SW nou în așteptare, forțează-l să preia controlul ACUM.
+              if (reg.waiting) reg.waiting.postMessage('SKIP_WAITING');
+              // Când se găsește un SW nou, forțează activarea imediat ce e instalat.
+              reg.addEventListener('updatefound', function() {
+                var nw = reg.installing;
+                if (!nw) return;
+                nw.addEventListener('statechange', function() {
+                  if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+                    nw.postMessage('SKIP_WAITING');
+                  }
+                });
+              });
               // Verifică update-uri la pornire și periodic (util pentru PWA standalone pe mobil).
               reg.update();
-              setInterval(function() { reg.update(); }, 60000);
+              setInterval(function() { reg.update(); }, 30000);
             })
             .catch(function(err) { console.log('SW failed:', err); });
         });

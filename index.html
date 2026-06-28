@@ -101,9 +101,21 @@
           navigator.serviceWorker.register('/sw.js', { scope: '/' })
             .then(function(reg) {
               console.log('SW registered:', reg.scope);
+              // Dacă există deja un SW nou în așteptare, forțează-l să preia controlul ACUM.
+              if (reg.waiting) reg.waiting.postMessage('SKIP_WAITING');
+              // Când se găsește un SW nou, forțează activarea imediat ce e instalat.
+              reg.addEventListener('updatefound', function() {
+                var nw = reg.installing;
+                if (!nw) return;
+                nw.addEventListener('statechange', function() {
+                  if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+                    nw.postMessage('SKIP_WAITING');
+                  }
+                });
+              });
               // Verifică update-uri la pornire și periodic (util pentru PWA standalone pe mobil).
               reg.update();
-              setInterval(function() { reg.update(); }, 60000);
+              setInterval(function() { reg.update(); }, 30000);
             })
             .catch(function(err) { console.log('SW failed:', err); });
         });
