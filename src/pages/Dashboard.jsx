@@ -1544,7 +1544,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 </div>
                 <div style={{padding:'10px 12px',borderTop:`1px solid ${bdr}`,display:'flex',gap:8,background:'#15151e'}}>
                   <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatMsg()}}}
-                    placeholder={CHAT.ph} style={{flex:1,padding:'10px 14px',fontSize:13,border:`1px solid ${bdr}`,borderRadius:20,outline:'none',fontFamily:'inherit',color:txt,boxSizing:'border-box'}}/>
+                    placeholder={CHAT.ph} style={{flex:1,padding:'10px 14px',fontSize:13,border:`1px solid ${bdr}`,borderRadius:20,outline:'none',fontFamily:'inherit',background:'#fff',color:'#1a1a2e',boxSizing:'border-box'}}/>
                   <button onClick={sendChatMsg} disabled={!chatInput.trim()} style={{...btnPrimary,padding:'10px 18px',borderRadius:20,flexShrink:0,opacity:chatInput.trim()?1:0.5,cursor:chatInput.trim()?'pointer':'default'}}>{CHAT.send}</button>
                 </div>
               </div>
