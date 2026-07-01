@@ -500,7 +500,7 @@ export default function Landing() {
           {!isMobile && (
             <div style={{display:'flex',alignItems:'center',gap:2,background:'rgba(255,255,255,0.04)',borderRadius:6,padding:'2px 3px',border:'1px solid rgba(255,255,255,0.07)'}}>
               {['ro','ru','en','tr','de','pt','pl'].map(l=>(
-                <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l)}} style={{padding:'4px 8px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'transparent'}`,borderRadius:4,background:lang===l?gold:'transparent',color:lang===l?'#000':'rgba(255,255,255,0.5)',transition:'all .15s'}}>{l.toUpperCase()}</button>
+                <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l);window.dispatchEvent(new Event('wp-lang-change'))}} style={{padding:'4px 8px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'transparent'}`,borderRadius:4,background:lang===l?gold:'transparent',color:lang===l?'#000':'rgba(255,255,255,0.5)',transition:'all .15s'}}>{l.toUpperCase()}</button>
               ))}
             </div>
           )}
@@ -533,7 +533,7 @@ export default function Landing() {
             ))}
             <div style={{display:'flex',gap:5,flexWrap:'wrap',paddingTop:12,borderTop:'1px solid rgba(255,255,255,0.06)'}}>
               {['ro','ru','en','tr','de','pt','pl'].map(l=>(
-                <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l);setMenuOpen(false)}} style={{padding:'5px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.12)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.12)':'transparent',color:lang===l?gold:'rgba(255,255,255,0.45)'}}>{l.toUpperCase()}</button>
+                <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l);setMenuOpen(false);window.dispatchEvent(new Event('wp-lang-change'))}} style={{padding:'5px 10px',fontSize:11,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.12)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.12)':'transparent',color:lang===l?gold:'rgba(255,255,255,0.45)'}}>{l.toUpperCase()}</button>
               ))}
             </div>
             <div style={{display:'flex',gap:8,marginTop:8}}>

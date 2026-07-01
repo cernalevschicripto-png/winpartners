@@ -82,11 +82,11 @@
         to   { transform: translateX(-50%) translateY(0);   opacity: 1; }
       }
     </style>
-    <script type="module" crossorigin src="/assets/index-DgVxw4DZ.js"></script>
+    <script type="module" crossorigin src="/assets/index-DS-LZoUV.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-NteHX9Kq.js">
-    <link rel="modulepreload" crossorigin href="/assets/landing-D_p9iwUf.js">
-    <link rel="modulepreload" crossorigin href="/assets/dashboard-DGcOyE1D.js">
-    <link rel="modulepreload" crossorigin href="/assets/admin-tx-HiZZ0.js">
+    <link rel="modulepreload" crossorigin href="/assets/landing-CPGbA5ta.js">
+    <link rel="modulepreload" crossorigin href="/assets/dashboard-jiN5ao5A.js">
+    <link rel="modulepreload" crossorigin href="/assets/admin-Cm5leJb8.js">
     <link rel="stylesheet" crossorigin href="/assets/index-BbwCjvI1.css">
   </head>
   <body>
@@ -185,6 +185,15 @@
           sessionStorage.setItem('pwa-dismissed', '1');
         };
       }
+
+      // Re-randează banner-ul PWA când utilizatorul schimbă limba (dacă e vizibil).
+      window.addEventListener('wp-lang-change', function() {
+        var existing = document.getElementById('pwa-banner');
+        if (existing && deferredPrompt) {
+          existing.remove();
+          showInstallBanner(deferredPrompt);
+        }
+      });
     </script>
   </body>
 </html>

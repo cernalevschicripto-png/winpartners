@@ -180,6 +180,15 @@
           sessionStorage.setItem('pwa-dismissed', '1');
         };
       }
+
+      // Re-randează banner-ul PWA când utilizatorul schimbă limba (dacă e vizibil).
+      window.addEventListener('wp-lang-change', function() {
+        var existing = document.getElementById('pwa-banner');
+        if (existing && deferredPrompt) {
+          existing.remove();
+          showInstallBanner(deferredPrompt);
+        }
+      });
     </script>
   </body>
 </html>
