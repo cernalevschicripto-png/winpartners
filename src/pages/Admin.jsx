@@ -267,7 +267,7 @@ export default function Admin() {
 
   const saveCasinoStats = async (casinoId) => {
     if (!updateBlogger) return
-    const commPct = { melbet:25, xbet:40, mostbet:60, spinbetter:50, betwinner:25, onewin:50, vavada:50, parimatch:45 }[casinoId] || 25
+    const commPct = { melbet:25, xbet:25, mostbet:25, spinbetter:25, betwinner:25, onewin:25, vavada:25, parimatch:25 }[casinoId] || 25
     const s = { ...(casinoStatsEdit[casinoId] || {}) }
     // plasă de siguranță: dacă există venit dar comisionul lipsește/0, îl calculăm din RevShare%
     if (s.revenue && !s.commission) s.commission = Math.round(s.revenue * commPct / 100)
@@ -861,7 +861,7 @@ export default function Admin() {
               <div style={{display:'flex',flexDirection:'column',gap:14}}>
                 {CASINOS_LIST.map(casino => {
                   const s = casinoStatsEdit[casino.id] || {clicks:0,regs:0,deposits:0,revenue:0,commission:0}
-                  const commPct = { melbet:25, xbet:40, mostbet:60, spinbetter:50, betwinner:25, onewin:50, vavada:50, parimatch:45 }[casino.id] || 25
+                  const commPct = { melbet:25, xbet:25, mostbet:25, spinbetter:25, betwinner:25, onewin:25, vavada:25, parimatch:25 }[casino.id] || 25
                   return (
                     <div key={casino.id} style={{background:'rgba(255,255,255,0.02)',border:`1px solid ${casino.color}25`,borderRadius:12,padding:'1rem',borderLeft:`3px solid ${casino.color}`}}>
                       <div style={{fontSize:13,fontWeight:700,color:casino.color,marginBottom:12}}>{casino.name} · {commPct}% RevShare</div>

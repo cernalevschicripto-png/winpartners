@@ -466,9 +466,9 @@ export default function Landing() {
 
   const casinos = [
     {name:'Melbet',     color:'#f5a623', bg:'rgba(245,166,35,0.12)', icon:'M', rs:'25%', geo:'40+ GEO', since:'2012', badge:'Top Pick'},
-    {name:'1xBet',      color:'#60a5fa', bg:'rgba(96,165,250,0.10)', icon:'1', rs:'40%', geo:'62+ GEO', since:'2007', badge:'Global'},
-    {name:'Mostbet',    color:'#f87171', bg:'rgba(248,113,113,0.10)', icon:'M', rs:'60%', geo:'90+ GEO', since:'2016', badge:'Fast Pay'},
-    {name:'SpinBetter', color:'#a78bfa', bg:'rgba(167,139,250,0.10)', icon:'S', rs:'50%', geo:'100+ GEO', since:'2019', badge:'New'},
+    {name:'1xBet',      color:'#60a5fa', bg:'rgba(96,165,250,0.10)', icon:'1', rs:'25%', geo:'62+ GEO', since:'2007', badge:'Global'},
+    {name:'Mostbet',    color:'#f87171', bg:'rgba(248,113,113,0.10)', icon:'M', rs:'25%', geo:'90+ GEO', since:'2016', badge:'Fast Pay'},
+    {name:'SpinBetter', color:'#a78bfa', bg:'rgba(167,139,250,0.10)', icon:'S', rs:'25%', geo:'100+ GEO', since:'2019', badge:'New'},
     {name:'BetWinner', color:'#84cc16', bg:'rgba(132,204,22,0.10)', icon:'B', rs:'25%', geo:'CIS, RO, EU', since:'2018', badge:'Casino + Sport'},
   ]
 
@@ -1057,9 +1057,9 @@ export default function Landing() {
             <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(5,1fr)',gap:10}}>
               {[
                 {name:'Melbet',  color:'#f5a623', rs:'25%', ref:'10%', geo:'40+ GEO', pay:'Marți'},
-                {name:'1xBet',   color:'#60a5fa', rs:'40%', ref:'10%', geo:'62+ GEO', pay:'Marți'},
-                {name:'Mostbet', color:'#f87171', rs:'60%', ref:'10%', geo:'90+ GEO', pay:'Marți'},
-                {name:'SpinBetter',color:'#a78bfa',rs:'50%',ref:'10%',geo:'100+ GEO',pay:'Marți'},
+                {name:'1xBet',   color:'#60a5fa', rs:'25%', ref:'10%', geo:'62+ GEO', pay:'Marți'},
+                {name:'Mostbet', color:'#f87171', rs:'25%', ref:'10%', geo:'90+ GEO', pay:'Marți'},
+                {name:'SpinBetter',color:'#a78bfa',rs:'25%',ref:'10%',geo:'100+ GEO',pay:'Marți'},
                 {name:'BetWinner', color:'#84cc16', rs:'25%', ref:'10%', geo:'CIS, RO, EU', pay:'Vineri'},
               ].map(c=>(
                 <div key={c.name} style={{background:'rgba(255,255,255,0.025)',border:`1px solid ${c.color}25`,borderRadius:10,padding:'0.875rem',textAlign:'center'}}>
@@ -1073,6 +1073,9 @@ export default function Landing() {
             </div>
           </div>
 
+          <div style={{textAlign:'center',fontSize:12,color:'rgba(255,255,255,0.45)',margin:'10px 0 18px'}}>
+            {lang==='ru'?'Все партнёрства начинаются с 25% RevShare — процент растёт вместе с твоими результатами.':lang==='en'?'All partnerships start at 25% RevShare — the rate grows with your results.':lang==='tr'?'Tüm ortaklıklar %25 RevShare ile başlar — oran sonuçlarınla birlikte artar.':lang==='de'?'Alle Partnerschaften starten bei 25% RevShare — der Satz wächst mit deinen Ergebnissen.':lang==='pt'?'Todas as parcerias começam com 25% de RevShare — a taxa cresce com os teus resultados.':lang==='pl'?'Wszystkie partnerstwa zaczynają się od 25% RevShare — stawka rośnie wraz z Twoimi wynikami.':'Toate parteneriatele încep de la 25% RevShare — procentul crește odată cu rezultatele tale.'}
+          </div>
           {/* Nota despre 0% */}
           <div style={{background:'rgba(16,185,129,0.07)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:10,padding:'1rem 1.25rem',display:'flex',gap:12,alignItems:'flex-start'}}>
             <span style={{fontSize:20,flexShrink:0}}>💚</span>

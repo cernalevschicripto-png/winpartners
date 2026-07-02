@@ -92,8 +92,8 @@ const CASINOS_BASE = [
     name: '1xBet',
     logo: '🎲',
     color: '#1565c0',
-    commissionPct: 40,
-    commission: {ro:'40% Revenue Share',ru:'40% Revenue Share',en:'40% Revenue Share',tr:'40% Revenue Share',de:'40% Revenue Share',pt:'40% Revenue Share',pl:'40% Revenue Share'},
+    commissionPct: 25,
+    commission: {ro:'25% Revenue Share',ru:'25% Revenue Share',en:'25% Revenue Share',tr:'25% Revenue Share',de:'25% Revenue Share',pt:'25% Revenue Share',pl:'25% Revenue Share'},
     description: {ro:'Cel mai mare bookmaker global · 500K+ parteneri · 61 limbi',ru:'Крупнейший глобальный букмекер · 500K+ партнёров · 61 язык',en:'The largest global bookmaker · 500K+ partners · 61 languages',tr:'En büyük küresel bahis şirketi · 500K+ ortak · 61 dil',de:'Der größte globale Buchmacher · 500K+ Partner · 61 Sprachen',pt:'A maior casa de apostas global · 500K+ parceiros · 61 idiomas',pl:'Największy globalny bukmacher · 500K+ partnerów · 61 języków'},
     minPayout: '$30',
     payFreq: 'Săptămânal',
@@ -107,8 +107,8 @@ const CASINOS_BASE = [
     name: 'Mostbet',
     logo: '🎯',
     color: '#10b981',
-    commissionPct: 60,
-    commission: {ro:'60% Revenue Share',ru:'60% Revenue Share',en:'60% Revenue Share',tr:'60% Revenue Share',de:'60% Revenue Share',pt:'60% Revenue Share',pl:'60% Revenue Share'},
+    commissionPct: 25,
+    commission: {ro:'25% Revenue Share',ru:'25% Revenue Share',en:'25% Revenue Share',tr:'25% Revenue Share',de:'25% Revenue Share',pt:'25% Revenue Share',pl:'25% Revenue Share'},
     description: {ro:'Perfect pentru Moldova și CIS · RevShare pe viață · 90+ țări',ru:'Идеально для Молдовы и СНГ · RevShare пожизненно · 90+ стран',en:'Perfect for Moldova and CIS · lifetime RevShare · 90+ countries',tr:'Moldova ve BDT için ideal · ömür boyu RevShare · 90+ ülke',de:'Perfekt für Moldau und GUS · lebenslanger RevShare · 90+ Länder',pt:'Perfeito para Moldávia e CEI · RevShare vitalício · 90+ países',pl:'Idealny dla Mołdawii i WNP · RevShare dożywotnio · 90+ krajów'},
     minPayout: '$50',
     payFreq: 'Lunar',
@@ -121,14 +121,14 @@ const CASINOS_BASE = [
     name: 'SpinBetter',
     logo: '🌀',
     color: '#7c3aed',
-    commissionPct: 50,
-    commission: {ro:'50% Revenue Share',ru:'50% Revenue Share',en:'50% Revenue Share',tr:'50% Revenue Share',de:'50% Revenue Share',pt:'50% Revenue Share',pl:'50% Revenue Share'},
+    commissionPct: 25,
+    commission: {ro:'25% Revenue Share',ru:'25% Revenue Share',en:'25% Revenue Share',tr:'25% Revenue Share',de:'25% Revenue Share',pt:'25% Revenue Share',pl:'25% Revenue Share'},
     description: {ro:'Casino + pariuri sportive · 8000+ jocuri · creștere 45% în 2024',ru:'Казино + ставки на спорт · 8000+ игр · рост 45% в 2024',en:'Casino + sports betting · 8000+ games · 45% growth in 2024',tr:'Casino + spor bahisleri · 8000+ oyun · 2024 yılında %45 büyüme',de:'Casino + Sportwetten · 8000+ Spiele · 45% Wachstum 2024',pt:'Casino + apostas desportivas · 8000+ jogos · crescimento de 45% em 2024',pl:'Kasyno + zakłady sportowe · 8000+ gier · wzrost 45% w 2024'},
     minPayout: '$30',
     payFreq: 'Săptămânal',
     affLink: 'https://spinbetterpartners.com',
     geo: 'RO, MD, EU, CIS',
-    comingSoon: true,
+    active: true,
   },
   {
     id: 'betwinner',
@@ -1068,6 +1068,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                       : <span style={{fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:12,background:'rgba(52,211,153,0.16)',color:'#34d399'}}>{L({ro:'Activ',ru:'Активно',en:'Active',tr:'Aktif',de:'Aktiv',pt:'Ativo',pl:'Aktywne'})}</span>}
                   </div>
                   <div style={{fontSize:13,color:accent,fontWeight:700,marginTop:3}}>{L(c.commission)}</div>
+                  {!c.comingSoon && <div style={{fontSize:11,color:txtSub,marginTop:2}}>{L({ro:'Start 25% — procentul crește odată cu rezultatele tale',ru:'Старт 25% — процент растёт вместе с твоими результатами',en:'Starts at 25% — the rate grows with your results',tr:'%25 ile başlar — oran sonuçlarınla birlikte artar',de:'Start bei 25% — der Satz wächst mit deinen Ergebnissen',pt:'Começa em 25% — a taxa cresce com os teus resultados',pl:'Start 25% — stawka rośnie wraz z Twoimi wynikami'})}</div>}
                   <div style={{fontSize:12,color:txtSub,marginTop:4}}>{L(c.description)}</div>
                 </div>
                 <div style={{textAlign:'right',fontSize:12,color:txtSub,lineHeight:1.7}}>
