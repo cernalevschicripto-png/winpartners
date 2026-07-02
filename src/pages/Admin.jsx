@@ -10,7 +10,7 @@ import {
   getCustomRequests, updateCustomRequest, subscribeCustomRequests, deleteCustomRequest,
   getPayoutRequests, updatePayoutRequest, subscribePayoutRequests, deletePayoutRequest,
   subscribeAllConversations, subscribeConversation, sendMessage, markConversationRead, deleteConversation,
-  seedDatabase, forceReseedDatabase, isFirebaseEnabled, firebaseDebug, sendTelegramNotif, sendWelcomeEmail,
+  seedDatabase, forceReseedDatabase, isFirebaseEnabled, firebaseDebug, sendTelegramNotif, sendWelcomeEmail, exportFullBackup,
   getReferralNetwork, REFERRAL_PERCENT, setBloggerReferrer,
 } from '../db.js'
 
@@ -371,6 +371,10 @@ export default function Admin() {
                   color: isFirebaseEnabled ? C.green : gold }}>
                   {isFirebaseEnabled ? '🔥 Firebase activ' : '💾 Local'}
                 </span>
+                <button onClick={async () => { const data = await exportFullBackup(); if(!data){ window.alert('Backup eșuat — verifică conexiunea Firebase.'); return } const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a2 = document.createElement('a'); a2.href = URL.createObjectURL(blob); a2.download = 'winpartners-backup-'+new Date().toISOString().slice(0,10)+'.json'; a2.click(); URL.revokeObjectURL(a2.href) }}
+                  style={{ padding:'8px', fontSize:12, fontWeight:600, cursor:'pointer', border:'1px solid rgba(34,197,94,0.3)', borderRadius:8, background:'none', color:C.green }}>
+                  💾 Backup date
+                </button>
                 <button onClick={() => { try{sessionStorage.removeItem('wp_admin_auth')}catch{}; setAuth(false); setPass('') }}
                   style={{ padding:'8px', fontSize:12, fontWeight:600, cursor:'pointer', border:`1px solid ${C.border}`, borderRadius:8, background:'none', color:C.textDim }}>
                   🔒 Logout
@@ -864,7 +868,7 @@ export default function Admin() {
                   const commPct = { melbet:25, xbet:25, mostbet:25, spinbetter:25, betwinner:25, onewin:25, vavada:25, parimatch:25 }[casino.id] || 25
                   return (
                     <div key={casino.id} style={{background:'rgba(255,255,255,0.02)',border:`1px solid ${casino.color}25`,borderRadius:12,padding:'1rem',borderLeft:`3px solid ${casino.color}`}}>
-                      <div style={{fontSize:13,fontWeight:700,color:casino.color,marginBottom:12}}>{casino.name} · {commPct}% RevShare</div>
+                      <div style={{fontSize:13,fontWeight:700,color:casino.color,marginBottom:12}}>{casino.name} · {commPct}% RevShare{s.updatedAt ? <span style={{marginLeft:10,fontSize:11,fontWeight:400,color:(Date.now()-s.updatedAt>7*86400000)?'#ef4444':'rgba(255,255,255,0.35)'}}>· actualizat {new Date(s.updatedAt).toLocaleDateString('ro-RO')}{(Date.now()-s.updatedAt>7*86400000)?' ⚠️':''}</span> : <span style={{marginLeft:10,fontSize:11,fontWeight:400,color:'rgba(255,255,255,0.3)'}}>· neactualizat încă</span>}</div>
                       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(130px,1fr))',gap:10}}>
                         {[['Clickuri','clicks'],['Înregistrări','regs'],['Depunători','deposits'],['Venit net ($)','revenue'],['Comision ($)','commission']].map(([label,field]) => (
                           <div key={field}>

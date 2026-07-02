@@ -1075,6 +1075,7 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                   <div>{L({ro:'Plată:',ru:'Выплата:',en:'Payout:',tr:'Ödeme:',de:'Auszahlung:',pt:'Pagamento:',pl:'Wypłata:'})} <b style={{color:txt}}>{L({ro:c.payFreq,ru:c.payFreq==='Săptămânal'?'Еженедельно':'Ежемесячно',en:c.payFreq==='Săptămânal'?'Weekly':'Monthly',tr:c.payFreq==='Săptămânal'?'Haftalık':'Aylık',de:c.payFreq==='Săptămânal'?'Wöchentlich':'Monatlich',pt:c.payFreq==='Săptămânal'?'Semanal':'Mensal',pl:c.payFreq==='Săptămânal'?'Tygodniowo':'Miesięcznie'})}</b></div>
                   <div>Min: <b style={{color:txt}}>{c.minPayout}</b></div>
                   <div>Geo: <b style={{color:txt}}>{c.geo}</b></div>
+                  {c.stats.updatedAt ? <div>{L({ro:'Statistici:',ru:'Статистика:',en:'Stats:',tr:'İstatistik:',de:'Statistik:',pt:'Estatísticas:',pl:'Statystyki:'})} <b style={{color:txt}}>{new Date(c.stats.updatedAt).toLocaleDateString()}</b></div> : null}
                 </div>
               </div>
 

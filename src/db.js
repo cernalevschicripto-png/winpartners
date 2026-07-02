@@ -329,11 +329,26 @@ export async function getCasinoStats(username) {
 }
 
 export async function setCasinoStats(username, casinoId, stats) {
+  stats = { ...stats, updatedAt: Date.now() }
   if (USE_FIREBASE) return fbPatch(`casinoStats/${username}/${casinoId}`, stats)
   const all = lsGet('wp_casino_stats', INIT_CASINO_STATS)
   if (!all[username]) all[username] = {}
   all[username][casinoId] = { ...(all[username][casinoId] || {}), ...stats }
   lsSet('wp_casino_stats', all)
+}
+
+// ─── BACKUP COMPLET (protecție date) ──────────────────────────
+export async function exportFullBackup() {
+  if (USE_FIREBASE) {
+    try {
+      const res = await fetch(`${FB_URL}/.json`, { signal: AbortSignal.timeout(20000) })
+      if (!res.ok) return null
+      return res.json()
+    } catch { return null }
+  }
+  const out = {}
+  ;['wp_bloggers','wp_applications','wp_casino_stats','wp_promo_codes','wp_custom_requests','wp_payouts','wp_notifications'].forEach(k => { out[k] = lsGet(k, null) })
+  return out
 }
 
 export function subscribeCasinoStats(username, callback, interval = 5000) {
