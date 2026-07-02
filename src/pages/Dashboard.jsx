@@ -272,7 +272,7 @@ function LoginScreen({ onLogin }) {
         {/* Lang switcher */}
         <div style={{display:'flex',gap:4,justifyContent:'center',marginBottom:24}}>
           {['ro','ru','en','tr','de','pt','pl'].map(l=>(
-            <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l)}} style={{padding:'3px 7px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold2:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold2:'rgba(255,255,255,0.35)'}}>
+            <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l);window.dispatchEvent(new Event('wp-lang-change'))}} style={{padding:'3px 7px',fontSize:10,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold2:'rgba(255,255,255,0.15)'}`,borderRadius:4,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold2:'rgba(255,255,255,0.35)'}}>
               {l.toUpperCase()}
             </button>
           ))}
@@ -726,7 +726,7 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
         <div style={{flex:1}}/>
         <div style={{display:'flex',gap:3,marginRight:6}}>
           {['ro','ru','en','tr','de','pt','pl'].map(l=>(
-            <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l)}} style={{padding:'2px 5px',fontSize:9,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:3,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.35)'}}>{l.toUpperCase()}</button>
+            <button key={l} onClick={()=>{setLang(l);localStorage.setItem('wp_lang',l);window.dispatchEvent(new Event('wp-lang-change'))}} style={{padding:'2px 5px',fontSize:9,fontWeight:700,cursor:'pointer',border:`1px solid ${lang===l?gold:'rgba(255,255,255,0.15)'}`,borderRadius:3,background:lang===l?'rgba(245,166,35,0.15)':'none',color:lang===l?gold:'rgba(255,255,255,0.35)'}}>{l.toUpperCase()}</button>
           ))}
         </div>
         {!isMobile && (

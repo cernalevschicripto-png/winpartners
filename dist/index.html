@@ -82,11 +82,11 @@
         to   { transform: translateX(-50%) translateY(0);   opacity: 1; }
       }
     </style>
-    <script type="module" crossorigin src="/assets/index-BP7I1vEW.js"></script>
+    <script type="module" crossorigin src="/assets/index-RKGP4zhr.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-NteHX9Kq.js">
     <link rel="modulepreload" crossorigin href="/assets/landing-Ci8M_7CA.js">
-    <link rel="modulepreload" crossorigin href="/assets/dashboard-CjnX6tRi.js">
-    <link rel="modulepreload" crossorigin href="/assets/admin-CRv-Jbwb.js">
+    <link rel="modulepreload" crossorigin href="/assets/dashboard-zOg_As04.js">
+    <link rel="modulepreload" crossorigin href="/assets/admin-CkEyWHGJ.js">
     <link rel="stylesheet" crossorigin href="/assets/index-BbwCjvI1.css">
   </head>
   <body>
@@ -137,7 +137,7 @@
       function showInstallBanner(prompt) {
         if (sessionStorage.getItem('pwa-dismissed')) return;
         var path = window.location.pathname;
-        var excluded = ['/sys/', '/m/', '/dashboard', '/register', '/contact', '/faq', '/about', '/benefits', '/terms', '/instructions'];
+        var excluded = ['/sys/', '/m/', '/dashboard', '/login', '/register', '/contact', '/faq', '/about', '/benefits', '/terms', '/instructions'];
         if (excluded.some(function(p){ return path.indexOf(p) !== -1; })) return;
         var _l = localStorage.getItem('wp_lang'); if (['ro','ru','en','tr','de','pt','pl'].indexOf(_l) === -1) _l = 'ro';
         var _T = {

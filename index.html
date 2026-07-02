@@ -132,7 +132,7 @@
       function showInstallBanner(prompt) {
         if (sessionStorage.getItem('pwa-dismissed')) return;
         var path = window.location.pathname;
-        var excluded = ['/sys/', '/m/', '/dashboard', '/register', '/contact', '/faq', '/about', '/benefits', '/terms', '/instructions'];
+        var excluded = ['/sys/', '/m/', '/dashboard', '/login', '/register', '/contact', '/faq', '/about', '/benefits', '/terms', '/instructions'];
         if (excluded.some(function(p){ return path.indexOf(p) !== -1; })) return;
         var _l = localStorage.getItem('wp_lang'); if (['ro','ru','en','tr','de','pt','pl'].indexOf(_l) === -1) _l = 'ro';
         var _T = {
