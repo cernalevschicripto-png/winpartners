@@ -152,6 +152,11 @@ export default function AdminMobile() {
 
   // ── Aprobă cerere ──
   const approveApp = async (app) => {
+    const _uname = (app.username||'').toLowerCase()
+    if (bloggers.some(b => (b.username||'').toLowerCase() === _uname)) {
+      window.alert('⚠️ Există deja un blogger cu username-ul @'+app.username+'. Aprobare oprită — contul existent ar fi suprascris.')
+      return
+    }
     await updateApplication(app._key, 'approved')
     const blogger = {
       id: app.username, name: app.name, username: app.username,

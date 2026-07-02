@@ -67,6 +67,7 @@ export default function Admin() {
   const [showAdd, setShowAdd]   = useState(false)
   const [newB, setNewB]         = useState({ name:'', username:'', platform:'TikTok', country:'Moldova', phone:'', email:'', pass:'', commission:20 })
   const [payModal, setPayModal] = useState(null)
+  const [payReqKey, setPayReqKey] = useState(null)
   const [payAmount, setPayAmount] = useState('')
   const [payments, setPayments] = useState([])
   const [selectedCasino, setSelectedCasino] = useState('melbet')
@@ -169,7 +170,8 @@ export default function Admin() {
 
   // Comisionul de plată: dacă există suma pe cazinouri (earned) o folosim; altfel fallback pe vechiul calcul
   const earnedOf = (b) => (b.earned != null ? b.earned : (b.revenue||0)*((b.commission||25)/100))
-  const payableOf = (b) => Math.max(0, Math.round(earnedOf(b) - (b.paid||0)))
+  const refBonusOf = (u) => { const n = refNetwork.find(x => x.referrerUsername === (u||'').toLowerCase()); return n ? (Number(n.totalBonus)||0) : 0 }
+  const payableOf = (b) => Math.max(0, Math.round(earnedOf(b) + refBonusOf(b.username) - (b.paid||0)))
   const totalRevenue = bloggers.reduce((s,b) => s+(b.revenue||0), 0)
   const totalPaid    = bloggers.reduce((s,b) => s+(b.paid||0), 0)
   const totalPending = bloggers.reduce((s,b) => s+payableOf(b), 0)
@@ -202,8 +204,11 @@ export default function Admin() {
   const processPay = async () => {
     const amt = parseFloat(payAmount)
     if (!amt || !payModal) return
+    const owed = payableOf(payModal)
+    if (amt > owed && !window.confirm('Atenție: suma $'+amt+' depășește soldul datorat ($'+owed+'). Continui oricum?')) return
     const newPaid = (payModal.paid||0) + amt
     await updateBloggerFields(payModal.username, { paid: newPaid })
+    if (payReqKey) { await updatePayoutRequest(payReqKey, 'paid'); setPayReqKey(null) }
     await addNotification({ type:'payment', blogger: payModal.name, detail: 'Plată procesată: $'+amt })
     setPayments(prev => [...prev, { date: new Date().toLocaleDateString('ro-RO'), name: payModal.name, amount: amt, id: Date.now() }])
     setPayModal(null)
@@ -219,6 +224,11 @@ export default function Admin() {
   }
 
   const approveApp = async (app) => {
+    const _uname = (app.username||'').toLowerCase()
+    if (bloggers.some(b => (b.username||'').toLowerCase() === _uname)) {
+      window.alert('⚠️ Există deja un blogger activ cu username-ul @'+app.username+'.\nAprobare oprită — altfel contul existent ar fi suprascris (și-ar pierde soldul și parola).\nCere-i solicitantului alt username sau șterge întâi bloggerul existent.')
+      return
+    }
     setApplications(prev => prev.map(a => a._key === app._key ? { ...a, status: 'approved' } : a))
     await updateApplication(app._key, 'approved')
     const pass = app.password || (app.username + '2026')
@@ -988,7 +998,7 @@ export default function Admin() {
                       </div>
                       {r.status==='pending' && (
                         <div style={{ display:'flex', gap:10, marginTop:14, borderTop:`1px solid ${C.border}`, paddingTop:14 }}>
-                          <button onClick={() => { const b = bloggers.find(x=>x.username===r.username); if(b){ setPayModal(b); setPayAmount(String(r.amount||payableOf(b))) } updatePayoutRequest(r._key, 'paid') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:'none', borderRadius:8, background:C.green, color:'#fff' }}>✓ Marchează plătit & procesează</button>
+                          <button onClick={() => { const b = bloggers.find(x=>x.username===r.username); if(b){ setPayModal(b); setPayAmount(String(r.amount||payableOf(b))); setPayReqKey(r._key) } else { window.alert('Bloggerul @'+r.username+' nu a fost găsit — plata nu poate fi procesată.') } }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:'none', borderRadius:8, background:C.green, color:'#fff' }}>✓ Marchează plătit & procesează</button>
                           <button onClick={() => { if(confirm('Respingi cererea de plată?')) updatePayoutRequest(r._key, 'rejected') }} style={{ flex:1, padding:'10px', fontSize:13, fontWeight:700, cursor:'pointer', border:`1px solid rgba(239,68,68,0.4)`, borderRadius:8, background:'transparent', color:C.red }}>✗ Respinge</button>
                         </div>
                       )}
@@ -1006,7 +1016,7 @@ export default function Admin() {
 
       {/* MODAL PLATĂ */}
       {payModal && (
-        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:200}} onClick={()=>setPayModal(null)}>
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:200}} onClick={()=>{setPayModal(null);setPayReqKey(null)}}>
           <div style={{background:C.panel,border:`1px solid ${C.border}`,borderRadius:16,padding:'1.5rem',width: isMobile ? '90vw' : 380, maxWidth:'95vw'}} onClick={e=>e.stopPropagation()}>
             <h3 style={{color:'#fff',fontWeight:700,marginBottom:4}}>Procesează plată</h3>
             <p style={{color:C.textDim,fontSize:13,marginBottom:4}}>Blogger: <strong style={{color:'#fff'}}>{payModal.name}</strong></p>
@@ -1014,7 +1024,7 @@ export default function Admin() {
             <div style={{fontSize:12,color:C.textDim,marginBottom:4}}>Sumă ($)</div>
             <input style={{...inp,marginBottom:16}} type="number" value={payAmount} onChange={e=>setPayAmount(e.target.value)}/>
             <button style={{width:'100%',padding:'11px',fontSize:14,fontWeight:700,cursor:'pointer',border:'none',borderRadius:8,background:gold,color:'#000'}} onClick={processPay}>Confirmă plata</button>
-            <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${C.border}`,borderRadius:8,background:'none',color:C.textDim,marginTop:8}} onClick={()=>setPayModal(null)}>Anulează</button>
+            <button style={{width:'100%',padding:'9px',fontSize:13,cursor:'pointer',border:`1px solid ${C.border}`,borderRadius:8,background:'none',color:C.textDim,marginTop:8}} onClick={()=>{setPayModal(null);setPayReqKey(null)}}>Anulează</button>
           </div>
         </div>
       )}

@@ -6,7 +6,7 @@ import {
   getCasinoStats, subscribeCasinoStats,
   getNextAvailableCode, subscribePromoCodes, updateBloggerFields,
   addCustomRequest, subscribeCustomRequests,
-  addNotification, requestPayout,
+  addNotification, requestPayout, getPayoutRequests,
   sendMessage, subscribeConversation, markConversationRead,
   requestPasswordReset, sendResetEmail,
   getMyReferralEarnings,
@@ -489,6 +489,8 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
   const [showCasinoRequest, setShowCasinoRequest] = useState(null)
   // Referrals
   const [myReferrals, setMyReferrals] = useState([])
+  const [refBonus, setRefBonus] = useState(0)
+  const [myPayouts, setMyPayouts] = useState([])
   // Cazinouri cu statistici live din Firebase (actualizate de admin)
   const [casinoStats, setCasinoStatsState] = useState({})
   const CASINOS = CASINOS_BASE.map(c => ({ ...c, stats: casinoStats[c.id] || { regs:0, deposits:0, revenue:0, commission:0, clicks:0 } }))
@@ -501,10 +503,11 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
       const sumF = (f) => CASINOS.reduce((s,c)=>s+(Number(c.stats[f])||0),0)
       const earned = sumF('commission')
       const aggCl = sumF('clicks'), aggRg = sumF('regs'), aggDp = sumF('deposits'), aggRv = sumF('revenue')
-      D.bal.total = Math.round(earned)
-      D.bal.days30 = Math.round(earned)
-      D.bal.month = Math.round(earned)
-      D.bal.available = Math.max(0, Math.round(earned - (blogger.paid||0)))
+      const earnedTot = earned + refBonus
+      D.bal.total = Math.round(earnedTot)
+      D.bal.days30 = Math.round(earnedTot)
+      D.bal.month = Math.round(earnedTot)
+      D.bal.available = Math.max(0, Math.round(earnedTot - (blogger.paid||0)))
       D.bal.byCasino = CASINOS
         .filter(c=>(Number(c.stats.commission)||0)>0)
         .map(c=>({ name:c.name, color:c.color, amount:Math.round(Number(c.stats.commission)||0) }))
@@ -519,6 +522,11 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
       D.daily = Array.from({length:N},(_,i)=>{ const dt=new Date(today); dt.setDate(today.getDate()-(N-1-i)); return { date:dt.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'}), cl:dCl[i], rg:dRg[i], dp:dDp[i], rv:dRv[i] } })
     } else {
       D.bal.byCasino = []
+      if (refBonus > 0) {
+        D.bal.total = Math.round(D.bal.total + refBonus)
+        D.bal.days30 = Math.round(D.bal.days30 + refBonus)
+        D.bal.available = Math.max(0, Math.round((blogger.revenue||0)*((blogger.commission||25)/100) + refBonus - (blogger.paid||0)))
+      }
     }
   }
 
@@ -545,6 +553,9 @@ function DashboardContent({ blogger: bloggerProp, onLogout }) {
           cm: inv.bonus || 0,
         }))
         setMyReferrals(rows)
+        setRefBonus(Number(res.totalBonus)||0)
+        const pr = await getPayoutRequests()
+        if (alive) setMyPayouts((pr||[]).filter(r=>r.username===D.username).sort((a,b)=>(b.id||0)-(a.id||0)))
       } catch(e) {}
     }
     load()
@@ -1312,11 +1323,27 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 </table>
                 <div style={{padding:'10px 16px',fontSize:12,color:txtSub,borderTop:`1px solid ${bdr}`,background:'#15151e'}}>{dt.tblShow} {D.pays.length}</div>
               </div>
+              {myPayouts.length>0 && (
+                <div style={{...card,marginBottom:12}}>
+                  <div style={{fontSize:13,fontWeight:700,color:txt,marginBottom:8}}>{L({ro:'Cererile mele de plată',ru:'Мои заявки на выплату',en:'My payout requests',tr:'Ödeme taleplerim',de:'Meine Auszahlungsanfragen',pt:'Os meus pedidos de pagamento',pl:'Moje wnioski o wypłatę'})}</div>
+                  {myPayouts.slice(0,5).map(r=>(
+                    <div key={r._key||r.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 0',borderBottom:`1px solid ${bdr}`,fontSize:13}}>
+                      <span style={{color:txtSub}}>{r.date||''}</span>
+                      <span style={{fontWeight:700,color:txt}}>${r.amount}</span>
+                      <span style={{padding:'2px 10px',borderRadius:12,fontSize:11,fontWeight:700,background:r.status==='pending'?'rgba(245,158,11,0.15)':(r.status==='paid'||r.status==='approved')?'rgba(16,185,129,0.15)':'rgba(239,68,68,0.15)',color:r.status==='pending'?'#fbbf24':(r.status==='paid'||r.status==='approved')?'#34d399':'#f87171'}}>{r.status==='pending'?L({ro:'În așteptare',ru:'В ожидании',en:'Pending',tr:'Beklemede',de:'Ausstehend',pt:'Pendente',pl:'Oczekuje'}):(r.status==='paid'||r.status==='approved')?L({ro:'Plătit',ru:'Выплачено',en:'Paid',tr:'Ödendi',de:'Bezahlt',pt:'Pago',pl:'Wypłacono'}):L({ro:'Respins',ru:'Отклонено',en:'Rejected',tr:'Reddedildi',de:'Abgelehnt',pt:'Rejeitado',pl:'Odrzucono'})}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
               <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12}}>
                 <div style={card}>
                   <p style={{fontSize:13,color:txtSub,lineHeight:1.7,marginBottom:8}}>{({'ro':'Câștigurile se acumulează automat pe măsură ce jucătorii tăi joacă. Când soldul ajunge la $30, soliciți plata mai jos — o procesăm săptămânal pe metoda ta preferată.','ru':'Доход накапливается автоматически по мере игры ваших игроков. Когда баланс достигнет $30, запросите выплату ниже — мы обрабатываем её еженедельно удобным вам способом.','en':'Earnings accumulate automatically as your players play. When your balance reaches $30, request a payout below — we process it weekly via your preferred method.','tr':'Oyuncularınız oynadıkça kazançlar otomatik birikir. Bakiyeniz $30 olunca aşağıdan ödeme talep edin — tercih ettiğiniz yöntemle haftalık işleriz.','de':'Die Einnahmen sammeln sich automatisch an, während Ihre Spieler spielen. Bei $30 Guthaben fordern Sie unten eine Auszahlung an — wir bearbeiten sie wöchentlich über Ihre bevorzugte Methode.','pt':'Os ganhos acumulam-se automaticamente à medida que os seus jogadores jogam. Quando o saldo atingir $30, solicite o pagamento abaixo — processamos semanalmente pelo método preferido.','pl':'Zarobki kumulują się automatycznie w miarę gry Twoich graczy. Gdy saldo osiągnie $30, poproś o wypłatę poniżej — przetwarzamy ją tygodniowo wybraną metodą.'})[lang]||'Câștigurile se acumulează automat. Când soldul ajunge la $30, soliciți plata mai jos.'}</p>
                   <p style={{fontSize:13,fontWeight:600,color:txt,marginBottom:12}}>{({'ro':'Suma minimă de plată este de $30 pe săptămână','ru':'Минимальная сумма выплаты $30 в неделю','en':'Minimum payment amount is $30 per week','tr':'Minimum ödeme tutarı haftada $30','de':'Mindestauszahlungsbetrag beträgt $30 pro Woche','pt':'O valor mínimo de pagamento é $30 por semana','pl':'Minimalna kwota płatności to $30 tygodniowo'})[lang]}</p>
-                  <button style={btnPrimary} onClick={()=>{setPayAmount(String(D.bal.available));setShowPay(true)}}>{({'ro':'Solicită plată','ru':'Запросить выплату','en':'Request payment','tr':'Ödeme talep et','de':'Zahlung anfordern','pt':'Solicitar pagamento','pl':'Zażądaj płatności'})[lang]||'Solicită plată'} → ${D.bal.available}</button>
+                  {(()=>{ const pp = myPayouts.find(r=>r.status==='pending'); return pp ? (
+                    <div style={{background:'rgba(245,158,11,0.1)',border:'1px solid rgba(245,158,11,0.35)',borderRadius:8,padding:'10px 14px',fontSize:13,color:'#fbbf24',lineHeight:1.5}}>⏳ {L({ro:'Ai deja o cerere de plată de $'+pp.amount+' în așteptare. O procesăm în curând.',ru:'У тебя уже есть заявка на выплату $'+pp.amount+' в ожидании. Скоро обработаем.',en:'You already have a pending payout request of $'+pp.amount+'. We will process it soon.',tr:'Zaten $'+pp.amount+' tutarında bekleyen bir ödeme talebin var. Yakında işlenecek.',de:'Du hast bereits eine ausstehende Auszahlungsanfrage über $'+pp.amount+'. Wir bearbeiten sie bald.',pt:'Já tens um pedido de pagamento de $'+pp.amount+' pendente. Vamos processá-lo em breve.',pl:'Masz już oczekujący wniosek o wypłatę $'+pp.amount+'. Wkrótce go przetworzymy.'})}</div>
+                  ) : (
+                    <button style={btnPrimary} onClick={()=>{setPayAmount(String(D.bal.available));setShowPay(true)}}>{({'ro':'Solicită plată','ru':'Запросить выплату','en':'Request payment','tr':'Ödeme talep et','de':'Zahlung anfordern','pt':'Solicitar pagamento','pl':'Zażądaj płatności'})[lang]||'Solicită plată'} → ${D.bal.available}</button>
+                  )})()}
                 </div>
                 <div style={card}>
                   <p style={{fontSize:13,color:txtSub,lineHeight:1.7}}>{L({ro:'Contactați managerii noștri prin ',ru:'Свяжитесь с нашими менеджерами через ',en:'Contact our managers via the ',tr:'Yöneticilerimizle ',de:'Kontaktieren Sie unsere Manager über die ',pt:'Contacte os nossos gestores através dos ',pl:'Skontaktuj się z naszymi menedżerami przez '})}<span style={{color:gold,cursor:'pointer',fontWeight:600}}>{L({ro:'datele de contact',ru:'контактные данные',en:'contact details',tr:'iletişim bilgileri',de:'Kontaktdaten',pt:'dados de contacto',pl:'dane kontaktowe'})}</span>{L({ro:' disponibile pe site.',ru:', доступные на сайте.',en:' available on the site.',tr:' aracılığıyla iletişime geçin.',de:', die auf der Website verfügbar sind.',pt:' disponíveis no site.',pl:' dostępne na stronie.'})}</p>
@@ -1612,13 +1639,14 @@ pl:['Waluta','Wyświetlenia','Kliknięcia','Linki bezpośrednie','Rejestracje','
                 <div style={{fontSize:11,color:txtSub,marginBottom:10}}>
                   {({'ro':'Verifică adresa cu atenție. Tranzacțiile crypto sunt ireversibile.','ru':'Проверьте адрес тщательно. Крипто-транзакции необратимы.','en':'Check the address carefully. Crypto transactions are irreversible.','tr':'Adresi dikkatlice kontrol edin. Kripto işlemler geri alınamaz.','de':'Adresse sorgfältig prüfen. Krypto-Transaktionen sind unwiderruflich.','pt':'Verifique o endereço com atenção. Transações cripto são irreversíveis.','pl':'Sprawdź adres uważnie. Transakcje krypto są nieodwracalne.'})[lang]||'Verifică adresa cu atenție.'}
                 </div>
-                {(()=>{ const amt=Math.floor(Number(payAmount)||0); const valid=payAddr&&amt>=30&&amt<=D.bal.available; return (
+                {(()=>{ const amt=Math.floor(Number(payAmount)||0); const hasPending=myPayouts.some(r=>r.status==='pending'); const valid=!hasPending&&payAddr&&amt>=30&&amt<=D.bal.available; return (
                 <button style={{...btnPrimary,width:'100%',padding:'11px',fontSize:14,borderRadius:6,opacity:valid?1:0.5}}
                   disabled={!valid}
                   onClick={async ()=>{
                     if(valid){
                       await requestPayout({ username:D.username, name:D.name, amount:amt, method:payMethod, detail:payAddr })
                       await addNotification({type:'pay_request',blogger:D.username,bloggerName:D.name,amount:amt,address:payAddr,method:payMethod,detail:`Cerere plată \$${amt} → ${payAddr}`})
+                      setMyPayouts(prev=>[{username:D.username,amount:amt,status:'pending',id:Date.now(),date:new Date().toLocaleString('ro-RO')},...prev])
                       setPaySent(true)
                     }
                   }}>

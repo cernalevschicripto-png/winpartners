@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { addApplication, sendTelegramNotif } from '../db.js'
+import { addApplication, sendTelegramNotif, getBloggers, getApplications } from '../db.js'
 
 const gold = '#f5a623'
 const PLATFORMS = ['TikTok','Instagram','YouTube','Telegram','Facebook','Twitter/X','Other']
@@ -412,9 +412,22 @@ export default function Register() {
   const submit = async () => {
     if (!validate()) return
     setSubmitting(true)
-    await saveApplication(form)
-    setStep(2)
-    setSubmitting(false)
+    try {
+      const uname = form.username.trim().toLowerCase()
+      const [bl, apps] = await Promise.all([getBloggers().catch(()=>[]), getApplications().catch(()=>[])])
+      const takenB = (bl||[]).some(b => (b.username||'').toLowerCase() === uname)
+      const takenA = (apps||[]).some(a => a.status==='pending' && (a.username||'').toLowerCase() === uname)
+      if (takenB || takenA) {
+        const M = {ro:'Username-ul „'+form.username.trim()+'" este deja folosit. Alege altul.',ru:'Имя пользователя «'+form.username.trim()+'» уже занято. Выберите другое.',en:'The username "'+form.username.trim()+'" is already taken. Please choose another one.',tr:'"'+form.username.trim()+'" kullanıcı adı zaten alınmış. Lütfen başka bir tane seç.',de:'Der Benutzername „'+form.username.trim()+'" ist bereits vergeben. Bitte wähle einen anderen.',pt:'O nome de utilizador "'+form.username.trim()+'" já está em uso. Escolhe outro.',pl:'Nazwa użytkownika „'+form.username.trim()+'" jest już zajęta. Wybierz inną.'}
+        window.alert(M[lang]||M.ro)
+        setErrors(prev=>({ ...prev, username:true }))
+        return
+      }
+      await saveApplication({ ...form, username: uname })
+      setStep(2)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const Nav = () => (
